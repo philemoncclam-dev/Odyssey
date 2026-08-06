@@ -29,3 +29,4 @@ change it later without remembering why it is the way it is.
 |---|---|---|
 | [0001](./0001-local-first-with-a-sync-path.md) | Local-first, with a sync path rather than a local-only ceiling | Accepted |
 | [0002](./0002-git-style-model-collaboration.md) | Git-style model collaboration | Proposed |
+| [0003](./0003-queryable-projection.md) | Models are queryable through a derived projection | Proposed |

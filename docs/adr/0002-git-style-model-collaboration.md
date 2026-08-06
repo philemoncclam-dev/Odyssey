@@ -155,6 +155,11 @@ the row keeping metadata and a pointer. This is deliberately *not* being built
 now: it is a change behind `ModelStore`, it costs a round trip, and it should
 follow a measurement rather than a hunch.
 
+Snapshots are stored whole and opaque, which is right for reading a model by ID
+and wrong for asking questions across models. Search and impact analysis run
+against a derived relational projection instead — see
+[ADR-0003](./0003-queryable-projection.md).
+
 **The client caches a working set, not the history.** `localStorage` holds only:
 
 - the head snapshot of the branch you are on,
