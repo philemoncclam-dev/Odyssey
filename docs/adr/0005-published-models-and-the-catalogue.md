@@ -1,6 +1,6 @@
 # ADR-0005 — Published models are releases; the catalogue reads them
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-06
 - **Deciders:** Philemon Lam
 - **Amends:** [ADR-0003](./0003-queryable-projection.md) decision 3, which

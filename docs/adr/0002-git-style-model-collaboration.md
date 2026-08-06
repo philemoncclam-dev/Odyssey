@@ -1,6 +1,6 @@
 # ADR-0002 — Git-style model collaboration
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-06
 - **Deciders:** Philemon Lam
 - **Relates to:** [ADR-0001](./0001-local-first-with-a-sync-path.md), which left

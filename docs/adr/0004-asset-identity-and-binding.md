@@ -1,6 +1,6 @@
 # ADR-0004 — Asset identity: entities bind to real assets, they do not span models
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-06
 - **Deciders:** Philemon Lam
 - **Answers:** [ADR-0003](./0003-queryable-projection.md) open question 1.

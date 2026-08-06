@@ -1,6 +1,6 @@
 # ADR-0003 — Models are queryable through a derived projection
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-06
 - **Deciders:** Philemon Lam
 - **Relates to:** [ADR-0002](./0002-git-style-model-collaboration.md), which makes
