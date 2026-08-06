@@ -19,12 +19,21 @@ const INDEX_KEY = 'lineage-studio:models'
 const modelKey = (id: string) => `lineage-studio:model:${id}`
 const versionsKey = (id: string) => `lineage-studio:versions:${id}`
 
-/** A saved snapshot. Valid time only — no transaction time, by scope decision. */
+/**
+ * A saved snapshot. Valid time only — no transaction time, by scope decision.
+ *
+ * `parents` makes the history a DAG rather than a list (ADR-0002 decision 1):
+ * empty for the first snapshot of a model, one entry for an ordinary edit, two
+ * for a merge. It is optional on the document because snapshots written before
+ * branching existed do not carry it — `history.ts` reads through a normalizer
+ * that supplies `[]`, so nothing above it has to guess.
+ */
 export interface ModelVersion {
   id: string
   savedAt: number
   label: string
   model: LineageModel
+  parents?: string[]
 }
 
 export interface ModelStore {
@@ -253,9 +262,13 @@ export const localStore: ModelStore = {
     const versions = readJson<ModelVersion[]>(versionsKey(id)) ?? []
     // Drop the model payload — callers listing history don't need it, and it is
     // by far the largest part of each entry.
+    // Insertion order breaks a savedAt tie — two snapshots inside the same
+    // millisecond would otherwise order arbitrarily. Versions are only ever
+    // appended, so array position is the true order.
     return versions
-      .map(({ model: _model, ...meta }) => meta)
-      .sort((a, b) => b.savedAt - a.savedAt)
+      .map(({ model: _model, ...meta }, i) => ({ meta, i }))
+      .sort((a, b) => b.meta.savedAt - a.meta.savedAt || b.i - a.i)
+      .map(({ meta }) => meta)
   },
 
   async saveVersion(id, label) {

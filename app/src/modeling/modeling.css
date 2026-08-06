@@ -2702,6 +2702,71 @@
    Shares .vw-panel's frame (see the Properties dock's note): three panels in
    one slot that looked different would read as three places. Only what the
    history list itself needs is added here. */
+/* Which branch you are on, above everything that writes to it. */
+.vh-branch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.vh-branch-label {
+  color: #98a0b0;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.vh-branch-select {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 12px;
+}
+.vh-branch-new {
+  flex: 0 0 auto;
+  width: 24px;
+  padding: 0;
+  line-height: 1;
+}
+
+.vh-merge {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+/* A merge already happened by the time this renders — it is a report, not a
+   prompt, so it reads as information rather than as an error. */
+.vh-merge-report {
+  margin-bottom: 10px;
+  padding: 6px 7px;
+  border-radius: 5px;
+  background: #f2f5fa;
+  font-size: 11px;
+}
+.vh-merge-line {
+  margin: 0;
+  color: #3d4557;
+}
+.vh-merge-detail {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #6b7385;
+  line-height: 1.45;
+}
+.vh-merge-detail em {
+  color: #98a0b0;
+  font-style: normal;
+}
+.vh-merge-detail span[data-change='mod'] {
+  color: #8a6d1f;
+}
+.vh-merge-detail span[data-change='del'] {
+  color: #be3c3c;
+  text-decoration: line-through;
+}
+
 .vh-save {
   display: flex;
   gap: 6px;
