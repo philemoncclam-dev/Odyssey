@@ -72,8 +72,11 @@ export interface LineageModel {
    * Optional for the same reason the browser metadata below is: models written
    * before saved views existed do not carry the field. `model/views.ts` reads
    * it through `listViews`, which supplies the empty default.
+   *
+   * Explicitly `| undefined`: restoring a version copies the field straight
+   * across, so it is set-and-undefined as often as it is absent.
    */
-  views?: SavedView[]
+  views?: SavedView[] | undefined
 
   // --- Model Browser metadata ---
   //

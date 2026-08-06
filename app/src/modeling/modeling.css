@@ -1,0 +1,2820 @@
+/* Model Viewer canvas.
+   A deliberately dense document surface: 21px rows, hairline rules, and no
+   per-row shadows or radii. The chrome elsewhere in the app is roomier — this
+   view optimises for how much lineage fits on screen at once. */
+
+.mv-host {
+  position: relative;
+  /* .shell-canvas is a flex column — flex/min-height is what actually gives this
+     a height there; `height: 100%` alone collapses to the content. */
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ===== Top bar =====
+   Sits ABOVE the layer band and outside the scroller, so it never moves. Holds
+   the Lineage Studio mark (back to the Model Browser) and the open model's
+   name — which the viewer otherwise never showed anywhere. */
+.mv-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--mv-topbar-height);
+  z-index: 4; /* above the sticky band (z-index 3) */
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: 0 var(--spacing-3);
+  background: var(--color-surface-1);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.mv-home {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border-radius: var(--radius-input);
+  color: var(--color-text-primary);
+}
+.mv-home:hover { background: var(--color-surface-2); }
+.mv-home svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mv-topbar-name {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The scrolling viewport. Real scrollbars, no free panning: the model has a
+   fixed extent and you can never fling it off-screen.
+   Inset from the top by the bar above it, not `inset: 0`. */
+.mv-scroll {
+  position: absolute;
+  inset: var(--mv-topbar-height) 0 0 0;
+  overflow: auto;
+  background: #fbfbfc;
+  background-image: radial-gradient(circle at 1px 1px, rgb(28 35 51 / 0.07) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+/* Sized to the full layout extent so the scrollbars reflect the real model. */
+.mv-world {
+  position: relative;
+}
+
+/* Edges sit under the cards so a curve never crosses over a name. */
+.mv-edges {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mv-host[data-connecting] .mv-row,
+.mv-host[data-connecting] .mv-card-header {
+  cursor: crosshair;
+}
+
+/* ===== Layer band =====
+   One continuous row, sticky INSIDE the scroller: it scrolls horizontally with
+   the columns (so it can never drift out of alignment) and pins vertically. */
+.mv-band {
+  position: sticky;
+  /* `top` only — deliberately no `left`. Sticking horizontally would pin the
+     band to the viewport's left edge and re-create the drift this replaced;
+     it must scroll sideways with its columns. */
+  top: 0;
+  z-index: 3;
+  transition: box-shadow 0.15s;
+  /* Matches the canvas surface (minus its dot grid) so the band reads as part
+     of the document rather than as chrome sitting on top of it. */
+  background: #fbfbfc;
+  border-bottom: 1px solid rgb(28 35 51 / 0.22);
+}
+
+/* Lifts once content has scrolled under it, so the pinned band reads as
+   floating above the canvas rather than as a row that lost its objects. */
+.mv-host[data-scroll-y] .mv-band {
+  box-shadow: 0 2px 6px rgb(28 35 51 / 0.09);
+}
+
+/* Segments are contiguous, so the divider is a left border and every boundary
+   falls halfway between two columns. :first-child has no divider — there is
+   nothing to its left to divide it from. */
+.mv-layer {
+  position: absolute;
+  top: 0;
+  border-left: 1px solid rgb(28 35 51 / 0.14);
+  color: #3d4557;
+  font-size: 13px;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: default;
+}
+
+.mv-layer:first-child {
+  border-left: 0;
+}
+
+/* The band is closed on the right. Without this the last column ran into open
+   canvas and read as owning all the empty space beside it. */
+.mv-layer:last-of-type {
+  border-right: 1px solid rgb(28 35 51 / 0.14);
+}
+
+/* ===== Add-layer slot =====
+   Takes the whole rest of the band row, from the closing line to the right edge
+   of the screen: the empty space past the last column IS where the next one
+   goes, so the whole of it is the affordance. The glyph and label sit at the
+   start of the strip, hard against that line, rather than centred in however
+   much empty space the window happens to have. */
+.mv-layer-add {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: #98a0b0;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.mv-layer-add-label {
+  /* Revealed on hover: at rest the strip should read as empty canvas, not as a
+     permanent piece of chrome parked beside the model. */
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.mv-layer-add:hover {
+  background: rgb(28 35 51 / 0.05);
+  color: #1f6feb;
+}
+
+.mv-layer-add:hover .mv-layer-add-label {
+  opacity: 1;
+}
+
+/* Centred on the column, not on the segment — `left` is set inline. */
+.mv-layer-center {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  transform: translateX(-50%);
+}
+
+.mv-layer[data-selected] {
+  background: #e8f0fe;
+  color: #12305e;
+}
+
+.mv-layer-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 6px;
+}
+
+/* Collapsed: a narrow strip whose whole surface is the expand affordance. It
+   keeps a fill even though the band is otherwise white — the tint is the only
+   thing distinguishing a folded layer from the gap between two open ones. */
+.mv-layer[data-collapsed] {
+  background: #eceef2;
+  cursor: pointer;
+}
+
+.mv-layer[data-collapsed]:hover {
+  background: #dfe3ea;
+}
+
+.mv-layer[data-collapsed] .mv-layer-center {
+  color: #4a76c4;
+}
+
+/* Absolutely positioned at the COLUMN's right edge (`left` is set inline), not
+   in flow: an in-flow button would shift the layer name off-centre by its own
+   width. Revealed on hover. */
+.mv-layer-fold {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: #6b7385;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.mv-layer:hover .mv-layer-fold {
+  opacity: 1;
+}
+
+.mv-layer-fold:hover {
+  background: rgb(28 35 51 / 0.09);
+  color: #1c2333;
+}
+
+/* ===== Inline name editing ===== */
+.mv-name-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0 2px;
+  border: 1px solid #1f6feb;
+  border-radius: 2px;
+  background: #fff;
+  color: #1c2333;
+  font: inherit;
+  font-size: inherit;
+  outline: none;
+}
+
+/* ===== Object cards ===== */
+/* The frame is an `outline`, not a `border`, and that is load-bearing.
+   `box-sizing: border-box` is global, so a 1px border makes the content box 2px
+   shorter than the height the layout computed (CARD_HEADER_HEIGHT + n *
+   ROW_HEIGHT) — and with `overflow: hidden` those 2px come off the LAST row:
+   its tint, its selection fill and the bottom edge of the red origin outline
+   were all clipped. An outline is drawn outside the box model, so the card
+   holds exactly the rows the layout sized it for. */
+.mv-card {
+  position: absolute;
+  background: #fff;
+  outline: 1px solid rgb(28 35 51 / 0.28);
+  box-shadow: 0 1px 2px rgb(28 35 51 / 0.05);
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.mv-card[data-traced] {
+  outline-color: rgb(22 143 92 / 0.75);
+}
+
+.mv-card[data-selected] {
+  outline-color: #1f6feb;
+  box-shadow: 0 0 0 1px #1f6feb;
+}
+
+.mv-card-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  /* The left gutter is permanent — every entity carries an in-handle on that
+     edge now, so the space is always in use and the layout never jumps when a
+     connection starts. */
+  padding: 0 6px 0 17px;
+  background: #fff;
+  border-bottom: 1px solid rgb(28 35 51 / 0.14);
+  cursor: default;
+}
+
+.mv-card-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  color: #1c2333;
+}
+
+.mv-count {
+  flex: none;
+  color: #6b7385;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.mv-count-total {
+  color: #98a0b0;
+}
+
+/* ===== Attribute rows ===== */
+.mv-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 4px;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.mv-row:hover {
+  background: #eef2f7;
+}
+
+.mv-row[data-traced] {
+  background: rgb(22 143 92 / 0.1);
+}
+
+.mv-row[data-selected] {
+  background: #1f6feb;
+  color: #fff;
+}
+
+.mv-row-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #232a3a;
+}
+
+.mv-row[data-selected] .mv-row-name {
+  color: #fff;
+}
+
+/* ===== Twisty ===== */
+.mv-twisty,
+.mv-twisty-spacer {
+  flex: none;
+  width: 10px;
+  height: 10px;
+}
+
+.mv-twisty {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Down-pointing when expanded, right-pointing when collapsed. */
+.mv-twisty::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 1px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid #4a76c4;
+}
+
+.mv-twisty[data-collapsed]::before {
+  top: 1px;
+  left: 2px;
+  border-left: 5px solid #4a76c4;
+  border-right: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+/* ===== Classification badges ===== */
+.mv-badges {
+  flex: none;
+  display: flex;
+  gap: 3px;
+}
+
+.mv-badge {
+  padding: 1px 3px;
+  font-size: 10px;
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border-radius: 2px;
+}
+
+.mv-badge[data-kind='pii'] {
+  background: #ffe07d;
+  color: #4a3b00;
+}
+
+.mv-badge[data-kind='lpi'] {
+  background: #fff3b0;
+  color: #4a3b00;
+}
+
+.mv-badge[data-kind='spi'] {
+  background: #d92d20;
+  color: #fff;
+}
+
+.mv-badge[data-kind='cde'] {
+  background: #96e6b3;
+  color: #114a2b;
+}
+
+/* ===== Access badges =====
+   R and W on a step's I/O rows. The exact colours of .sbx-flow-tag in the
+   sandbox Sequence canvas (views/fabric.css) — a ported model is meant to read
+   as the same picture, so these two must be kept in step with each other.
+   Tabular numerals width so a column of R/W badges lines up. */
+.mv-badge[data-kind='read'],
+.mv-badge[data-kind='write'] {
+  min-width: 13px;
+  text-align: center;
+  font-weight: 600;
+}
+.mv-badge[data-kind='read'] {
+  background: #e2ebfa;
+  color: #1c447f;
+}
+.mv-badge[data-kind='write'] {
+  background: #d3f0e0;
+  color: #114a2b;
+}
+
+/* ===== Tag badges =====
+   Free-form tags on any entity (see model/tags.ts). The default is a neutral
+   outline so an arbitrary tag never competes with the classification
+   vocabulary above; the kinds the sandbox import writes get their own tint so
+   a card reads as a notebook, pipeline or table at a glance. */
+.mv-badge[data-tag] {
+  max-width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: transparent;
+  border: 1px solid rgb(28 35 51 / 0.28);
+  color: #4a5468;
+}
+.mv-badge[data-tag][data-kind='notebook'] {
+  background: #e2ebfa;
+  border-color: transparent;
+  color: #1c447f;
+}
+.mv-badge[data-tag][data-kind='pipeline'] {
+  background: #ede4fb;
+  border-color: transparent;
+  color: #452a7a;
+}
+.mv-badge[data-tag][data-kind='table'] {
+  background: #e9edf3;
+  border-color: transparent;
+  color: #33405a;
+}
+/* The card header is a tighter, bolder row than an attribute row — keep the
+   badge from crowding the name and the count. */
+.mv-card-header .mv-badges {
+  margin-left: 4px;
+  margin-right: 2px;
+}
+
+/* ===== Connect port =====
+   Solidatus' small square on the entity edge. Hidden until the row is hovered
+   so a dense card isn't a wall of handles. */
+.mv-port {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 1px solid #4a76c4;
+  border-radius: 1px;
+  background: #fff;
+  cursor: crosshair;
+  opacity: 0;
+}
+
+.mv-row:hover .mv-port,
+.mv-card-header:hover .mv-port,
+.mv-port[data-active] {
+  opacity: 1;
+}
+
+.mv-port[data-active] {
+  background: #1f6feb;
+  box-shadow: 0 0 0 2px rgb(31 111 235 / 0.3);
+}
+
+/* ===== Inbound port =====
+   A tab on the LEFT edge of a card header or row, mounted only while a
+   connection is pending (see InPort). Transitions leave a source's right edge
+   and enter a target's left one, so this is where the curve will actually land
+   — the affordance sits exactly where the result appears.
+
+   Absolutely positioned, and the two hosts are made position:relative for it.
+   In flow it would push the twisty and the name sideways every time connect
+   mode started. */
+.mv-card-header,
+.mv-row {
+  position: relative;
+}
+
+/* A WHOLE square, clear of the card border on every side — the same 7px handle
+   the outbound port uses, so both ends of a connection look like the same kind
+   of thing. It gets the room to be whole from the gutter below. */
+/* The IN handle, on an entity's left edge: where data arrives. Clicking it
+   starts a transition backwards — "into this, from something I'll pick next" —
+   which is how you author lineage downstream-up. Hidden until hover like its
+   outbound twin, EXCEPT while it is a drop point, when it is the instruction. */
+.mv-port-in {
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 1px solid #1f6feb;
+  border-radius: 1px;
+  background: #fff;
+  cursor: crosshair;
+  opacity: 0;
+}
+
+.mv-row:hover .mv-port-in,
+.mv-card-header:hover .mv-port-in,
+.mv-port-in[data-active] {
+  opacity: 1;
+}
+
+.mv-port-in[data-drop] {
+  background: #dbe6fb;
+  /* Visible without hover: while connecting, these ARE the instruction. */
+  opacity: 0.75;
+}
+
+.mv-port-in:hover {
+  opacity: 1;
+  background: #1f6feb;
+  box-shadow: 0 0 0 2px rgb(31 111 235 / 0.3);
+}
+
+/* The OUT handle as a drop point — the mirror case, while the user is picking
+   where a transition comes FROM. */
+.mv-port[data-drop] {
+  background: #dbe6fb;
+  border-color: #1f6feb;
+  opacity: 0.75;
+}
+
+.mv-port[data-drop]:hover {
+  opacity: 1;
+  background: #1f6feb;
+  box-shadow: 0 0 0 2px rgb(31 111 235 / 0.3);
+}
+
+/* The gutter is now permanent (see .mv-card-header). Rows carry their own
+   inline padding, which encodes the nesting indent, so ModelViewer sets their
+   left padding from the same constant. */
+
+/* Deliberately no card-level highlight here: .mv-card and
+   .mv-card[data-selected] both set box-shadow, and a third rule at this
+   specificity would silently drop the selected ring during connect mode. The
+   ports and the opened gutter are signal enough. */
+
+/* ===== In-model search =====
+   The overlay, panel and input are NOT defined here: this dialog reuses the
+   shell's command-palette container (.palette-overlay / .palette-content /
+   .palette / .sp-input in styles/shell.css) so every search surface in the app
+   is the same object. Only the result rows below are model-specific. */
+.ms-results {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.ms-empty {
+  padding: 14px;
+  color: #6b7385;
+  font-size: 12px;
+}
+
+.ms-hit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ms-hit[data-active='true'] {
+  background: #eef2f7;
+}
+
+.ms-kind {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  background: #e4e7ec;
+  color: #4a5266;
+}
+
+.ms-kind[data-kind='layer'] {
+  background: #dbe6fb;
+  color: #24457e;
+}
+
+.ms-kind[data-kind='object'] {
+  background: #d9f0e2;
+  color: #14603a;
+}
+
+.ms-name {
+  flex: none;
+  color: #1c2333;
+}
+
+.ms-name mark {
+  background: #ffe07d;
+  color: inherit;
+  border-radius: 2px;
+}
+
+.ms-where {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+  color: #98a0b0;
+  font-size: 11px;
+}
+
+/* The count is the point of grouping — how many places this name appears. */
+.ms-count {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #1f6feb;
+  color: #fff;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ms-foot {
+  flex: none;
+  padding: 6px 12px;
+  border-top: 1px solid rgb(28 35 51 / 0.1);
+  color: #98a0b0;
+  font-size: 11px;
+  min-height: 26px;
+}
+
+/* ===== Context menu ===== */
+.cm-catch {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+}
+
+.cm-menu {
+  position: fixed;
+  z-index: 50;
+  min-width: 190px;
+  padding: 4px;
+  border: 1px solid rgb(28 35 51 / 0.16);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-overlay);
+}
+
+.cm-item {
+  display: block;
+  width: 100%;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #1c2333;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cm-item:hover:not(:disabled) {
+  background: #eef2f7;
+}
+
+.cm-item:disabled {
+  color: #b3b9c5;
+  cursor: default;
+}
+
+.cm-item[data-separated] {
+  margin-top: 4px;
+  border-top: 1px solid rgb(28 35 51 / 0.1);
+  padding-top: 8px;
+  border-radius: 0 0 4px 4px;
+}
+
+.cm-item[data-danger]:not(:disabled) {
+  color: #b3261e;
+}
+
+.cm-item[data-danger]:hover:not(:disabled) {
+  background: #fdf0ef;
+}
+
+/* ===== Import / Export dialogs =====
+   `.ms-backdrop` is what centres them, and it was never actually declared —
+   ImportDialog and ExportDialog both rendered as an unpositioned block in the
+   page flow. Found while fixing the same class of bug in the Model Browser. */
+.ms-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: var(--spacing-4);
+  background: rgb(16 20 30 / 0.45);
+}
+
+.imp-panel {
+  width: min(680px, calc(100vw - 32px));
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgb(28 35 51 / 0.16);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow-overlay);
+  overflow: hidden;
+}
+
+.imp-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgb(28 35 51 / 0.12);
+}
+
+.imp-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1c2333;
+}
+
+.imp-steps {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.imp-steps li {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #98a0b0;
+  font-size: 11px;
+}
+
+.imp-steps li[data-current] {
+  background: #1f6feb;
+  color: #fff;
+}
+
+.imp-x {
+  margin-left: auto;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #6b7385;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.imp-x:hover {
+  background: #eef2f7;
+}
+
+.imp-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px;
+}
+
+.imp-lede {
+  margin: 0 0 10px;
+  color: #4a5266;
+  font-size: 12px;
+}
+
+.imp-hint {
+  margin: 10px 0 0;
+  color: #6b7385;
+  font-size: 11px;
+}
+
+.imp-error {
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border: 1px solid #f3b0aa;
+  border-radius: 6px;
+  background: #fdf0ef;
+  color: #8c2318;
+  font-size: 12px;
+}
+
+/* Importer tiles */
+.imp-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.imp-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 10px;
+  border: 1px solid rgb(28 35 51 / 0.16);
+  border-radius: 8px;
+  background: #fff;
+  color: #1c2333;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.imp-tile:hover:not(:disabled) {
+  border-color: #1f6feb;
+  background: #f5f9ff;
+}
+
+.imp-tile:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.imp-soon {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #6b7385;
+  font-size: 9px;
+}
+
+/* Choice cards */
+.imp-choice {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.imp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  border: 1px solid rgb(28 35 51 / 0.16);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.imp-card strong {
+  font-size: 12px;
+  color: #1c2333;
+}
+
+.imp-card span {
+  font-size: 11px;
+  color: #6b7385;
+}
+
+.imp-card[data-selected] {
+  border-color: #1f6feb;
+  background: #f5f9ff;
+  box-shadow: inset 0 0 0 1px #1f6feb;
+}
+
+.imp-paste {
+  width: 100%;
+  min-height: 150px;
+  padding: 8px;
+  border: 1px solid rgb(28 35 51 / 0.18);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  resize: vertical;
+}
+
+.imp-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.imp-link {
+  border: 0;
+  background: transparent;
+  color: #1f6feb;
+  font: inherit;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Options */
+.imp-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.imp-opt strong {
+  display: block;
+  color: #1c2333;
+  font-weight: 500;
+}
+
+.imp-opt em {
+  display: block;
+  margin-top: 2px;
+  color: #6b7385;
+  font-size: 11px;
+  font-style: normal;
+}
+
+.imp-opt-label {
+  min-width: 110px;
+  color: #1c2333;
+}
+
+.imp-text {
+  width: 60px;
+  padding: 3px 6px;
+  border: 1px solid rgb(28 35 51 / 0.2);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 12px;
+}
+
+/* Preview counts */
+.imp-counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.imp-count {
+  padding: 10px;
+  border: 1px solid rgb(28 35 51 / 0.14);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.imp-count[data-zero] {
+  opacity: 0.5;
+}
+
+.imp-count-value {
+  display: block;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  color: #14603a;
+}
+
+.imp-count[data-zero] .imp-count-value {
+  color: #6b7385;
+}
+
+.imp-count-label {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: #6b7385;
+}
+
+.imp-warnings {
+  padding: 10px;
+  border: 1px solid #f0d9a8;
+  border-radius: 6px;
+  background: #fffaf0;
+  font-size: 11px;
+  color: #6b4e12;
+}
+
+.imp-warnings ul {
+  margin: 6px 0 0;
+  padding-left: 16px;
+}
+
+/* Footer */
+.imp-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid rgb(28 35 51 / 0.12);
+}
+
+.imp-spacer {
+  flex: 1;
+}
+
+.imp-btn {
+  padding: 6px 14px;
+  border: 1px solid rgb(28 35 51 / 0.2);
+  border-radius: 6px;
+  background: #fff;
+  color: #1c2333;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.imp-btn:hover:not(:disabled) {
+  background: #eef2f7;
+}
+
+.imp-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.imp-btn--primary {
+  border-color: #1f6feb;
+  background: #1f6feb;
+  color: #fff;
+}
+
+.imp-btn--primary:hover:not(:disabled) {
+  background: #1a5fd0;
+}
+
+/* ===== Loading / error fallback ===== */
+.mv-fallback {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  color: var(--color-text-secondary);
+  font-size: var(--text-base);
+}
+
+/* ===== Status strip ===== */
+.mv-status {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  z-index: 2;
+  padding: 3px 8px;
+  border: 1px solid rgb(28 35 51 / 0.12);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.9);
+  color: #6b7385;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+/* The keystroke that ends a trace, set back from the count it follows. A trace
+   is the one narrowing with no panel to switch it off, so the way out has to be
+   on screen — quietly, since it is the same text every time. */
+.mv-hint {
+  opacity: 0.7;
+}
+
+/* ===== Trace origin =====
+   What the trace was taken FROM.
+
+   It needs its own mark because being on the trace stops meaning anything the
+   moment the trace runs: everything left on the canvas is on it, so the origin
+   is indistinguishable from the fifty things it reached. Red, and used nowhere
+   else on a card, so it reads as "this one" rather than as another state.
+
+   `outline` rather than `border` — an outline is drawn outside the box model,
+   so it cannot shift a row by a pixel or reflow a card whose height the layout
+   has already fixed. Negative offset pulls it just inside the edge so a row's
+   mark is not clipped by the card that holds it. */
+/* `data-connect-source` — the entity C has armed a connection from — wears the
+   SAME mark, deliberately. Both answer the one question "which one did I press
+   the key on", both are transient, and both are cleared by Esc; giving the
+   second a colour of its own would make the canvas teach two marks that mean
+   the same thing. They cannot collide in practice either — arming a connection
+   does not trace, and the status line says which mode is running. */
+.mv-card[data-trace-origin],
+.mv-row[data-trace-origin],
+.mv-card[data-connect-source],
+.mv-row[data-connect-source] {
+  outline: 2px solid #d92d20;
+  outline-offset: -2px;
+}
+/* Lifted above the following row, whose background otherwise paints over the
+   mark's lower edge. `position` is set here too: `.mv-row` is a static flex
+   child, and z-index on a static element does nothing — which is why this rule
+   was inert. The card is `position: absolute` and must stay that way, so only
+   the row is lifted. */
+.mv-row[data-trace-origin],
+.mv-row[data-connect-source] {
+  position: relative;
+  z-index: 1;
+}
+/* The tint is for an origin that is NOT currently selected.
+
+   `.mv-row[data-selected]` sets a blue fill AND white text, and it sits earlier
+   in this file at the same specificity — so an unguarded tint here won the
+   background and left the white text on top of it, which is how the origin row
+   went blank the moment it was traced (you select a row, then press the key, so
+   it is always both). The outline already marks the origin; selection keeps its
+   own colours, and the two read fine together.
+
+   The armed connect source is ALWAYS selected — you select a row, then press C
+   — so in practice this tint never paints for it and the outline is the whole
+   mark. It is written to match anyway rather than special-cased: the port-drag
+   path can arm a source without selecting it, and that one does get the tint. */
+.mv-row[data-trace-origin]:not([data-selected]),
+.mv-row[data-connect-source]:not([data-selected]) {
+  background: rgb(217 45 32 / 0.06);
+}
+/* The card's own mark sits on the whole card; when the ORIGIN is a row inside
+   it, the card keeps its ordinary border and only the row is marked. */
+.mv-card[data-trace-origin] .mv-card-header,
+.mv-card[data-connect-source] .mv-card-header {
+  background: rgb(217 45 32 / 0.07);
+}
+
+/* ===== Auto-Mapper =====
+   Docked to the right, not modal: two of its steps refer to the canvas (picking
+   a scope entity, reading the objects a suggestion group names), so it must
+   never cover the model. The canvas keeps its full width behind it — the panel
+   overlays rather than squeezing, so nothing reflows when it opens. */
+.am-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  width: 372px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgb(28 35 51 / 0.16);
+  background: #fff;
+  box-shadow: -6px 0 18px rgb(28 35 51 / 0.08);
+  font-size: 12px;
+  color: #1c2333;
+  user-select: none;
+}
+
+.am-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgb(28 35 51 / 0.12);
+}
+
+.am-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.am-x {
+  margin-left: auto;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #6b7385;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.am-x:hover {
+  background: rgb(28 35 51 / 0.08);
+  color: #1c2333;
+}
+
+.am-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.am-section {
+  padding: 12px;
+  border-bottom: 1px solid rgb(28 35 51 / 0.08);
+}
+
+.am-step {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* The step number carries the wizard's sequence without the panel having to
+   actually BE a wizard — every step stays visible and re-editable. */
+.am-step-n {
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #1f6feb;
+  color: #fff;
+  font-size: 10px;
+}
+
+.am-note {
+  margin: 6px 0 0;
+  color: #6b7385;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+/* --- scope rows --- */
+.am-scope {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 5px 6px;
+  border: 1px solid rgb(28 35 51 / 0.12);
+  border-radius: 5px;
+}
+
+.am-scope[data-picking] {
+  border-color: #1f6feb;
+  background: #f2f7ff;
+}
+
+.am-scope-label {
+  flex: none;
+  width: 44px;
+  color: #6b7385;
+  font-size: 11px;
+}
+
+.am-scope-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.am-picking {
+  margin: 6px 0 0;
+  padding: 6px 8px;
+  border-left: 2px solid #1f6feb;
+  background: #f2f7ff;
+  color: #24457e;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.am-swap {
+  margin-top: 8px;
+}
+
+/* --- controls --- */
+.am-mini,
+.am-disclosure {
+  flex: none;
+  padding: 3px 8px;
+  border: 1px solid rgb(28 35 51 / 0.14);
+  border-radius: 4px;
+  background: #fff;
+  color: #3d4557;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.am-mini:hover:not(:disabled),
+.am-disclosure:hover {
+  border-color: rgb(28 35 51 / 0.3);
+}
+
+.am-mini[data-on] {
+  border-color: #1f6feb;
+  background: #1f6feb;
+  color: #fff;
+}
+
+.am-mini:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.am-disclosure {
+  width: 100%;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.am-advanced {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 5px;
+  background: #f6f7f9;
+}
+
+.am-field {
+  margin-top: 10px;
+}
+
+.am-field-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+  color: #6b7385;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.am-value {
+  margin-left: auto;
+  color: #1c2333;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+.am-input {
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid rgb(28 35 51 / 0.16);
+  border-radius: 4px;
+  background: #fff;
+  font: inherit;
+  font-size: 12px;
+  color: #1c2333;
+}
+
+.am-field input[type='range'] {
+  width: 100%;
+  accent-color: #1f6feb;
+}
+
+.am-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.am-check {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.am-check input {
+  accent-color: #1f6feb;
+}
+
+/* --- generate + review --- */
+.am-generate {
+  width: 100%;
+  padding: 7px;
+  border: 0;
+  border-radius: 5px;
+  background: #1f6feb;
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.am-generate:disabled {
+  background: #eceef2;
+  color: #98a0b0;
+  cursor: default;
+}
+
+.am-group {
+  margin-top: 8px;
+  border: 1px solid rgb(28 35 51 / 0.12);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.am-group-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  background: #f6f7f9;
+}
+
+.am-twisty {
+  flex: none;
+  width: 16px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #6b7385;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.am-group-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.am-arrow {
+  color: #98a0b0;
+}
+
+/* The point of grouping: how many transitions this one row would create. */
+.am-badge {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #1f6feb;
+  color: #fff;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.am-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.am-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 7px;
+  border-top: 1px solid rgb(28 35 51 / 0.08);
+  cursor: pointer;
+}
+
+.am-row:hover {
+  background: #f6f8fb;
+}
+
+.am-row-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.am-conf {
+  flex: none;
+  color: #6b7385;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.am-conf[data-strong] {
+  color: #14603a;
+  font-weight: 600;
+}
+
+.am-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid rgb(28 35 51 / 0.12);
+}
+
+.am-foot-count {
+  flex: 1;
+  min-width: 0;
+  color: #6b7385;
+  font-size: 11px;
+}
+
+.am-done {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 4px;
+  background: #1f6feb;
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.am-done:disabled {
+  background: #eceef2;
+  color: #98a0b0;
+  cursor: default;
+}
+
+/* While picking a scope entity every clickable thing is a target, so say so
+   with the cursor — same treatment connect mode already gets. */
+.mv-host[data-picking] .mv-row,
+.mv-host[data-picking] .mv-card-header,
+.mv-host[data-picking] .mv-layer {
+  cursor: crosshair;
+}
+
+/* Keep the status strip clear of the docked panel. */
+.mv-host[data-mapper] .mv-status {
+  right: 382px;
+}
+
+/* ===== Tag surfaces (TagPanel.tsx) =====
+   The viewer's own skin for tagging. These deliberately do NOT reuse the Model
+   Browser's `.mb-*` dialog classes: those live in modelBrowser.css, which the
+   viewer never imports, so the shared TagDialog rendered here as unstyled
+   markup. Anything the canvas shows is styled from this file. */
+.tg-panel {
+  width: min(560px, calc(100vw - 32px));
+}
+.tg-subject {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #7b8496;
+  font-size: 12px;
+}
+.tg-x {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #7b8496;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.tg-x:hover {
+  background: #eef2f7;
+  color: #1c2333;
+}
+.tg-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tg-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid rgb(28 35 51 / 0.12);
+}
+.tg-foot-note {
+  flex: 1 1 auto;
+  color: #7b8496;
+  font-size: 11px;
+}
+.tg-warn {
+  margin: 0;
+  padding: 7px 9px;
+  border-radius: 5px;
+  background: #fff7e6;
+  color: #6b4a00;
+  font-size: 12px;
+}
+.tg-label {
+  margin: 2px 0 0;
+  color: #7b8496;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.tg-hint {
+  display: block;
+  margin-top: 2px;
+  color: #7b8496;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.35;
+}
+.tg-empty {
+  margin: 0;
+  padding: 10px 2px;
+  color: #7b8496;
+  font-size: 12px;
+}
+
+/* The chip input: a bordered well the chips live inside, with the text entry
+   growing to fill whatever is left on the last line. */
+.tg-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 7px;
+  min-height: 40px;
+  border: 1px solid rgb(28 35 51 / 0.2);
+  border-radius: 6px;
+  background: #fff;
+  cursor: text;
+}
+.tg-input:focus-within {
+  border-color: #1f6feb;
+  box-shadow: 0 0 0 3px rgb(31 111 235 / 0.14);
+}
+.tg-entry {
+  flex: 1 1 90px;
+  min-width: 90px;
+  border: 0;
+  outline: none;
+  font: inherit;
+  font-size: 13px;
+  background: transparent;
+}
+.tg-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: #eaf0fb;
+  color: #1c447f;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+/* The kinds the sandbox import writes carry their badge colours through, so a
+   tag looks the same here as it does on the card. */
+.tg-chip[data-kind='notebook'] { background: #e2ebfa; color: #1c447f; }
+.tg-chip[data-kind='pipeline'] { background: #ede4fb; color: #452a7a; }
+.tg-chip[data-kind='table'] { background: #e4f0e9; color: #14532d; }
+.tg-chip.ghost {
+  background: transparent;
+  border: 1px solid rgb(28 35 51 / 0.22);
+  color: #4a5468;
+  cursor: pointer;
+}
+.tg-chip.ghost:hover {
+  border-color: #1f6feb;
+  color: #1f6feb;
+}
+.tg-chip-x {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  opacity: 0.6;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+.tg-chip-x:hover { opacity: 1; }
+.tg-count {
+  padding: 0 4px;
+  border-radius: 999px;
+  background: rgb(28 35 51 / 0.09);
+  color: inherit;
+  font-size: 10px;
+  font-weight: 600;
+}
+.tg-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tg-field {
+  width: 100%;
+  padding: 7px 9px;
+  border: 1px solid rgb(28 35 51 / 0.2);
+  border-radius: 6px;
+  background: #fff;
+  font: inherit;
+  font-size: 13px;
+}
+.tg-field:focus {
+  outline: none;
+  border-color: #1f6feb;
+  box-shadow: 0 0 0 3px rgb(31 111 235 / 0.14);
+}
+.tg-field:disabled {
+  background: #f6f8fb;
+  color: #98a0b0;
+}
+.tg-add {
+  display: flex;
+  gap: 8px;
+}
+.tg-search { margin-top: 2px; }
+
+.tg-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgb(28 35 51 / 0.12);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.tg-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 9px;
+  border-bottom: 1px solid rgb(28 35 51 / 0.08);
+}
+.tg-row:last-child { border-bottom: 0; }
+.tg-row:hover { background: #f6f8fb; }
+.tg-row-count {
+  flex: 1 1 auto;
+  color: #7b8496;
+  font-size: 11px;
+}
+.tg-row-acts {
+  flex: none;
+  display: flex;
+  gap: 4px;
+  /* Actions stay hidden until the row is under the pointer: with three buttons
+     on every row, a long vocabulary reads as a wall of links otherwise. */
+  opacity: 0;
+}
+.tg-row:hover .tg-row-acts,
+.tg-row:focus-within .tg-row-acts {
+  opacity: 1;
+}
+.tg-act {
+  padding: 3px 7px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #4a5468;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.tg-act:hover {
+  border-color: rgb(28 35 51 / 0.2);
+  background: #fff;
+  color: #1c2333;
+}
+.tg-act.danger:hover {
+  border-color: #d92d20;
+  color: #d92d20;
+}
+.tg-rename { max-width: 240px; }
+
+/* ===== Views panel (ViewsPanel.tsx) =====
+   Docked to the right of the canvas, not modal: filtering is iterative, and a
+   modal would cover the thing being filtered. */
+.vw-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgb(28 35 51 / 0.14);
+  background: #fff;
+  box-shadow: -8px 0 24px rgb(16 20 30 / 0.08);
+}
+.vw-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgb(28 35 51 / 0.12);
+}
+.vw-title {
+  margin: 0;
+  flex: 1 1 auto;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1c2333;
+}
+.vw-badge {
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #1f6feb;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+}
+.vw-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.vw-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.vw-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.vw-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border: 1px solid rgb(28 35 51 / 0.2);
+  border-radius: 999px;
+  background: #fff;
+  color: #4a5468;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.vw-toggle:hover { border-color: #1f6feb; }
+.vw-toggle[data-on] {
+  border-color: transparent;
+  background: #1f6feb;
+  color: #fff;
+  font-weight: 500;
+}
+.vw-toggle[data-on] .tg-count {
+  background: rgb(255 255 255 / 0.26);
+}
+/* R and W keep the access colourway when off, so the control matches the badge
+   it filters on. Selected still goes accent: "on" has to read the same across
+   every chip in the panel. */
+.vw-toggle[data-tone='read']:not([data-on]) {
+  background: #e2ebfa;
+  color: #1c447f;
+  border-color: transparent;
+}
+.vw-toggle[data-tone='write']:not([data-on]) {
+  background: #d3f0e0;
+  color: #114a2b;
+  border-color: transparent;
+}
+.vw-prop {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 5px;
+  align-items: center;
+}
+/* Saved views: a list, not chips. A view has a sentence-length name and the
+   list is read top-to-bottom looking for one, which wrapping chips make hard. */
+.vw-saved {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.vw-saved-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px;
+  align-items: center;
+}
+.vw-saved-pick {
+  text-align: left;
+  padding: 6px 9px;
+  border: 1px solid rgb(28 35 51 / 0.14);
+  border-radius: 6px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vw-saved-pick:hover {
+  border-color: #1f6feb;
+}
+.vw-saved-pick[data-on] {
+  background: #1f6feb;
+  border-color: #1f6feb;
+  color: #fff;
+  font-weight: 600;
+}
+.vw-name {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+.vw-name .tg-field {
+  flex: 1;
+  min-width: 0;
+}
+
+/* The Dim/Hide pair reads as one control, so its halves sit flush. */
+.vw-mode {
+  display: flex;
+  gap: 0;
+}
+.vw-mode .vw-toggle {
+  border-radius: 0;
+  flex: 1;
+}
+.vw-mode .vw-toggle:first-child {
+  border-radius: 6px 0 0 6px;
+}
+.vw-mode .vw-toggle:last-child {
+  border-radius: 0 6px 6px 0;
+  margin-left: -1px;
+}
+.vw-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid rgb(28 35 51 / 0.12);
+}
+.vw-result {
+  flex: 1 1 auto;
+  color: #7b8496;
+  font-size: 12px;
+}
+
+/* ===== Filtered-out entities =====
+   Dimmed, not removed. Pointer events stay on: a dimmed row is still a real
+   entity you can select, inspect and retag. The filter narrows attention, it
+   does not disable the canvas. */
+.mv-card[data-dimmed],
+.mv-row[data-dimmed] {
+  opacity: 0.26;
+}
+.mv-card[data-dimmed]:hover,
+.mv-row[data-dimmed]:hover {
+  opacity: 0.75;
+}
+
+/* ===== Properties panel =====
+   Shares the Views dock's frame (.vw-panel) and only adds what the key/value
+   list needs. Two docks in the same slot that looked different would read as
+   two different kinds of surface. */
+.pr-panel .vw-body {
+  gap: 14px;
+}
+
+.pr-subject {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px;
+  border: 1px solid rgb(28 35 51 / 0.1);
+  border-radius: 7px;
+  background: #f6f8fb;
+}
+.pr-subject-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1c2333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pr-subject-meta {
+  font-size: 11px;
+  color: #7b8496;
+}
+.pr-kind {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+/* Ancestors and transition endpoints are buttons, but must not look like a row
+   of controls stacked under the name — they are the address, drawn as text. */
+.pr-link {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  color: #1f6feb;
+  cursor: pointer;
+}
+.pr-link:hover {
+  text-decoration: underline;
+}
+
+.pr-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.pr-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pr-row {
+  display: grid;
+  /* Key column fixed so values line up down the list — a per-row auto width
+     makes a bag of provenance unreadable as a table. */
+  grid-template-columns: 92px 1fr auto;
+  align-items: center;
+  gap: 6px;
+}
+.pr-key,
+.pr-key-edit {
+  min-width: 0;
+  font-size: 11px;
+}
+.pr-key {
+  border: 0;
+  padding: 0;
+  background: none;
+  text-align: left;
+  color: #7b8496;
+  font-weight: 600;
+  cursor: text;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pr-key:hover {
+  color: #1c2333;
+  text-decoration: underline dotted;
+}
+.pr-value {
+  min-width: 0;
+}
+/* A mixed row shows its placeholder, not a value — italic so the count in the
+   placeholder cannot be mistaken for something one of them actually says. */
+.pr-value[data-mixed]::placeholder {
+  font-style: italic;
+  color: #a2a9b8;
+}
+/* Unlike .tg-row, the remove button is always visible: on a touch or
+   keyboard pass there is no hover to reveal it. */
+.pr-row .tg-act {
+  opacity: 0.5;
+}
+.pr-row:hover .tg-act,
+.pr-row:focus-within .tg-act {
+  opacity: 1;
+}
+
+.pr-add {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 6px;
+}
+
+/* --- Assistant panel ------------------------------------------------------
+   Same dock geometry as .vw-panel, but wider and a three-row grid rather than
+   a scrolling body: the composer must stay pinned while the transcript
+   scrolls, which a single overflowing column cannot do. Wider because prose
+   at 300px wraps every four words. */
+.as-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgb(28 35 51 / 0.14);
+  background: #fff;
+  box-shadow: -8px 0 24px rgb(16 20 30 / 0.08);
+}
+.as-log {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.as-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.as-empty-lead {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #6b7280;
+}
+.as-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.as-example {
+  text-align: left;
+  padding: 7px 10px;
+  border: 1px solid rgb(28 35 51 / 0.16);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 12px;
+  color: #1c2333;
+  cursor: pointer;
+}
+.as-example:hover {
+  border-color: #1f6feb;
+  color: #1f6feb;
+}
+
+.as-turn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+/* The user's own words are right-aligned and tinted; the assistant's are flush
+   left and plain. Whose turn it is has to be readable at a glance without
+   labels eating a line each. */
+.as-turn[data-role='user'] {
+  align-items: flex-end;
+}
+.as-bubble {
+  max-width: 92%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  color: #1c2333;
+}
+.as-turn[data-role='user'] .as-bubble {
+  background: #eef3fd;
+}
+.as-turn[data-role='assistant'] .as-bubble {
+  background: #f6f7f9;
+}
+.as-thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #6b7280;
+}
+
+/* An answer nothing was traced for. Deliberately the loudest thing in the
+   panel — it is the one case where a wrong answer reads exactly like a right
+   one, so it must not be a subtle grey footnote. */
+.as-untraced {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: #fdf0e6;
+  border: 1px solid #f0c39a;
+  color: #9a5b1c;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.as-trace-toggle {
+  padding: 2px 4px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 11px;
+  color: #6b7280;
+  cursor: pointer;
+}
+.as-trace-toggle:hover {
+  color: #1f6feb;
+}
+.as-steps {
+  margin: 2px 0 0;
+  padding: 0 0 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style: none;
+  border-left: 2px solid rgb(28 35 51 / 0.1);
+}
+.as-step {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 11px;
+  color: #6b7280;
+}
+.as-step-name {
+  font-weight: 600;
+  color: #4b5563;
+}
+.as-step-entity {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 11px;
+  color: #1f6feb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.as-step-result {
+  font-variant-numeric: tabular-nums;
+}
+
+.as-error {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #fdecec;
+  color: #992222;
+  font-size: 12px;
+}
+.as-off {
+  flex: none;
+  padding: 12px;
+  border-top: 1px solid rgb(28 35 51 / 0.12);
+  font-size: 12px;
+  line-height: 1.5;
+  color: #6b7280;
+}
+.as-off code {
+  font-size: 11px;
+}
+
+.as-composer {
+  flex: none;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  padding: 10px 12px;
+  border-top: 1px solid rgb(28 35 51 / 0.12);
+}
+.as-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  resize: none;
+  padding: 7px 9px;
+  border: 1px solid rgb(28 35 51 / 0.2);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.as-input:focus {
+  outline: none;
+  border-color: #1f6feb;
+}
+.as-send {
+  flex: none;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #1f6feb;
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.as-send:disabled {
+  background: #c3cad6;
+  cursor: default;
+}
+
+/* --- Proposed edits -------------------------------------------------------
+   Bordered and tinted, so a block of suggestions never blends into the prose
+   above it. The whole point is that this is a decision, not a readout. */
+.as-proposals {
+  margin-top: 2px;
+  width: 100%;
+  border: 1px solid #cfd9ea;
+  border-radius: 10px;
+  background: #f7f9fe;
+  overflow: hidden;
+}
+.as-proposals-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 10px;
+  border-bottom: 1px solid #e0e7f4;
+}
+.as-proposals-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #24406e;
+}
+/* Carries the same claim as the assistant's own wording and as the tool result
+   it was given. If these three ever disagree the user is misled by whichever
+   they happen to read first. */
+.as-proposals-note {
+  font-size: 10px;
+  color: #6b7280;
+}
+.as-proposal-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.as-proposal {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e8edf7;
+}
+.as-proposal:last-child {
+  border-bottom: 0;
+}
+.as-proposal-kind {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+.as-proposal-target {
+  font-size: 12px;
+  color: #1c2333;
+  word-break: break-word;
+}
+.as-proposal-why {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: #4b5563;
+}
+.as-proposal-acts {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px 0;
+  margin: 0 -10px -8px;
+}
+.as-proposal-list + .as-proposal-acts {
+  padding: 8px 10px;
+  margin: 0;
+  border-top: 1px solid #e0e7f4;
+}
+.as-proposal-apply,
+.as-proposal-skip {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.as-proposal-apply {
+  border: 0;
+  background: #1f6feb;
+  color: #fff;
+}
+.as-proposal-skip {
+  border: 1px solid rgb(28 35 51 / 0.2);
+  background: #fff;
+  color: #4b5563;
+}
+
+/* --- Assistant house rules ------------------------------------------------ */
+.as-rules-toggle {
+  padding: 2px 8px;
+  border: 1px solid rgb(28 35 51 / 0.18);
+  border-radius: 999px;
+  background: #fff;
+  font: inherit;
+  font-size: 11px;
+  color: #4b5563;
+  cursor: pointer;
+}
+.as-rules-toggle[aria-expanded='true'] {
+  border-color: #1f6feb;
+  color: #1f6feb;
+}
+.as-rules {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgb(28 35 51 / 0.12);
+  background: #fbfcfe;
+}
+.as-rules-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4b5563;
+}
+.as-rules-input {
+  resize: vertical;
+  padding: 7px 9px;
+  border: 1px solid rgb(28 35 51 / 0.2);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.as-rules-input:focus {
+  outline: none;
+  border-color: #1f6feb;
+}
+.as-rules-note {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.45;
+  color: #6b7280;
+}
+
+/* Names what a vague reference will resolve to. Sits directly above the
+   composer because it qualifies what you are about to type. */
+.as-referent {
+  flex: none;
+  padding: 6px 12px;
+  border-top: 1px solid rgb(28 35 51 / 0.12);
+  background: #f7f9fe;
+  font-size: 11px;
+  color: #4b5563;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.as-referent strong {
+  color: #24406e;
+  font-weight: 600;
+}
+
+/* Copy affordances on the assistant transcript. Quiet until hovered — the
+   answer is what the panel is for, and a button competing with it on every
+   turn would be noise. It stays visible once focused so the keyboard path is
+   not a hidden control. */
+.as-copy {
+  border: 1px solid #d9dee8;
+  background: #fff;
+  color: #55607a;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  line-height: 1.6;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+.as-turn:hover .as-copy,
+.as-copy:focus-visible,
+.as-copy[data-state='done'],
+.as-copy[data-state='failed'] {
+  opacity: 1;
+}
+/* The header copy is not inside a turn, so it has nothing to hover onto. */
+.vw-head .as-copy {
+  opacity: 1;
+  margin-left: auto;
+}
+.as-copy:hover {
+  border-color: #b9c2d4;
+  color: #1c2333;
+}
+.as-copy[data-state='done'] {
+  border-color: #9ccfae;
+  color: #1f7a44;
+}
+/* Failure is a real state, not a silent no-op: without the clipboard API the
+   only way through is a manual copy, and the label has to say so. */
+.as-copy[data-state='failed'] {
+  border-color: #e4c07a;
+  color: #8a6116;
+}
+.as-answer-tools {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2px;
+}
+
+/* The share link and the expiry select. One class for both: they are the same
+   full-width field, and the link is a read-only input rather than text so it
+   can be selected and copied by keyboard on a machine with no clipboard
+   permission. */
+.sh-link {
+  width: 100%;
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border: 1px solid var(--border, #d0d5dd);
+  border-radius: 8px;
+  background: var(--surface, #fff);
+  color: inherit;
+  font-size: 12.5px;
+  font-family: inherit;
+}
+
+/* Explain dock — the lineage of the selection, in sentences. Shares the Views
+   dock's frame (.vw-panel) and adds only what prose needs: a subject line, a
+   lede, and sections of one-line facts. Wider than Properties because a
+   sentence that wraps every four words stops being a sentence. */
+.xp-panel {
+  width: 340px;
+}
+.xp-subject {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.xp-name {
+  font-size: 15px;
+  color: #1c2333;
+}
+.xp-kind {
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgb(28 35 51 / 0.07);
+  color: #4a5468;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.xp-headline {
+  margin: -6px 0 0;
+  color: #2c3446;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.xp-sec {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.xp-sec-title {
+  margin: 0;
+  color: #6b7385;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.xp-empty {
+  margin: 0;
+  color: #7b8496;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.xp-count {
+  margin: 0;
+  color: #2c3446;
+  font-size: 12px;
+}
+.xp-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+/* One fact per row: what it is, where it lives, how it got there. Stacked
+   rather than inline so the name stays scannable down the left edge. */
+.xp-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px 8px;
+  border: 1px solid rgb(28 35 51 / 0.1);
+  border-radius: 6px;
+}
+.xp-link {
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #1f6feb;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+.xp-link:hover {
+  text-decoration: underline;
+}
+.xp-where,
+.xp-items {
+  color: #7b8496;
+  font-size: 11px;
+}
+.xp-how {
+  color: #16704a;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.xp-facts {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  font-size: 12px;
+}
+.xp-facts > div {
+  display: contents;
+}
+.xp-facts dt {
+  color: #7b8496;
+}
+.xp-facts dd {
+  margin: 0;
+  color: #2c3446;
+}
+
+/* ===== Version history dock =====
+   Shares .vw-panel's frame (see the Properties dock's note): three panels in
+   one slot that looked different would read as three places. Only what the
+   history list itself needs is added here. */
+.vh-save {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.vh-label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.vh-empty,
+.vh-error {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.vh-empty {
+  color: #6b7385;
+}
+.vh-error {
+  color: var(--color-destructive);
+}
+
+.vh-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.vh-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: 100%;
+  padding: 5px 7px;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.vh-item-main:hover {
+  background: #eef2f7;
+}
+.vh-item[data-open] .vh-item-main {
+  background: #e8f0fe;
+}
+.vh-item-label {
+  color: #232a3a;
+  font-size: 12px;
+  font-weight: 600;
+}
+.vh-item-when {
+  color: #98a0b0;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The diff, and the only button in the app that overwrites the whole model.
+   They are one block on purpose — the button is not reachable without the
+   sentence above it having been rendered. */
+.vh-diff {
+  padding: 6px 7px 8px;
+  font-size: 11px;
+}
+.vh-diff-line {
+  margin: 0 0 6px;
+  color: #3d4557;
+}
+.vh-diff-detail {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #6b7385;
+}
+.vh-diff-detail em {
+  color: #98a0b0;
+  font-style: normal;
+}
+.vh-diff-detail span[data-change] {
+  display: inline-block;
+  width: 10px;
+  font-weight: 700;
+}
+.vh-diff-detail span[data-change='add'] {
+  color: #168f5c;
+}
+.vh-diff-detail span[data-change='del'] {
+  color: #be3c3c;
+}
+.vh-diff-detail span[data-change='mod'] {
+  color: #b0751a;
+}
+.vh-restore {
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid rgb(28 35 51 / 0.2);
+  border-radius: 5px;
+  background: #fff;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.vh-restore:hover:not(:disabled) {
+  border-color: var(--color-destructive);
+  color: var(--color-destructive);
+}
+.vh-restore:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

@@ -8,15 +8,14 @@ Models live in your browser's local storage. Nothing is sent anywhere.
 ## Status
 
 Early. The repository is being ported from an earlier full-stack prototype,
-stripped down to the application itself. Nothing below is built yet in this
-repo — this section is the honest state, and it gets updated as each piece
-lands, not before.
+stripped down to the application itself. This table is the honest state, and
+it gets updated as each piece lands, not before.
 
 | Piece | State |
 |---|---|
 | Repository scaffold | Done |
-| Modeling core | Not started |
-| App shell and model viewer | Not started |
+| Modeling core | Done |
+| App shell and model viewer | Done |
 | Lineage engine (parked) | Not started |
 
 ## What this is not
@@ -32,8 +31,16 @@ a library here, not a feature.
 
 ## Development
 
-Setup instructions land alongside the code they describe. See `CONTRIBUTING.md`
-for the branch, commit, and review conventions this repository follows.
+```bash
+cd app
+npm install
+npm run dev        # http://localhost:5173
+npm run typecheck
+npm run test:run
+```
+
+See `CONTRIBUTING.md` for the branch, commit, and review conventions this
+repository follows.
 
 ## License
 
