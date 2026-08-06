@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least privilege: CI reads the repo and nothing else. Widen per-job only if a
+# job genuinely needs to write.
+permissions:
+  contents: read
+
+# A new push to a branch makes the in-flight run obsolete. Cancel it rather
+# than paying for a result nobody will read. Never cancel on main.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  app:
+    name: app — typecheck and test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      # `ci` not `install`: it installs exactly the lockfile and fails if
+      # package.json disagrees with it, so a drifted lockfile breaks the build
+      # instead of being silently rewritten.
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm run test:run

@@ -21,8 +21,10 @@ export interface Link {
   what: string
   /** Where it lives: `lh_landing · Platform`, or as much of that as is known. */
   where: string
-  /** `unchanged`, `amount * 1.2`, `read by nb_22` — how it got across. */
-  how?: string
+  /** `unchanged`, `amount * 1.2`, `read by nb_22` — how it got across.
+   *  Explicitly `| undefined`: the key is always set, and its value is absent
+   *  when the transform is unknown. */
+  how?: string | undefined
 }
 
 export interface Explanation {

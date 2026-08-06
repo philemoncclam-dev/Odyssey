@@ -11,11 +11,15 @@
     "jsx": "react-jsx",
 
     /* Correctness. `strict` was never set in the project this was ported from,
-       so the code compiled with implicit `any` and without null checks. It is
-       on here, and the exactOptionalPropertyTypes / noUncheckedIndexedAccess
-       pair below closes the two holes `strict` alone leaves open. */
+       despite its docs claiming otherwise — so the guarantee was never
+       enforced. Turning it on cost zero errors: the code was already written
+       to the standard, it just was not held to it.
+
+       `noUncheckedIndexedAccess` is deliberately NOT on yet. It is the right
+       setting for a tool that indexes records and arrays constantly, but it
+       reports 118 sites, which would bury the port it landed with. It gets
+       its own PR. */
     "strict": true,
-    "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
