@@ -62,7 +62,7 @@ class BigResizeObserver {
 }
 globalThis.ResizeObserver = BigResizeObserver as unknown as typeof ResizeObserver
 
-function renderViewer(onModel: (m: LineageModel) => void, readOnly = false) {
+function renderViewer(onModel: (m: LineageModel) => void) {
   function Harness() {
     const [m, setM] = useState(model())
     return (
@@ -76,7 +76,6 @@ function renderViewer(onModel: (m: LineageModel) => void, readOnly = false) {
         onRedo={() => {}}
         canUndo={false}
         canRedo={false}
-        readOnly={readOnly}
       />
     )
   }
@@ -155,19 +154,6 @@ describe('C — connect from the selection', () => {
     const { container } = renderViewer((m) => (latest = m))
 
     await user.click(await screen.findByText('Raw'))
-    await user.keyboard('c')
-
-    expect(container.querySelector('[data-connect-source]')).toBeNull()
-    await user.click(screen.getByText('customers'))
-    expect(latest).toBeNull()
-  })
-
-  it('does not arm on a read-only canvas, where the line could never land', async () => {
-    const user = userEvent.setup()
-    let latest: LineageModel | null = null
-    const { container } = renderViewer((m) => (latest = m), true)
-
-    await user.click(await screen.findByText('raw_customers'))
     await user.keyboard('c')
 
     expect(container.querySelector('[data-connect-source]')).toBeNull()

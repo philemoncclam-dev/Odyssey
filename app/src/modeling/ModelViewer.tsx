@@ -100,18 +100,6 @@ interface Props {
   onRedo: () => void
   canUndo: boolean
   canRedo: boolean
-  /**
-   * A shared link, opened by someone who is not the owner.
-   *
-   * Enforced at the ONE place every edit passes through — `onChange` — rather
-   * than by hiding each affordance, because the affordances are many (context
-   * menus at four levels, drag, connect, rename, the assistant's proposals)
-   * and a missed one is a stranger editing what they were shown. The menus and
-   * the assistant are also suppressed below, so nothing offers an action that
-   * would then be swallowed; the wrapper is what makes a miss harmless rather
-   * than what makes the UI correct.
-   */
-  readOnly?: boolean
 }
 
 export default function ModelViewer({
@@ -121,17 +109,8 @@ export default function ModelViewer({
   onRedo,
   canUndo,
   canRedo,
-  readOnly = false,
 }: Props) {
-  // Shadows the prop deliberately: every existing call site below says
-  // `onChange(...)`, and this is the single point they all pass through.
-  const onChange = useCallback(
-    (next: LineageModel) => {
-      if (readOnly) return
-      onChangeProp(next)
-    },
-    [readOnly, onChangeProp],
-  )
+  const onChange = onChangeProp
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const [size, setSize] = useState({ width: 0, height: 0 })
   const [scroll, setScroll] = useState({ x: 0, y: 0 })
@@ -665,10 +644,6 @@ export default function ModelViewer({
   const openMenu = (e: React.MouseEvent, targetId: EntityId | null) => {
     e.preventDefault()
     e.stopPropagation()
-    // Every item on this menu edits. On a shared link there is nothing to show
-    // — and a menu of actions that silently do nothing is worse than none.
-    if (readOnly) return
-
     const canPaste = clipboard.current !== null
     // Right-clicking inside an existing multi-selection acts on all of it;
     // right-clicking outside one re-selects just that entity.
@@ -914,7 +889,6 @@ export default function ModelViewer({
    * layer is treated as truly outside.
    */
   const onWorldContextMenu = (e: React.MouseEvent) => {
-    if (readOnly) return
     if ((e.target as HTMLElement).closest('.mv-card, .mv-layer')) return
     const rect = e.currentTarget.getBoundingClientRect()
     const worldX = e.clientX - rect.left
@@ -1058,14 +1032,8 @@ export default function ModelViewer({
       // Layers are excluded. They are band segments with no ports, so they
       // cannot start a connection by pointer either, and `c` should not invent
       // a second way to author something the canvas otherwise cannot.
-      //
-      // readOnly is checked even though `onChange` already no-ops there: what
-      // this sets is UI mode, not model state, and arming a connection that can
-      // never land would leave a shared link stuck in crosshair with a red mark
-      // on it and a status line asking for a target it will refuse.
       if (e.key.toLowerCase() === 'c' && !mod && !e.shiftKey && !e.altKey) {
         e.preventDefault()
-        if (readOnly) return
         if (pending) {
           setPending(null)
           return
@@ -1133,9 +1101,9 @@ export default function ModelViewer({
     return () => window.removeEventListener('keydown', onKey)
     // eslint-disable-next-line react-hooks/exhaustive-deps -- doCopy/doPaste are
     // recreated every render; the values they close over are listed instead.
-    // `pending` and `readOnly` are listed because C reads both: a stale
-    // `pending` would make the cancel press re-arm instead of clearing.
-  }, [deleteSelected, onUndo, onRedo, model, onChange, selection, pending, readOnly])
+    // `pending` is listed because C reads it: a stale `pending` would make the
+    // cancel press re-arm instead of clearing.
+  }, [deleteSelected, onUndo, onRedo, model, onChange, selection, pending])
 
   // World-space rect currently on screen, used to cull cards and rows.
   const view = useMemo(
@@ -1284,7 +1252,6 @@ export default function ModelViewer({
       {dock === 'versions' && (
         <VersionsPanel
           model={model}
-          readOnly={readOnly}
           // Restore is ONE edit through the same path as every other, so ⌃Z
           // undoes it. That is the safety net; the diff shown before the button
           // is the part that stops it being needed.
@@ -1315,18 +1282,9 @@ export default function ModelViewer({
       )}
 
       <div className="mv-topbar">
-        {/* The mark links to the Model Browser, which a link recipient cannot
-            open — it is behind the sign-in gate and holds someone else's
-            models. On a shared link it is a logo, not a door. */}
-        {readOnly ? (
-          <span className="mv-home" aria-hidden="true">
-            <LogoMark />
-          </span>
-        ) : (
-          <Link to="/models" className="mv-home" aria-label="Lineage Studio — back to all models">
-            <LogoMark />
-          </Link>
-        )}
+        <Link to="/models" className="mv-home" aria-label="Odyssey — back to all models">
+          <LogoMark />
+        </Link>
         <span className="mv-topbar-name">{model.name}</span>
       </div>
 
@@ -1361,7 +1319,7 @@ export default function ModelViewer({
                 if (layer.collapsed) toggle(layer.id)
                 else select(layer.id, { additive: e.ctrlKey || e.metaKey, range: e.shiftKey })
               }}
-              onDoubleClick={() => !readOnly && !layer.collapsed && setEditing(layer.id)}
+              onDoubleClick={() => !layer.collapsed && setEditing(layer.id)}
               onContextMenu={(e) => openMenu(e, layer.id)}
               title={layer.collapsed ? `Expand ${layer.name}` : layer.name}
             >

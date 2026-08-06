@@ -24,13 +24,11 @@ export function VersionsPanel({
   model,
   onRestore,
   onClose,
-  readOnly = false,
 }: {
   model: LineageModel
   /** Hands back the snapshot's graph; the caller applies it as one edit. */
   onRestore: (restored: LineageModel) => void
   onClose: () => void
-  readOnly?: boolean
 }) {
   const [versions, setVersions] = useState<VersionMeta[]>([])
   const [label, setLabel] = useState('')
@@ -125,23 +123,21 @@ export function VersionsPanel({
       </header>
 
       <div className="vw-body">
-        {!readOnly && (
-          <div className="vh-save">
-            <input
-              className="vh-label"
-              value={label}
-              placeholder="Name this version…"
-              onChange={(e) => setLabel(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') void save()
-              }}
-              aria-label="Version name"
-            />
-            <button onClick={() => void save()} disabled={busy}>
-              Save
-            </button>
-          </div>
-        )}
+        <div className="vh-save">
+          <input
+            className="vh-label"
+            value={label}
+            placeholder="Name this version…"
+            onChange={(e) => setLabel(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') void save()
+            }}
+            aria-label="Version name"
+          />
+          <button onClick={() => void save()} disabled={busy}>
+            Save
+          </button>
+        </div>
 
         {error && <p className="vh-error">{error}</p>}
 
@@ -185,15 +181,13 @@ export function VersionsPanel({
                         ))}
                       </ul>
                     )}
-                    {!readOnly && (
-                      <button
-                        className="vh-restore"
-                        onClick={() => void restore(v)}
-                        disabled={busy || preview.diff.empty}
-                      >
-                        {preview.diff.empty ? 'Nothing to restore' : 'Restore this version'}
-                      </button>
-                    )}
+                    <button
+                      className="vh-restore"
+                      onClick={() => void restore(v)}
+                      disabled={busy || preview.diff.empty}
+                    >
+                      {preview.diff.empty ? 'Nothing to restore' : 'Restore this version'}
+                    </button>
                   </div>
                 )}
               </li>
