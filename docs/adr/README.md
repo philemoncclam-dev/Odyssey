@@ -28,3 +28,7 @@ change it later without remembering why it is the way it is.
 | # | Title | Status |
 |---|---|---|
 | [0001](./0001-local-first-with-a-sync-path.md) | Local-first, with a sync path rather than a local-only ceiling | Accepted |
+| [0002](./0002-git-style-model-collaboration.md) | Git-style model collaboration | Accepted |
+| [0003](./0003-queryable-projection.md) | Models are queryable through a derived projection | Accepted |
+| [0004](./0004-asset-identity-and-binding.md) | Asset identity: entities bind to real assets, they do not span models | Accepted |
+| [0005](./0005-published-models-and-the-catalogue.md) | Published models are releases; the catalogue reads them | Accepted |
