@@ -9,6 +9,9 @@
     "noEmit": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
+    // Declares `import.meta.env` and the CSS / `?raw` side-effect imports.
+    "types": ["vite/client"],
+    "allowArbitraryExtensions": true,
 
     /* Correctness. `strict` was never set in the project this was ported from,
        despite its docs claiming otherwise — so the guarantee was never

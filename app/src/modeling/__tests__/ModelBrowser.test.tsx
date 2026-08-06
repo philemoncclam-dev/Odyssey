@@ -24,7 +24,7 @@ function renderBrowser() {
     component: ModelBrowser,
   })
   // The viewer is stubbed — this test is about the browser, and mounting the
-  // real ModelViewer here would pull in xyflow for no added coverage.
+  // real ModelViewer here would drag in the whole canvas for no added coverage.
   const viewerRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/model/$modelId',
@@ -112,13 +112,6 @@ describe('ModelBrowser', () => {
     expect(
       await screen.findByRole('button', { name: 'Unstar Mortgage lineage' }),
     ).toBeInTheDocument()
-  })
-
-  it('offers a way through to the Fabric Toolkit', async () => {
-    await seeded(['Mortgage lineage'])
-    renderBrowser()
-    const link = await screen.findByRole('link', { name: 'Fabric Toolkit' })
-    expect(link).toHaveAttribute('href', '/fabric/overview')
   })
 
   it('creates a model and navigates straight into it', async () => {

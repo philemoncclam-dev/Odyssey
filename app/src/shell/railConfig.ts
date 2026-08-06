@@ -37,8 +37,6 @@ export type RailIconName =
   | 'browser'
   | 'tag'
   | 'properties'
-  | 'assistant'
-  | 'share'
 
 export interface RailItem {
   key: string
@@ -60,16 +58,13 @@ export const railConfig: Record<ModeKey, RailItem[]> = {
     { key: 'views', label: 'Views', icon: 'filter', action: 'views' },
     { key: 'explain', label: 'Explain', icon: 'explain', action: 'explain' },
     { key: 'fold', label: 'Collapse & expand', icon: 'fold', action: 'fold' },
-    { key: 'assistant', label: 'Assistant', icon: 'assistant', action: 'assistant' },
     { key: 'tags', label: 'Tags', icon: 'tag', action: 'tags' },
     { key: 'mapping', label: 'Auto-Mapper', icon: 'mapping', action: 'mapping' },
     { key: 'import', label: 'Import', icon: 'import', action: 'import' },
     { key: 'export', label: 'Export', icon: 'export', action: 'export' },
-    // Snapshot history. Next to Share because both are about the model as a
-    // whole rather than about anything selected inside it.
+    // Snapshot history: about the model as a whole rather than about
+    // anything selected inside it.
     { key: 'versions', label: 'History', icon: 'layers', action: 'versions' },
-    // Last: sharing is what you do once the model says what you mean.
-    { key: 'share', label: 'Share', icon: 'share', action: 'share' },
   ],
   fabric: [
     { key: 'overview', label: 'Overview', icon: 'overview', to: '/fabric/overview' },

@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom'
 
-// xyflow (@xyflow/react) reads these three browser APIs when mounting under
-// jsdom, none of which jsdom implements. Guarded so a real implementation
-// (if jsdom ever adds one) is never clobbered.
-// [CITED: reactflow.dev/learn/advanced-use/testing]
+// jsdom implements no layout, so these three are absent. The canvas is
+// hand-rolled SVG and reads getBBox when measuring; ResizeObserver and
+// DOMMatrixReadOnly are read by panel and transform code on mount.
+// Guarded so a real implementation (if jsdom ever adds one) is never clobbered.
 
 if (typeof globalThis.ResizeObserver === 'undefined') {
   class ResizeObserverMock {

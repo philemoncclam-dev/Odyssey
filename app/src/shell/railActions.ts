@@ -12,8 +12,6 @@ export type RailActionKey =
   | 'tags'
   | 'views'
   | 'properties'
-  | 'assistant'
-  | 'share'
   | 'fold'
   | 'explain'
   | 'versions'

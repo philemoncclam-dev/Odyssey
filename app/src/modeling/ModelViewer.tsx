@@ -25,7 +25,6 @@ import { registerRailAction } from '../shell/railActions'
 import ModelSearch from './ModelSearch'
 import ImportDialog from './ImportDialog'
 import ExportDialog from './ExportDialog'
-import ShareDialog from './ShareDialog'
 import AutoMapper, { type PickSlot } from './AutoMapper'
 import type { SearchHit } from './searchModel'
 import {
@@ -43,8 +42,6 @@ import {
 import { copyEntities, paste, type Clipboard, type PasteTarget } from '../model/clipboard'
 import ContextMenu, { type MenuItem } from './ContextMenu'
 import { EntityTagDialog, TagManager } from './TagPanel'
-import { applyProposals } from './applyProposals'
-import { AssistantPanel } from './AssistantPanel'
 import { ExplainPanel } from './ExplainPanel'
 import { ViewsPanel } from './ViewsPanel'
 import { VersionsPanel } from './VersionsPanel'
@@ -163,7 +160,6 @@ export default function ModelViewer({
   const [searchOpen, setSearchOpen] = useState(false)
   const [importOpen, setImportOpen] = useState(false)
   const [exportOpen, setExportOpen] = useState(false)
-  const [shareOpen, setShareOpen] = useState(false)
   const [mapperOpen, setMapperOpen] = useState(false)
   // The Auto-Mapper's scope lives HERE, not in the panel, because it is filled
   // by clicking the canvas: the viewer owns the click, so it owns the answer.
@@ -188,7 +184,7 @@ export default function ModelViewer({
    * other one closed first.
    */
   const [dock, setDock] = useState<
-    'views' | 'properties' | 'assistant' | 'explain' | 'versions' | null
+    'views' | 'properties' | 'explain' | 'versions' | null
   >(null)
   /**
    * The last entity clicked WITHOUT a modifier — where a shift-range starts.
@@ -348,13 +344,6 @@ export default function ModelViewer({
   // destinations and act on the model this component holds.
   useEffect(() => registerRailAction('import', () => setImportOpen(true)), [])
   useEffect(() => registerRailAction('export', () => setExportOpen(true)), [])
-  // Not registered on a shared link: the reader has no account to publish
-  // with, and re-sharing someone else's snapshot under your own name is not a
-  // thing this should make easy.
-  useEffect(() => {
-    if (readOnly) return
-    return registerRailAction('share', () => setShareOpen(true))
-  }, [readOnly])
   useEffect(() => registerRailAction('mapping', () => setMapperOpen(true)), [])
   useEffect(() => registerRailAction('tags', () => setTagManagerOpen(true)), [])
   useEffect(
@@ -375,13 +364,6 @@ export default function ModelViewer({
     () =>
       registerRailAction('properties', () =>
         setDock((d) => (d === 'properties' ? null : 'properties')),
-      ),
-    [],
-  )
-  useEffect(
-    () =>
-      registerRailAction('assistant', () =>
-        setDock((d) => (d === 'assistant' ? null : 'assistant')),
       ),
     [],
   )
@@ -1211,7 +1193,6 @@ export default function ModelViewer({
         />
       )}
       {exportOpen && <ExportDialog model={model} onClose={() => setExportOpen(false)} />}
-      {shareOpen && <ShareDialog model={model} onClose={() => setShareOpen(false)} />}
       {mapperOpen && (
         <AutoMapper
           model={model}
@@ -1326,41 +1307,6 @@ export default function ModelViewer({
           onSaveView={(name) => onChange(saveView(model, name, filter))}
           onDeleteView={(id) => onChange(deleteView(model, id))}
           onApplyView={(id) => setFilter(toggleView(model, filter, id))}
-          onClose={() => setDock(null)}
-        />
-      )}
-      {/* No assistant on a shared link: it proposes edits, and it would spend
-          the OWNER's API key for a stranger who followed a URL. */}
-      {dock === 'assistant' && !readOnly && (
-        <AssistantPanel
-          model={model}
-          // The live canvas selection, so a question can say "this column".
-          selection={[...selection]}
-          // Selecting from a trace does NOT close the panel, unlike the Tag
-          // manager: the answer and the entity it names are meant to be read
-          // together, and the next question usually follows from the first.
-          onSelect={(id) => {
-            setSelection(new Set([id]))
-            setSelectedEdges(new Set())
-            setCollapsed((prev) => {
-              // Revealing a buried entity is pointless if an ancestor is
-              // collapsed over it — open the path, as search and Properties do.
-              const next = new Set(prev)
-              next.delete(id)
-              for (const ancestor of ancestorsOf(index, id)) next.delete(ancestor.id)
-              return next
-            })
-            setReveal(id)
-          }}
-          // One onChange for the whole batch, so an Apply-all is ONE undo step.
-          // "Undo the assistant's suggestion" is a single intention; six ⌃Z to
-          // reverse one click would be a worse promise than not offering it.
-          onApplyEdits={(edits) => onChange(applyProposals(model, edits))}
-          // An ordinary model edit: undoable, and persisted by the same
-          // debounced save as everything else.
-          onSetInstructions={(text) =>
-            onChange({ ...model, assistantInstructions: text, updatedAt: Date.now() })
-          }
           onClose={() => setDock(null)}
         />
       )}

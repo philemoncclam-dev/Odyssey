@@ -46,9 +46,6 @@ const ICONS: Record<RailIconName, ReactNode> = {
   layers: (
     <svg viewBox="0 0 24 24"><path d="M12 3.5 3.5 8l8.5 4.5L20.5 8z" /><path d="M3.5 12 12 16.5 20.5 12M3.5 16 12 20.5 20.5 16" /></svg>
   ),
-  share: (
-    <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="19" r="2.5" /><path d="M8.2 10.8 15.8 6.5M8.2 13.2l7.6 4.3" /></svg>
-  ),
   plus: (
     <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
   ),
@@ -97,12 +94,6 @@ const ICONS: Record<RailIconName, ReactNode> = {
   // the same operation at two scales.
   fold: (
     <svg viewBox="0 0 24 24"><path d="M3 12h18" /><path d="m8 6.5 4 4 4-4" /><path d="m8 17.5 4-4 4 4" /></svg>
-  ),
-  // A speech bubble with a node-and-edge inside it: this is a conversation
-  // ABOUT the graph. A bare bubble would read as comments or chat with a
-  // person, and a bare sparkle would say "AI" without saying what it does.
-  assistant: (
-    <svg viewBox="0 0 24 24"><path d="M20.5 15.5a2 2 0 0 1-2 2H9l-4.5 3.5v-3.5a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /><circle cx="8.5" cy="9" r="1.3" /><circle cx="15" cy="12.5" r="1.3" /><path d="m9.6 9.9 4.3 1.9" /></svg>
   ),
 }
 

@@ -40,3 +40,7 @@ jobs:
       - run: npm run typecheck
 
       - run: npm run test:run
+
+      # A green typecheck is not a green build: the route tree is generated at
+      # build time, and a broken one only surfaces here.
+      - run: npm run build

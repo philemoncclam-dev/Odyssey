@@ -13,7 +13,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import {
   EMPTY_FILTER,
   filterModels,
@@ -303,18 +303,6 @@ export default function ModelBrowser() {
         <h1 className="mb-title">Models</h1>
 
         <div className="mb-top-spacer" />
-
-        {/* This screen hides the shell's icon rail (see railConfig.isChromeless),
-            so it carries the mode switch itself — otherwise the landing screen
-            is a dead end. Models is the current side and is inert. */}
-        <div className="mb-segmented" role="group" aria-label="Mode">
-          <span className="mb-seg on" aria-current="page">
-            Models
-          </span>
-          <Link className="mb-seg" to="/fabric/overview">
-            Fabric Toolkit
-          </Link>
-        </div>
 
         <button className="mb-btn primary" onClick={() => setModal({ kind: 'create' })}>
           Create

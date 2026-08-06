@@ -1,25 +1,20 @@
 // The rule every host of a canvas has to follow, checked statically.
 //
-// Both canvases in this app size themselves with `flex: 1; min-height: 0` and
-// hold absolutely-positioned content — they have no height of their own. So the
-// element each is mounted into must be a flex column, or the canvas lays out at
-// zero height and the page renders blank with no error, nothing in the console,
-// and a perfectly healthy fetch. That is exactly how /fabric/lineage shipped
-// broken the first time.
+// The model canvas sizes itself with `flex: 1; min-height: 0` and holds
+// absolutely-positioned content — it has no height of its own. So the element
+// it is mounted into must be a flex column, or the canvas lays out at zero
+// height and the page renders blank with no error and nothing in the console.
 //
 // jsdom has no layout engine, so this cannot be caught by rendering. Reading
 // the stylesheets is the next best thing: it pins the contract at the point a
 // new host is added, which is the moment it gets forgotten.
 
-// The stylesheets are pulled in with Vite's `?raw`, NOT `node:fs`. This file is
-// compiled by `tsc -b` along with the app, and the app's `types` field is
-// `["vite/client"]` only — so Node builtins are untyped here and importing them
-// fails the production build while passing a local incremental one.
+// The stylesheets are pulled in with Vite's `?raw`, NOT `node:fs`. The app's
+// `types` field is `["vite/client"]` only — so Node builtins are untyped here
+// and importing them fails the production build while passing a local one.
 import { describe, expect, it } from 'vitest'
-import fabricCss from '../../views/fabric.css?raw'
-import sharedCss from '../../routes/shared.css?raw'
 import modelingCss from '../modeling.css?raw'
-import fabricLineageCss from '../../views/fabricLineage.css?raw'
+import shellCss from '../../styles/shell.css?raw'
 
 /** The declarations inside one rule, by exact selector. */
 function block(css: string, selector: string): string {
@@ -32,24 +27,16 @@ function block(css: string, selector: string): string {
  * Every element a self-sizing canvas is mounted into, as
  * `[label, stylesheet, selector]`. Add a row when you mount one somewhere new —
  * that is the point.
- *
- * Two canvases qualify: `.mv-host` (the Modeling viewer) and `.fl-wrap` (the
- * Fabric lineage canvas). Both size with `flex: 1; min-height: 0` and hold
- * absolutely-positioned content, so both are invisible inside a block parent.
  */
 const HOSTS: [string, string, string][] = [
-  ['fabric workspace lineage', fabricCss, '.fx-lineage-canvas'],
-  ['a shared model', sharedCss, '.sh-canvas'],
+  ['the shell canvas region', shellCss, '.shell-canvas'],
 ]
 
 describe('hosts of a self-sizing canvas', () => {
-  it.each([
-    ['.mv-host', modelingCss],
-    ['.fl-wrap', fabricLineageCss],
-  ])('%s still relies on flex rather than a height of its own', (selector, css) => {
+  it('.mv-host still relies on flex rather than a height of its own', () => {
     // If this changes, the rule below stops being the thing that matters and
     // this whole file needs rethinking.
-    const rule = block(css, selector)
+    const rule = block(modelingCss, '.mv-host')
     expect(rule).toContain('flex: 1')
     expect(rule).toContain('min-height: 0')
   })
