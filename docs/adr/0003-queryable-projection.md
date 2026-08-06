@@ -72,6 +72,11 @@ Branch and proposal heads are deliberately excluded: they multiply projection
 work, and the review UI already has both snapshots in hand for a diff. If
 "search my draft" turns out to matter it is an additive change.
 
+**Amended by [ADR-0005](./0005-published-models-and-the-catalogue.md):** the
+latest *release* of every model is projected as well, distinguished by a
+column. Catalogue queries read releases so a consumer never sees work in
+progress; the authoring surface keeps reading `main`.
+
 ### 4. Queries
 
 - **Search** — `name` with a trigram index. At this scale that is enough and

@@ -31,3 +31,4 @@ change it later without remembering why it is the way it is.
 | [0002](./0002-git-style-model-collaboration.md) | Git-style model collaboration | Proposed |
 | [0003](./0003-queryable-projection.md) | Models are queryable through a derived projection | Proposed |
 | [0004](./0004-asset-identity-and-binding.md) | Asset identity: entities bind to real assets, they do not span models | Proposed |
+| [0005](./0005-published-models-and-the-catalogue.md) | Published models are releases; the catalogue reads them | Proposed |
