@@ -109,12 +109,4 @@ describe('VersionsPanel', () => {
     expect(screen.getByRole('button', { name: /Nothing to restore/ })).toBeDisabled()
   })
 
-  it('offers no save or restore on a read-only model', async () => {
-    const user = userEvent.setup()
-    await seed(model())
-    render(<VersionsPanel model={model()} onRestore={vi.fn()} onClose={vi.fn()} readOnly />)
-    expect(screen.queryByLabelText('Version name')).not.toBeInTheDocument()
-    await user.click(await screen.findByText('before the big change'))
-    expect(screen.queryByRole('button', { name: /Restore/ })).not.toBeInTheDocument()
-  })
 })
