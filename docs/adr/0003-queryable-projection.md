@@ -132,9 +132,11 @@ last March"), and materialised transitive closure.
    `lakehouse.gold.customers` currently share nothing — the same physical table
    is two unrelated entities with different IDs. Cross-model impact analysis is
    the obvious next thing to want, and it needs a notion of physical identity
-   distinct from model-local `EntityId`. **This is the biggest open question in
-   the product, not just in this ADR**, and it deserves its own record before
-   anything is built that assumes either answer.
+   distinct from model-local `EntityId`.
+   **Answered by [ADR-0004](./0004-asset-identity-and-binding.md):** entities
+   stay model-local and carry an optional URN pointing at a real asset, so
+   `entity` gains a nullable indexed `asset_ref` and "every model containing
+   this table" becomes one lookup.
 2. **Is history queryable, or only current state?** "What did this model look
    like in March" is answerable from snapshots today. "Which models had a PII
    column in March" is not, and would need projected history.
