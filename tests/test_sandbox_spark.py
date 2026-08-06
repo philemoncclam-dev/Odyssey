@@ -9,9 +9,9 @@ from __future__ import annotations
 
 import pytest
 
-from app.sandbox._refs import make_ref
-from app.sandbox.protocol import ColumnSchema, RunRequest
-from app.sandbox.runner import run_sandbox, spark_available
+from sandbox._refs import make_ref
+from sandbox.protocol import ColumnSchema, RunRequest
+from sandbox.runner import run_sandbox, spark_available
 
 pytestmark = pytest.mark.skipif(not spark_available(), reason="pinned Spark venv not installed")
 

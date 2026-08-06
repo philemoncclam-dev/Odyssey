@@ -1,4 +1,4 @@
-"""The sandbox harness (M2a): the isolated stub executor and its router.
+"""The sandbox harness: the isolated stub executor.
 
 These spawn the real child subprocess — no Fabric, no Spark — so the isolation
 boundary itself is under test, not a mock of it. The credential-scrub assertion
@@ -16,17 +16,15 @@ import tempfile
 from pathlib import Path
 
 import pytest
-from fastapi.testclient import TestClient
 
-from app.main import app
-from app.sandbox import runner as _runner
-from app.sandbox._refs import make_ref
-from app.sandbox.protocol import RunRequest
-from app.sandbox.runner import run_sandbox
+from sandbox import runner as _runner
+from sandbox._refs import make_ref
+from sandbox.protocol import RunRequest
+from sandbox.runner import run_sandbox
 
 # The child modules are launched by path and import each other as siblings, so
 # the sandbox directory has to lead sys.path to import them here too.
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "app" / "sandbox"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "sandbox"))
 import _isolation  # noqa: E402
 
 CELLS = [
@@ -34,11 +32,6 @@ CELLS = [
     "df = spark.table('raw_orders')",
     "df.write.mode('overwrite').saveAsTable('vw_sales')",
 ]
-
-
-@pytest.fixture
-def client():
-    return TestClient(app)
 
 
 def test_stub_run_derives_reads_and_writes():
@@ -184,32 +177,6 @@ def test_a_cell_that_reads_and_writes_the_same_table_is_a_write():
     assert result.reads == []
 
 
-def test_run_endpoint_accepts_direct_cells(client):
-    # Schema provided so the run resolves under either engine (the Spark engine
-    # needs it to register the read view; the stub ignores it).
-    resp = client.post(
-        "/fabric/sandbox/run",
-        json={
-            "name": "nb",
-            "cells": CELLS,
-            "schemas": {make_ref("raw_orders", "Bronze", "Analytics"): [{"name": "order_id", "type": "long"}]},
-            "workspace": "Analytics",
-            "lakehouse": "Bronze",
-        },
-    )
-    assert resp.status_code == 200
-    body = resp.json()
-    assert body["ok"]
-    assert body["reads"] == [make_ref("raw_orders", "Bronze", "Analytics")]
-    assert body["writes"] == [make_ref("vw_sales", "Bronze", "Analytics")]
-
-
-# --- schemas the stub carries through --------------------------------------
-# It used to drop `schemas` on the floor, so `table_schemas` came back empty and
-# every table card in PRODUCTION (which runs the stub — there is no JVM there)
-# rendered bare. The columns were fetched, sent, and discarded one step from
-# being shown.
-
 def test_stub_carries_the_schemas_it_was_given():
     ref = make_ref("raw_orders", "Bronze", "Analytics")
     result = run_sandbox(
@@ -246,19 +213,8 @@ def test_no_schemas_means_no_table_schemas_rather_than_an_error():
     assert result.table_schemas == {}
 
 
-def test_run_endpoint_requires_cells_or_ids(client):
-    resp = client.post("/fabric/sandbox/run", json={"name": "nb"})
-    assert resp.status_code == 400
-
-
-# --- executor output robustness -------------------------------------------
-# The child writes one JSON object to stdout but does not OWN stdout: the Spark
-# JVM writes there too, and on Windows a shutdown line can land after the
-# result. Parsing the whole stream then fails on trailing characters and a
-# perfectly good run is reported as a crash.
-
 def test_jvm_noise_after_the_result_does_not_fail_the_run():
-    from app.sandbox.runner import _result_json
+    from sandbox.runner import _result_json
 
     payload = '{"ok": true, "engine": "spark", "reads": []}'
     polluted = payload + "\nThe process ... has been terminated.\n"
@@ -266,7 +222,7 @@ def test_jvm_noise_after_the_result_does_not_fail_the_run():
 
 
 def test_jvm_noise_before_the_result_does_not_fail_the_run():
-    from app.sandbox.runner import _result_json
+    from sandbox.runner import _result_json
 
     polluted = 'WARN: something from the JVM\n{"ok": true, "engine": "spark"}'
     assert json.loads(_result_json(polluted))["ok"] is True
@@ -278,7 +234,7 @@ def test_a_path_write_is_captured_not_discarded():
     It used to be a no-op sink, so the most common cross-workspace write
     produced no lineage at all.
     """
-    from app.sandbox._refs import make_ref
+    from sandbox._refs import make_ref
 
     result = run_sandbox(
         RunRequest(
@@ -304,34 +260,7 @@ def test_a_path_write_is_captured_not_discarded():
 # need not exist in OneLake yet) and the downstream half of every medallion
 # sequence produced no column lineage.
 
-def test_a_carried_schema_gives_a_downstream_notebook_its_column_lineage(client):
-    upstream = make_ref("bronze_orders", "Bronze", "Analytics")
-    resp = client.post(
-        "/fabric/sandbox/run",
-        json={
-            "name": "silver",
-            "cells": ["spark.sql('CREATE TABLE silver_orders AS SELECT order_id FROM bronze_orders')"],
-            "carried_schemas": {upstream: [{"name": "order_id", "type": "long"}]},
-            "workspace": "Analytics",
-            "lakehouse": "Bronze",
-        },
-    )
-    body = resp.json()
-    # The upstream table's columns reached the run, and the write it fed came out
-    # with column lineage instead of bare. Asserted without `from_table`, which
-    # only the stub engine fills — the Spark engine resolves attributes by name
-    # (see ColumnFlow.from_table), and this endpoint runs whichever is available.
-    assert [c["name"] for c in body["table_schemas"][upstream]] == ["order_id"]
-    assert body["coverage"]["writes_with_column_lineage"] == 1
-    assert {(f["to_column"], f["from_column"]) for f in body["column_lineage"]} == {
-        ("order_id", "order_id")
-    }
 
-
-# Columns deliberately UNQUALIFIED. A join whose source text qualifies them
-# (`o.order_id`) is already attributable from the text alone; when it does not,
-# only the schemas can say which side of the join owns each column — which is
-# what makes the upstream carry worth doing.
 JOIN_CELL = [
     "spark.sql('''CREATE TABLE gold_orders AS\n"
     "SELECT order_id, name FROM bronze_orders JOIN bronze_customers ON cid = id''')"
@@ -372,37 +301,6 @@ def test_carried_schemas_attribute_each_joined_column_to_its_own_upstream_table(
     assert ("order_id", orders) in owners
     assert ("name", customers) in owners
 
-
-def test_a_carried_schema_never_overrides_one_onelake_answered_for(client):
-    """OneLake is ground truth for a table that already exists; an upstream run
-    is only the better authority for one it just created."""
-    ref = make_ref("t", "Bronze", "Analytics")
-    resp = client.post(
-        "/fabric/sandbox/run",
-        json={
-            "name": "nb",
-            "cells": ["x = 1"],
-            "schemas": {ref: [{"name": "real_column", "type": "long"}]},
-            "carried_schemas": {ref: [{"name": "stale_column", "type": "string"}]},
-            "workspace": "Analytics",
-            "lakehouse": "Bronze",
-        },
-    )
-    assert [c["name"] for c in resp.json()["table_schemas"][ref]] == ["real_column"]
-
-
-def test_carrying_nothing_leaves_the_run_unchanged(client):
-    resp = client.post(
-        "/fabric/sandbox/run",
-        json={"name": "nb", "cells": CELLS, "carried_schemas": {}, "workspace": "Analytics"},
-    )
-    assert resp.status_code == 200
-    assert resp.json()["ok"]
-
-
-# --- MERGE INTO: the Delta upsert ------------------------------------------
-# Matched by nothing on either engine, so a gold notebook built on MERGE — which
-# is most of them — produced no write edge, no table, no columns. Nothing.
 
 MERGE_CELL = [
     "spark.sql('''\n"
@@ -621,7 +519,7 @@ def test_a_run_removes_its_working_directory():
 
 def test_a_non_empty_working_directory_is_still_removed(monkeypatch):
     """What Spark actually does: leave files behind. `rmdir` refused those."""
-    from app.sandbox import runner
+    from sandbox import runner
 
     before = _sandbox_workdirs()
     real_cmd = runner._executor_cmd
@@ -648,7 +546,7 @@ def test_a_timed_out_run_is_cleaned_up_and_names_its_engine():
 
 
 def test_abfss_workspaces_are_collected_for_name_resolution():
-    from app.sandbox._refs import referenced_workspace_ids
+    from sandbox._refs import referenced_workspace_ids
 
     cells = [
         "df.write.save('abfss://87b1b30f-9939-4dbc-8a50-a7a0e82df415@onelake.dfs."
@@ -660,28 +558,3 @@ def test_abfss_workspaces_are_collected_for_name_resolution():
 
 # --- downstream BI impact ----------------------------------------------------
 
-def test_a_run_that_writes_nothing_says_so_rather_than_scanning(client):
-    """"Nothing downstream" and "nothing written" are different answers, and
-    the second one costs no admin API call to give."""
-    resp = client.post(
-        "/fabric/sandbox/run",
-        json={
-            "notebook_name": "nb",
-            "cells": ["x = 1"],
-            "workspace_id": "ws1",
-            "include_downstream": True,
-        },
-    )
-    assert resp.status_code == 200
-    downstream = resp.json().get("downstream")
-    assert downstream is not None
-    assert downstream["available"] is False
-    assert any("wrote no table" in n for n in downstream["notes"])
-
-
-def test_downstream_is_absent_unless_asked_for(client):
-    resp = client.post(
-        "/fabric/sandbox/run",
-        json={"notebook_name": "nb", "cells": ["x = 1"]},
-    )
-    assert resp.json().get("downstream") is None
