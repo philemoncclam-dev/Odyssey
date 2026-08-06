@@ -1,0 +1,16 @@
+# Normalize line endings. Without this, a Windows checkout commits CRLF and a
+# Linux CI checkout sees every line as changed.
+* text=auto eol=lf
+
+# Binary — never touch these.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+# Generated. Collapsed in review, excluded from language stats.
+package-lock.json linguist-generated=true -diff
+*.gen.ts linguist-generated=true
