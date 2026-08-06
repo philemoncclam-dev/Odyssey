@@ -1264,6 +1264,10 @@ export default function ModelViewer({
             onChange(restored)
             setDock(null)
           }}
+          // Switching branches is not destructive and the panel is where you
+          // are working, so it stays open — but it goes through the same
+          // onChange, so ⌃Z undoes it exactly like a restore.
+          onCheckout={(loaded) => onChange(loaded)}
           onClose={() => setDock(null)}
         />
       )}

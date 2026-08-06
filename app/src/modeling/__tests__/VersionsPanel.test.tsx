@@ -108,5 +108,129 @@ describe('VersionsPanel', () => {
     expect(await screen.findByText(/Identical to the model you have open/)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Nothing to restore/ })).toBeDisabled()
   })
+})
 
+// Branching. The rule these all circle is that nothing the panel does may lose
+// work you can see — switching away commits first, and a merge reports what it
+// decided rather than deciding quietly.
+describe('VersionsPanel branches', () => {
+  const withLayer = (name: string) =>
+    model({ layers: [{ id: 'L1', name, objects: [{ id: 'o1', name: 'orders', children: [] }] }] })
+
+  it('starts on main', async () => {
+    await localStore.save(model())
+    render(<VersionsPanel model={model()} onRestore={vi.fn()} onClose={vi.fn()} />)
+    expect(await screen.findByLabelText('Branch')).toHaveValue('main')
+    // Nothing to merge from main into itself.
+    expect(screen.queryByRole('button', { name: /Merge/ })).not.toBeInTheDocument()
+  })
+
+  it('creates a branch and switches onto it', async () => {
+    const user = userEvent.setup()
+    await seed(model())
+    render(<VersionsPanel model={model()} onRestore={vi.fn()} onClose={vi.fn()} />)
+
+    await user.click(await screen.findByRole('button', { name: 'New branch' }))
+    await user.type(screen.getByLabelText('New branch name'), 'rework')
+    await user.click(screen.getByRole('button', { name: 'Create' }))
+
+    expect(await screen.findByLabelText('Branch')).toHaveValue('rework')
+    expect(screen.getByRole('button', { name: /Merge rework into main/ })).toBeInTheDocument()
+  })
+
+  it('surfaces a duplicate branch name instead of failing silently', async () => {
+    const user = userEvent.setup()
+    await seed(model())
+    render(<VersionsPanel model={model()} onRestore={vi.fn()} onClose={vi.fn()} />)
+
+    await user.click(await screen.findByRole('button', { name: 'New branch' }))
+    await user.type(screen.getByLabelText('New branch name'), 'rework')
+    await user.click(screen.getByRole('button', { name: 'Create' }))
+    await screen.findByLabelText('Branch')
+
+    await user.click(screen.getByRole('button', { name: 'New branch' }))
+    await user.type(screen.getByLabelText('New branch name'), 'rework')
+    await user.click(screen.getByRole('button', { name: 'Create' }))
+
+    expect(await screen.findByText(/already exists/)).toBeInTheDocument()
+  })
+
+  it('commits work in progress before switching away, so nothing is stranded', async () => {
+    const user = userEvent.setup()
+    await seed(model())
+    render(<VersionsPanel model={model()} onRestore={vi.fn()} onCheckout={vi.fn()} onClose={vi.fn()} />)
+
+    await user.click(await screen.findByRole('button', { name: 'New branch' }))
+    await user.type(screen.getByLabelText('New branch name'), 'rework')
+    await user.click(screen.getByRole('button', { name: 'Create' }))
+    await waitFor(() => expect(screen.getByLabelText('Branch')).toHaveValue('rework'))
+
+    await user.selectOptions(screen.getByLabelText('Branch'), 'main')
+
+    expect(await screen.findByText(/Work in progress on rework/)).toBeInTheDocument()
+    expect(screen.getByLabelText('Branch')).toHaveValue('main')
+  })
+
+  it('reports a fast-forward rather than inventing a merge', async () => {
+    const user = userEvent.setup()
+    await seed(model())
+    const { rerender } = render(
+      <VersionsPanel model={model()} onRestore={vi.fn()} onCheckout={vi.fn()} onClose={vi.fn()} />,
+    )
+
+    await user.click(await screen.findByRole('button', { name: 'New branch' }))
+    await user.type(screen.getByLabelText('New branch name'), 'rework')
+    await user.click(screen.getByRole('button', { name: 'Create' }))
+    await waitFor(() => expect(screen.getByLabelText('Branch')).toHaveValue('rework'))
+
+    // Do some work on the branch, then merge back into an untouched main.
+    rerender(
+      <VersionsPanel model={withLayer('Bronze')} onRestore={vi.fn()} onCheckout={vi.fn()} onClose={vi.fn()} />,
+    )
+    await user.type(screen.getByLabelText('Version name'), 'renamed the layer')
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+    await screen.findByText('renamed the layer')
+
+    await user.click(screen.getByRole('button', { name: /Merge rework into main/ }))
+    expect(await screen.findByText(/Fast-forwarded/)).toBeInTheDocument()
+  })
+
+  it('names what a conflicting merge kept and what it discarded', async () => {
+    const user = userEvent.setup()
+    await seed(model())
+    const { rerender } = render(
+      <VersionsPanel model={model()} onRestore={vi.fn()} onCheckout={vi.fn()} onClose={vi.fn()} />,
+    )
+
+    // Branch, rename the layer there.
+    await user.click(await screen.findByRole('button', { name: 'New branch' }))
+    await user.type(screen.getByLabelText('New branch name'), 'rework')
+    await user.click(screen.getByRole('button', { name: 'Create' }))
+    await waitFor(() => expect(screen.getByLabelText('Branch')).toHaveValue('rework'))
+
+    rerender(
+      <VersionsPanel model={withLayer('Bronze')} onRestore={vi.fn()} onCheckout={vi.fn()} onClose={vi.fn()} />,
+    )
+    await user.type(screen.getByLabelText('Version name'), 'bronze')
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+    await screen.findByText('bronze')
+
+    // Back on main, rename the same layer differently.
+    await user.selectOptions(screen.getByLabelText('Branch'), 'main')
+    await waitFor(() => expect(screen.getByLabelText('Branch')).toHaveValue('main'))
+    rerender(
+      <VersionsPanel model={withLayer('Landing')} onRestore={vi.fn()} onCheckout={vi.fn()} onClose={vi.fn()} />,
+    )
+    await user.type(screen.getByLabelText('Version name'), 'landing')
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+    await screen.findByText('landing')
+
+    // Merge the branch in from the branch itself.
+    await user.selectOptions(screen.getByLabelText('Branch'), 'rework')
+    await waitFor(() => expect(screen.getByLabelText('Branch')).toHaveValue('rework'))
+    await user.click(screen.getByRole('button', { name: /Merge rework into main/ }))
+
+    expect(await screen.findByText(/with 1 conflict/)).toBeInTheDocument()
+    expect(screen.getByText(/both sides renamed it/)).toBeInTheDocument()
+  })
 })

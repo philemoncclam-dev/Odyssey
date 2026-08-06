@@ -17,6 +17,8 @@ it gets updated as each piece lands, not before.
 | Modeling core | Done |
 | App shell and model viewer | Done |
 | Lineage engine (parked) | Done |
+| Branching history and merge (local) | Done |
+| Server, sign-in, shared models | Not started |
 
 ## What this is not
 
