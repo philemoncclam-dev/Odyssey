@@ -44,3 +44,23 @@ jobs:
       # A green typecheck is not a green build: the route tree is generated at
       # build time, and a broken one only surfaces here.
       - run: npm run build
+
+  sandbox:
+    name: sandbox — lineage engine tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 3.12 because the pinned Spark engine requires it. The stub engine that
+      # runs here needs no JVM, so the Spark suite skips — deliberately, and it
+      # says so rather than passing silently.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # The engine is parked, not wired into the app. This job is the whole
+      # reason that is safe: unrun code rots, and this one stays green.
+      - run: pytest tests/ -q -rs

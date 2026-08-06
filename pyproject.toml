@@ -1,0 +1,5 @@
+[tool.pytest.ini_options]
+# Repo root on sys.path, so `from sandbox.runner import ...` resolves without
+# an install step. The engine is a library in-tree, not a published package.
+pythonpath = ["."]
+testpaths = ["tests"]

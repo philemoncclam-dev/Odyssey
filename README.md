@@ -16,7 +16,7 @@ it gets updated as each piece lands, not before.
 | Repository scaffold | Done |
 | Modeling core | Done |
 | App shell and model viewer | Done |
-| Lineage engine (parked) | Not started |
+| Lineage engine (parked) | Done |
 
 ## What this is not
 
@@ -32,12 +32,21 @@ a library here, not a feature.
 ## Development
 
 ```bash
+# the app
 cd app
 npm install
 npm run dev        # http://localhost:5173
 npm run typecheck
 npm run test:run
+
+# the lineage engine (Python 3.12)
+py -m venv .venv
+.venv/Scripts/pip install -r requirements.txt
+.venv/Scripts/python -m pytest tests/ -q
 ```
+
+The engine's Spark suite skips unless a pinned PySpark venv is installed; the
+stub engine covers the same contract without a JVM and is what CI runs.
 
 See `CONTRIBUTING.md` for the branch, commit, and review conventions this
 repository follows.
