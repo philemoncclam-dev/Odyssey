@@ -49,7 +49,8 @@ The engine's Spark suite skips unless a pinned PySpark venv is installed; the
 stub engine covers the same contract without a JVM and is what CI runs.
 
 See `CONTRIBUTING.md` for the branch, commit, and review conventions this
-repository follows.
+repository follows, and [`docs/adr/`](./docs/adr/) for the architectural
+decisions and why they were made.
 
 ## License
 
