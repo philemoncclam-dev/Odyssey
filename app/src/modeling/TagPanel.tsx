@@ -65,7 +65,9 @@ export function EntityTagDialog({
   onClose: () => void
 }) {
   const bulk = ids.length > 1
-  const [tags, setTagList] = useState<string[]>(() => (bulk ? [] : tagsOf(model, ids[0])))
+  // The single-entity path reads this; on the bulk path it is unused.
+  const [firstId = ''] = ids
+  const [tags, setTagList] = useState<string[]>(() => (bulk ? [] : tagsOf(model, firstId)))
   const [draft, setDraft] = useState('')
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -82,8 +84,9 @@ export function EntityTagDialog({
     if (e.key === 'Enter' || e.key === ',') {
       e.preventDefault()
       if (draft.trim()) add(draft)
-    } else if (e.key === 'Backspace' && !draft && tags.length) {
-      remove(tags[tags.length - 1])
+    } else if (e.key === 'Backspace' && !draft) {
+      const last = tags.at(-1)
+      if (last) remove(last)
     }
   }
 
@@ -101,7 +104,7 @@ export function EntityTagDialog({
       <header className="imp-head">
         <h2 className="imp-title">Tags</h2>
         <span className="tg-subject">
-          {bulk ? `${ids.length} entities` : (nameOf(model, ids[0]) ?? 'Entity')}
+          {bulk ? `${ids.length} entities` : (nameOf(model, firstId) ?? 'Entity')}
         </span>
         <button className="tg-x" onClick={onClose} aria-label="Close">
           ×

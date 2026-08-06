@@ -182,9 +182,10 @@ export function TagDialog({
     if (e.key === 'Enter' || e.key === ',') {
       e.preventDefault()
       if (draft.trim()) add(draft)
-    } else if (e.key === 'Backspace' && !draft && tags.length > 0) {
+    } else if (e.key === 'Backspace' && !draft) {
       // Backspace on an empty box deletes the last chip, as every tag input does.
-      remove(tags[tags.length - 1])
+      const last = tags.at(-1)
+      if (last) remove(last)
     }
   }
 

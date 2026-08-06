@@ -51,11 +51,9 @@ const newId = (prefix: string) => `${prefix}-${Date.now().toString(36)}-${(count
 
 /** Finds an entity of any kind, plus enough context to rebuild around it. */
 function locate(model: LineageModel, id: EntityId) {
-  for (let li = 0; li < model.layers.length; li += 1) {
-    const layer = model.layers[li]
+  for (const [li, layer] of model.layers.entries()) {
     if (layer.id === id) return { kind: 'layer' as const, layer, layerIndex: li }
-    for (let oi = 0; oi < layer.objects.length; oi += 1) {
-      const object = layer.objects[oi]
+    for (const [oi, object] of layer.objects.entries()) {
       if (object.id === id) {
         return { kind: 'object' as const, layer, layerIndex: li, object, objectIndex: oi }
       }
@@ -73,11 +71,11 @@ function locateAttribute(
   id: EntityId,
   parent: Attribute | null = null,
 ): { attribute: Attribute; siblings: Attribute[]; index: number; parentAttribute: Attribute | null } | null {
-  for (let i = 0; i < attrs.length; i += 1) {
-    if (attrs[i].id === id) {
-      return { attribute: attrs[i], siblings: attrs, index: i, parentAttribute: parent }
+  for (const [i, attribute] of attrs.entries()) {
+    if (attribute.id === id) {
+      return { attribute, siblings: attrs, index: i, parentAttribute: parent }
     }
-    const found = locateAttribute(attrs[i].children, id, attrs[i])
+    const found = locateAttribute(attribute.children, id, attribute)
     if (found) return found
   }
   return null

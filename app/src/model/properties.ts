@@ -131,9 +131,10 @@ export function renameProperty(
   const properties = { ...model.properties }
   for (const id of ids) {
     const bag = properties[id]
-    if (!bag || bag[from] === undefined) continue
+    const value = bag?.[from]
+    if (!bag || value === undefined) continue
     const next = { ...bag }
-    next[clean] = next[from]
+    next[clean] = value
     delete next[from]
     properties[id] = next
   }

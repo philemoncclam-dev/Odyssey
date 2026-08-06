@@ -225,7 +225,8 @@ export default function ModelBrowser() {
       const model = await localStore.get(row.id)
       if (model) loaded.push(model)
     }
-    const name = loaded.length === 1 ? `${loaded[0].name}.sol.json` : 'models.sol.json'
+    const [only] = loaded
+    const name = loaded.length === 1 && only ? `${only.name}.sol.json` : 'models.sol.json'
     download(name, JSON.stringify(toSolBundle(loaded), null, 2), 'application/json')
   }
 
@@ -505,10 +506,10 @@ export default function ModelBrowser() {
       {modal?.kind === 'tags' && (
         <TagDialog
           bulk={modal.models.length > 1}
-          initialTags={modal.models.length === 1 ? modal.models[0].tags : []}
+          initialTags={modal.models.length === 1 ? (modal.models[0]?.tags ?? []) : []}
           subject={
             modal.models.length === 1
-              ? modal.models[0].name
+              ? (modal.models[0]?.name ?? '')
               : `${modal.models.length} selected models`
           }
           suggestions={tags.map((t) => t.tag)}
@@ -524,7 +525,7 @@ export default function ModelBrowser() {
             <>
               <p className="mb-lede">
                 {modal.models.length === 1
-                  ? modal.models[0].name
+                  ? (modal.models[0]?.name ?? '')
                   : modal.models.map((m) => m.name).join(', ')}
               </p>
               <p className="mb-warn">

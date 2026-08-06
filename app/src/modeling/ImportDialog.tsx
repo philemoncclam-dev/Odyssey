@@ -59,6 +59,8 @@ export default function ImportDialog({ model, onImport, onClose }: Props) {
         const all: string[][] = []
         for (const sheetName of book.SheetNames) {
           const sheet = book.Sheets[sheetName]
+          // A workbook can list a sheet name it does not actually carry.
+          if (!sheet) continue
           const asRows = XLSX.utils.sheet_to_json<string[]>(sheet, { header: 1, raw: false })
           for (const row of asRows) all.push((row ?? []).map((c) => String(c ?? '')))
         }

@@ -328,8 +328,7 @@ export function layoutModel(
   // last segment stops half a gutter past its column, the same distance every
   // other boundary sits at. Letting it run on made the rightmost layer look
   // like it owned every empty pixel to its right, with no line to end it.
-  for (let i = 0; i < layers.length; i += 1) {
-    const layer = layers[i]
+  for (const [i, layer] of layers.entries()) {
     const previous = layers[i - 1]
     const next = layers[i + 1]
     const left = previous ? (previous.x + previous.width + layer.x) / 2 : 0

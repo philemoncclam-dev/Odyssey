@@ -347,8 +347,8 @@ function Subject({
     )
   }
 
-  const entry = index.entries.get(id)
-  if (!entry) return null
+  const entry = id === undefined ? undefined : index.entries.get(id)
+  if (!entry || id === undefined) return null
   const trail = ancestorsOf(index, id).reverse()
 
   return (

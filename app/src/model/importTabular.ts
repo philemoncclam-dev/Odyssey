@@ -144,8 +144,12 @@ export function planImport(
     return { model: base, added, updated, warnings: ['Nothing to import.'], format: 'unknown' }
   }
 
-  const hasHeaders = looksLikeHeaderRow(grid[0])
-  const headers = hasHeaders ? readHeaders(grid[0]) : null
+  // grid is non-empty here — the length check above returned otherwise — but
+  // binding the row is what lets the compiler see it, and reads better than
+  // indexing twice.
+  const [firstRow = []] = grid
+  const hasHeaders = looksLikeHeaderRow(firstRow)
+  const headers = hasHeaders ? readHeaders(firstRow) : null
   const body = hasHeaders ? grid.slice(1) : grid
   const columns = headers?.columns ?? new Map<string, number>()
 
@@ -235,10 +239,12 @@ export function planImport(
     const byId = entities.find((e) => e.id === key)
     if (byId) return byId.id
     const byName = entities.filter((e) => e.name === key)
-    if (byName.length === 1) return byName[0].id
-    if (byName.length > 1) {
-      warnings.push(`"${key}" matches ${byName.length} entities — using the first.`)
-      return byName[0].id
+    const [firstMatch] = byName
+    if (firstMatch) {
+      if (byName.length > 1) {
+        warnings.push(`"${key}" matches ${byName.length} entities — using the first.`)
+      }
+      return firstMatch.id
     }
     return null
   }
