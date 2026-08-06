@@ -28,3 +28,4 @@ change it later without remembering why it is the way it is.
 | # | Title | Status |
 |---|---|---|
 | [0001](./0001-local-first-with-a-sync-path.md) | Local-first, with a sync path rather than a local-only ceiling | Accepted |
+| [0002](./0002-git-style-model-collaboration.md) | Git-style model collaboration | Proposed |
