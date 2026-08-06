@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "./reset.css";
 
 /* ===== Self-hosted variable fonts (DS-01, DS-06) =====
    Vendored into frontend/public/fonts/ by plan 01-01, task 2 — the src URL
