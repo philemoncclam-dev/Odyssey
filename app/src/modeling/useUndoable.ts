@@ -53,8 +53,8 @@ export function useUndoable<T>(initial: T): Undoable<T> {
 
   const undo = useCallback(() => {
     setPast((p) => {
-      if (p.length === 0) return p
-      const previous = p[p.length - 1]
+      const previous = p.at(-1)
+      if (previous === undefined) return p
       setFuture((f) => [presentRef.current, ...f])
       setPresent(previous)
       return p.slice(0, -1)
@@ -63,8 +63,8 @@ export function useUndoable<T>(initial: T): Undoable<T> {
 
   const redo = useCallback(() => {
     setFuture((f) => {
-      if (f.length === 0) return f
       const [next, ...rest] = f
+      if (next === undefined) return f
       setPast((p) => [...p, presentRef.current])
       setPresent(next)
       return rest

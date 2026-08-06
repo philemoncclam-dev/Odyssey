@@ -190,15 +190,17 @@ function levenshtein(a: string, b: string): number {
   for (let i = 1; i <= a.length; i += 1) {
     const row = [i]
     for (let j = 1; j <= b.length; j += 1) {
+      // Every index here is inside the row by construction: j runs 1..b.length
+      // and both rows are seeded to b.length + 1 entries.
       row[j] = Math.min(
-        previous[j] + 1,
-        row[j - 1] + 1,
-        previous[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1),
+        previous[j]! + 1,
+        row[j - 1]! + 1,
+        previous[j - 1]! + (a[i - 1] === b[j - 1] ? 0 : 1),
       )
     }
     previous = row
   }
-  return previous[b.length]
+  return previous[b.length]!
 }
 
 /** Sørensen–Dice over character bigrams — kinder to long strings than edit distance. */

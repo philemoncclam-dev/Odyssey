@@ -93,7 +93,7 @@ export default function ModelSearch({ index, onPick, onClose }: Props) {
               onClick={() => onPick(hit)}
             >
               <span className="ms-kind" data-kind={hit.kind}>
-                {hit.kind[0].toUpperCase()}
+                {hit.kind.slice(0, 1).toUpperCase()}
               </span>
               <span className="ms-name">
                 {(() => {
@@ -108,7 +108,7 @@ export default function ModelSearch({ index, onPick, onClose }: Props) {
                 })()}
               </span>
               <span className="ms-where">
-                {hit.ids.length === 1 ? pathOf(index, hit.ids[0]) : ''}
+                {hit.ids.length === 1 && hit.ids[0] ? pathOf(index, hit.ids[0]) : ''}
               </span>
               {hit.ids.length > 1 && <span className="ms-count">{hit.ids.length}</span>}
             </button>

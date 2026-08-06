@@ -60,8 +60,10 @@ const KIND_WORDS: Record<string, string> = {
 }
 
 function kindOf(model: LineageModel, index: ModelIndex, id: EntityId): string {
-  const tag = tagsOf(model, id).find((t) => KIND_WORDS[t])
-  if (tag) return KIND_WORDS[tag]
+  const word = tagsOf(model, id)
+    .map((t) => KIND_WORDS[t])
+    .find((w) => w !== undefined)
+  if (word) return word
   const entry = index.entries.get(id)
   if (!entry) return 'entity'
   if (entry.kind === 'layer') return 'layer'

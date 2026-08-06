@@ -304,6 +304,7 @@ export default function ModelViewer({
     const host = scrollRef.current
     if (!host) return
     const observer = new ResizeObserver(([entry]) => {
+      if (!entry) return
       const { width, height } = entry.contentRect
       setSize({ width, height })
     })
@@ -365,7 +366,7 @@ export default function ModelViewer({
     })
     setSelection(new Set(hit.ids))
     setSelectedEdges(new Set())
-    setReveal(hit.ids[0])
+    setReveal(hit.ids[0] ?? null)
     setSearchOpen(false)
   }
 
@@ -1040,6 +1041,7 @@ export default function ModelViewer({
         }
         if (selection.size !== 1) return
         const [id] = selection
+        if (id === undefined) return
         const kind = index.entries.get(id)?.kind
         if (kind !== 'object' && kind !== 'attribute') return
         setPending(id)
@@ -1082,8 +1084,8 @@ export default function ModelViewer({
       // name-Enter-Enter with no trip to the context menu.
       if (e.key === 'Enter' && !mod && !e.shiftKey && selection.size === 1) {
         const [id] = selection
-        const entry = index.entries.get(id)
-        if (!entry) return
+        const entry = id === undefined ? undefined : index.entries.get(id)
+        if (!entry || id === undefined) return
         e.preventDefault()
         if (entry.kind === 'attribute') {
           // A sibling, not a child: nesting on Enter would make every list
@@ -1197,7 +1199,10 @@ export default function ModelViewer({
             // Close on Select: the point of selecting from here is to go and do
             // something with them on the canvas, which the panel is covering.
             setTagManagerOpen(false)
-            if (ids.length) setReveal(ids[0])
+            // Unchanged when the selection is empty, as before: clearing the
+            // reveal would scroll away from what the user was just looking at.
+            const [first] = ids
+            if (first) setReveal(first)
           }}
           onClose={() => setTagManagerOpen(false)}
         />

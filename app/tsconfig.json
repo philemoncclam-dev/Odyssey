@@ -18,17 +18,17 @@
        enforced. Turning it on cost zero errors: the code was already written
        to the standard, it just was not held to it.
 
-       `noUncheckedIndexedAccess` is deliberately NOT on yet. It is the right
-       setting for a tool that indexes records and arrays constantly, but it
-       reports 118 sites, which would bury the port it landed with. It gets
-       its own PR. */
+       `noUncheckedIndexedAccess` is on for source but not for tests — see
+       tsconfig.test.json for why. */
     "strict": true,
     "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/__tests__/**", "src/test"]
 }
