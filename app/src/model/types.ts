@@ -24,17 +24,33 @@ export type EntityId = string
 
 export type EntityKind = 'layer' | 'object' | 'attribute'
 
+/**
+ * A reference to a real asset in a real estate — ADR-0004.
+ *
+ * Optional everywhere it appears, and that is the decision, not an oversight:
+ * an unbound entity is first-class. Most modelling starts before anyone knows
+ * which table a box will turn out to be, and requiring a binding would make
+ * the tool unusable for the thinking it exists to support.
+ *
+ * Never a display name. See `model/assets.ts` for the URN and why.
+ */
+type AssetRef = string
+
 /** An Attribute; `children.length > 0` makes it a Group. */
 export interface Attribute {
   id: EntityId
   name: string
   children: Attribute[]
+  /** The real column this stands for, when it stands for one. */
+  assetRef?: AssetRef | undefined
 }
 
 export interface ModelObject {
   id: EntityId
   name: string
   children: Attribute[]
+  /** The real table this stands for, when it stands for one. */
+  assetRef?: AssetRef | undefined
 }
 
 export interface Layer {
