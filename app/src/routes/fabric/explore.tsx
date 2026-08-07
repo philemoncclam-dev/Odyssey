@@ -18,6 +18,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { BarsSpinner } from '../../shell/BarsSpinner'
+import { AssetBinding } from '../../fabric/AssetBinding'
 import { TableAnswers } from '../../fabric/TableAnswers'
 import { SequencePanel } from '../../fabric/SequencePanel'
 import { SequenceCanvas } from '../../fabric/SequenceCanvas'
@@ -890,6 +891,14 @@ function TableDetail({ sel }: { sel: Extract<Selected, { kind: 'table' }> }) {
           it run" is the question people arrive with, and the schema is the
           reference they check afterwards. */}
       <TableAnswers table={sel.table.name} lakehouse={sel.lakehouse.name} />
+      {/* ADR-0004: the join between Explore and the models. Below the answers
+          because "what is this" comes before "put it in a model". */}
+      <AssetBinding
+        workspaceId={sel.workspaceId}
+        itemId={sel.lakehouse.id}
+        table={sel.table.name}
+        columns={schema.status === 'ok' ? (schema.data ?? []) : []}
+      />
       {schema.status === 'ok' ? (
         schema.data!.length ? (
           <table className="fx-cols">
