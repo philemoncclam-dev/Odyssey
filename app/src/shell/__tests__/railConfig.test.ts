@@ -25,9 +25,14 @@ describe('isFullBleedPath', () => {
 })
 
 describe('isChromeless', () => {
-  it('drops the rail on the browser only', () => {
+  it('drops the rail on both landing screens, which carry their own header', () => {
     expect(isChromeless('/models')).toBe(true)
+    expect(isChromeless('/fabric')).toBe(true)
+  })
+
+  it('keeps it everywhere else', () => {
     expect(isChromeless('/model/abc-123')).toBe(false)
+    // A future /fabric sub-page gets the rail; only the landing screen opts out.
     expect(isChromeless('/fabric/overview')).toBe(false)
   })
 })

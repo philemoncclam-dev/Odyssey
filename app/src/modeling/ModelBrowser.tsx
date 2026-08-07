@@ -29,7 +29,7 @@ import { download } from '../model/exportTabular'
 import { fabricSampleModel } from '../model/fabricSample'
 import { localStore } from '../model/store'
 import { BarsSpinner } from '../shell/BarsSpinner'
-import { LogoMark } from '../shell/Logo'
+import { PageHeader } from '../shell/PageHeader'
 import { registerSearchHandler } from '../shell/searchBridge'
 import { ConfirmDialog, DetailsDialog, TagDialog } from './ModelDialogs'
 import type { LineageModel, ModelSummary } from '../model/types'
@@ -297,14 +297,7 @@ export default function ModelBrowser() {
 
   return (
     <div className="mb" data-layout={layout}>
-      <header className="mb-top">
-        <span className="mb-brand" aria-hidden>
-          <LogoMark />
-        </span>
-        <h1 className="mb-title">Models</h1>
-
-        <div className="mb-top-spacer" />
-
+      <PageHeader mode="model" title="Models">
         <button className="mb-btn primary" onClick={() => setModal({ kind: 'create' })}>
           Create
         </button>
@@ -325,7 +318,7 @@ export default function ModelBrowser() {
         >
           {layout === 'list' ? Icon.grid : Icon.list}
         </button>
-      </header>
+      </PageHeader>
 
       <div className="mb-body">
         <main className="mb-main">

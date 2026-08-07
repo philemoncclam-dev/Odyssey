@@ -113,18 +113,24 @@ export function isFullBleedPath(pathname: string): boolean {
  * Import, Export) can do anything before a model is open — the rail would be a
  * column of permanently disabled buttons. A chromeless route is responsible for
  * offering its own navigation to the other modes.
+ *
+ * The Fabric Toolkit is chromeless for a blunter reason: every entry in its
+ * rail points at a route that was never ported (/fabric/explore and the rest),
+ * so showing it would be a column of links to nowhere. Both landing screens
+ * carry the shared PageHeader instead, whose mark toggles between them.
  */
 export function isChromeless(pathname: string): boolean {
-  return pathname === '/models'
+  return pathname === '/models' || pathname === '/fabric'
 }
 
 /** Where the app-logo mode menu (D-02) navigates each mode to. */
 export const MODE_LANDING: Record<ModeKey, string> = {
   // The browser, not a model — the mode menu has no way to know which model.
   model: '/models',
-  // /fabric has no index route (route.tsx is a pathless layout) — Overview is
-  // the mode's landing destination.
-  fabric: '/fabric/overview',
+  // /fabric itself. It used to be /fabric/overview, which has never existed in
+  // this repo — the toolkit's pages were not ported, so the mode menu's Fabric
+  // entry navigated to a 404 from the day it was written.
+  fabric: '/fabric',
   products: '/products',
 }
 
