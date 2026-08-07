@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { BarsSpinner } from '../shell/BarsSpinner'
 import { parseNotebook } from './notebookFile'
+import { TaskSteps } from './TaskSteps'
 import {
   useSequence,
   removeStep,
@@ -20,6 +21,8 @@ import {
   type StepKind,
   addStep,
   hydrateSequence,
+  type Step,
+  type StepResult,
 } from './sequence'
 
 export function StepIcon({ kind }: { kind: StepKind }) {
@@ -87,9 +90,28 @@ export function SequencePanel({ title = 'Sandbox sequence' }: { title?: string }
             {' '}Or use <strong>Add code</strong> above to open a notebook file or paste
             SQL — that needs no Fabric connection at all.
           </p>
+        ) : running ? (
+          // A run is a progress view, not an editable list: reordering a
+          // sequence that is halfway through would be meaningless, and the
+          // controls are disabled anyway. This is the same rows with the
+          // status made legible.
+          <TaskSteps
+            steps={steps.map((step) => {
+              const result = results.get(step.key)
+              return {
+                id: step.key,
+                label: step.name,
+                ...(result?.ms ? { meta: elapsed(result.ms) } : {}),
+              }
+            })}
+            current={activeIndex(steps, results)}
+            failed={anyFailed(results)}
+            label="Sandbox run progress"
+          />
         ) : (
           steps.map((step, i) => {
-            const st = results.get(step.key)?.status
+            const result = results.get(step.key)
+            const st = result?.status
             return (
               <div className="sbx-step" key={step.key} data-status={st}>
                 <span className="sbx-step-num">{i + 1}</span>
@@ -97,6 +119,11 @@ export function SequencePanel({ title = 'Sandbox sequence' }: { title?: string }
                 <span className="sbx-step-name" title={step.name}>
                   {step.name}
                 </span>
+                {/* The timing outlives the run. It is shown during one by the
+                    progress view, and losing it the moment the run ended
+                    meant "how long did that take" was answerable only while
+                    it was still happening. */}
+                {result?.ms ? <span className="sbx-step-ms">{elapsed(result.ms)}</span> : null}
                 {st === 'running' && <BarsSpinner size={14} />}
                 {st === 'ok' && <span className="sbx-step-dot" data-ok />}
                 {st === 'error' && <span className="sbx-step-dot" data-err />}
@@ -266,4 +293,30 @@ function AddCode({ onDone }: { onDone: () => void }) {
       />
     </div>
   )
+}
+
+/**
+ * Which step the run is on.
+ *
+ * The step actually in flight when there is one; otherwise however many have
+ * finished, which is what `TaskSteps` reads as "all done". Derived rather than
+ * stored because the store already knows — a second counter would be a thing
+ * to keep in step with the first.
+ */
+function activeIndex(steps: Step[], results: Map<string, StepResult>): number {
+  const running = steps.findIndex((s) => results.get(s.key)?.status === 'running')
+  if (running >= 0) return running
+  return steps.filter((s) => {
+    const status = results.get(s.key)?.status
+    return status === 'ok' || status === 'error'
+  }).length
+}
+
+function anyFailed(results: Map<string, StepResult>): boolean {
+  return [...results.values()].some((r) => r.status === 'error')
+}
+
+/** A duration in the units a reader compares at a glance. */
+function elapsed(ms: number): string {
+  return ms < 1000 ? `${ms}ms` : `${(ms / 1000).toFixed(1)}s`
 }
