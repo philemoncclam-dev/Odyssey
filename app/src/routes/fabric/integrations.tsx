@@ -23,6 +23,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import {
+  fabricErrorKind,
   fetchIdentity,
   fetchIntegrations,
   type Identity,
@@ -30,6 +31,24 @@ import {
 } from '../../fabric/api'
 import { BarsSpinner } from '../../shell/BarsSpinner'
 import '../../views/integrations.css'
+
+/** Mirrors the wording in explore.tsx — a 403 must read the same on both screens. */
+function describeFailure(err: unknown): string {
+  switch (fabricErrorKind(err)) {
+    case 'not-wired':
+      return err instanceof Error ? err.message : String(err)
+    case 'forbidden':
+      return 'You do not have access to the integrations inventory.'
+    case 'unauthorized':
+      return 'Your session is not authenticated, or the token has expired.'
+    case 'throttled':
+      return 'The service is throttling requests. Try again shortly.'
+    case 'unavailable':
+      return 'The service is unavailable right now. Retrying may work.'
+    default:
+      return err instanceof Error ? err.message : String(err)
+  }
+}
 
 export const Route = createFileRoute('/fabric/integrations')({
   component: IntegrationsRoute,
@@ -42,20 +61,23 @@ function IntegrationsRoute() {
   const [open, setOpen] = useState<string | null>(null)
 
   useEffect(() => {
+    // Aborted on unmount, not merely ignored: the identity lookup is a Graph
+    // call and can outlive the screen that asked for it.
+    const controller = new AbortController()
     let cancelled = false
     void (async () => {
       try {
-        const list = await fetchIntegrations()
+        const list = await fetchIntegrations({ signal: controller.signal })
         if (!cancelled) setItems(list)
       } catch (err) {
-        if (!cancelled) setError(err instanceof Error ? err.message : String(err))
+        if (!cancelled && !controller.signal.aborted) setError(describeFailure(err))
       }
     })()
     // Deliberately not awaited with the list: a slow or refused directory
     // lookup must not delay the inventory, which needs no network of its own.
     void (async () => {
       try {
-        const who = await fetchIdentity()
+        const who = await fetchIdentity({ signal: controller.signal })
         if (!cancelled) setIdentity(who)
       } catch {
         /* The header simply stays quiet; the list is the point of the page. */
@@ -63,6 +85,7 @@ function IntegrationsRoute() {
     })()
     return () => {
       cancelled = true
+      controller.abort()
     }
   }, [])
 

@@ -22,6 +22,9 @@ import { SequencePanel } from '../../fabric/SequencePanel'
 import { SequenceCanvas } from '../../fabric/SequenceCanvas'
 import { addStep, useSequence } from '../../fabric/sequence'
 import {
+  fabricErrorKind,
+  isFabricError,
+  type FabricCallOptions,
   fetchFabricStatus,
   fetchFabricWorkspaces,
   fetchFabricItems,
@@ -84,21 +87,61 @@ const fabricUrl = {
 // each wants its own loading/error/data lifecycle.
 type Async<T> = { status: 'loading' | 'error' | 'ok'; data?: T; error?: string }
 
-function useAsync<T>(fn: () => Promise<T>, deps: unknown[], enabled = true): Async<T> {
+function useAsync<T>(
+  fn: (options: FabricCallOptions) => Promise<T>,
+  deps: unknown[],
+  enabled = true,
+): Async<T> {
   const [state, setState] = useState<Async<T>>({ status: 'loading' })
   useEffect(() => {
     if (!enabled) return
+    // Aborted on cleanup, not merely ignored. The tree fires a request per
+    // branch opened, so walking a large tenant used to leave a tail of
+    // requests nobody was waiting for — against an API that throttles. The
+    // `alive` flag still guards setState, because an abort races the resolve.
+    const controller = new AbortController()
     let alive = true
     setState({ status: 'loading' })
-    fn()
+    fn({ signal: controller.signal })
       .then((data) => alive && setState({ status: 'ok', data }))
-      .catch((e: unknown) => alive && setState({ status: 'error', error: String(e instanceof Error ? e.message : e) }))
+      .catch((e: unknown) => {
+        // A request we cancelled is not a failure to show the user.
+        if (!alive || controller.signal.aborted) return
+        setState({ status: 'error', error: describeFailure(e) })
+      })
     return () => {
       alive = false
+      controller.abort()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps)
   return state
+}
+
+/**
+ * A failure in the words the reader needs.
+ *
+ * The distinction that matters is `forbidden`: this whole view insists that an
+ * empty list means "no permission", and until the contract carried a reason
+ * there was no way to say which had happened.
+ */
+function describeFailure(err: unknown): string {
+  switch (fabricErrorKind(err)) {
+    case 'forbidden':
+      return 'You do not have access to this. It is not empty — it is not visible to you.'
+    case 'unauthorized':
+      return 'Your session is not authenticated, or the token has expired.'
+    case 'throttled': {
+      const wait = isFabricError(err) && err.retryAfterSeconds
+      return `Fabric is throttling requests.${wait ? ` Try again in about ${wait}s.` : ''}`
+    }
+    case 'not-found':
+      return 'That workspace or item could not be found.'
+    case 'unavailable':
+      return 'Fabric is unavailable right now. Retrying may work.'
+    default:
+      return err instanceof Error ? err.message : String(err)
+  }
 }
 
 // --- selection ------------------------------------------------------------
@@ -370,7 +413,7 @@ function LakehouseNode({ workspaceId, lakehouse, depth }: { workspaceId: string;
   const { select, selectedKey, autoOpen } = useSelection()
   const key = `lh:${lakehouse.id}`
   const [open, setOpen] = useState(() => autoOpen.has(key))
-  const tables = useAsync<FabricTable[]>(() => fetchFabricTables(workspaceId, lakehouse.id), [workspaceId, lakehouse.id, open], open)
+  const tables = useAsync<FabricTable[]>((o) => fetchFabricTables(workspaceId, lakehouse.id, o), [workspaceId, lakehouse.id, open], open)
   const lhHref = fabricUrl.lakehouse(workspaceId, lakehouse.id)
   return (
     <>
@@ -489,7 +532,7 @@ function WorkspaceNode({ workspace, depth }: { workspace: FabricWorkspace; depth
   const { select, selectedKey, autoOpen } = useSelection()
   const key = `ws:${workspace.id}`
   const [open, setOpen] = useState(() => autoOpen.has(key))
-  const items = useAsync<FabricWorkspaceItems>(() => fetchFabricItems(workspace.id), [workspace.id, open], open)
+  const items = useAsync<FabricWorkspaceItems>((o) => fetchFabricItems(workspace.id, o), [workspace.id, open], open)
   const empty =
     items.status === 'ok' &&
     items.data!.notebooks.length === 0 &&
@@ -625,7 +668,7 @@ function CodeBlock({ code }: { code: string }) {
 }
 
 function WorkspaceDetail({ sel }: { sel: Extract<Selected, { kind: 'workspace' }> }) {
-  const items = useAsync<FabricWorkspaceItems>(() => fetchFabricItems(sel.ws.id), [sel.ws.id])
+  const items = useAsync<FabricWorkspaceItems>((o) => fetchFabricItems(sel.ws.id, o), [sel.ws.id])
   return (
     <div className="fx-detail-body">
       <DetailHeader kind="workspace" title={sel.ws.name} subtitle="Workspace" fabricHref={fabricUrl.workspace(sel.ws.id)} />
@@ -668,7 +711,7 @@ function FolderDetail({ sel }: { sel: Extract<Selected, { kind: 'folder' }> }) {
 
 function NotebookDetail({ sel }: { sel: Extract<Selected, { kind: 'notebook' }> }) {
   const source = useAsync(
-    () => fetchFabricNotebookSource(sel.workspaceId, sel.notebook.id, sel.notebook.name),
+    (o) => fetchFabricNotebookSource(sel.workspaceId, sel.notebook.id, sel.notebook.name, o),
     [sel.workspaceId, sel.notebook.id],
   )
   const code = source.status === 'ok' ? source.data!.cells.join('\n\n# ── cell ──\n\n') : ''
@@ -709,7 +752,7 @@ function NotebookDetail({ sel }: { sel: Extract<Selected, { kind: 'notebook' }> 
 }
 
 function LakehouseDetail({ sel }: { sel: Extract<Selected, { kind: 'lakehouse' }> }) {
-  const tables = useAsync<FabricTable[]>(() => fetchFabricTables(sel.workspaceId, sel.lakehouse.id), [sel.workspaceId, sel.lakehouse.id])
+  const tables = useAsync<FabricTable[]>((o) => fetchFabricTables(sel.workspaceId, sel.lakehouse.id, o), [sel.workspaceId, sel.lakehouse.id])
   return (
     <div className="fx-detail-body">
       <DetailHeader
@@ -735,7 +778,7 @@ function LakehouseDetail({ sel }: { sel: Extract<Selected, { kind: 'lakehouse' }
 
 function TableDetail({ sel }: { sel: Extract<Selected, { kind: 'table' }> }) {
   const schema = useAsync<FabricColumn[]>(
-    () => fetchFabricTableSchema(sel.workspaceId, sel.lakehouse.id, sel.table.name),
+    (o) => fetchFabricTableSchema(sel.workspaceId, sel.lakehouse.id, sel.table.name, o),
     [sel.workspaceId, sel.lakehouse.id, sel.table.name],
   )
   return (
@@ -1033,7 +1076,7 @@ function PipelineCanvas({ activities }: { activities: FabricPipelineActivity[] }
 function ItemDetail({ sel }: { sel: Extract<Selected, { kind: 'item' }> }) {
   const isPipeline = sel.item.type.toLowerCase().includes('pipeline')
   const pipeline = useAsync<FabricPipelineActivity[]>(
-    () => fetchFabricPipelineDefinition(sel.workspaceId, sel.item.id),
+    (o) => fetchFabricPipelineDefinition(sel.workspaceId, sel.item.id, o),
     [sel.workspaceId, sel.item.id],
     isPipeline,
   )
@@ -1222,9 +1265,9 @@ function ExplorerBody({
 
 function ExploreRoute() {
   const search = Route.useSearch()
-  const status = useAsync(() => fetchFabricStatus(), [])
+  const status = useAsync((o) => fetchFabricStatus(o), [])
   const workspaces = useAsync<FabricWorkspace[]>(
-    () => fetchFabricWorkspaces(),
+    (o) => fetchFabricWorkspaces(o),
     [status.status],
     status.status === 'ok' && !!status.data?.configured,
   )

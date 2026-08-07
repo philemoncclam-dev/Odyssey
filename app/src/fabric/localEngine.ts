@@ -20,38 +20,50 @@
 // a real Fabric. To drive it from code — a test, a script, a fixture — this is
 // enough on its own.
 
-import type { FabricApi, SandboxRunRequest, SandboxRunResult } from './api'
+import {
+  FabricError,
+  fabricErrorFromResponse,
+  type FabricApi,
+  type FabricCallOptions,
+  type SandboxRunRequest,
+  type SandboxRunResult,
+} from './api'
 
 /** Default endpoint of `python -m sandbox.service`. */
 export const DEFAULT_SANDBOX_URL = 'http://127.0.0.1:8765'
 
-async function postJson<T>(url: string, body: unknown): Promise<T> {
+async function postJson<T>(
+  url: string,
+  body: unknown,
+  options?: FabricCallOptions,
+): Promise<T> {
   let res: Response
   try {
     res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
+      ...(options?.signal ? { signal: options.signal } : {}),
     })
   } catch (cause) {
+    // An aborted request is not a failure to report — the caller asked for it,
+    // usually by navigating away — so it keeps its own kind and its own words.
+    if (options?.signal?.aborted) {
+      throw new FabricError('network', 'The sandbox run was cancelled.', { cause })
+    }
     // A dead endpoint is the overwhelmingly likely failure here and `fetch`
     // reports it as a bare "Failed to fetch", which sends people looking at
     // their notebook rather than at the terminal they forgot to start.
-    throw new Error(
+    throw new FabricError(
+      'network',
       `Could not reach the sandbox engine at ${url}. Start it with ` +
-        `\`python -m sandbox.service\` from the repository root.`,
+        '`python -m sandbox.service` from the repository root.',
       { cause },
     )
   }
-  if (!res.ok) {
-    // The bridge answers a bad request with `{ error }` — surface that rather
-    // than the status code, since it is written for whoever sees it.
-    const detail = await res
-      .json()
-      .then((b: { error?: string }) => b.error)
-      .catch(() => null)
-    throw new Error(detail ?? `Sandbox engine returned ${res.status}.`)
-  }
+  // The bridge answers a bad request with `{ error }`, and the mapping from
+  // status to reason lives in one place for every implementation to share.
+  if (!res.ok) throw await fabricErrorFromResponse(res, 'sandbox run')
   return res.json() as Promise<T>
 }
 
@@ -66,19 +78,23 @@ async function postJson<T>(url: string, body: unknown): Promise<T> {
 export function localSandboxApi(baseUrl: string = DEFAULT_SANDBOX_URL): FabricApi {
   const base = baseUrl.replace(/\/+$/, '')
   return {
-    async runSandbox(body: SandboxRunRequest): Promise<SandboxRunResult> {
+    async runSandbox(
+      body: SandboxRunRequest,
+      options?: FabricCallOptions,
+    ): Promise<SandboxRunResult> {
       if (!body.cells?.length) {
         // The engine analyses cells. Asking it to run a notebook by id means
         // fetching that notebook from Fabric first, which is a different
         // capability and a credential this side does not hold. Saying so beats
         // a run that reports a notebook touching nothing.
-        throw new Error(
+        throw new FabricError(
+          'not-found',
           'The local sandbox engine runs cells, not notebook ids. Wire the ' +
             '`notebookSource` capability so the toolkit can fetch a notebook’s ' +
             'source, or send cells directly.',
         )
       }
-      return postJson<SandboxRunResult>(`${base}/sandbox/run`, body)
+      return postJson<SandboxRunResult>(`${base}/sandbox/run`, body, options)
     },
   }
 }
