@@ -209,6 +209,61 @@ function targetToSelected(t: ExploreSearch): Selected | undefined {
   return undefined
 }
 
+/**
+ * A selection → the search params that reproduce it.
+ *
+ * The exact inverse of `targetToSelected`, and it has to stay that way: a link
+ * that drops `lh` lands on a table the tree cannot place, and a link that
+ * drops the display names makes the detail panel show GUIDs until its fetches
+ * return. Names are carried for labelling only — the ids are what resolve.
+ */
+export function selectedToSearch(sel: Selected): ExploreSearch {
+  switch (sel.kind) {
+    case 'workspace':
+      return { ws: sel.ws.id, wsName: sel.ws.name, kind: 'workspace', id: sel.ws.id }
+    case 'notebook':
+      return {
+        ws: sel.workspaceId,
+        kind: 'notebook',
+        id: sel.notebook.id,
+        name: sel.notebook.name,
+        itemType: sel.notebook.type,
+      }
+    case 'lakehouse':
+      return { ws: sel.workspaceId, kind: 'lakehouse', id: sel.lakehouse.id, name: sel.lakehouse.name }
+    case 'table':
+      return {
+        ws: sel.workspaceId,
+        kind: 'table',
+        // A table has no id of its own — its name IS its identity within a
+        // lakehouse, which is why `lh` is not optional on this one.
+        id: sel.table.name,
+        lh: sel.lakehouse.id,
+        lhName: sel.lakehouse.name,
+      }
+    case 'item':
+      return {
+        ws: sel.workspaceId,
+        kind: 'item',
+        id: sel.item.id,
+        name: sel.item.name,
+        itemType: sel.item.type,
+      }
+    // A folder is a container the tree opens, not a thing to land on.
+    case 'folder':
+      return { ws: sel.workspaceId, kind: 'workspace', id: sel.workspaceId }
+  }
+}
+
+/** The absolute URL that reopens this selection. */
+export function shareUrl(sel: Selected): string {
+  const params = new URLSearchParams()
+  for (const [key, value] of Object.entries(selectedToSearch(sel))) {
+    if (value) params.set(key, value)
+  }
+  return `${window.location.origin}/fabric/explore?${params.toString()}`
+}
+
 function targetAutoOpen(t: ExploreSearch): Set<string> {
   const s = new Set<string>()
   if (t.ws) s.add(`ws:${t.ws}`)
@@ -602,18 +657,54 @@ function OpenFabricIcon() {
   )
 }
 
+/**
+ * Copy a link that reopens this exact node.
+ *
+ * The deep-link parameters have existed since the port and nothing surfaced
+ * them, so "the customers table in Analytics" was a sentence rather than a
+ * link. Clipboard writes can be refused (permissions, an insecure origin), and
+ * a button that silently does nothing is worse than one that says it failed.
+ */
+function ShareLinkButton({ sel }: { sel: Selected }) {
+  const [state, setState] = useState<'idle' | 'copied' | 'failed'>('idle')
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl(sel))
+      setState('copied')
+    } catch {
+      setState('failed')
+    }
+    setTimeout(() => setState('idle'), 2000)
+  }
+
+  return (
+    <button
+      className="fx-open fx-open--detail"
+      onClick={() => void copy()}
+      title={state === 'failed' ? 'Could not copy — check clipboard permissions' : 'Copy a link to this'}
+      aria-label="Copy a link to this"
+    >
+      {state === 'idle' ? '🔗' : state === 'copied' ? '✓' : '✕'}
+    </button>
+  )
+}
+
 function DetailHeader({
   kind,
   title,
   subtitle,
   fabricHref,
   fabricLabel = 'Open in Fabric',
+  share,
 }: {
   kind: keyof typeof ICONS
   title: string
   subtitle?: string
   fabricHref?: string
   fabricLabel?: string
+  /** The selection this header describes, when it can be linked to. */
+  share?: Selected | undefined
 }) {
   return (
     <div className="fx-detail-head">
@@ -622,6 +713,7 @@ function DetailHeader({
         <h2 className="fx-detail-title">{title}</h2>
         {subtitle && <div className="fx-detail-sub">{subtitle}</div>}
       </div>
+      {share && <ShareLinkButton sel={share} />}
       {fabricHref && (
         <a
           className="fx-open fx-open--detail"
@@ -671,7 +763,7 @@ function WorkspaceDetail({ sel }: { sel: Extract<Selected, { kind: 'workspace' }
   const items = useAsync<FabricWorkspaceItems>((o) => fetchFabricItems(sel.ws.id, o), [sel.ws.id])
   return (
     <div className="fx-detail-body">
-      <DetailHeader kind="workspace" title={sel.ws.name} subtitle="Workspace" fabricHref={fabricUrl.workspace(sel.ws.id)} />
+      <DetailHeader kind="workspace" title={sel.ws.name} subtitle="Workspace" fabricHref={fabricUrl.workspace(sel.ws.id)} share={sel} />
       {sel.ws.description && <p className="fx-detail-desc">{sel.ws.description}</p>}
       {items.status === 'ok' ? (
         <KeyVals
@@ -723,6 +815,7 @@ function NotebookDetail({ sel }: { sel: Extract<Selected, { kind: 'notebook' }> 
         title={sel.notebook.name}
         subtitle="Notebook"
         fabricHref={fabricUrl.notebook(sel.workspaceId, sel.notebook.id)}
+        share={sel}
       />
       {sel.notebook.description && <p className="fx-detail-desc">{sel.notebook.description}</p>}
       <div className="fx-detail-actions">
@@ -760,6 +853,7 @@ function LakehouseDetail({ sel }: { sel: Extract<Selected, { kind: 'lakehouse' }
         title={sel.lakehouse.name}
         subtitle="Lakehouse"
         fabricHref={fabricUrl.lakehouse(sel.workspaceId, sel.lakehouse.id)}
+        share={sel}
       />
       {sel.lakehouse.description && <p className="fx-detail-desc">{sel.lakehouse.description}</p>}
       {tables.status === 'ok' ? (
@@ -789,6 +883,7 @@ function TableDetail({ sel }: { sel: Extract<Selected, { kind: 'table' }> }) {
         subtitle={`Table · ${sel.lakehouse.name}`}
         fabricHref={fabricUrl.lakehouse(sel.workspaceId, sel.lakehouse.id)}
         fabricLabel="Open lakehouse in Fabric"
+        share={sel}
       />
       {schema.status === 'ok' ? (
         schema.data!.length ? (
@@ -1088,6 +1183,7 @@ function ItemDetail({ sel }: { sel: Extract<Selected, { kind: 'item' }> }) {
         subtitle={activityLabel(sel.item.type)}
         fabricHref={fabricUrl.workspace(sel.workspaceId)}
         fabricLabel="Open workspace in Fabric"
+        share={sel}
       />
       {sel.item.description && <p className="fx-detail-desc">{sel.item.description}</p>}
       <KeyVals

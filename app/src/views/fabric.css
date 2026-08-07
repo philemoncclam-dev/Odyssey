@@ -2209,3 +2209,39 @@
   font-size: var(--text-micro);
   line-height: 1.5;
 }
+
+/* Add code: the sandbox's other door, for when there is no Fabric to browse. */
+.sbx-add {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--spacing-2);
+  border-bottom: var(--border-width) solid var(--color-border);
+  background: var(--color-surface-2);
+}
+.sbx-add-row {
+  display: flex;
+  gap: 4px;
+}
+.sbx-add-row input {
+  flex: 1;
+  min-width: 0;
+}
+.sbx-add textarea {
+  min-height: 110px;
+  resize: vertical;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  line-height: 1.5;
+  padding: var(--spacing-2);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-surface-1);
+  color: var(--color-text-primary);
+}
+.sbx-add-error {
+  margin: 0;
+  font-size: var(--text-micro);
+  color: var(--color-destructive);
+  line-height: 1.45;
+}
