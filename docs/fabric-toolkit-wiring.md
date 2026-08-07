@@ -147,12 +147,33 @@ neither is installed and nothing makes a network call.
 
 ### Two engines, and which one you get
 
-`spark_available()` decides. With the pinned PySpark venv present you get real
-Catalyst plans (`engine: "spark"`); without a JVM you get the stub
-(`engine: "stub"`), which parses the SQL text instead. **The stub is the
-default**, it satisfies the same contract, and it is what CI exercises — but a
-result labelled `stub` when you expected Spark explains most surprising output.
-`GET /sandbox/status` reports which one is live.
+`spark_available()` decides, and `GET /sandbox/status` reports which is live.
+
+**Stub** (`engine: "stub"`) is the default and needs no JVM. It is a symbolic
+reader, not a toy: it recovers columns from `spark.sql(...)` text with sqlglot
+and walks DataFrame chains through a shared variable environment. What it
+cannot do is evaluate — a query built from an f-string, or a chain it will not
+guess at, it abstains on and reports in `coverage` rather than guessing.
+
+**Spark** (`engine: "spark"`) analyses the code for real and takes the lineage
+off Catalyst's analyzed plans. Nothing is read or written: tables are
+registered as empty temp views, so the plans resolve without data moving.
+
+Turning Spark on locally:
+
+```bash
+.venv/Scripts/pip install pyspark==4.0.0     # ~400MB, needs Java 17+
+.venv/Scripts/python -m pytest tests/ -q     # the 14 Spark tests stop skipping
+```
+
+That is all — `run_sandbox` picks it up with no configuration. Two paths are
+tried, in order: a pinned `.venv312` beside the repo's own venv (for keeping a
+400MB dependency out of the main interpreter), then PySpark in the current
+interpreter.
+
+Cold start is around 15 seconds for the first run in a process and a few
+seconds after; the stub is near-instant. Both share the 240-second per-step
+timeout.
 
 ### What the bridge cannot do
 

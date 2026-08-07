@@ -68,12 +68,18 @@ _SANDBOX_DIR = Path(__file__).resolve().parent
 _CHILD_STUB = _SANDBOX_DIR / "child_stub.py"
 _CHILD_SPARK = _SANDBOX_DIR / "child_spark.py"
 
-# The pinned Spark venv lives outside backend/ so uvicorn --reload never watches
-# it (local Windows setup). Absent in a container, where PySpark is instead
-# installed into the backend's own interpreter — and absent on Vercel/CI, where
-# the runner transparently falls back to the stub engine.
+# An optional Spark venv pinned beside the repo's own, for when PySpark should
+# not go into the interpreter everything else uses — it is a ~400MB dependency
+# and needs a JVM, so keeping it separable is worth one path.
+#
+# This used to be `parents[3] / "sandbox" / ".venv312"`, which was correct when
+# this file lived at `backend/app/sandbox/` — three levels up landed on the repo
+# root. In Odyssey it lives at `sandbox/`, so three levels up landed OUTSIDE the
+# repository entirely (`.../Downloads/sandbox/...`) and this branch could never
+# fire. Nothing failed, because the fallback below quietly covers it, which is
+# exactly why it went unnoticed through the port.
 _SPARK_VENV_PYTHON = (
-    Path(__file__).resolve().parents[3] / "sandbox" / ".venv312" / "Scripts" / "python.exe"
+    Path(__file__).resolve().parents[1] / ".venv312" / "Scripts" / "python.exe"
 )
 
 

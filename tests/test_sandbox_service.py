@@ -103,14 +103,23 @@ class TestEndpoint:
         assert body["ok"] is True
         assert body["reads"] == ["Analytics/lh_bronze/raw_customers"]
         assert body["writes"] == ["Analytics/lh_silver/customers"]
-        assert body["column_lineage"] == [
-            {
-                "to_table": "Analytics/lh_silver/customers",
-                "to_column": "customer_id",
-                "from_column": "id",
-                "from_table": "Analytics/lh_bronze/raw_customers",
-                "transform": None,
-            }
+
+        # The column mapping, WITHOUT `transform`. This is a test of the bridge,
+        # and both engines legitimately describe the same edge differently: the
+        # stub reports None for a plain passthrough, Spark reports Catalyst's
+        # expression text (`raw_customers.id AS customer_id`). Asserting the
+        # exact string pinned whichever engine happened to be installed, so the
+        # suite broke the moment PySpark appeared — with the lineage correct.
+        assert [
+            (f["from_table"], f["from_column"], f["to_table"], f["to_column"])
+            for f in body["column_lineage"]
+        ] == [
+            (
+                "Analytics/lh_bronze/raw_customers",
+                "id",
+                "Analytics/lh_silver/customers",
+                "customer_id",
+            )
         ]
         # The isolation assertion, made visible. This must never be true.
         assert body["saw_credentials"] is False
