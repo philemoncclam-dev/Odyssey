@@ -31,6 +31,7 @@ import {
   type StepStatus,
 } from './sequence'
 import { coverageBadge, coverageOf, coverageSummary, type CoverageLevel } from './coverage'
+import { columnLineageCsv, download, lineageGaps, runReportMarkdown } from './runExport'
 import { runFailures, runNarrative } from './runSummary'
 import { observedAgrees, observedHeadline, observedSummary, runWhen } from './observed'
 import { columnKey, diffIsClean, diffRuns, type RunDiff } from './runDiff'
@@ -2185,6 +2186,9 @@ export function SequenceCanvas({
             </section>
           )}
 
+          <ReportActions steps={steps} results={results} />
+          <Gaps results={results} />
+
           <div className="sbx-report-list">
             {steps.map((step, i) => {
               const r = results.get(step.key)
@@ -2271,3 +2275,78 @@ export function SequenceCanvas({
   )
 }
 
+
+/**
+ * Take the run somewhere else.
+ *
+ * Markdown for a message or a ticket, CSV for a spreadsheet. Both are built
+ * from the run on screen and both carry the gaps — an export that dropped
+ * them would be a tidier document making a stronger claim than the run
+ * supports.
+ */
+function ReportActions({
+  steps,
+  results,
+}: {
+  steps: Step[]
+  results: Map<string, StepResult>
+}) {
+  const [copied, setCopied] = useState(false)
+  if (results.size === 0) return null
+
+  const copyMarkdown = async () => {
+    try {
+      await navigator.clipboard.writeText(runReportMarkdown(steps, results))
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Clipboard can be refused; the file always works.
+      download('sandbox-run.md', runReportMarkdown(steps, results), 'text/markdown')
+    }
+  }
+
+  return (
+    <div className="sbx-export">
+      <button className="fx-btn" onClick={() => void copyMarkdown()}>
+        {copied ? 'Copied' : 'Copy as Markdown'}
+      </button>
+      <button
+        className="fx-btn"
+        onClick={() => download('column-lineage.csv', columnLineageCsv(steps, results), 'text/csv')}
+      >
+        Download lineage CSV
+      </button>
+    </div>
+  )
+}
+
+/**
+ * Tables the run could not fully trace, and why — as a list to work through.
+ *
+ * The causes were already computed and already shown: as a badge on a card,
+ * which meant finding every thin card and hovering it. The same facts in one
+ * place are a worklist instead of a statistic.
+ */
+function Gaps({ results }: { results: Map<string, StepResult> }) {
+  const gaps = useMemo(() => lineageGaps(results), [results])
+  if (results.size === 0 || gaps.length === 0) return null
+
+  return (
+    <details className="sbx-gaps" open={gaps.length <= 5}>
+      <summary>
+        {gaps.length} table{gaps.length === 1 ? '' : 's'} without column lineage
+      </summary>
+      <ul>
+        {gaps.map((gap) => (
+          <li key={gap.ref} data-level={gap.level}>
+            <strong>{refLabel(gap.ref)}</strong>
+            <span className="sbx-gap-badge">{coverageBadge(gap.level)}</span>
+            <span className="sbx-gap-reason">
+              {gap.reason || 'The run resolved no column-level lineage for this table.'}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </details>
+  )
+}
