@@ -18,14 +18,21 @@ it gets updated as each piece lands, not before.
 | App shell and model viewer | Done |
 | Lineage engine (parked) | Done |
 | Branching history and merge (local) | Done |
+| Fabric Toolkit UI (Explore, sandbox, integrations) | Built, not connected |
 | Server, sign-in, shared models | Not started |
 
 ## What this is not
 
 Odyssey makes no network calls. There is no backend, no API, no
-authentication, and no service configuration. Any feature requiring a remote
-service was deliberately removed rather than stubbed, so that what ships is
-what works.
+authentication, and no service configuration.
+
+The Fabric Toolkit is the one deliberate exception to "removed rather than
+stubbed", and it is stubbed at exactly one place. Its screens — Explore, the
+notebook sandbox, Integrations — are built and reachable, and every call they
+would make goes through a single injectable interface that nothing implements.
+No credentials, no service principal, no endpoints. See
+[docs/fabric-toolkit-wiring.md](docs/fabric-toolkit-wiring.md) for how to
+connect it.
 
 The Spark-based lineage engine that derives column-level lineage from query
 plans is kept in-tree and tested, but is not wired into the application. It is

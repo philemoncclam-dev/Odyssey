@@ -114,13 +114,13 @@ export function isFullBleedPath(pathname: string): boolean {
  * column of permanently disabled buttons. A chromeless route is responsible for
  * offering its own navigation to the other modes.
  *
- * The Fabric Toolkit is chromeless for a blunter reason: every entry in its
- * rail points at a route that was never ported (/fabric/explore and the rest),
- * so showing it would be a column of links to nowhere. Both landing screens
- * carry the shared PageHeader instead, whose mark toggles between them.
+ * The Fabric Toolkit is chromeless for its own reason: its pages navigate
+ * between themselves with a tab strip in the shared PageHeader, so the rail
+ * would be a second, competing set of the same destinations — and the mark in
+ * that bar is what returns to Modeling.
  */
 export function isChromeless(pathname: string): boolean {
-  return pathname === '/models' || pathname === '/fabric'
+  return pathname === '/models' || pathname.startsWith('/fabric')
 }
 
 /** Where the app-logo mode menu (D-02) navigates each mode to. */
