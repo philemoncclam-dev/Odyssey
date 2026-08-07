@@ -5,6 +5,7 @@
 // A plain module store + useSyncExternalStore rather than context — the state
 // has to survive route changes, and the views mount independently.
 import { useSyncExternalStore } from 'react'
+import { lastTwoRuns, saveRun } from './runStore'
 import {
   runSandbox,
   refParts,
@@ -71,6 +72,16 @@ export interface SequenceState {
    * buried — a sequence of twenty notebooks is where someone will want it off.
    */
   compareWithReal: boolean
+  /**
+   * When the results on screen came from a previous session, rather than from
+   * a run in this one.
+   *
+   * Null while the results are live. A restored run is stale by definition —
+   * the notebook it analysed may have changed since — and a week-old lineage
+   * that looks freshly computed is worse than an empty panel, so the panel
+   * says so and this is what it reads.
+   */
+  restoredAt: number | null
 }
 
 export const stepReads = (r?: StepResult): string[] =>
@@ -149,6 +160,7 @@ let state: SequenceState = {
   running: false,
   previous: null,
   compareWithReal: true,
+  restoredAt: null,
 }
 const listeners = new Set<() => void>()
 
@@ -160,6 +172,16 @@ function set(next: Partial<SequenceState>) {
 const subscribe = (l: () => void) => {
   listeners.add(l)
   return () => listeners.delete(l)
+}
+
+/**
+ * The current state, outside React.
+ *
+ * `useSequence` is a hook and cannot be called from a test or from the run
+ * that saves itself. This is the same state, read once.
+ */
+export function getSequence(): SequenceState {
+  return state
 }
 
 export function useSequence(): SequenceState {
@@ -340,7 +362,34 @@ export async function runAll() {
     }
     set({ results: new Map(next) })
   }
-  set({ running: false })
+  // Saved here rather than per step: a half-finished sequence restored later
+  // would show steps that never ran as though they had nothing to report.
+  saveRun(state.steps, state.results)
+  set({ running: false, restoredAt: null })
+}
+
+/**
+ * Put the last saved run back on screen, once, at startup.
+ *
+ * `previous` is filled from the run BEFORE it, which is what makes Diff work
+ * across sessions — the thing run history is actually for.
+ *
+ * Does nothing if a sequence is already loaded: restoring over the top of work
+ * someone has started stacking would be the worst possible moment for it.
+ */
+let hydrated = false
+
+export function hydrateSequence(): void {
+  if (hydrated || state.steps.length > 0) return
+  hydrated = true
+  const { latest, previous } = lastTwoRuns()
+  if (!latest) return
+  set({
+    steps: latest.steps,
+    results: new Map(latest.results),
+    previous: previous ? new Map(previous.results) : null,
+    restoredAt: latest.at,
+  })
 }
 
 /** Test seam — reset the module store between cases. */
@@ -351,7 +400,11 @@ export function __resetSequence() {
     running: false,
     previous: null,
     compareWithReal: true,
+    restoredAt: null,
   }
+  // The once-only guard is part of the store's state, so a reset that left it
+  // set would make every test after the first unable to hydrate.
+  hydrated = false
   listeners.forEach((l) => l())
 }
 
