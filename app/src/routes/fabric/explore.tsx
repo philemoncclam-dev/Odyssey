@@ -18,6 +18,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { BarsSpinner } from '../../shell/BarsSpinner'
+import { TableAnswers } from '../../fabric/TableAnswers'
 import { SequencePanel } from '../../fabric/SequencePanel'
 import { SequenceCanvas } from '../../fabric/SequenceCanvas'
 import { addStep, useSequence } from '../../fabric/sequence'
@@ -885,6 +886,10 @@ function TableDetail({ sel }: { sel: Extract<Selected, { kind: 'table' }> }) {
         fabricLabel="Open lakehouse in Fabric"
         share={sel}
       />
+      {/* Above the column list on purpose: "where did this come from and has
+          it run" is the question people arrive with, and the schema is the
+          reference they check afterwards. */}
+      <TableAnswers table={sel.table.name} lakehouse={sel.lakehouse.name} />
       {schema.status === 'ok' ? (
         schema.data!.length ? (
           <table className="fx-cols">

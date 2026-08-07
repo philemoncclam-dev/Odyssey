@@ -342,6 +342,19 @@ function demoRun(notebook: DemoNotebook): SandboxRunResult {
       transform: f.transform ?? null,
     })),
     tables: tablesFor(touched),
+    // Who looks at what this produced. `available` is the load-bearing field:
+    // a notebook whose writes nothing was checked for reports available:false
+    // with an empty list, which must not read as "nothing depends on this".
+    downstream: notebook.writes.some((w) => w.includes('lh_gold'))
+      ? {
+          available: true,
+          consumers: [
+            { id: 'sm-customer-360', name: 'Customer 360', kind: 'semanticmodel', via: 'lh_gold' },
+            { id: 'rpt-exec', name: 'Executive summary', kind: 'report', via: 'lh_gold' },
+          ],
+          notes: [],
+        }
+      : { available: false, consumers: [], notes: ['[demo] Downstream was not checked for this table.'] },
     coverage: {
       cells: notebook.cells.length,
       sql_cells: notebook.flows.length ? notebook.cells.length : 0,

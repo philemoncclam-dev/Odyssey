@@ -2245,3 +2245,76 @@
   color: var(--color-destructive);
   line-height: 1.45;
 }
+
+/* Table answers: what we know about a table, in sentences. */
+.fx-answers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3) 0;
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+.fx-answers-none,
+.fx-answers-note {
+  margin: var(--spacing-2) 0;
+  font-size: var(--text-micro);
+  line-height: 1.55;
+  color: var(--color-text-tertiary);
+}
+.fx-answers-block h3 {
+  margin: 0 0 4px;
+  font-size: var(--text-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-tertiary);
+  font-weight: 600;
+}
+.fx-answers-block p {
+  margin: 0 0 2px;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+.fx-answers-quiet {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-micro);
+}
+/* Amber, not red: code edited since the last run is a caveat to weigh, not a
+   failure — but it must not be missable, because everything above it is
+   describing code that never executed. */
+.fx-answers-warn {
+  margin-top: 4px;
+  padding: 4px 7px;
+  border-radius: var(--radius-input);
+  background: #fdf6e3;
+  color: #6b4d0f;
+  font-size: var(--text-micro);
+  line-height: 1.45;
+}
+.fx-answers-state {
+  font-weight: 600;
+}
+.fx-answers-state[data-ok] { color: #168f5c; }
+.fx-answers-state[data-bad] { color: var(--color-destructive); }
+
+.fx-answers-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: var(--text-micro);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+.fx-answers-list ul {
+  margin: 1px 0 0 var(--spacing-3);
+  padding: 0;
+  list-style: none;
+  color: var(--color-text-tertiary);
+}
+.fx-answers-list code {
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
