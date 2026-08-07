@@ -18,32 +18,5 @@
   overflow: hidden;
 }
 
-/* Sits left of the header's actions, immediately after the title, so the tabs
-   read as "which part of this screen" rather than as page-level navigation. */
-.fxs-tabs {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-1);
-}
-
-.fxs-tab {
-  padding: 4px 10px;
-  border-radius: var(--radius-input);
-  color: var(--color-text-secondary);
-  font-size: var(--text-base);
-  text-decoration: none;
-}
-
-.fxs-tab:hover {
-  background: var(--color-surface-2);
-  color: var(--color-text-primary);
-}
-
-/* The current tab is tinted rather than underlined, matching the segmented
-   control in the Model Browser — two "you are here" idioms in one app is one
-   too many. */
-.fxs-tab[data-current] {
-  background: var(--color-accent-dim);
-  color: var(--color-accent-hi);
-  font-weight: 600;
-}
+/* No tab styles here on purpose — the toolkit's sections are the shell's left
+   rail (see shell/railConfig.ts), not a strip under the title. */

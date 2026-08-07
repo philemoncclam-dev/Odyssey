@@ -25,16 +25,16 @@ describe('isFullBleedPath', () => {
 })
 
 describe('isChromeless', () => {
-  it('drops the rail on the browser and across the whole Fabric Toolkit', () => {
+  it('drops the rail on the browser only', () => {
     expect(isChromeless('/models')).toBe(true)
-    expect(isChromeless('/fabric')).toBe(true)
-    // The toolkit's pages navigate by their own tab strip, so every one of
-    // them opts out — not just its landing screen.
-    expect(isChromeless('/fabric/explore')).toBe(true)
-    expect(isChromeless('/fabric/integrations')).toBe(true)
   })
 
-  it('keeps it on the viewer', () => {
+  it('keeps it on the viewer and across the Fabric Toolkit', () => {
     expect(isChromeless('/model/abc-123')).toBe(false)
+    // The toolkit's sections ARE the rail — Explore and Integrations are
+    // destinations, which is the thing a rail is for.
+    expect(isChromeless('/fabric')).toBe(false)
+    expect(isChromeless('/fabric/explore')).toBe(false)
+    expect(isChromeless('/fabric/integrations')).toBe(false)
   })
 })

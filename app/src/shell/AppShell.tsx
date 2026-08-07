@@ -3,7 +3,6 @@
 import { type ReactNode, useEffect } from 'react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useRouterState } from '@tanstack/react-router'
-import ModeMenu from './ModeMenu'
 import Rail from './Rail'
 import RailBottomCluster from './RailBottomCluster'
 import { isChromeless, isFullBleedPath, modeFromPathname, railConfig } from './railConfig'
@@ -43,10 +42,11 @@ export default function AppShell({ children }: { children: ReactNode }) {
       <div className="shell" data-mode={mode} data-fullbleed={isFullBleedPath(pathname) || undefined}>
         {!isChromeless(pathname) && (
           <div className="shell-rail-col">
-            {/* Modeling drops the mode menu: the Model Viewer carries its own
-                Lineage Studio mark in its top bar, which goes to the Model
-                Browser, and the browser is where modes are switched now. */}
-            {mode !== 'model' && <ModeMenu />}
+            {/* No mark at the top of the rail. Every screen that has one now
+                carries it in its own top bar — the Model Viewer's, and the
+                shared PageHeader on the Model Browser and the Fabric Toolkit —
+                and that mark is the mode switch. A second one here would be
+                two doors to the same room, sitting a few pixels apart. */}
             <Rail items={railConfig[mode]} />
             <RailBottomCluster onOpenSearch={openSearch} />
           </div>

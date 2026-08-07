@@ -31,7 +31,7 @@
   box-shadow: var(--shadow-raised);
 }
 
-/* ===== Rail column: logo/mode-menu, rail, rail-bottom cluster ===== */
+/* ===== Rail column: rail items + rail-bottom cluster ===== */
 .shell-rail-col {
   width: var(--rail-width);
   flex: none;
@@ -45,20 +45,6 @@
   border-right: var(--border-width) solid var(--rail-border);
   z-index: 5; /* rail + top-bar chrome tier, 02-UI-SPEC overlay table */
 }
-
-.mode-menu-trigger {
-  display: grid;
-  place-items: center;
-  width: var(--rail-item-size);
-  height: var(--rail-item-size);
-  border: 0;
-  border-radius: var(--rail-item-radius);
-  background: transparent;
-  color: var(--color-text-primary);
-  cursor: pointer;
-}
-.mode-menu-trigger:hover { background: var(--rail-item-bg-hover); }
-.mode-menu-trigger svg { width: var(--rail-item-icon-size); height: var(--rail-item-icon-size); stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
 .rail {
   display: flex;
@@ -160,32 +146,10 @@
 }
 .rail-tooltip-arrow { fill: var(--mode-menu-bg); }
 
-/* ===== Mode menu (Radix DropdownMenu) — z-index 60, above tooltips ===== */
-.mode-menu {
-  min-width: 200px;
-  background: var(--mode-menu-bg);
-  border: var(--border-width) solid var(--mode-menu-border);
-  border-radius: var(--mode-menu-radius);
-  box-shadow: var(--mode-menu-shadow);
-  padding: var(--spacing-1);
-  z-index: 60;
-}
-.mode-menu-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-2);
-  padding: var(--spacing-2) var(--spacing-3);
-  border-radius: var(--mode-menu-item-radius);
-  font-size: var(--text-base);
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  cursor: pointer;
-  outline: none;
-}
-.mode-menu-item:hover, .mode-menu-item:focus-visible { background: var(--color-surface-2); color: var(--color-text-primary); }
-.mode-menu-item[data-current="true"] { color: var(--mode-menu-item-fg-active); font-weight: 600; }
-.mode-menu-item-check { display: grid; place-items: center; width: 14px; height: 14px; flex: none; }
-.mode-menu-check { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+/* The mode-menu rules that stood here are gone with shell/ModeMenu.tsx: the
+   mark in each screen's own top bar is the mode switch now. The
+   --mode-menu-* TOKENS stay in components.css — .rail-tooltip above shares
+   them, so they are the overlay surface's tokens, not the menu's. */
 
 /* ===== Canvas region: fills 100% of the remaining viewport (SHELL-02) ===== */
 .graph-snapshot-banner {
