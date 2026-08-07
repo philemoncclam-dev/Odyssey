@@ -52,6 +52,9 @@ return fixtures for a demo — the UI cannot tell the difference.
 
 ### Capabilities
 
+`runSandbox` is the exception to "nothing implements it" — the engine ships in
+this repo. See below.
+
 | Method | Feeds | Prototype endpoint |
 |---|---|---|
 | `status` | Explore's connected/not-connected state | `GET /fabric/status` |
@@ -84,20 +87,70 @@ holds the credential.
 If you want user-delegated access instead, MSAL in the browser and a token on
 each call fits the same interface — the seam does not care.
 
-## The sandbox needs an engine
+## The sandbox engine is in this repository
 
-`runSandbox` is the largest thing to supply, and it is worth being clear about
-what it was.
+`runSandbox` is the one capability that already has an implementation.
 
-The prototype ran a notebook's cells in an **isolated subprocess** — scrubbed
-environment, no Fabric credentials, no writes to real Fabric — and derived
+The engine is `sandbox/` at the repository root — about 3,700 lines of Python
+with its own test suite. It runs a notebook's cells in an **isolated
+subprocess** (scrubbed environment, throwaway home and working directory, no
+Fabric credentials, killed as a process tree on timeout) and derives
 column-level lineage from Spark's analyzed plans, falling back to static SQL
-analysis. That engine is not part of this repository.
+analysis through sqlglot when there is no JVM.
 
-Everything downstream of it is: the sequence builder, the run report, the
-coverage verdicts, the observed-vs-predicted diff, the lineage canvas, and the
-conversion into an Odyssey model. They are all typed against `SandboxRunResult`
-and work as soon as something returns one.
+It is a library, not a service. To reach it from the browser:
+
+```bash
+python -m sandbox.service                                   # 127.0.0.1:8765
+cd app && VITE_SANDBOX_URL=http://127.0.0.1:8765 npm run dev
+```
+
+`sandbox/service.py` is one stdlib HTTP endpoint in front of `run_sandbox`, and
+`app/src/fabric/localEngine.ts` is the `FabricApi` that posts to it. With
+`VITE_SANDBOX_URL` unset — every default checkout, every production build —
+neither is installed and nothing makes a network call.
+
+### Two engines, and which one you get
+
+`spark_available()` decides. With the pinned PySpark venv present you get real
+Catalyst plans (`engine: "spark"`); without a JVM you get the stub
+(`engine: "stub"`), which parses the SQL text instead. **The stub is the
+default**, it satisfies the same contract, and it is what CI exercises — but a
+result labelled `stub` when you expected Spark explains most surprising output.
+`GET /sandbox/status` reports which one is live.
+
+### What the bridge cannot do
+
+It runs **cells you send it**. Running a notebook by `workspace_id`/`item_id`
+means fetching its source from Fabric first, which needs a credential the
+engine deliberately does not hold — so wire `notebookSource` and send the cells
+it returns.
+
+The same gap is why the sandbox is not fully drivable from the UI on its own:
+sequence steps are added from the Explore tree, and that tree needs `items`
+wired. With only the engine installed, the sandbox works from code and the tree
+is empty.
+
+`schema_resolution`, `observed` and `downstream` are also left unfilled. The
+prototype's backend attached them *after* the engine returned, because each
+takes a Fabric call the child process cannot make.
+
+### Deploying it
+
+Do not deploy `sandbox/service.py`. It is a developer's loopback tool: no
+authentication, no rate limiting, and an endpoint whose purpose is executing
+submitted code. Call `run_sandbox` from your own service instead — it is a
+dozen lines — and put your own auth in front.
+
+One constraint carries over from `runner.py`'s docstring and is easy to miss:
+scrubbing the child's environment does not hide the **parent's**. On Linux the
+child runs as the same uid, so `/proc/1/environ` is readable and every variable
+the host process holds is one `open()` away from any submitted cell. **A host
+that runs this engine must hold no secrets in its environment.** Closing that
+properly means running the executor as a different uid, which means it wants to
+be its own service rather than a subprocess of your API.
+
+### If you replace it
 
 `SandboxRunResult` is heavily commented in `api.ts`, and those comments are the
 specification — particularly the fields that distinguish "we checked and found
