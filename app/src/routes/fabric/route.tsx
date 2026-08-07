@@ -9,6 +9,7 @@
 // The bar itself is shared with the Model Browser, so the mark sits in the
 // same place on both landing screens and toggles between them.
 import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { isDemoActive } from '../../fabric/demoFlag'
 import { PageHeader } from '../../shell/PageHeader'
 import './fabricShell.css'
 
@@ -19,7 +20,17 @@ export const Route = createFileRoute('/fabric')({
 function FabricLayout() {
   return (
     <div className="fxs">
-      <PageHeader mode="fabric" title="Fabric Toolkit" />
+      <PageHeader mode="fabric" title="Fabric Toolkit">
+        {/* Permanent while demo mode is on, and in the title bar rather than
+            tucked in a corner. Every workspace, table and lineage edge on
+            these screens is invented, and someone arriving mid-session must
+            not have to work that out for themselves. */}
+        {isDemoActive() && (
+          <span className="fxs-demo" title="Every response on these screens is staged. Nothing is connected.">
+            Demo data
+          </span>
+        )}
+      </PageHeader>
       <div className="fxs-body">
         <Outlet />
       </div>

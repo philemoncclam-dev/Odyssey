@@ -19,6 +19,7 @@ it gets updated as each piece lands, not before.
 | Lineage engine | Done |
 | Branching history and merge (local) | Done |
 | Fabric Toolkit UI (Explore, sandbox, integrations) | Built; Fabric not connected |
+| Demo estate (`npm run dev:demo`) | Done |
 | Sandbox engine | Done, runs locally |
 | Server, sign-in, shared models | Not started |
 
@@ -36,6 +37,10 @@ implementation: no credentials, no service principal, no endpoints. The sandbox
 half does, and it is in this repository (below). See
 [docs/fabric-toolkit-wiring.md](docs/fabric-toolkit-wiring.md) for how to
 connect it.
+
+To see the toolkit working with nothing connected to it, `npm run dev:demo`
+serves it against an invented Fabric estate. It is opt-in, never a fallback,
+and says "Demo data" on screen for as long as it is on.
 
 The Spark-based lineage engine that derives column-level lineage from query
 plans lives in `sandbox/` and is tested. It is a library, not a running
