@@ -2318,3 +2318,57 @@
   font-family: var(--font-mono);
   font-size: 10px;
 }
+
+/* Export and the gaps worklist, at the top of the run report. */
+.sbx-export {
+  display: flex;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) 0;
+}
+
+.sbx-gaps {
+  margin-bottom: var(--spacing-3);
+  padding: var(--spacing-2);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-1);
+  font-size: var(--text-micro);
+}
+.sbx-gaps > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.sbx-gaps ul {
+  margin: var(--spacing-2) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sbx-gaps li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px var(--spacing-2);
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+.sbx-gap-badge {
+  justify-self: end;
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-2);
+  color: var(--color-text-tertiary);
+  font-size: 10px;
+}
+/* A table whose schema would not resolve is the bigger problem, and usually
+   the cause of the others — so it is the one that is tinted. */
+.sbx-gaps li[data-level='bare'] .sbx-gap-badge {
+  background: #f7e0e0;
+  color: #8c2f2f;
+}
+.sbx-gap-reason {
+  grid-column: 1 / -1;
+  color: var(--color-text-tertiary);
+}
