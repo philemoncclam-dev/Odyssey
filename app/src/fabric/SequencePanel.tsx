@@ -6,6 +6,8 @@
 //
 // The lineage those steps produce is drawn by `SequenceCanvas` in the detail
 // column's Sandbox tab; both read the one module store in `fabric/sequence.ts`.
+import { useEffect } from 'react'
+
 import { BarsSpinner } from '../shell/BarsSpinner'
 import {
   useSequence,
@@ -15,6 +17,7 @@ import {
   runAll,
   setCompareWithReal,
   type StepKind,
+  hydrateSequence,
 } from './sequence'
 
 export function StepIcon({ kind }: { kind: StepKind }) {
@@ -38,7 +41,14 @@ export function StepIcon({ kind }: { kind: StepKind }) {
 }
 
 export function SequencePanel({ title = 'Sandbox sequence' }: { title?: string }) {
-  const { steps, results, running, compareWithReal } = useSequence()
+  const { steps, results, running, compareWithReal, restoredAt } = useSequence()
+
+  // Put the last run back, once. In an effect rather than at module load so
+  // importing this file never touches storage — which is what tests and any
+  // future non-browser consumer rely on.
+  useEffect(() => {
+    hydrateSequence()
+  }, [])
 
   return (
     <>
@@ -50,6 +60,16 @@ export function SequencePanel({ title = 'Sandbox sequence' }: { title?: string }
           </button>
         )}
       </div>
+
+      {/* Never let an old result pass for a fresh one. The notebook may have
+          changed since this ran, so the panel says when it was and leaves the
+          judgement to the reader. */}
+      {restoredAt !== null && (
+        <p className="sbx-restored" role="status">
+          Showing your last run, from {whenRun(restoredAt)}. The notebooks may have
+          changed since — run again for a current answer.
+        </p>
+      )}
 
       <div className="sbx-steps">
         {steps.length === 0 ? (
@@ -112,4 +132,20 @@ export function SequencePanel({ title = 'Sandbox sequence' }: { title?: string }
       </div>
     </>
   )
+}
+
+/**
+ * When a restored run happened, in the terms someone judges staleness by.
+ *
+ * Relative for anything recent — "2 hours ago" answers "can I trust this"
+ * faster than a timestamp — and an absolute date once it is old enough that
+ * the exact day is the point.
+ */
+function whenRun(at: number): string {
+  const minutes = Math.round((Date.now() - at) / 60000)
+  if (minutes < 1) return 'a moment ago'
+  if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`
+  const hours = Math.round(minutes / 60)
+  if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`
+  return new Date(at).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })
 }

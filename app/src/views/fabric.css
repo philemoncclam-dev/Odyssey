@@ -2197,3 +2197,15 @@
   box-shadow: inset 2px 0 0 var(--color-destructive);
   padding-left: var(--spacing-2);
 }
+
+/* A restored run's staleness notice. Amber, like demo mode's badge: a state
+   the reader must factor in, not an error and not decoration. */
+.sbx-restored {
+  margin: 0;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-bottom: var(--border-width) solid var(--color-border);
+  background: #fdf6e3;
+  color: #6b4d0f;
+  font-size: var(--text-micro);
+  line-height: 1.5;
+}
