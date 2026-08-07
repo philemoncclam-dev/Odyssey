@@ -25,8 +25,18 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* ===== Tier 1 / Tier 2 design tokens ===== */
-@theme {
+/* ===== Tier 1 / Tier 2 design tokens =====
+   `:root`, not `@theme`. This block was written for Tailwind v4, whose
+   `@theme` at-rule its build step consumed. Tailwind was removed in the port —
+   the framework was in the bundle for a reset the app now owns — and `@theme`
+   went from a directive to an unknown at-rule, which every browser drops
+   ENTIRELY along with all ~160 declarations inside it. Nothing errored: the
+   app just rendered with no tokens at all, so `var(--font-sans)` and every
+   colour fell back to the initial value and the whole UI came up as unstyled
+   Times New Roman.
+   These are plain custom properties, so `:root` is exactly equivalent. Do not
+   reintroduce `@theme` without reintroducing Tailwind with it. */
+:root {
   /* --- Tier 1 — OKLCH primitives (THEME-01): each swatch declared exactly once as light-dark(<light>, <dark>) — light-dark() takes the light-theme value first, the dark-theme value second. Every value below is verbatim from 01-UI-SPEC.md's Color System tables (computed with Björn Ottosson's OKLab reference matrices), never eyeballed or re-derived. --- */
 
   /* Neutral ramp — four surface tiers + two border tokens */
