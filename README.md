@@ -19,6 +19,7 @@ it gets updated as each piece lands, not before.
 | Lineage engine | Done |
 | Branching history and merge (local) | Done |
 | Fabric Toolkit UI (Explore, sandbox, integrations) | Built; Fabric not connected |
+| Demo estate (`npm run dev:demo`) | Done |
 | Sandbox engine | Done, runs locally |
 | Server, sign-in, shared models | Not started |
 
@@ -36,6 +37,10 @@ implementation: no credentials, no service principal, no endpoints. The sandbox
 half does, and it is in this repository (below). See
 [docs/fabric-toolkit-wiring.md](docs/fabric-toolkit-wiring.md) for how to
 connect it.
+
+To see the toolkit working with nothing connected to it, `npm run dev:demo`
+serves it against an invented Fabric estate. It is opt-in, never a fallback,
+and says "Demo data" on screen for as long as it is on.
 
 The Spark-based lineage engine that derives column-level lineage from query
 plans lives in `sandbox/` and is tested. It is a library, not a running
@@ -64,8 +69,11 @@ py -m venv .venv
 cd app && VITE_SANDBOX_URL=http://127.0.0.1:8765 npm run dev
 ```
 
-The engine's Spark suite skips unless a pinned PySpark venv is installed; the
-stub engine covers the same contract without a JVM and is what CI runs.
+The engine's Spark suite skips unless PySpark is installed; the stub engine
+covers the same contract without a JVM and is what CI runs. To analyse code
+with real Catalyst plans instead, `.venv/Scripts/pip install pyspark==4.0.0`
+(~400MB, needs Java 17+) — the runner picks it up with no configuration and
+the 14 skipped tests start running.
 
 See `CONTRIBUTING.md` for the branch, commit, and review conventions this
 repository follows, and [`docs/adr/`](./docs/adr/) for the architectural

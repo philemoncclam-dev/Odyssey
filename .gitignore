@@ -20,6 +20,9 @@ venv/
 .env
 .env.*
 !.env.example
+# Demo mode's flag file, committed on purpose: it turns on staged fixtures and
+# holds nothing but a boolean. Anything needing a credential is not demo mode.
+!app/.env.demo
 
 # Editor / OS
 .DS_Store

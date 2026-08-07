@@ -19,6 +19,41 @@ browsing for a notebook and stacking it into a run is one motion.
 Not salvaged: the prototype's Overview and item-level Lineage pages. They were
 out of scope for this port and no tab points at them.
 
+## Seeing it work with nothing connected
+
+```bash
+cd app && npm run dev:demo
+```
+
+A whole invented Fabric estate — two workspaces, four lakehouses, four
+notebooks with real SQL in them, two pipelines, an integrations inventory.
+Every screen works and every interaction completes: browse the tree, read a
+notebook's source, stack it into the sandbox, run it, see column-level
+lineage, turn it into a model. No network, no credentials, no Python, no
+tenant.
+
+It is for proving the application works end to end, and for developing the UI
+against realistic shapes — a table with no lineage, a cross-workspace read, a
+run that disagrees with what really happened — without waiting on a tenant.
+
+Three rules keep it from becoming a liability, and they are worth preserving:
+
+- **It is never a fallback.** Nothing degrades into demo data when a real call
+  fails. A real estate that cannot be read must say it cannot be read, or
+  someone will trust invented lineage for a table their pipeline really writes.
+- **It says so on screen** — a "Demo data" badge in the title bar for as long
+  as it is on, and every staged value is labelled `[demo]` where it is shown.
+- **It never invents an answer it does not have.** Ask it about a notebook it
+  has no fixture for and it says so rather than returning empty lineage, which
+  would read as "this notebook touches nothing".
+
+The estate mirrors `model/fabricSample.ts`, so the demo Fabric side and the
+demo model tell one story. Fixtures live in `app/src/fabric/demoApi.ts`.
+
+If the sandbox engine is also running, demo mode hands it the fixture's cells
+and uses the real analysis instead — and falls back to the staged result, with
+a line in the run log saying so, if the engine cannot be reached.
+
 ## The one seam
 
 Everything the toolkit needs from the outside world is the `FabricApi`
@@ -112,12 +147,33 @@ neither is installed and nothing makes a network call.
 
 ### Two engines, and which one you get
 
-`spark_available()` decides. With the pinned PySpark venv present you get real
-Catalyst plans (`engine: "spark"`); without a JVM you get the stub
-(`engine: "stub"`), which parses the SQL text instead. **The stub is the
-default**, it satisfies the same contract, and it is what CI exercises — but a
-result labelled `stub` when you expected Spark explains most surprising output.
-`GET /sandbox/status` reports which one is live.
+`spark_available()` decides, and `GET /sandbox/status` reports which is live.
+
+**Stub** (`engine: "stub"`) is the default and needs no JVM. It is a symbolic
+reader, not a toy: it recovers columns from `spark.sql(...)` text with sqlglot
+and walks DataFrame chains through a shared variable environment. What it
+cannot do is evaluate — a query built from an f-string, or a chain it will not
+guess at, it abstains on and reports in `coverage` rather than guessing.
+
+**Spark** (`engine: "spark"`) analyses the code for real and takes the lineage
+off Catalyst's analyzed plans. Nothing is read or written: tables are
+registered as empty temp views, so the plans resolve without data moving.
+
+Turning Spark on locally:
+
+```bash
+.venv/Scripts/pip install pyspark==4.0.0     # ~400MB, needs Java 17+
+.venv/Scripts/python -m pytest tests/ -q     # the 14 Spark tests stop skipping
+```
+
+That is all — `run_sandbox` picks it up with no configuration. Two paths are
+tried, in order: a pinned `.venv312` beside the repo's own venv (for keeping a
+400MB dependency out of the main interpreter), then PySpark in the current
+interpreter.
+
+Cold start is around 15 seconds for the first run in a process and a few
+seconds after; the stub is near-instant. Both share the 240-second per-step
+timeout.
 
 ### What the bridge cannot do
 

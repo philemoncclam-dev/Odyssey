@@ -20,3 +20,17 @@
 
 /* No tab styles here on purpose — the toolkit's sections are the shell's left
    rail (see shell/railConfig.ts), not a strip under the title. */
+
+/* The demo-mode badge. Amber rather than red: staged data is a deliberate
+   state someone switched on, not a fault — but it has to be unmissable, so it
+   is a filled chip in the title bar rather than a subtitle. */
+.fxs-demo {
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: #f4e2b8;
+  color: #6b4d0f;
+  font-size: var(--text-micro);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
