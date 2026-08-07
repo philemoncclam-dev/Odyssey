@@ -60,6 +60,10 @@ export interface RunEntry {
 export interface StepResult {
   status: StepStatus
   runs: RunEntry[]
+  /** Epoch ms the step started, so a running step can show elapsed time. */
+  startedAt?: number | undefined
+  /** How long the step took, once it finished. */
+  ms?: number | undefined
   /** Full activity list for a pipeline (structure, incl. non-notebook ones). */
   activities?: FabricPipelineActivity[] | undefined
   error?: string | undefined
@@ -295,7 +299,8 @@ export async function runAll() {
   }
 
   for (const step of steps) {
-    next.set(step.key, { status: 'running', runs: [] })
+    const startedAt = Date.now()
+    next.set(step.key, { status: 'running', runs: [], startedAt })
     set({ results: new Map(next) })
     try {
       if (step.kind === 'notebook') {
@@ -327,6 +332,8 @@ export async function runAll() {
         )
         carry(result)
         next.set(step.key, {
+          startedAt,
+          ms: Date.now() - startedAt,
           status: result.ok ? 'ok' : 'error',
           runs: [
             {
@@ -340,7 +347,7 @@ export async function runAll() {
         })
       } else {
         const activities = await fetchFabricPipelineDefinition(step.ws, step.itemId)
-        next.set(step.key, { status: 'running', runs: [], activities })
+        next.set(step.key, { status: 'running', runs: [], activities, startedAt })
         set({ results: new Map(next) })
 
         // Walk the pipeline's activities in dependency order. Notebooks are
@@ -355,7 +362,7 @@ export async function runAll() {
               // shape of the table it lands — worth carrying to the next step.
               if (declared.result) carry(declared.result)
               runs.push(declared)
-              next.set(step.key, { status: 'running', runs: runs.slice(), activities })
+              next.set(step.key, { status: 'running', runs: runs.slice(), activities, startedAt })
               set({ results: new Map(next) })
             }
             continue
@@ -380,11 +387,13 @@ export async function runAll() {
           } catch (e) {
             runs.push({ name: a.name, status: 'error', error: e instanceof Error ? e.message : String(e) })
           }
-          next.set(step.key, { status: 'running', runs: runs.slice(), activities })
+          next.set(step.key, { status: 'running', runs: runs.slice(), activities, startedAt })
           set({ results: new Map(next) })
         }
         const failed = runs.filter((r) => r.status === 'error')
         next.set(step.key, {
+          startedAt,
+          ms: Date.now() - startedAt,
           status: failed.length ? 'error' : 'ok',
           runs,
           activities,
@@ -392,7 +401,13 @@ export async function runAll() {
         })
       }
     } catch (e) {
-      next.set(step.key, { status: 'error', runs: [], error: e instanceof Error ? e.message : String(e) })
+      next.set(step.key, {
+        startedAt,
+        ms: Date.now() - startedAt,
+        status: 'error',
+        runs: [],
+        error: e instanceof Error ? e.message : String(e),
+      })
     }
     set({ results: new Map(next) })
   }
