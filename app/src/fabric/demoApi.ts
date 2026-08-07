@@ -28,8 +28,10 @@
 
 import type {
   FabricApi,
+  FabricCallOptions,
   FabricColumn,
   FabricNotebookSource,
+  FabricPage,
   FabricPipelineActivity,
   FabricTable,
   FabricWorkspace,
@@ -43,7 +45,7 @@ import type {
   SandboxRunResult,
   SandboxTableRef,
 } from './api'
-import { refParts } from './api'
+import { FabricError, refParts } from './api'
 import { setDemoActive } from './demoFlag'
 
 const WS = 'Analytics'
@@ -464,9 +466,49 @@ const IDENTITY: Identity = {
   note: 'Nothing is authenticated. Every response on this screen is staged.',
 }
 
-/** A short pause, so loading states are visible rather than skipped past. */
-const settle = <T,>(value: T): Promise<T> =>
-  new Promise((resolve) => setTimeout(() => resolve(value), 120))
+/**
+ * A short pause, so loading states are visible rather than skipped past — and
+ * the one place cancellation is honoured, since every capability resolves
+ * through it.
+ *
+ * Aborting rejects with the same `FabricError` shape a real implementation
+ * would produce. Demo mode that ignored the signal would let the contract's
+ * cancellation go untested exactly where it is cheapest to test.
+ */
+const settle = <T,>(value: T, options?: FabricCallOptions): Promise<T> =>
+  new Promise((resolve, reject) => {
+    if (options?.signal?.aborted) {
+      reject(new FabricError('network', 'The request was cancelled.'))
+      return
+    }
+    const timer = setTimeout(() => resolve(value), 120)
+    options?.signal?.addEventListener(
+      'abort',
+      () => {
+        clearTimeout(timer)
+        reject(new FabricError('network', 'The request was cancelled.'))
+      },
+      { once: true },
+    )
+  })
+
+/**
+ * Serve a list one page at a time, so the paged contract is actually exercised.
+ *
+ * ONE row a page, which is absurd and exactly the point: with two workspaces
+ * and a page size of two it would all arrive at once and the paging would
+ * never run. At one, every list here takes more than one round trip, so a
+ * caller that reads only the first page — or an implementation that ignores
+ * `cursor` — fails in demo mode rather than in a tenant nobody can reproduce.
+ */
+const PAGE_SIZE = 1
+
+function paginate<T>(all: T[], options?: FabricCallOptions): FabricPage<T> {
+  const start = options?.cursor ? Number(options.cursor) : 0
+  const items = all.slice(start, start + PAGE_SIZE)
+  const next = start + PAGE_SIZE
+  return next < all.length ? { items, cursor: String(next) } : { items }
+}
 
 /**
  * The whole estate as a `FabricApi`.
@@ -479,60 +521,56 @@ const settle = <T,>(value: T): Promise<T> =>
 export function demoFabricApi(realEngine?: FabricApi): FabricApi {
   setDemoActive(true)
   return {
-    async status() {
-      return settle({ configured: true })
+    async status(options) {
+      return settle({ configured: true }, options)
     },
 
-    async workspaces(): Promise<FabricWorkspace[]> {
-      return settle([
+    async workspaces(options): Promise<FabricPage<FabricWorkspace>> {
+      const all: FabricWorkspace[] = [
         { id: WS_ID, name: WS, description: 'Demo — the medallion estate.' },
         { id: WS_FINANCE_ID, name: WS_FINANCE, description: 'Demo — reference data.' },
-      ])
+      ]
+      return settle(paginate(all, options), options)
     },
 
-    async items(workspaceId: string): Promise<FabricWorkspaceItems> {
+    async items(workspaceId, options): Promise<FabricWorkspaceItems> {
       return settle(
         ITEMS[workspaceId] ?? { folders: [], notebooks: [], lakehouses: [], others: [] },
+        options,
       )
     },
 
-    async tables(_workspaceId: string, lakehouseId: string): Promise<FabricTable[]> {
-      return settle(TABLES[lakehouseId] ?? [])
+    async tables(_workspaceId, lakehouseId, options): Promise<FabricPage<FabricTable>> {
+      return settle(paginate(TABLES[lakehouseId] ?? [], options), options)
     },
 
-    async notebookSource(
-      _workspaceId: string,
-      itemId: string,
-      name: string,
-    ): Promise<FabricNotebookSource> {
+    async notebookSource(_workspaceId, itemId, name, options): Promise<FabricNotebookSource> {
       const notebook = notebookById.get(itemId)
-      if (!notebook) throw new Error(`No demo notebook "${name}".`)
-      return settle({
-        name: notebook.name,
-        lakehouse_default: notebook.lakehouse,
-        cells: notebook.cells,
-      })
+      // `not-found`, not a bare Error: a notebook that is gone reads
+      // differently from one we were refused.
+      if (!notebook) throw new FabricError('not-found', `No demo notebook "${name}".`)
+      return settle(
+        {
+          name: notebook.name,
+          lakehouse_default: notebook.lakehouse,
+          cells: notebook.cells,
+        },
+        options,
+      )
     },
 
-    async tableSchema(
-      workspaceId: string,
-      lakehouseId: string,
-      tableName: string,
-    ): Promise<FabricColumn[]> {
+    async tableSchema(workspaceId, lakehouseId, tableName, options): Promise<FabricColumn[]> {
       const lakehouse =
         Object.values(LAKEHOUSES).find((l) => l.id === lakehouseId)?.name ?? 'lh_gold'
       const workspace = workspaceId === WS_FINANCE_ID ? WS_FINANCE : WS
-      return settle(SCHEMAS[ref(lakehouse, tableName, workspace)] ?? [])
+      return settle(SCHEMAS[ref(lakehouse, tableName, workspace)] ?? [], options)
     },
 
-    async pipelineDefinition(
-      _workspaceId: string,
-      itemId: string,
-    ): Promise<FabricPipelineActivity[]> {
-      return settle(PIPELINES[itemId] ?? [])
+    async pipelineDefinition(_workspaceId, itemId, options): Promise<FabricPipelineActivity[]> {
+      return settle(PIPELINES[itemId] ?? [], options)
     },
 
-    async runSandbox(body: SandboxRunRequest): Promise<SandboxRunResult> {
+    async runSandbox(body: SandboxRunRequest, options): Promise<SandboxRunResult> {
       const notebook =
         (body.item_id ? notebookById.get(body.item_id) : undefined) ??
         NOTEBOOKS.find((n) => n.name === body.name)
@@ -551,12 +589,15 @@ export function demoFabricApi(realEngine?: FabricApi): FabricApi {
         const cells = body.cells ?? notebook?.cells
         if (cells?.length) {
           try {
-            return await realEngine.runSandbox({
-              ...body,
-              cells,
-              workspace: body.workspace ?? WS,
-              lakehouse: body.lakehouse ?? notebook?.lakehouse ?? '',
-            })
+            return await realEngine.runSandbox(
+              {
+                ...body,
+                cells,
+                workspace: body.workspace ?? WS,
+                lakehouse: body.lakehouse ?? notebook?.lakehouse ?? '',
+              },
+              options,
+            )
           } catch (err) {
             engineNote = `[demo] The sandbox engine could not be reached, so this result is staged. ${
               err instanceof Error ? err.message : String(err)
@@ -579,18 +620,21 @@ export function demoFabricApi(realEngine?: FabricApi): FabricApi {
           error:
             'No staged result for this notebook. Demo mode covers the notebooks in the ' +
             'demo workspace; wire the sandbox engine to analyse anything else.',
-        })
+        }, options)
       }
 
       const result = demoRun(notebook)
-      return settle({
-        ...result,
-        ...(engineNote ? { log: [engineNote, ...result.log] } : {}),
-        ...(body.include_observed ? { observed: demoObserved(notebook) } : {}),
-      })
+      return settle(
+        {
+          ...result,
+          ...(engineNote ? { log: [engineNote, ...result.log] } : {}),
+          ...(body.include_observed ? { observed: demoObserved(notebook) } : {}),
+        },
+        options,
+      )
     },
 
-    async observedRun(params: ObservedRunRequest): Promise<SandboxObservedRun> {
+    async observedRun(params: ObservedRunRequest, options): Promise<SandboxObservedRun> {
       const notebook = notebookById.get(params.item_id)
       if (!notebook) {
         return settle({
@@ -609,17 +653,17 @@ export function demoFabricApi(realEngine?: FabricApi): FabricApi {
           statements_resolved: 0,
           unrecognised: [],
           notes: ['[demo] No staged run history for this item.'],
-        })
+        }, options)
       }
-      return settle(demoObserved(notebook))
+      return settle(demoObserved(notebook), options)
     },
 
-    async integrations(): Promise<Integration[]> {
-      return settle(INTEGRATIONS)
+    async integrations(options): Promise<Integration[]> {
+      return settle(INTEGRATIONS, options)
     },
 
-    async identity(): Promise<Identity> {
-      return settle(IDENTITY)
+    async identity(options): Promise<Identity> {
+      return settle(IDENTITY, options)
     },
   }
 }

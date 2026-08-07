@@ -85,6 +85,50 @@ toolkit can be brought up one endpoint at a time.
 Fabric REST API directly with a token from MSAL, proxy through a backend, or
 return fixtures for a demo — the UI cannot tell the difference.
 
+### What every capability must handle
+
+Three things are part of the contract rather than optional polish, because
+retrofitting any of them means editing every method you have written.
+
+**Cancellation.** Every method takes an optional final `options` argument
+carrying an `AbortSignal`. Pass it to `fetch`. The workspace tree fires a
+request per branch opened, and without this, walking a large tenant leaves a
+tail of requests nobody is waiting for against an API that throttles.
+
+**Paging.** `workspaces` and `tables` return `{ items, cursor }`. Return a
+`cursor` when there is more and omit it on the last page; you will be called
+again with `options.cursor` set to whatever you returned. `items` is
+deliberately not paged — its result is grouped into four lists by item type
+and a page boundary falls across those groups, so drain Fabric's own paging
+inside it.
+
+The convenience functions (`fetchFabricWorkspaces`, `fetchFabricTables`) walk
+every page for the UI. They **throw** rather than truncate if a cursor never
+clears — a short list that looks complete is worse than an error.
+
+**Error kinds.** Throw `FabricError` with a `kind` so the UI can say something
+useful. `fabricErrorFromResponse(res, what)` does the mapping for you:
+
+| status | kind | what the user is told |
+|---|---|---|
+| 401 | `unauthorized` | the session or token expired |
+| 403 | `forbidden` | **not visible to you — not empty** |
+| 404 | `not-found` | the workspace or item is gone |
+| 429 | `throttled` | wait; `retryAfterSeconds` carries `Retry-After` |
+| 5xx | `unavailable` | upstream is broken, retrying may work |
+
+`forbidden` is the load-bearing one. This toolkit says everywhere that an empty
+list means "no permission, not nothing there" — that is only true if a refusal
+arrives as a refusal. An integration that collapses 401 and 403 sends people to
+reset a token when the answer is "ask for access to that workspace".
+
+A plain `Error` still works and lands as `unknown`. Nothing breaks; the UI just
+cannot be specific.
+
+Demo mode exercises all three: it pages one row at a time, honours the abort
+signal, and throws typed errors — so an implementation compared against it
+fails locally rather than in a tenant nobody can reproduce.
+
 ### Capabilities
 
 `runSandbox` is the exception to "nothing implements it" — the engine ships in

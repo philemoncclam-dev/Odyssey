@@ -520,24 +520,78 @@ export function refParts(ref: string): SandboxTableRef {
  * implementation is free to satisfy them however it likes. The old REST path
  * is quoted on each purely as a hint about the shape expected back.
  */
+/**
+ * A page of results, and where to ask for the next one.
+ *
+ * Fabric's REST surface pages with continuation tokens, and a tenant large
+ * enough for that is exactly the tenant this tool is for. Returning a bare
+ * array left an implementation two bad options: silently serve page one, or
+ * block until every page has arrived. Both are wrong in a way nobody notices
+ * until production, because a demo tenant and a small one both fit in one page.
+ *
+ * `cursor` absent means this is the last page. It is opaque — whatever the
+ * implementation needs to resume, passed straight back.
+ */
+export interface FabricPage<T> {
+  items: T[]
+  cursor?: string | undefined
+}
+
+/**
+ * Options every capability accepts.
+ *
+ * `signal` is the important one and the reason this is a parameter rather than
+ * a convention: the workspace tree fires a request per branch opened, and
+ * without a way to abort, walking through a large tenant leaves a tail of
+ * requests nobody is waiting for — against an API that throttles.
+ */
+export interface FabricCallOptions {
+  signal?: AbortSignal | undefined
+  /** Resume token from a previous {@link FabricPage}. Paged capabilities only. */
+  cursor?: string | undefined
+}
+
 export interface FabricApi {
   /** Whether Fabric access is configured at all. `GET /fabric/status` */
-  status?(): Promise<{ configured: boolean }>
+  status?(options?: FabricCallOptions): Promise<{ configured: boolean }>
 
-  /** Workspaces the caller can see. `GET /fabric/workspaces` */
-  workspaces?(): Promise<FabricWorkspace[]>
+  /**
+   * Workspaces the caller can see. `GET /fabric/workspaces`
+   *
+   * PAGED. An empty page is not the same as no permission — see
+   * {@link FabricError} and the 403 note there.
+   */
+  workspaces?(options?: FabricCallOptions): Promise<FabricPage<FabricWorkspace>>
 
-  /** One workspace's folders and items. `GET /fabric/workspaces/{id}/items` */
-  items?(workspaceId: string): Promise<FabricWorkspaceItems>
+  /**
+   * One workspace's folders and items. `GET /fabric/workspaces/{id}/items`
+   *
+   * NOT paged, unlike the two around it. The result is grouped into four lists
+   * by item type, and a page boundary falls across those groups rather than
+   * between them — a "page" of a grouped result is not a thing a caller can
+   * resume from. An implementation drains Fabric's own paging internally. A
+   * workspace holds items in the hundreds, so this is affordable in a way a
+   * tenant-wide list is not.
+   */
+  items?(workspaceId: string, options?: FabricCallOptions): Promise<FabricWorkspaceItems>
 
-  /** Delta tables in a lakehouse. `GET /fabric/workspaces/{ws}/lakehouses/{lh}/tables` */
-  tables?(workspaceId: string, lakehouseId: string): Promise<FabricTable[]>
+  /**
+   * Delta tables in a lakehouse. `GET …/lakehouses/{lh}/tables`
+   *
+   * PAGED. A gold lakehouse with thousands of tables is ordinary.
+   */
+  tables?(
+    workspaceId: string,
+    lakehouseId: string,
+    options?: FabricCallOptions,
+  ): Promise<FabricPage<FabricTable>>
 
   /** A notebook's decoded cells. `GET /fabric/workspaces/{ws}/notebooks/{id}/source` */
   notebookSource?(
     workspaceId: string,
     itemId: string,
     name: string,
+    options?: FabricCallOptions,
   ): Promise<FabricNotebookSource>
 
   /** A table's columns from OneLake. `GET …/lakehouses/{lh}/tables/{name}/schema` */
@@ -545,32 +599,41 @@ export interface FabricApi {
     workspaceId: string,
     lakehouseId: string,
     tableName: string,
+    options?: FabricCallOptions,
   ): Promise<FabricColumn[]>
 
   /** A pipeline's activities and their declared lineage. `GET …/pipelines/{id}/definition` */
-  pipelineDefinition?(workspaceId: string, itemId: string): Promise<FabricPipelineActivity[]>
+  pipelineDefinition?(
+    workspaceId: string,
+    itemId: string,
+    options?: FabricCallOptions,
+  ): Promise<FabricPipelineActivity[]>
 
   /**
    * Analyse a notebook without running it against real Fabric.
    *
    * The prototype ran the cells in an isolated subprocess with scrubbed
-   * credentials and returned the lineage Catalyst produced. That engine is not
-   * part of Odyssey — this is the seam where one is plugged back in, whether
-   * that is Spark, static SQL analysis, or a service that already knows.
+   * credentials and returned the lineage Catalyst produced. That engine ships
+   * in this repository (`sandbox/`) — this is the seam it plugs into, and the
+   * seam anything else plugs into instead.
    *
    * `POST /fabric/sandbox/run`
    */
-  runSandbox?(body: SandboxRunRequest): Promise<SandboxRunResult>
+  runSandbox?(body: SandboxRunRequest, options?: FabricCallOptions): Promise<SandboxRunResult>
 
   /** What a notebook actually did when it last ran for real. `GET /fabric/sandbox/observed` */
-  observedRun?(params: ObservedRunRequest): Promise<SandboxObservedRun>
+  observedRun?(
+    params: ObservedRunRequest,
+    options?: FabricCallOptions,
+  ): Promise<SandboxObservedRun>
 
   /** The external services this deployment calls. `GET /integrations` */
-  integrations?(): Promise<Integration[]>
+  integrations?(options?: FabricCallOptions): Promise<Integration[]>
 
   /** Who the deployment calls Microsoft as. `GET /integrations/identity` */
-  identity?(): Promise<Identity>
+  identity?(options?: FabricCallOptions): Promise<Identity>
 }
+
 
 /** Arguments to {@link FabricApi.runSandbox}. */
 export interface SandboxRunRequest {
@@ -600,20 +663,76 @@ export interface ObservedRunRequest {
 }
 
 /**
+ * Why a Fabric call failed, in the terms the UI actually has to distinguish.
+ *
+ * The load-bearing one is `forbidden`. Everything in this toolkit repeats that
+ * an empty list means "no permission", not "nothing there" — and until now
+ * there was no way to carry that: a 403 arrived as a generic Error and the
+ * view had to guess. These are the distinctions worth acting on differently:
+ *
+ * - `not-wired`    nobody supplied this capability. A setup state, not a fault.
+ * - `unauthorized` 401. The token is missing or expired — re-authenticate.
+ * - `forbidden`    403. Authenticated, and not allowed. Say so; never render
+ *                  it as an empty result.
+ * - `not-found`    404. The workspace or item is gone or was never visible.
+ * - `throttled`    429. Fabric throttles hard, and the answer is to wait —
+ *                  `retryAfterSeconds` carries the header when one was sent.
+ * - `unavailable`  5xx. Upstream is broken; retrying may work.
+ * - `network`      the request never got an answer at all.
+ * - `unknown`      anything else, rather than a wrong guess.
+ */
+export type FabricErrorKind =
+  | 'not-wired'
+  | 'unauthorized'
+  | 'forbidden'
+  | 'not-found'
+  | 'throttled'
+  | 'unavailable'
+  | 'network'
+  | 'unknown'
+
+/**
+ * A failure with a reason attached.
+ *
+ * An implementation is not required to throw this — a plain Error still works
+ * and lands as `unknown`. Throwing it is what lets the UI say "you do not have
+ * access to this workspace" instead of "something went wrong", so
+ * {@link fabricErrorFromResponse} exists to make it one line.
+ */
+export class FabricError extends Error {
+  readonly kind: FabricErrorKind
+  /** HTTP status, when the failure came from one. */
+  readonly status?: number | undefined
+  /** From `Retry-After`, when the service sent it. Seconds. */
+  readonly retryAfterSeconds?: number | undefined
+
+  constructor(
+    kind: FabricErrorKind,
+    message: string,
+    detail: { status?: number | undefined; retryAfterSeconds?: number | undefined; cause?: unknown } = {},
+  ) {
+    super(message, detail.cause === undefined ? undefined : { cause: detail.cause })
+    this.name = 'FabricError'
+    this.kind = kind
+    this.status = detail.status
+    this.retryAfterSeconds = detail.retryAfterSeconds
+  }
+}
+
+/**
  * Thrown when the UI reaches for a capability nobody has supplied.
  *
- * A distinct type rather than a bare Error so a caller can tell "not wired yet"
- * from "wired, and the call failed" — the first is a setup state, the second is
- * a fault. The salvaged views do not currently draw them differently: they
- * surface the message, which names the missing capability and the call to make,
- * and that is the more useful thing while the toolkit is being wired up. Use
- * `isNotWired` to separate them once real failures are possible.
+ * A subclass rather than a separate type, so a caller that handles
+ * `FabricError` handles this too — being unwired is one more reason a call did
+ * not produce data, and a view that forgets to special-case it still shows
+ * something sensible.
  */
-export class FabricNotWiredError extends Error {
+export class FabricNotWiredError extends FabricError {
   readonly capability: keyof FabricApi
 
   constructor(capability: keyof FabricApi) {
     super(
+      'not-wired',
       `The Fabric Toolkit is not wired up: no "${capability}" implementation was provided. ` +
         `Call setFabricApi({ ${capability}: … }) at startup — see src/fabric/api.ts.`,
     )
@@ -622,9 +741,63 @@ export class FabricNotWiredError extends Error {
   }
 }
 
+export function isFabricError(err: unknown): err is FabricError {
+  return err instanceof FabricError
+}
+
+/** The reason behind any thrown value, defaulting to `unknown` rather than guessing. */
+export function fabricErrorKind(err: unknown): FabricErrorKind {
+  return isFabricError(err) ? err.kind : 'unknown'
+}
+
+/**
+ * Turn a failed `Response` into a {@link FabricError}. For implementations.
+ *
+ * The mapping is the whole point, so it is here once rather than in every
+ * implementation: 401 and 403 mean different things to a user, and an
+ * integration that collapses them sends people to reset a token when the real
+ * answer is "ask for access to that workspace".
+ */
+export async function fabricErrorFromResponse(res: Response, what: string): Promise<FabricError> {
+  const kind: FabricErrorKind =
+    res.status === 401
+      ? 'unauthorized'
+      : res.status === 403
+        ? 'forbidden'
+        : res.status === 404
+          ? 'not-found'
+          : res.status === 429
+            ? 'throttled'
+            : res.status >= 500
+              ? 'unavailable'
+              : 'unknown'
+
+  // The service's own message beats a status code, when it sent one.
+  const detail = await res
+    .text()
+    .then((text) => {
+      try {
+        const body: unknown = JSON.parse(text)
+        if (body && typeof body === 'object' && 'error' in body) return String(body.error)
+      } catch {
+        /* not JSON — fall through to the raw text */
+      }
+      return text.slice(0, 300)
+    })
+    .catch(() => '')
+
+  const after = Number(res.headers.get('Retry-After'))
+  return new FabricError(kind, `${what}: ${res.status}${detail ? ` — ${detail}` : ''}`, {
+    status: res.status,
+    ...(Number.isFinite(after) && after > 0 ? { retryAfterSeconds: after } : {}),
+  })
+}
+
+/** True when the call failed because nobody supplied that capability. */
 export function isNotWired(err: unknown): err is FabricNotWiredError {
   return err instanceof FabricNotWiredError
 }
+
 
 let current: FabricApi = {}
 
@@ -672,60 +845,121 @@ function need<K extends keyof FabricApi>(key: K): NonNullable<FabricApi[K]> {
 // `async` turns the throw into a rejected promise, which is what every
 // caller here is written against.
 
-export async function fetchFabricStatus(): Promise<{ configured: boolean }> {
-  return need('status')()
+/**
+ * How many pages a convenience function will walk before giving up.
+ *
+ * A ceiling, not a page size. Endless pagination is a bug — a cursor that
+ * never clears, a service echoing the same token — and without a bound it
+ * hangs the UI on a request that can never finish. At Fabric's page sizes this
+ * is tens of thousands of rows, far past what these views can draw.
+ */
+const MAX_PAGES = 100
+
+/**
+ * Walk every page and return the lot.
+ *
+ * Hitting the ceiling THROWS rather than returning what it has. Silently
+ * truncating is the one thing this codebase refuses to do anywhere else — a
+ * short list that looks complete is worse than an error, because the user acts
+ * on it. Callers that genuinely need partial results should page themselves
+ * with the `FabricApi` method directly.
+ */
+async function drain<T>(
+  what: string,
+  page: (cursor?: string) => Promise<FabricPage<T>>,
+): Promise<T[]> {
+  const all: T[] = []
+  let cursor: string | undefined
+  for (let i = 0; i < MAX_PAGES; i++) {
+    const result: FabricPage<T> = await page(cursor)
+    all.push(...result.items)
+    if (!result.cursor) return all
+    cursor = result.cursor
+  }
+  throw new FabricError(
+    'unknown',
+    `${what} did not stop paging after ${MAX_PAGES} pages (${all.length} rows). ` +
+      'That is usually a cursor the service never clears.',
+  )
 }
 
-export async function fetchFabricWorkspaces(): Promise<FabricWorkspace[]> {
-  return need('workspaces')()
+export async function fetchFabricStatus(
+  options?: FabricCallOptions,
+): Promise<{ configured: boolean }> {
+  return need('status')(options)
 }
 
-export async function fetchFabricItems(workspaceId: string): Promise<FabricWorkspaceItems> {
-  return need('items')(workspaceId)
+/** Every workspace, paging until the service says there are no more. */
+export async function fetchFabricWorkspaces(
+  options?: FabricCallOptions,
+): Promise<FabricWorkspace[]> {
+  const workspaces = need('workspaces')
+  return drain('workspaces', (cursor) => workspaces({ ...options, cursor }))
 }
 
+export async function fetchFabricItems(
+  workspaceId: string,
+  options?: FabricCallOptions,
+): Promise<FabricWorkspaceItems> {
+  return need('items')(workspaceId, options)
+}
+
+/** Every table in a lakehouse, paging until the service says there are no more. */
 export async function fetchFabricTables(
   workspaceId: string,
   lakehouseId: string,
+  options?: FabricCallOptions,
 ): Promise<FabricTable[]> {
-  return need('tables')(workspaceId, lakehouseId)
+  const tables = need('tables')
+  return drain(`tables in ${lakehouseId}`, (cursor) =>
+    tables(workspaceId, lakehouseId, { ...options, cursor }),
+  )
 }
 
 export async function fetchFabricNotebookSource(
   workspaceId: string,
   itemId: string,
   name: string,
+  options?: FabricCallOptions,
 ): Promise<FabricNotebookSource> {
-  return need('notebookSource')(workspaceId, itemId, name)
+  return need('notebookSource')(workspaceId, itemId, name, options)
 }
 
 export async function fetchFabricTableSchema(
   workspaceId: string,
   lakehouseId: string,
   tableName: string,
+  options?: FabricCallOptions,
 ): Promise<FabricColumn[]> {
-  return need('tableSchema')(workspaceId, lakehouseId, tableName)
+  return need('tableSchema')(workspaceId, lakehouseId, tableName, options)
 }
 
 export async function fetchFabricPipelineDefinition(
   workspaceId: string,
   itemId: string,
+  options?: FabricCallOptions,
 ): Promise<FabricPipelineActivity[]> {
-  return need('pipelineDefinition')(workspaceId, itemId)
+  return need('pipelineDefinition')(workspaceId, itemId, options)
 }
 
-export async function runSandbox(body: SandboxRunRequest): Promise<SandboxRunResult> {
-  return need('runSandbox')(body)
+export async function runSandbox(
+  body: SandboxRunRequest,
+  options?: FabricCallOptions,
+): Promise<SandboxRunResult> {
+  return need('runSandbox')(body, options)
 }
 
-export async function fetchObservedRun(params: ObservedRunRequest): Promise<SandboxObservedRun> {
-  return need('observedRun')(params)
+export async function fetchObservedRun(
+  params: ObservedRunRequest,
+  options?: FabricCallOptions,
+): Promise<SandboxObservedRun> {
+  return need('observedRun')(params, options)
 }
 
-export async function fetchIntegrations(): Promise<Integration[]> {
-  return need('integrations')()
+export async function fetchIntegrations(options?: FabricCallOptions): Promise<Integration[]> {
+  return need('integrations')(options)
 }
 
-export async function fetchIdentity(): Promise<Identity> {
-  return need('identity')()
+export async function fetchIdentity(options?: FabricCallOptions): Promise<Identity> {
+  return need('identity')(options)
 }
