@@ -24,6 +24,21 @@ export interface Step {
   ws: string
   itemId: string
   name: string
+  /**
+   * Cells to run, for code the user supplied rather than a notebook fetched
+   * from Fabric.
+   *
+   * A Fabric step names a notebook by `ws`/`itemId` and something upstream
+   * fetches its source. A step opened from a file or pasted in has no notebook
+   * and no ids naming one — it has the text. Present means "run exactly this",
+   * and `ws`/`itemId` are then labels rather than identifiers.
+   *
+   * This is all the engine ever needed. Only the UI insisted the cells come
+   * from a workspace first.
+   */
+  cells?: string[] | undefined
+  /** Defaults an unqualified table name resolves against. Supplied code only. */
+  lakehouse?: string | undefined
 }
 
 export type StepStatus = 'pending' | 'running' | 'ok' | 'error' | 'skipped'
@@ -284,13 +299,32 @@ export async function runAll() {
     set({ results: new Map(next) })
     try {
       if (step.kind === 'notebook') {
-        const result = await runSandbox({
-          name: step.name,
-          workspace_id: step.ws,
-          item_id: step.itemId,
-          carried_schemas: carried,
-          include_observed: compareWithReal,
-        })
+        const result = await runSandbox(
+          step.cells
+            ? {
+                // Supplied here: the cells ARE the step. There is no notebook
+                // to fetch, and no observed run to compare against — nothing
+                // in Fabric ever ran this, so asking would be a guaranteed
+                // empty answer dressed up as a finding.
+                name: step.name,
+                cells: step.cells,
+                workspace: step.ws,
+                lakehouse: step.lakehouse ?? '',
+                carried_schemas: carried,
+                // Nothing upstream has described the tables this reads, so
+                // Spark has no views to resolve against and would report a
+                // table-level answer for code the stub can read in full. Once
+                // an earlier step HAS described them, the better engine wins.
+                ...(Object.keys(carried).length === 0 ? { engine: 'stub' as const } : {}),
+              }
+            : {
+                name: step.name,
+                workspace_id: step.ws,
+                item_id: step.itemId,
+                carried_schemas: carried,
+                include_observed: compareWithReal,
+              },
+        )
         carry(result)
         next.set(step.key, {
           status: result.ok ? 'ok' : 'error',

@@ -179,8 +179,16 @@ class Handler(BaseHTTPRequestHandler):
             self._json(400, {"error": str(exc)})
             return
 
+        # "auto" prefers Spark when it is installed. A caller may ask for the
+        # stub instead, and has a good reason to: Spark derives lineage from
+        # analyzed PLANS, so a table whose schema was never supplied cannot be
+        # resolved and the run comes back table-level. The stub reads the SQL
+        # text and needs no such thing. Anything other than the two known
+        # values falls through to auto rather than erroring on a typo.
+        engine = body.get("engine")
+        engine = engine if engine in ("stub", "spark") else "auto"
         try:
-            result = run_sandbox(request)
+            result = run_sandbox(request, engine=engine)
         except Exception as exc:  # noqa: BLE001 — the boundary reports, never crashes
             # A 500 here would be a bare browser error. The engine's own failure
             # shape is a RunResult with `ok: false`, and the UI already renders

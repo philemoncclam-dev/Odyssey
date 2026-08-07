@@ -179,3 +179,41 @@ class TestCors:
         # match — would let any tab in the browser submit code to it.
         with _post(f"{base_url}/sandbox/run", {"cells": ["x = 1"]}, origin=origin) as res:
             assert res.headers.get("Access-Control-Allow-Origin") is None
+
+
+class TestEngineChoice:
+    """The caller may ask for the stub, and has a good reason to.
+
+    Spark derives lineage from analyzed plans, so a table whose schema nobody
+    supplied cannot be resolved and the run degrades to table level. Code
+    pasted in by hand comes with no schemas, so it asks for the stub.
+    """
+
+    def _run(self, base_url: str, engine: str | None):
+        body = {
+            "name": "pasted",
+            "workspace": "Analytics",
+            "lakehouse": "lh_silver",
+            "cells": [
+                'spark.sql("CREATE TABLE lh_silver.customers AS '
+                "SELECT id AS customer_id FROM lh_bronze.raw_customers\")"
+            ],
+        }
+        if engine:
+            body["engine"] = engine
+        with _post(f"{base_url}/sandbox/run", body) as res:
+            return json.load(res)
+
+    def test_stub_resolves_columns_with_no_schemas_supplied(self, base_url: str) -> None:
+        body = self._run(base_url, "stub")
+        assert body["engine"] == "stub"
+        # The whole reason to ask for it: full column lineage from the text.
+        assert [(f["from_column"], f["to_column"]) for f in body["column_lineage"]] == [
+            ("id", "customer_id")
+        ]
+
+    def test_an_unknown_engine_falls_back_rather_than_failing(self, base_url: str) -> None:
+        # A typo in a request must not cost the user their run.
+        body = self._run(base_url, "sqark")
+        assert body["ok"] is True
+        assert body["engine"] in ("stub", "spark")

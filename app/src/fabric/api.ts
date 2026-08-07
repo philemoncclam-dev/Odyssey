@@ -652,6 +652,16 @@ export interface SandboxRunRequest {
   carried_schemas?: Record<string, SandboxColumn[]>
   /** Also fetch what this notebook actually did last time, and diff it. */
   include_observed?: boolean
+  /**
+   * Which analyser to use. Omitted means "the best available".
+   *
+   * Worth asking for explicitly in one case: Spark takes its lineage from
+   * analyzed plans, so a table whose schema nobody supplied cannot be resolved
+   * and the run degrades to table level. The stub reads the SQL text instead
+   * and does not care whether the table exists — which is what code pasted in
+   * by hand almost always needs.
+   */
+  engine?: 'stub' | 'spark' | undefined
 }
 
 /** Arguments to {@link FabricApi.observedRun}. */
