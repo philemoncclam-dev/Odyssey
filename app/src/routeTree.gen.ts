@@ -10,7 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FabricRouteRouteImport } from './routes/fabric/route'
 import { Route as ModelsRouteImport } from './routes/models'
+import { Route as FabricIndexRouteImport } from './routes/fabric/index'
+import { Route as FabricExploreRouteImport } from './routes/fabric/explore'
+import { Route as FabricIntegrationsRouteImport } from './routes/fabric/integrations'
 import { Route as ModelModelIdRouteImport } from './routes/model.$modelId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,10 +22,30 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FabricRouteRoute = FabricRouteRouteImport.update({
+  id: '/fabric',
+  path: '/fabric',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ModelsRoute = ModelsRouteImport.update({
   id: '/models',
   path: '/models',
   getParentRoute: () => rootRouteImport,
+} as any)
+const FabricIndexRoute = FabricIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => FabricRouteRoute,
+} as any)
+const FabricExploreRoute = FabricExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => FabricRouteRoute,
+} as any)
+const FabricIntegrationsRoute = FabricIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => FabricRouteRoute,
 } as any)
 const ModelModelIdRoute = ModelModelIdRouteImport.update({
   id: '/model/$modelId',
@@ -31,30 +55,63 @@ const ModelModelIdRoute = ModelModelIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/fabric': typeof FabricRouteRouteWithChildren
   '/models': typeof ModelsRoute
+  '/fabric/explore': typeof FabricExploreRoute
+  '/fabric/integrations': typeof FabricIntegrationsRoute
   '/model/$modelId': typeof ModelModelIdRoute
+  '/fabric/': typeof FabricIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/models': typeof ModelsRoute
+  '/fabric/explore': typeof FabricExploreRoute
+  '/fabric/integrations': typeof FabricIntegrationsRoute
   '/model/$modelId': typeof ModelModelIdRoute
+  '/fabric': typeof FabricIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/fabric': typeof FabricRouteRouteWithChildren
   '/models': typeof ModelsRoute
+  '/fabric/explore': typeof FabricExploreRoute
+  '/fabric/integrations': typeof FabricIntegrationsRoute
   '/model/$modelId': typeof ModelModelIdRoute
+  '/fabric/': typeof FabricIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/models' | '/model/$modelId'
+  fullPaths:
+    | '/'
+    | '/fabric'
+    | '/models'
+    | '/fabric/explore'
+    | '/fabric/integrations'
+    | '/model/$modelId'
+    | '/fabric/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/models' | '/model/$modelId'
-  id: '__root__' | '/' | '/models' | '/model/$modelId'
+  to:
+    | '/'
+    | '/models'
+    | '/fabric/explore'
+    | '/fabric/integrations'
+    | '/model/$modelId'
+    | '/fabric'
+  id:
+    | '__root__'
+    | '/'
+    | '/fabric'
+    | '/models'
+    | '/fabric/explore'
+    | '/fabric/integrations'
+    | '/model/$modelId'
+    | '/fabric/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FabricRouteRoute: typeof FabricRouteRouteWithChildren
   ModelsRoute: typeof ModelsRoute
   ModelModelIdRoute: typeof ModelModelIdRoute
 }
@@ -68,12 +125,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fabric': {
+      id: '/fabric'
+      path: '/fabric'
+      fullPath: '/fabric'
+      preLoaderRoute: typeof FabricRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/models': {
       id: '/models'
       path: '/models'
       fullPath: '/models'
       preLoaderRoute: typeof ModelsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/fabric/': {
+      id: '/fabric/'
+      path: '/'
+      fullPath: '/fabric/'
+      preLoaderRoute: typeof FabricIndexRouteImport
+      parentRoute: typeof FabricRouteRoute
+    }
+    '/fabric/explore': {
+      id: '/fabric/explore'
+      path: '/explore'
+      fullPath: '/fabric/explore'
+      preLoaderRoute: typeof FabricExploreRouteImport
+      parentRoute: typeof FabricRouteRoute
+    }
+    '/fabric/integrations': {
+      id: '/fabric/integrations'
+      path: '/integrations'
+      fullPath: '/fabric/integrations'
+      preLoaderRoute: typeof FabricIntegrationsRouteImport
+      parentRoute: typeof FabricRouteRoute
     }
     '/model/$modelId': {
       id: '/model/$modelId'
@@ -85,8 +170,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface FabricRouteRouteChildren {
+  FabricExploreRoute: typeof FabricExploreRoute
+  FabricIntegrationsRoute: typeof FabricIntegrationsRoute
+  FabricIndexRoute: typeof FabricIndexRoute
+}
+
+const FabricRouteRouteChildren: FabricRouteRouteChildren = {
+  FabricExploreRoute: FabricExploreRoute,
+  FabricIntegrationsRoute: FabricIntegrationsRoute,
+  FabricIndexRoute: FabricIndexRoute,
+}
+
+const FabricRouteRouteWithChildren = FabricRouteRoute._addFileChildren(
+  FabricRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FabricRouteRoute: FabricRouteRouteWithChildren,
   ModelsRoute: ModelsRoute,
   ModelModelIdRoute: ModelModelIdRoute,
 }

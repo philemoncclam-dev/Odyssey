@@ -16,46 +16,10 @@
   overflow: hidden;
 }
 
-/* ===== Top bar ===== */
-
-.mb-top {
-  flex: none;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-3);
-  padding: var(--spacing-3) var(--spacing-6);
-  border-bottom: var(--border-width) solid var(--color-border);
-  background: var(--color-surface-1);
-}
-
-.mb-title {
-  margin: 0;
-  font-size: var(--text-display);
-  line-height: var(--text-display--line-height);
-  letter-spacing: var(--text-display--letter-spacing);
-  font-weight: 600;
-}
-
-.mb-top-spacer { flex: 1; }
-
-/* The Lineage Studio mark, sitting left of the "Models" heading. */
-.mb-brand {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  flex: none;
-  color: var(--color-text-primary);
-}
-.mb-brand svg {
-  width: 22px;
-  height: 22px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
+/* ===== Top bar =====
+   Moved to shell/pageHeader.css when the Fabric Toolkit grew the same bar —
+   .mb-top, .mb-title, .mb-top-spacer and .mb-brand now live there as .ph-*
+   and are shared by both landing screens. */
 
 /* Replaces the hidden icon rail as this screen's mode switch. The current side
    is a <span>, not a link — there is nowhere for it to go. */

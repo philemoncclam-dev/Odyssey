@@ -1,0 +1,202 @@
+/* /fabric/integrations — a list, not a wall of cards.
+   The first version gave every service a bordered card with four labelled
+   facts. Seven of those is a screen and a half of equal-weight boxes: nothing
+   leads, and finding the one that is not set up means reading all of them.
+   Here the ROW is the answer and the detail is one click away, so the page can
+   be scanned down a single edge. */
+
+.ig-page {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--spacing-6) var(--spacing-4);
+}
+.ig-head,
+.ig-summary,
+.ig-error,
+.ig-identity,
+.ig-list {
+  max-width: 840px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ig-head h1 {
+  margin: 0 0 var(--spacing-1);
+  color: var(--color-text-primary);
+  font-size: var(--text-heading);
+}
+.ig-sub {
+  margin: 0;
+  max-width: 60ch;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+}
+
+/* Who we call as. A single line above the list because it qualifies every row
+   below it — every one of those calls is made by this principal. */
+.ig-identity {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-2);
+  font-size: var(--text-sm);
+}
+.ig-identity-label {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.ig-identity-name {
+  color: var(--color-text-primary);
+}
+/* Selectable and never truncated — this is the exact string you paste into a
+   workspace access grant, and a clipped GUID is worse than no GUID. */
+.ig-identity-id {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--text-micro);
+  user-select: all;
+}
+.ig-identity-note {
+  flex-basis: 100%;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-micro);
+}
+
+.ig-summary {
+  margin: var(--spacing-4) auto var(--spacing-2);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-micro);
+}
+.ig-error {
+  color: var(--color-destructive);
+  font-size: var(--text-sm);
+}
+.ig-loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-8);
+}
+
+/* One hairline between rows, no box per service. */
+.ig-list {
+  list-style: none;
+  padding: 0;
+  border-top: var(--border-width) solid var(--color-border);
+}
+.ig-row {
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+.ig-row-main {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-3);
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-2);
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ig-row-main:hover {
+  background: var(--color-surface-2);
+}
+
+/* Fixed width so the states form a column the eye runs down, which is the
+   entire reason this is a list. */
+.ig-state {
+  flex: 0 0 auto;
+  width: 84px;
+  color: var(--color-warning);
+  font-size: var(--text-micro);
+  font-weight: 600;
+}
+.ig-state[data-on] {
+  color: var(--color-text-tertiary);
+  font-weight: 400;
+}
+.ig-name {
+  flex: 0 0 auto;
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+.ig-host {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-tertiary);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--text-micro);
+}
+.ig-detail {
+  flex: 0 0 auto;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-micro);
+}
+.ig-chevron {
+  flex: 0 0 auto;
+  color: var(--color-text-tertiary);
+  transition: transform 120ms ease;
+}
+.ig-chevron[data-open] {
+  transform: rotate(90deg);
+}
+
+.ig-detail-panel {
+  padding: 0 var(--spacing-2) var(--spacing-3) calc(84px + var(--spacing-3) + var(--spacing-2));
+  font-size: var(--text-sm);
+}
+.ig-detail-panel p {
+  margin: 0 0 var(--spacing-2);
+  max-width: 68ch;
+  color: var(--color-text-secondary);
+}
+.ig-detail-panel dl {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: var(--spacing-1) var(--spacing-3);
+  margin: 0;
+}
+.ig-detail-panel dt {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding-top: 2px;
+}
+.ig-detail-panel dd {
+  margin: 0;
+  max-width: 68ch;
+  color: var(--color-text-secondary);
+}
+.ig-caveats {
+  margin: var(--spacing-2) 0 0;
+  padding-left: var(--spacing-4);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-micro);
+}
+
+@media (max-width: 700px) {
+  .ig-row-main {
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+  }
+  .ig-detail-panel {
+    padding-left: var(--spacing-2);
+  }
+  .ig-detail-panel dl {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

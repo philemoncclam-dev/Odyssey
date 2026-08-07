@@ -4,6 +4,9 @@ node_modules/
 # Build output
 dist/
 build/
+# TanStack Router plugin scratch dir. routeTree.gen.ts IS tracked — it is
+# generated but the app imports it, so a clean checkout has to build.
+.tanstack/
 
 # Python
 __pycache__/

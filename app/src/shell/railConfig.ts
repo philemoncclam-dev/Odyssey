@@ -67,16 +67,16 @@ export const railConfig: Record<ModeKey, RailItem[]> = {
     { key: 'versions', label: 'History', icon: 'layers', action: 'versions' },
   ],
   fabric: [
-    { key: 'overview', label: 'Overview', icon: 'overview', to: '/fabric/overview' },
-    // No Sandbox entry: the sandbox is a tab inside Explore now (its sequence
+    // No Sandbox entry: the sandbox is a tab inside Explore (its sequence
     // builder and lineage canvas both live there), not a page of its own.
     { key: 'explore', label: 'Explore', icon: 'explore', to: '/fabric/explore' },
-    // Item-level lineage for a whole workspace — the question Explore's tree
-    // cannot answer, because a tree shows containment and this shows flow.
-    { key: 'lineage', label: 'Lineage', icon: 'layers', to: '/fabric/lineage' },
     // What this app calls, and what breaks without each. Last in the mode
     // because it is setup and diagnosis rather than daily work.
     { key: 'integrations', label: 'Integrations', icon: 'definitions', to: '/fabric/integrations' },
+    // Overview and item-level Lineage sat either side of Explore in the
+    // prototype and were not part of the salvage. Their entries are gone
+    // rather than disabled: a rail button that 404s is worse than an absent
+    // one. Restore them here when the pages land.
   ],
   products: [
     { key: 'catalog', label: 'Products', icon: 'products', to: '/products' },
@@ -113,6 +113,12 @@ export function isFullBleedPath(pathname: string): boolean {
  * Import, Export) can do anything before a model is open — the rail would be a
  * column of permanently disabled buttons. A chromeless route is responsible for
  * offering its own navigation to the other modes.
+ *
+ * The Fabric Toolkit is NOT chromeless. Its pages are the rail's reason to
+ * exist — Explore and Integrations are destinations, not commands — and it is
+ * how the toolkit was navigated before the port. Its shared PageHeader carries
+ * the title and the mark that returns to Modeling; the rail carries the
+ * sections.
  */
 export function isChromeless(pathname: string): boolean {
   return pathname === '/models'
@@ -122,9 +128,10 @@ export function isChromeless(pathname: string): boolean {
 export const MODE_LANDING: Record<ModeKey, string> = {
   // The browser, not a model — the mode menu has no way to know which model.
   model: '/models',
-  // /fabric has no index route (route.tsx is a pathless layout) — Overview is
-  // the mode's landing destination.
-  fabric: '/fabric/overview',
+  // /fabric itself. It used to be /fabric/overview, which has never existed in
+  // this repo — the toolkit's pages were not ported, so the mode menu's Fabric
+  // entry navigated to a 404 from the day it was written.
+  fabric: '/fabric',
   products: '/products',
 }
 
