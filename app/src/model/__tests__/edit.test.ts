@@ -5,12 +5,15 @@ import {
   addLayer,
   addObject,
   addTransition,
+  bindAssetToEntity,
   deleteEntities,
   deletePreservingTransitions,
   renameEntity,
   sortChildren,
+  unbindEntity,
   withDescendants,
 } from '../edit'
+import { assetUrn, bindingsIn } from '../assets'
 import { buildIndex, countEntities } from '../index'
 import { sampleModel } from '../sample'
 import type { LineageModel } from '../types'
@@ -281,5 +284,68 @@ describe('renameEntity', () => {
     const model = sampleModel()
     const next = renameEntity(model, model.layers[0].id, 'Sources')
     expect(next.layers[0].name).toBe('Sources')
+  })
+})
+
+describe('bindAssetToEntity', () => {
+  const ref = { workspaceId: 'ws-1', itemId: 'lh-1', table: 'orders' }
+  const urn = assetUrn(ref)
+
+  it('binds an existing object without adding or removing any entity', () => {
+    const model = sampleModel()
+    const before = countEntities(model)
+    const objectId = model.layers[0].objects[0].id
+    const next = bindAssetToEntity(model, objectId, urn)
+
+    expect(countEntities(next)).toBe(before)
+    const object = next.layers[0].objects.find((o) => o.id === objectId)!
+    expect(object.assetRef).toBe(urn)
+  })
+
+  it('binds a nested attribute, leaving its siblings unbound', () => {
+    const model = sampleModel()
+    const attrId = findByName(model, 'ficoscore')
+    const colUrn = assetUrn({ ...ref, column: 'fico_score' })
+    const next = bindAssetToEntity(model, attrId, colUrn)
+
+    const bindings = bindingsIn(next)
+    expect(bindings).toEqual([{ entityId: attrId, name: 'ficoscore', assetRef: colUrn }])
+  })
+
+  it('is a no-op for an id that names nothing', () => {
+    const model = sampleModel()
+    const next = bindAssetToEntity(model, 'not-a-real-id', urn)
+    expect(next).toBe(model)
+  })
+
+  it('overwrites an existing binding rather than refusing', () => {
+    const model = sampleModel()
+    const objectId = model.layers[0].objects[0].id
+    const first = bindAssetToEntity(model, objectId, urn)
+    const otherUrn = assetUrn({ workspaceId: 'ws-2', itemId: 'lh-2', table: 'customers' })
+    const second = bindAssetToEntity(first, objectId, otherUrn)
+
+    const object = second.layers[0].objects.find((o) => o.id === objectId)!
+    expect(object.assetRef).toBe(otherUrn)
+  })
+})
+
+describe('unbindEntity', () => {
+  it('clears a binding, leaving the entity and its position in place', () => {
+    const model = sampleModel()
+    const objectId = model.layers[0].objects[0].id
+    const bound = bindAssetToEntity(model, objectId, assetUrn({ workspaceId: 'ws-1', itemId: 'lh-1', table: 'orders' }))
+    const unbound = unbindEntity(bound, objectId)
+
+    expect(bindingsIn(unbound)).toEqual([])
+    const object = unbound.layers[0].objects.find((o) => o.id === objectId)!
+    expect(object.assetRef).toBeUndefined()
+    expect(object.id).toBe(objectId)
+  })
+
+  it('is a no-op for an id that names nothing', () => {
+    const model = sampleModel()
+    const next = unbindEntity(model, 'not-a-real-id')
+    expect(next).toBe(model)
   })
 })
