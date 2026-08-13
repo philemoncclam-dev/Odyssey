@@ -16,12 +16,21 @@ import type { LineageModel } from '../model/types'
 /** Writes are coalesced — a burst of edits shouldn't mean a burst of JSON.stringify. */
 const SAVE_DEBOUNCE_MS = 400
 
+interface ModelSearch {
+  /** Set by a link from ShareReadOnlyButton (ModelViewer) — opens the model without letting edits persist. */
+  readonly?: boolean
+}
+
 export const Route = createFileRoute('/model/$modelId')({
+  validateSearch: (s: Record<string, unknown>): ModelSearch => ({
+    readonly: s['readonly'] === '1' || s['readonly'] === true,
+  }),
   component: ModelRoute,
 })
 
 function ModelRoute() {
   const { modelId } = Route.useParams()
+  const readonly = Route.useSearch().readonly ?? false
   const [loaded, setLoaded] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [missing, setMissing] = useState(false)
@@ -115,6 +124,7 @@ function ModelRoute() {
       onRedo={redo}
       canUndo={canUndo}
       canRedo={canRedo}
+      readOnly={readonly}
     />
   )
 }

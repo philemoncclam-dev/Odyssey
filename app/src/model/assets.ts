@@ -134,3 +134,31 @@ export function boundObject(
     })),
   }
 }
+
+// ============================================================================
+// Drag-and-drop from Explore into the Model Viewer canvas
+// ============================================================================
+
+/** `dataTransfer` MIME type for a table dragged out of the Explore tree. */
+export const ASSET_DND_TYPE = 'application/x-odyssey-asset'
+
+/** What a table row's `dragstart` puts on the wire — just enough to rebuild an `AssetRef`. */
+export interface DraggedAssetPayload {
+  workspaceId: string
+  itemId: string
+  table: string
+}
+
+/**
+ * The in-app Explore deep link for a bound table — same `ws`/`kind`/`id`/`lh`
+ * shape `routes/fabric/explore.tsx`'s own `selectedToSearch` builds, so
+ * Explore opens with the workspace and lakehouse expanded and the table
+ * selected. A column binding still links to its table — Explore has no
+ * column-level selection of its own.
+ */
+export function explorePath(ref: AssetRef): { to: '/fabric/explore'; search: Record<string, string> } {
+  return {
+    to: '/fabric/explore',
+    search: { ws: ref.workspaceId, kind: 'table', id: ref.table, lh: ref.itemId },
+  }
+}

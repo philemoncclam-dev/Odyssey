@@ -158,6 +158,63 @@ export function addObject(
 }
 
 /**
+ * Sets or clears an entity's `assetRef` in place — the shared walk behind
+ * `bindAssetToEntity` and `unbindEntity`. Not exported: callers go through
+ * one of those two, so a caller never has to spell `undefined` to mean
+ * "unbind" versus a typo'd empty string meaning the same thing by accident.
+ */
+function setAssetRef(model: LineageModel, entityId: EntityId, urn: string | undefined): LineageModel {
+  let changed = false
+
+  const mapAttr = (a: Attribute): Attribute => {
+    if (a.id === entityId) {
+      changed = true
+      return { ...a, assetRef: urn }
+    }
+    return a.children.length ? { ...a, children: a.children.map(mapAttr) } : a
+  }
+
+  const layers = model.layers.map((l) => ({
+    ...l,
+    objects: l.objects.map((o): ModelObject => {
+      if (o.id === entityId) {
+        changed = true
+        return { ...o, assetRef: urn }
+      }
+      return { ...o, children: o.children.map(mapAttr) }
+    }),
+  }))
+
+  if (!changed) return model
+  return { ...model, layers, updatedAt: Date.now() }
+}
+
+/**
+ * Binds an EXISTING object or attribute to a real Fabric asset — ADR-0004,
+ * from the Model Viewer's "Bind asset" tool: pick a table/column, then click
+ * something already on the canvas to bind it there, rather than drawing a
+ * new box. `urn` is `assetUrn(ref)` from the caller — computed once there
+ * rather than here, since the caller already needed it to decide which kind
+ * of entity is a valid target (table-level → objects, column-level →
+ * attributes).
+ *
+ * Overwrites an existing binding without asking — the target is something the
+ * user just clicked on *while a new asset was armed*, which is the request,
+ * not a hazard to confirm.
+ *
+ * A no-op (returns `model` unchanged) if `entityId` names nothing — a stale
+ * id from a canvas the model has since changed under is a shrug, not a crash.
+ */
+export function bindAssetToEntity(model: LineageModel, entityId: EntityId, urn: string): LineageModel {
+  return setAssetRef(model, entityId, urn)
+}
+
+/** Clears an entity's binding, leaving the entity itself (and its children) in place. */
+export function unbindEntity(model: LineageModel, entityId: EntityId): LineageModel {
+  return setAssetRef(model, entityId, undefined)
+}
+
+/**
  * Adds an attribute under `parentId` (an object or an attribute — nesting under
  * an attribute is what turns it into a Group), or beside `position.relativeTo`.
  */

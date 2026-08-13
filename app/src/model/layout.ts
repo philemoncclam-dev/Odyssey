@@ -67,6 +67,8 @@ export interface LayoutCard {
   /** Direct and total descendant counts, rendered as `3(26)`. */
   direct: number
   total: number
+  /** Set when this object is bound to a real Fabric table — ADR-0004. */
+  assetRef?: string | undefined
 }
 
 export interface LayoutLayer {
@@ -283,6 +285,7 @@ export function layoutModel(
           collapsed: objCollapsed,
           direct: obj.children.length,
           total: totalDescendants(obj.children),
+          assetRef: obj.assetRef,
         })
 
         // Anchors sit on the CARD edges, not the column edges, so transitions

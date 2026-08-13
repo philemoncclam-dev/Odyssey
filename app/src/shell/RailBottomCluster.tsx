@@ -15,6 +15,16 @@ function SearchIcon() {
   )
 }
 
+function HelpIcon() {
+  return (
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7v.3" strokeLinecap="round" />
+      <circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
 function RailBottomButton({ label, onClick, children }: { label: string; onClick: () => void; children: ReactNode }) {
   return (
     <Tooltip.Root>
@@ -34,11 +44,20 @@ function RailBottomButton({ label, onClick, children }: { label: string; onClick
   )
 }
 
-export default function RailBottomCluster({ onOpenSearch }: { onOpenSearch: () => void }) {
+export default function RailBottomCluster({
+  onOpenSearch,
+  onOpenHelp,
+}: {
+  onOpenSearch: () => void
+  onOpenHelp: () => void
+}) {
   return (
     <div className="rail-bottom">
       <RailBottomButton label="Search (⌘K)" onClick={onOpenSearch}>
         <SearchIcon />
+      </RailBottomButton>
+      <RailBottomButton label="What is this?" onClick={onOpenHelp}>
+        <HelpIcon />
       </RailBottomButton>
     </div>
   )
