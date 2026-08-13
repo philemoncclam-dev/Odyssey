@@ -17,7 +17,7 @@
 // while scrolling down a tall model while staying aligned with their columns.
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { ancestorsOf, buildIndex } from '../model/index'
 import { pruneModel, traceFrom, type TraceDirection } from '../model/trace'
 import { registerSearchHandler } from '../shell/searchBridge'
@@ -32,19 +32,26 @@ import {
   addLayer,
   addObject,
   addTransition,
+  bindAssetToEntity,
   deleteEntities,
   deletePreservingTransitions,
   removeTransitions,
   renameEntity,
   sortChildren,
+  unbindEntity,
   type AddResult,
 } from '../model/edit'
+import { assetUrn, bindingsIn, explorePath, parseAssetUrn, type AssetRef } from '../model/assets'
+import { commentOf, setComment, setCommentResolved, COMMENT_KEY, COMMENT_RESOLVED_KEY } from '../model/comments'
+import { CommentDialog } from './CommentDialog'
 import { copyEntities, paste, type Clipboard, type PasteTarget } from '../model/clipboard'
 import ContextMenu, { type MenuItem } from './ContextMenu'
 import { EntityTagDialog, TagManager } from './TagPanel'
 import { ExplainPanel } from './ExplainPanel'
+import { AssetPickerDock } from './AssetPickerDock'
 import { ViewsPanel } from './ViewsPanel'
 import { VersionsPanel } from './VersionsPanel'
+import type { VersionDiff } from '../model/versionDiff'
 import { PropertiesPanel } from './PropertiesPanel'
 import {
   activeFilterCount,
@@ -54,7 +61,7 @@ import {
   type ViewFilter,
 } from '../model/filter'
 import { TAGS_KEY, parseTags, setTags } from '../model/tags'
-import { activeView, deleteView, saveView, toggleView } from '../model/views'
+import { activeView, deleteView, listViews, saveView, toggleView } from '../model/views'
 import { hitTestTransitions } from './edgeGeometry'
 import {
   CARD_HEADER_HEIGHT,
@@ -78,6 +85,13 @@ const ROW_OVERSCAN = 6
 /** Shared empty set, so "no trace running" does not remount every card. */
 const EMPTY_IDS: ReadonlySet<EntityId> = new Set()
 
+/** Fixed, not user-chosen: a diff's colours have to mean the same thing on
+ *  every model, unlike a Display Rule's. Same green/amber `.vh-diff-detail`
+ *  uses for `data-change="add"`/`"mod"` in modeling.css, so the canvas and
+ *  the panel text agree. */
+const DIFF_ADDED_COLOR = '#168f5c'
+const DIFF_RENAMED_COLOR = '#b0751a'
+
 /** Whether two id sets hold the same members — for "is this the same trace?". */
 function sameSet(a: ReadonlySet<EntityId>, b: ReadonlySet<EntityId>): boolean {
   if (a.size !== b.size) return false
@@ -100,6 +114,20 @@ interface Props {
   onRedo: () => void
   canUndo: boolean
   canRedo: boolean
+  /**
+   * A shared, view-only link — pan, select, trace, filter, and Explain all
+   * still work; nothing persists.
+   *
+   * Enforced in ONE place: `onChange` becomes a no-op below. Every mutation
+   * in this file already goes through it, and the canvas renders off the
+   * `model` PROP — which the route only ever updates from a real
+   * `onChange` call (see model.$modelId.tsx) — so with that call inert,
+   * nothing on screen can ever reflect an edit regardless of which dialog
+   * or menu item someone clicks. A viewer can still open "Rename" and type
+   * into it; it just reverts the moment they click away, because there was
+   * never anywhere for it to go.
+   */
+  readOnly?: boolean
 }
 
 export default function ModelViewer({
@@ -109,13 +137,29 @@ export default function ModelViewer({
   onRedo,
   canUndo,
   canRedo,
+  readOnly = false,
 }: Props) {
-  const onChange = onChangeProp
+  // The single seam readOnly enforces through — see the prop's own comment.
+  const onChange = readOnly ? () => {} : onChangeProp
+  const navigate = useNavigate()
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const [size, setSize] = useState({ width: 0, height: 0 })
   const [scroll, setScroll] = useState({ x: 0, y: 0 })
   const [collapsed, setCollapsed] = useState<ReadonlySet<EntityId>>(new Set())
   const [selection, setSelection] = useState<ReadonlySet<EntityId>>(new Set())
+  /** Feedback for a completed bind — transient, like the browser's `notice`. */
+  const [dropNotice, setDropNotice] = useState<string | null>(null)
+  /**
+   * An asset picked in the "Bind asset" dock, armed and waiting for a click
+   * on the canvas — ADR-0004. `level` decides which entities are valid
+   * targets: a table-level pick highlights objects, a column-level pick
+   * highlights attributes.
+   */
+  const [binding, setBinding] = useState<{ ref: AssetRef; label: string; level: 'table' | 'column' } | null>(
+    null,
+  )
+  /** The entity whose comment dialog is open, if any. */
+  const [commenting, setCommenting] = useState<EntityId | null>(null)
   /** Picked transitions, by transition id — kept separate from entity selection. */
   const [selectedEdges, setSelectedEdges] = useState<ReadonlySet<EntityId>>(new Set())
   /**
@@ -154,6 +198,18 @@ export default function ModelViewer({
   const [tagManagerOpen, setTagManagerOpen] = useState(false)
   const [filter, setFilter] = useState<ViewFilter>(EMPTY_FILTER)
   /**
+   * Saved views currently painted on the canvas as Display Rules.
+   *
+   * Session-only, like collapse state: which rules are lit is a viewing
+   * choice, not a fact about the model, so it doesn't travel through
+   * `onChange`/undo and resets on reload. The colour a view carries and
+   * which rules a given viewer had ON are different things — only the
+   * former is worth saving.
+   */
+  const [activeRuleIds, setActiveRuleIds] = useState<ReadonlySet<string>>(new Set())
+  /** The snapshot diff being examined in the Versions panel, or null. */
+  const [diffOverlay, setDiffOverlay] = useState<VersionDiff | null>(null)
+  /**
    * Which of the two right-hand docks is showing, if either.
    *
    * One slot, not two: Views and Properties are both `.vw-panel`, both pinned
@@ -163,8 +219,14 @@ export default function ModelViewer({
    * other one closed first.
    */
   const [dock, setDock] = useState<
-    'views' | 'properties' | 'explain' | 'versions' | null
+    'views' | 'properties' | 'explain' | 'versions' | 'assets' | null
   >(null)
+  // Rail buttons swap `dock` directly, past the Versions panel's own onClose,
+  // so a diff left showing when you switch to another panel would stick on
+  // the canvas with nothing open to explain it.
+  useEffect(() => {
+    if (dock !== 'versions') setDiffOverlay(null)
+  }, [dock])
   /**
    * The last entity clicked WITHOUT a modifier — where a shift-range starts.
    *
@@ -205,6 +267,42 @@ export default function ModelViewer({
   /** Entities the Views filter matches; empty set means "no filter running". */
   const viewMatched = useMemo(() => applyFilter(model, filter), [model, filter])
   const viewFiltering = activeFilterCount(filter) > 0
+
+  /**
+   * Display Rules: colour for each entity matched by an active, coloured
+   * saved view.
+   *
+   * Views keep their document order, so that order also settles overlaps —
+   * the first active rule to claim an entity keeps it, same as Solidatus's
+   * "the first Display Rule applied takes precedence". Rules run independently
+   * of the Views filter/trace narrowing above; a card can be dimmed by one and
+   * still carry a rule's colour.
+   */
+  const ruleColors = useMemo(() => {
+    const out = new Map<EntityId, string>()
+    for (const v of listViews(model)) {
+      if (!v.color || !activeRuleIds.has(v.id)) continue
+      for (const id of applyFilter(model, v.filter)) if (!out.has(id)) out.set(id, v.color)
+    }
+    return out
+  }, [model, activeRuleIds])
+
+  /**
+   * Rule colours plus a snapshot diff on top, when one is being examined.
+   *
+   * The diff wins where the two disagree: it is a transient, high-attention
+   * view of "what would restoring change", not a standing preference like a
+   * Display Rule, so it should not lose a colour fight with one. Only `added`
+   * and `renamed` entities exist to paint — `removed` ones are gone from this
+   * model by definition and stay text-only in the Versions panel.
+   */
+  const canvasColors = useMemo(() => {
+    if (!diffOverlay) return ruleColors
+    const out = new Map(ruleColors)
+    for (const e of diffOverlay.added) out.set(e.id, DIFF_ADDED_COLOR)
+    for (const e of diffOverlay.renamed) out.set(e.id, DIFF_RENAMED_COLOR)
+    return out
+  }, [ruleColors, diffOverlay])
 
   /**
    * What the canvas is narrowed to, from either narrowing mechanism.
@@ -289,6 +387,9 @@ export default function ModelViewer({
     [model.transitions, filtering, hideUnmatched, matched],
   )
 
+  /** Bound entity id → its asset URN — for "Open in Explore" in the context menu. */
+  const assetRefById = useMemo(() => new Map(bindingsIn(model).map((b) => [b.entityId, b.assetRef])), [model])
+
   // The trace: everything one hop from any selected entity. Highlighting both
   // endpoints is what makes a selected row's lineage legible inside a bundle.
   const highlighted = useMemo(() => {
@@ -318,6 +419,14 @@ export default function ModelViewer({
   }
 
   // Claim the shell's search triggers (rail button and Cmd+K) while mounted.
+  // Transient, like the Model Browser's `notice` — the drop already put the
+  // new card on screen, so this is confirmation, not something to act on.
+  useEffect(() => {
+    if (!dropNotice) return
+    const t = window.setTimeout(() => setDropNotice(null), 4000)
+    return () => window.clearTimeout(t)
+  }, [dropNotice])
+
   useEffect(() => registerSearchHandler(() => setSearchOpen(true)), [])
 
   // Same for the rail's Import/Export buttons, which are commands rather than
@@ -334,6 +443,10 @@ export default function ModelViewer({
   // obvious way to put a docked panel away again.
   useEffect(
     () => registerRailAction('versions', () => setDock((d) => (d === 'versions' ? null : 'versions'))),
+    [],
+  )
+  useEffect(
+    () => registerRailAction('bind-asset', () => setDock((d) => (d === 'assets' ? null : 'assets'))),
     [],
   )
   useEffect(
@@ -471,6 +584,10 @@ export default function ModelViewer({
       setMapScope((prev) => ({ ...prev, [picking]: id }))
       setPicking(null)
       setSelection(new Set([id]))
+      return
+    }
+    if (binding) {
+      completeBind(id)
       return
     }
     if (pending) {
@@ -715,6 +832,31 @@ export default function ModelViewer({
       return
     }
 
+    items.push({
+      key: 'comment',
+      label: commentOf(model, targetId) ? 'Edit comment…' : 'Add a comment…',
+      onSelect: () => setCommenting(targetId),
+    })
+
+    // ADR-0004: only on a single bound entity — "open in Explore" for a
+    // multi-selection would have to pick one of several tables arbitrarily.
+    const boundUrn = assetRefById.get(targetId)
+    const boundRef = boundUrn ? parseAssetUrn(boundUrn) : null
+    if (boundRef) {
+      items.push(
+        {
+          key: 'open-in-explore',
+          label: 'Open in Explore',
+          onSelect: () => void navigate(explorePath(boundRef)),
+        },
+        {
+          key: 'unbind',
+          label: 'Unbind',
+          onSelect: () => onChange(unbindEntity(model, targetId)),
+        },
+      )
+    }
+
     if (entry.kind === 'layer') {
       items.push(
         { key: 'add-object', label: 'Add object', onSelect: () => applyAdd(addObject(model, targetId)) },
@@ -878,6 +1020,33 @@ export default function ModelViewer({
     )
 
     setMenu({ x: e.clientX, y: e.clientY, items })
+  }
+
+  /**
+   * Lands an armed "Bind asset" pick on `id` — ADR-0004.
+   *
+   * Mirrors `completeConnect` deliberately: arm (pick a table/column in the
+   * dock), click a target on the canvas, done. One click is the confirmation,
+   * same as finishing a transition — a second "are you sure" dialog would be
+   * a different gesture for what is, on this canvas, the same shape of
+   * action.
+   */
+  const completeBind = (id: EntityId) => {
+    if (!binding) return
+    const entry = index.entries.get(id)
+    // The card header now marks the whole card during a column-level pick
+    // (so the rows lighting up below still read as "this object"), which
+    // makes the header itself clickable too — decline there rather than
+    // silently putting a column's URN on the table.
+    if (binding.level === 'column' && entry?.kind !== 'attribute') {
+      setDropNotice('Pick an attribute row to bind a column — that click landed on the object.')
+      return
+    }
+    const name = entry?.name ?? 'the selected entity'
+    const verb = assetRefById.has(id) ? 'Rebound' : 'Bound'
+    onChange(bindAssetToEntity(model, id, assetUrn(binding.ref)))
+    setDropNotice(`${verb} ${name} to ${binding.label}.`)
+    setBinding(null)
   }
 
   /**
@@ -1065,6 +1234,7 @@ export default function ModelViewer({
       if (e.key === 'Escape') {
         setPicking(null)
         setPending(null)
+        setBinding(null)
         setEditing(null)
         setSelection(new Set())
         setSelectedEdges(new Set())
@@ -1254,6 +1424,26 @@ export default function ModelViewer({
           onClose={() => setDock(null)}
         />
       )}
+      {commenting && (
+        <CommentDialog
+          model={model}
+          entityId={commenting}
+          onSubmit={(comment, resolved) => {
+            onChange(setCommentResolved(setComment(model, commenting, comment), commenting, resolved))
+            setCommenting(null)
+          }}
+          onClose={() => setCommenting(null)}
+        />
+      )}
+      {dock === 'assets' && (
+        <AssetPickerDock
+          onPick={(ref, label, level) => {
+            setBinding({ ref, label, level })
+            setDock(null)
+          }}
+          onClose={() => setDock(null)}
+        />
+      )}
       {dock === 'versions' && (
         <VersionsPanel
           model={model}
@@ -1268,7 +1458,11 @@ export default function ModelViewer({
           // are working, so it stays open — but it goes through the same
           // onChange, so ⌃Z undoes it exactly like a restore.
           onCheckout={(loaded) => onChange(loaded)}
-          onClose={() => setDock(null)}
+          onDiffPreview={setDiffOverlay}
+          onClose={() => {
+            setDock(null)
+            setDiffOverlay(null)
+          }}
         />
       )}
       {dock === 'views' && (
@@ -1280,9 +1474,26 @@ export default function ModelViewer({
           // Saved views are model edits, so they go through onChange/undo like
           // any other — a view saved by mistake is undone with ⌃Z, and it
           // persists exactly when the rest of the model does.
-          onSaveView={(name) => onChange(saveView(model, name, filter))}
-          onDeleteView={(id) => onChange(deleteView(model, id))}
+          onSaveView={(name, color) => onChange(saveView(model, name, filter, color))}
+          onDeleteView={(id) => {
+            onChange(deleteView(model, id))
+            setActiveRuleIds((prev) => {
+              if (!prev.has(id)) return prev
+              const next = new Set(prev)
+              next.delete(id)
+              return next
+            })
+          }}
           onApplyView={(id) => setFilter(toggleView(model, filter, id))}
+          highlightedIds={activeRuleIds}
+          onToggleHighlight={(id) =>
+            setActiveRuleIds((prev) => {
+              const next = new Set(prev)
+              if (next.has(id)) next.delete(id)
+              else next.add(id)
+              return next
+            })
+          }
           onClose={() => setDock(null)}
         />
       )}
@@ -1295,6 +1506,18 @@ export default function ModelViewer({
           <LogoMark />
         </Link>
         <span className="mv-topbar-name">{model.name}</span>
+        {readOnly ? (
+          <span className="mv-readonly-badge" title="Opened from a shared link — nothing here can be saved">
+            Read-only
+          </span>
+        ) : (
+          <ShareReadOnlyButton modelId={model.id} />
+        )}
+        {dropNotice && (
+          <span className="mv-topbar-notice" role="status">
+            {dropNotice}
+          </span>
+        )}
       </div>
 
       <div className="mv-scroll" ref={scrollRef} onScroll={onScroll}>
@@ -1413,12 +1636,15 @@ export default function ModelViewer({
               selection={selection}
               filtering={filtering}
               matched={matched}
+              ruleColors={canvasColors}
               hideUnmatched={hideUnmatched}
               traceOrigin={trace?.seeds ?? EMPTY_IDS}
               highlighted={highlighted}
               pending={pending}
               pendingLayer={pendingLayer}
               onConnectTo={completeConnect}
+              bindTarget={binding?.level === 'table'}
+              bindTargetRows={binding?.level === 'column'}
               editing={editing}
               properties={model.properties}
               onToggle={toggle}
@@ -1427,49 +1653,69 @@ export default function ModelViewer({
               onEdit={setEditing}
               onCommitRename={commitRename}
               onContextMenu={openMenu}
+              onOpenComment={setCommenting}
             />
           ))}
         </div>
       </div>
 
       <div className="mv-status">
-        {pending ? (
+        {binding ? (
+          <>
+            Click {binding.level === 'table' ? 'an object' : 'an attribute'} to bind{' '}
+            <strong>{binding.label}</strong> to it — Esc to cancel
+          </>
+        ) : pending ? (
           <>Pick where the transition goes — Esc to cancel</>
         ) : (
-          <>
-            {layout.layers.length} layers · {layout.cards.length} objects ·{' '}
-            {model.transitions.length} transitions
-            {/* The one always-visible sign that what is on screen is not the
-                whole model — the rail badge is easy to miss from the canvas. */}
-            {/* Named separately from a Views filter: a trace is not something
-                you can find in the Views panel and turn off there, so the
-                status line has to say what ends it. */}
-            {trace && (
-              <>
-                {' '}
-                ·{' '}
-                <strong>
-                  {trace.dir === 'up'
-                    ? 'Tracing upstream'
-                    : trace.dir === 'down'
-                      ? 'Tracing downstream'
-                      : 'Tracing'}
-                </strong>
-                : {matched.size} shown ·{' '}
-                <span className="mv-hint">T or Esc to clear</span>
-              </>
-            )}
-            {viewFiltering && (
-              <>
-                {' '}
-                · <strong>{activeView(model, filter)?.name ?? 'Filtered'}</strong>:{' '}
-                {viewMatched.size} shown
-              </>
-            )}
-            {selection.size > 0 && <> · {selection.size} selected</>}
-            {selectedEdges.size > 0 && <> · {selectedEdges.size} line(s) selected</>}
-            {(canUndo || canRedo) && <> · ⌃Z undo</>}
-          </>
+          // Segments joined with " · ", rather than each prepending its own
+          // separator: with the layer/object/transition counts gone, whichever
+          // of these is first must not lead with a stray one.
+          (() => {
+            const segments: React.ReactNode[] = []
+            // Named separately from a Views filter: a trace is not something
+            // you can find in the Views panel and turn off there, so the
+            // status line has to say what ends it.
+            if (trace) {
+              segments.push(
+                <span key="trace">
+                  <strong>
+                    {trace.dir === 'up'
+                      ? 'Tracing upstream'
+                      : trace.dir === 'down'
+                        ? 'Tracing downstream'
+                        : 'Tracing'}
+                  </strong>
+                  : {matched.size} shown <span className="mv-hint">T or Esc to clear</span>
+                </span>,
+              )
+            }
+            if (viewFiltering) {
+              segments.push(
+                <span key="view">
+                  <strong>{activeView(model, filter)?.name ?? 'Filtered'}</strong>: {viewMatched.size} shown
+                </span>,
+              )
+            }
+            if (diffOverlay && !diffOverlay.empty) {
+              segments.push(
+                <span key="diff">
+                  <strong>Comparing to snapshot</strong>: {diffOverlay.added.length} added,{' '}
+                  {diffOverlay.renamed.length} renamed on canvas
+                </span>,
+              )
+            }
+            if (selection.size > 0) segments.push(<span key="sel">{selection.size} selected</span>)
+            if (selectedEdges.size > 0)
+              segments.push(<span key="edges">{selectedEdges.size} line(s) selected</span>)
+            if (canUndo || canRedo) segments.push(<span key="undo">⌃Z undo</span>)
+            return segments.map((seg, i) => (
+              <span key={i}>
+                {i > 0 && ' · '}
+                {seg}
+              </span>
+            ))
+          })()
         )}
       </div>
     </div>
@@ -1537,12 +1783,18 @@ interface CardProps {
   pending: EntityId | null
   /** Layer the pending connection starts in; its own entities are not drop points. */
   pendingLayer: EntityId | null
+  /** A table-level asset is armed — every object card is a valid bind target. */
+  bindTarget?: boolean | undefined
+  /** A column-level asset is armed — every attribute row is a valid bind target. */
+  bindTargetRows?: boolean | undefined
   editing: EntityId | null
   properties: LineageModel['properties']
   onToggle: (id: EntityId) => void
   /** True while a Views filter is narrowing; without it `matched` means nothing. */
   filtering: boolean
   matched: ReadonlySet<EntityId>
+  /** Display Rule colour for an entity, if any active rule matches it. */
+  ruleColors: ReadonlyMap<EntityId, string>
   hideUnmatched: boolean
   /**
    * What the trace was taken FROM. Empty when nothing is being traced.
@@ -1557,6 +1809,7 @@ interface CardProps {
   onEdit: (id: EntityId) => void
   onCommitRename: (id: EntityId, name: string) => void
   onContextMenu: (e: React.MouseEvent, id: EntityId) => void
+  onOpenComment: (id: EntityId) => void
 }
 
 function Card({
@@ -1565,11 +1818,14 @@ function Card({
   selection,
   filtering,
   matched,
+  ruleColors,
   hideUnmatched,
   traceOrigin,
   highlighted,
   pending,
   pendingLayer,
+  bindTarget,
+  bindTargetRows,
   editing,
   properties,
   onToggle,
@@ -1579,6 +1835,7 @@ function Card({
   onEdit,
   onCommitRename,
   onContextMenu,
+  onOpenComment,
 }: CardProps) {
   // Row-level virtualization. A card can be thousands of rows tall, so mount
   // only the slice the viewport covers and spacer-pad the rest.
@@ -1600,7 +1857,14 @@ function Card({
   return (
     <div
       className="mv-card"
-      style={{ left: card.x, top: card.y, width: card.width, height: card.height }}
+      style={{
+        left: card.x,
+        top: card.y,
+        width: card.width,
+        height: card.height,
+        ...(ruleColors.has(card.id) ? { '--rule-color': ruleColors.get(card.id) } : {}),
+      } as React.CSSProperties}
+      data-ruled={ruleColors.has(card.id) || undefined}
       // Marks the card as a landing side, for styling that wants to know. The
       // gutter itself is permanent now (see INBOUND_GUTTER) — it no longer
       // opens on connect, so nothing reflows mid-gesture.
@@ -1613,6 +1877,10 @@ function Card({
       data-traced={highlighted.has(card.id) || undefined}
       data-trace-origin={traceOrigin.has(card.id) || undefined}
       data-connect-source={pending === card.id || undefined}
+      // A column-level pick highlights the attribute rows below (bindTargetRows)
+      // but the card's own header wasn't included, so a card full of red rows
+      // still had a plain top edge — the object it belongs to wasn't marked.
+      data-bind-target={(bindTarget || bindTargetRows) || undefined}
     >
       <div
         className="mv-card-header"
@@ -1644,6 +1912,14 @@ function Card({
           <span className="mv-card-name" title={card.name}>
             {card.name}
           </span>
+        )}
+        {card.assetRef && <AssetBadge assetRef={card.assetRef} />}
+        {properties[card.id]?.[COMMENT_KEY] && (
+          <CommentBadge
+            comment={properties[card.id]![COMMENT_KEY]!}
+            resolved={properties[card.id]?.[COMMENT_RESOLVED_KEY] === 'true'}
+            onClick={() => onOpenComment(card.id)}
+          />
         )}
         <Badges bag={properties[card.id]} />
         <span className="mv-count">
@@ -1678,12 +1954,15 @@ function Card({
               style={{
                 height: ROW_HEIGHT,
                 paddingLeft: INBOUND_GUTTER + row.depth * INDENT,
-              }}
+                ...(ruleColors.has(row.id) ? { '--rule-color': ruleColors.get(row.id) } : {}),
+              } as React.CSSProperties}
               data-dimmed={(filtering && !matched.has(row.id)) || undefined}
               data-selected={selection.has(row.id) || undefined}
               data-traced={highlighted.has(row.id) || undefined}
               data-trace-origin={traceOrigin.has(row.id) || undefined}
               data-connect-source={pending === row.id || undefined}
+              data-bind-target={bindTargetRows || undefined}
+              data-ruled={ruleColors.has(row.id) || undefined}
               onClick={(e) => onSelect(row.id, { additive: e.ctrlKey || e.metaKey, range: e.shiftKey })}
               onDoubleClick={() => onEdit(row.id)}
               onContextMenu={(e) => onContextMenu(e, row.id)}
@@ -1715,6 +1994,13 @@ function Card({
                 <span className="mv-row-name" title={row.name}>
                   {row.name}
                 </span>
+              )}
+              {properties[row.id]?.[COMMENT_KEY] && (
+                <CommentBadge
+                  comment={properties[row.id]![COMMENT_KEY]!}
+                  resolved={properties[row.id]?.[COMMENT_RESOLVED_KEY] === 'true'}
+                  onClick={() => onOpenComment(row.id)}
+                />
               )}
               <Badges bag={properties[row.id]} />
               <Port
@@ -1819,6 +2105,118 @@ function InPort({
         else onConnectFrom(id)
       }}
     />
+  )
+}
+
+/**
+ * Copies a link that opens this model read-only — same copy/copied/failed
+ * shape as Explore's ShareLinkButton (routes/fabric/explore.tsx), not
+ * shared code with it: that one links to a Fabric selection, this one to a
+ * model, and the only thing in common is the three-state button, which is
+ * a dozen lines either way.
+ */
+function ShareReadOnlyButton({ modelId }: { modelId: string }) {
+  const [state, setState] = useState<'idle' | 'copied' | 'failed'>('idle')
+
+  const copy = async () => {
+    const url = `${window.location.origin}/model/${modelId}?readonly=1`
+    try {
+      await navigator.clipboard.writeText(url)
+      setState('copied')
+    } catch {
+      setState('failed')
+    }
+    setTimeout(() => setState('idle'), 2000)
+  }
+
+  return (
+    <button
+      className="mv-share-btn"
+      onClick={() => void copy()}
+      title={
+        state === 'failed'
+          ? 'Could not copy — check clipboard permissions'
+          : 'Copy a read-only link to this model'
+      }
+    >
+      {state === 'idle' ? 'Share' : state === 'copied' ? 'Copied' : 'Failed'}
+    </button>
+  )
+}
+
+/**
+ * Where a bound object came from — ADR-0004.
+ *
+ * A tag, not an icon: a glyph in the card header read as decoration rather
+ * than a control, and it left Odyssey — it opened the real Fabric portal in
+ * a new tab. This stays in-app: it goes to Explore, pre-selected on the
+ * same table (see model/assets.ts's explorePath), the same place the
+ * "Open in Explore" context-menu item on this card goes.
+ *
+ * No live Fabric call to resolve a pretty workspace/item name: the URN only
+ * carries GUIDs (see model/assets.ts's note on why), and a name worth
+ * trusting would mean fetching it per card. The tag shows the table name —
+ * the one thing already known without a fetch — with the full path in the
+ * tooltip.
+ */
+function AssetBadge({ assetRef }: { assetRef: string }) {
+  const ref = parseAssetUrn(assetRef)
+  if (!ref) return null
+  const path = ref.schema ? `${ref.schema}.${ref.table}` : ref.table
+  return (
+    <Link
+      className="mv-badge mv-asset-badge"
+      data-kind="bound"
+      {...explorePath(ref)}
+      onClick={(e) => e.stopPropagation()}
+      // A letter, not the table name — the card's own name is that, almost
+      // always (bound objects are created named after their table), and a
+      // tag sitting right next to an identical string just repeated it back.
+      // Same shape as the sandbox R/W access badges (Badges, above).
+      title={`Bound to ${path} — workspace ${ref.workspaceId}, item ${ref.itemId}. Opens in Explore.`}
+      aria-label={`Bound to the real table ${path}. Opens in Explore.`}
+    >
+      B
+    </Link>
+  )
+}
+
+/**
+ * A speech-bubble mark for an entity carrying a comment (model/comments.ts).
+ * Same badge shape as AssetBadge/the R/W marks; the shape itself is empty
+ * inside — the comment's first line is the tooltip, and the badge opens the
+ * dialog rather than trying to show the text in the space a badge has.
+ *
+ * Resolved dims the mark rather than removing it — a resolved comment is
+ * still context worth having ("this WAS a problem, here's what fixed it"),
+ * just no longer something that needs attention.
+ */
+function CommentBadge({
+  comment,
+  resolved,
+  onClick,
+}: {
+  comment: string
+  resolved: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      className="mv-badge mv-comment-badge"
+      data-resolved={resolved || undefined}
+      onClick={(e) => {
+        e.stopPropagation()
+        onClick()
+      }}
+      title={resolved ? `Resolved: ${comment}` : comment}
+      aria-label={`${resolved ? 'Resolved comment' : 'Comment'}: ${comment}`}
+    >
+      <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+        <path d="M4 5h16v11H9l-4 4V5Z" strokeLinejoin="round" />
+        {resolved && <path d="M8.5 10.5 10.5 12.5 15 8" strokeLinecap="round" strokeLinejoin="round" />}
+      </svg>
+    </button>
   )
 }
 

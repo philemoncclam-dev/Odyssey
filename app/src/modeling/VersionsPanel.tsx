@@ -38,6 +38,7 @@ export function VersionsPanel({
   model,
   onRestore,
   onCheckout,
+  onDiffPreview,
   onClose,
 }: {
   model: LineageModel
@@ -49,6 +50,13 @@ export function VersionsPanel({
    * caller keeps both on the same undo path.
    */
   onCheckout?: (loaded: LineageModel) => void
+  /**
+   * The diff being examined, so the canvas can paint it — added entities
+   * exist on the live model already and can be coloured directly; removed
+   * ones only exist in the snapshot and stay text-only below. Fires with
+   * `null` whenever nothing is being examined any more.
+   */
+  onDiffPreview?: (diff: VersionDiff | null) => void
   onClose: () => void
 }) {
   const [versions, setVersions] = useState<VersionMeta[]>([])
@@ -79,6 +87,7 @@ export function VersionsPanel({
     // a diff against the wrong thing, and a merge report belongs to the model
     // it was produced from.
     setPreview(null)
+    onDiffPreview?.(null)
     setMerge(null)
     setNewBranch(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps -- refresh is recreated per render; model.id is the real input.
@@ -128,6 +137,7 @@ export function VersionsPanel({
       const loaded = await checkout(model.id, name)
       if (loaded) (onCheckout ?? onRestore)({ ...model, ...graphOf(loaded) })
       setPreview(null)
+      onDiffPreview?.(null)
       setMerge(null)
       await refresh()
     } catch (e) {
@@ -161,7 +171,9 @@ export function VersionsPanel({
       }
       // `from` is the snapshot, `to` is what is open — so "added" means
       // "you added this since, and restoring takes it away".
-      setPreview({ meta, diff: diffVersions(snapshot, model) })
+      const diff = diffVersions(snapshot, model)
+      setPreview({ meta, diff })
+      onDiffPreview?.(diff)
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
     }
@@ -180,6 +192,7 @@ export function VersionsPanel({
       // description, and it must never change the id the route is on.
       onRestore({ ...model, ...graphOf(snapshot) })
       setPreview(null)
+      onDiffPreview?.(null)
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
     } finally {

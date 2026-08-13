@@ -77,4 +77,18 @@ describe('saved views', () => {
     const saved = saveView(model(), 'Gold layer', gold)
     expect(listViews(deleteView(saved, listViews(saved)[0].id))).toEqual([])
   })
+
+  it('saves a Display Rule colour, and leaves it unset by default', () => {
+    expect(listViews(saveView(model(), 'Plain', gold))[0].color).toBeUndefined()
+    const colored = saveView(model(), 'Gold layer', gold, '#30a46c')
+    expect(listViews(colored)[0].color).toBe('#30a46c')
+  })
+
+  it('keeps an existing colour when re-saving without one, but not when one is cleared', () => {
+    const withColor = saveView(model(), 'Gold layer', gold, '#30a46c')
+    const refined = saveView(withColor, 'Gold layer', { ...gold, tags: ['gold', 'v2'] })
+    expect(listViews(refined)[0].color).toBe('#30a46c')
+    const recolored = saveView(refined, 'Gold layer', gold, '#0091ff')
+    expect(listViews(recolored)[0].color).toBe('#0091ff')
+  })
 })

@@ -5,7 +5,7 @@
 // cover the very thing being filtered, forcing an open/close cycle per edit.
 //
 // The rule itself lives in model/filter.ts; this file is only its controls.
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import { allTags, tagCounts } from '../model/tags'
 import {
   activeFilterCount,
@@ -26,6 +26,23 @@ const KINDS: { key: EntityKind; label: string }[] = [
 
 const ACCESS: AccessValue[] = ['Read', 'Write']
 
+/**
+ * Fixed palette rather than a colour input: a Display Rule's colour has to
+ * stay legible against both the card background and the other rules active
+ * at once, which an open picker cannot guarantee. Named so the swatch title
+ * reads as a colour, not a hex code.
+ */
+const RULE_COLORS: { hex: string; name: string }[] = [
+  { hex: '#e5484d', name: 'Red' },
+  { hex: '#f76b15', name: 'Orange' },
+  { hex: '#e5a000', name: 'Amber' },
+  { hex: '#30a46c', name: 'Green' },
+  { hex: '#0091ff', name: 'Blue' },
+  { hex: '#8e4ec6', name: 'Purple' },
+  { hex: '#d6409f', name: 'Pink' },
+  { hex: '#6b7280', name: 'Grey' },
+]
+
 export function ViewsPanel({
   model,
   filter,
@@ -34,6 +51,8 @@ export function ViewsPanel({
   onSaveView,
   onDeleteView,
   onApplyView,
+  highlightedIds,
+  onToggleHighlight,
   onClose,
 }: {
   model: LineageModel
@@ -41,17 +60,21 @@ export function ViewsPanel({
   onChange: (next: ViewFilter) => void
   /** How many entities currently match — the panel's only feedback. */
   matchCount: number
-  /** Save the current filter under a name (replacing a view of that name). */
-  onSaveView: (name: string) => void
+  /** Save the current filter under a name and colour (replacing a view of that name). */
+  onSaveView: (name: string, color: string | undefined) => void
   onDeleteView: (id: string) => void
   /** Apply a saved view, or clear it if it is already the one on screen. */
   onApplyView: (id: string) => void
+  /** Views currently painted on the canvas as Display Rules. */
+  highlightedIds: ReadonlySet<string>
+  onToggleHighlight: (id: string) => void
   onClose: () => void
 }) {
   const views = listViews(model)
   const current = activeView(model, filter)
   const [naming, setNaming] = useState(false)
   const [draftName, setDraftName] = useState('')
+  const [draftColor, setDraftColor] = useState<string | undefined>(undefined)
   const counts = useMemo(() => tagCounts(model), [model])
   const tags = useMemo(
     () => allTags(model).sort((a, b) => (counts.get(b) ?? 0) - (counts.get(a) ?? 0)),
@@ -82,6 +105,20 @@ export function ViewsPanel({
             <div className="vw-saved">
               {views.map((v) => (
                 <div className="vw-saved-row" key={v.id}>
+                  {v.color && (
+                    <button
+                      className="vw-swatch"
+                      style={{ '--swatch-color': v.color } as CSSProperties}
+                      data-on={highlightedIds.has(v.id) || undefined}
+                      aria-pressed={highlightedIds.has(v.id)}
+                      title={
+                        highlightedIds.has(v.id)
+                          ? `Stop highlighting ${v.name} on the canvas`
+                          : `Highlight ${v.name} on the canvas`
+                      }
+                      onClick={() => onToggleHighlight(v.id)}
+                    />
+                  )}
                   <button
                     className="vw-saved-pick"
                     data-on={current?.id === v.id || undefined}
@@ -268,7 +305,7 @@ export function ViewsPanel({
             className="vw-name"
             onSubmit={(e) => {
               e.preventDefault()
-              onSaveView(draftName)
+              onSaveView(draftName, draftColor)
               setNaming(false)
             }}
           >
@@ -286,6 +323,31 @@ export function ViewsPanel({
                 }
               }}
             />
+            {/* Optional: a coloured view can also be turned on as a Display
+                Rule from the saved-views list, which paints its matches on
+                the canvas instead of narrowing to them. */}
+            <div className="vw-swatches" role="group" aria-label="Highlight colour">
+              <button
+                type="button"
+                className="vw-swatch vw-swatch--none"
+                data-on={draftColor === undefined || undefined}
+                aria-pressed={draftColor === undefined}
+                title="No highlight colour"
+                onClick={() => setDraftColor(undefined)}
+              />
+              {RULE_COLORS.map((c) => (
+                <button
+                  type="button"
+                  key={c.hex}
+                  className="vw-swatch"
+                  style={{ '--swatch-color': c.hex } as CSSProperties}
+                  data-on={draftColor === c.hex || undefined}
+                  aria-pressed={draftColor === c.hex}
+                  title={c.name}
+                  onClick={() => setDraftColor(c.hex)}
+                />
+              ))}
+            </div>
             <button className="imp-btn imp-btn--primary" type="submit" disabled={!draftName.trim()}>
               Save
             </button>
@@ -305,6 +367,7 @@ export function ViewsPanel({
               }
               onClick={() => {
                 setDraftName(current?.name ?? '')
+                setDraftColor(current?.color)
                 setNaming(true)
               }}
             >
