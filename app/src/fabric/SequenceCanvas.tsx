@@ -31,7 +31,8 @@ import {
   type StepStatus,
 } from './sequence'
 import { coverageBadge, coverageOf, coverageSummary, type CoverageLevel } from './coverage'
-import { columnLineageCsv, download, lineageGaps, runReportMarkdown } from './runExport'
+import { columnLineageCsv, download, lineageGaps, runReportMarkdown, type LineageGap } from './runExport'
+import { getGapNote, setGapNote } from './gapNotes'
 import { runFailures, runNarrative } from './runSummary'
 import { observedAgrees, observedHeadline, observedSummary, runWhen } from './observed'
 import { columnKey, diffIsClean, diffRuns, type RunDiff } from './runDiff'
@@ -41,6 +42,7 @@ import {
   DEFAULT_PORT_OPTIONS,
   type PortOptions,
 } from './toModel'
+import { fetchSchemaBaseline } from './schemaBaseline'
 import { localStore } from '../model/store'
 
 type FlowKind = 'notebook' | 'pipeline' | 'table'
@@ -1496,6 +1498,16 @@ function ToModelBar({
     setBusy(true)
     setError(null)
     try {
+      // Every table the run resolved a ref for, whether or not it was written
+      // — the baseline walk is scoped to these lakehouses, not the tenant.
+      const refs = new Set<string>()
+      for (const step of steps)
+        for (const ref of Object.keys(stepTables(results.get(step.key)))) refs.add(ref)
+      // Best-effort and never throws on its own (see schemaBaseline.ts) — a
+      // schema fetch failing must not block exporting the model the run
+      // itself already produced.
+      const baseline = await fetchSchemaBaseline(refs)
+
       // The model is built in whichever view is on screen — what you export is
       // what you were looking at.
       // The exported model matches the picture on screen, which is the whole
@@ -1507,6 +1519,7 @@ function ToModelBar({
         defaultModelName(steps),
         'flow',
         { ...options, layout: view === 'medallion' ? 'medallion' : 'stages' },
+        baseline,
       )
       await localStore.save(model)
       await navigate({ to: '/model/$modelId', params: { modelId: model.id } })
@@ -2338,15 +2351,47 @@ function Gaps({ results }: { results: Map<string, StepResult> }) {
       </summary>
       <ul>
         {gaps.map((gap) => (
-          <li key={gap.ref} data-level={gap.level}>
-            <strong>{refLabel(gap.ref)}</strong>
-            <span className="sbx-gap-badge">{coverageBadge(gap.level)}</span>
-            <span className="sbx-gap-reason">
-              {gap.reason || 'The run resolved no column-level lineage for this table.'}
-            </span>
-          </li>
+          <GapRow key={gap.ref} gap={gap} />
         ))}
       </ul>
     </details>
+  )
+}
+
+/** One gap row, with an inline note explaining why — see fabric/gapNotes.ts. */
+function GapRow({ gap }: { gap: LineageGap }) {
+  const [note, setNote] = useState(() => getGapNote(gap.ref)?.note ?? '')
+  const [editing, setEditing] = useState(false)
+
+  const save = () => {
+    setGapNote(gap.ref, note)
+    setEditing(false)
+  }
+
+  return (
+    <li data-level={gap.level}>
+      <strong>{refLabel(gap.ref)}</strong>
+      <span className="sbx-gap-badge">{coverageBadge(gap.level)}</span>
+      <span className="sbx-gap-reason">
+        {gap.reason || 'The run resolved no column-level lineage for this table.'}
+      </span>
+      {editing ? (
+        <span className="sbx-gap-note-edit">
+          <input
+            autoFocus
+            value={note}
+            placeholder="Why, e.g. DataFrame API — known blind spot"
+            onChange={(e) => setNote(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && save()}
+            onBlur={save}
+            aria-label={`Note for ${refLabel(gap.ref)}`}
+          />
+        </span>
+      ) : (
+        <button className="sbx-gap-note" onClick={() => setEditing(true)}>
+          {note ? `Note: ${note}` : '+ Add a note'}
+        </button>
+      )}
+    </li>
   )
 }

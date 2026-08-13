@@ -31,6 +31,7 @@ import {
 } from './api'
 import { activityLabel, stepReads, stepTables, stepWrites, type Step, type StepResult } from './sequence'
 import { longestPathColumns } from './depth'
+import type { SchemaBaseline } from './schemaBaseline'
 
 /** A node on the way to becoming an object. */
 interface Node {
@@ -462,6 +463,13 @@ export function sequenceToModel(
    */
   view: 'flow' | 'sequence' = 'flow',
   options: PortOptions = DEFAULT_PORT_OPTIONS,
+  /**
+   * Every table's real schema, fetched independently of what the run touched
+   * (see `schemaBaseline.ts`). A table the run never read or wrote still gets
+   * a node and its columns from here — otherwise it would not exist in the
+   * model at all, only be missing lineage, which is not the same claim.
+   */
+  baseline?: SchemaBaseline,
 ): ToModelResult {
   // Columns off leaves nothing for a column edge to land on, so it implies
   // column edges off. Enforced here rather than in the settings UI: the option
@@ -477,6 +485,13 @@ export function sequenceToModel(
     for (const run of res.runs)
       for (const [table, cols] of Object.entries(run.result?.table_schemas ?? {}))
         if (cols.length && !schemas.get(table)?.length) schemas.set(table, cols)
+
+  // The baseline fills gaps only. A run's own schema reflects the table's
+  // state at the moment it ran; the baseline reads OneLake's Delta log
+  // segment zero — the schema at table CREATION (see `realApi.ts`'s
+  // `tableSchema`) — which is stale for anything schema-evolved since. Where
+  // both exist, the run wins.
+  if (baseline) for (const [table, cols] of baseline.schemas) if (!schemas.get(table)?.length) schemas.set(table, cols)
 
   // Ref -> parts, merged across every step, so one table is one card with one
   // workspace however many notebooks touched it.
@@ -629,6 +644,17 @@ export function sequenceToModel(
     else io.forEach((row) => emit(row, -1))
     }
   })
+
+  /**
+   * Tables the baseline knows about but no step ever touched.
+   *
+   * `ensureTable` dedupes by the same `tableId(ref)` the steps loop above
+   * uses, so a baseline ref already visited above is a no-op here — this
+   * only adds the ones nothing read or wrote. They get NO links, which is
+   * the honest picture: the table exists, and nothing observed touches it.
+   */
+  const touchedTableIds = new Set(links.flatMap((l) => [l.from, l.to]))
+  if (baseline) for (const ref of baseline.schemas.keys()) ensureTable(ref)
 
   // --- build the model --------------------------------------------------
   const model = emptyModel(name)
@@ -896,7 +922,17 @@ export function sequenceToModel(
               // the card is inside two groups — and the one question a reader
               // has of an orchestration is what ran when. A property answers it
               // only under inspection; a badge answers it at a glance.
-              [TAGS_KEY]: [kindTag, ...(n.ordinal ? [`Step ${n.ordinal}`] : [])].join(', '),
+              //
+              // "Untouched" is deliberately a different word from anything
+              // `runExport.ts`'s `lineageGaps` reports: a gap there is a table
+              // the run READ OR WROTE but couldn't fully trace. This is the
+              // other silence — a real table the baseline found that nothing
+              // in the run touched at all, so there was nothing to trace.
+              [TAGS_KEY]: [
+                kindTag,
+                ...(n.ordinal ? [`Step ${n.ordinal}`] : []),
+                ...(n.kind === 'table' && !touchedTableIds.has(n.id) ? ['Untouched'] : []),
+              ].join(', '),
             }
           : {}),
         ...(options.provenance

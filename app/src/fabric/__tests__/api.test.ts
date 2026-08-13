@@ -11,6 +11,7 @@ import {
   isNotWired,
   fabricErrorKind,
   fetchFabricTables,
+  buildRef,
   refKind,
   refLabel,
   refParts,
@@ -97,6 +98,17 @@ describe('ref helpers', () => {
     // `split('/').pop()` returned this still escaped, which is the bug the
     // parsing fallback exists for.
     expect(refLabel('Analytics/lh_land/Files%2Forders%2F2024.csv')).toBe('Files/orders/2024.csv')
+  })
+
+  it('buildRef round-trips through refParts, including a name containing "/"', () => {
+    const ref = buildRef('Analytics', 'lh_land', 'Files/orders/2024.csv')
+    expect(refParts(ref)).toEqual({
+      workspace: 'Analytics',
+      lakehouse: 'lh_land',
+      table: 'Files/orders/2024.csv',
+      resolved: true,
+      kind: 'file',
+    })
   })
 })
 

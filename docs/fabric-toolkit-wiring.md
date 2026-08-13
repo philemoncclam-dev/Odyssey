@@ -19,63 +19,49 @@ browsing for a notebook and stacking it into a run is one motion.
 Not salvaged: the prototype's Overview and item-level Lineage pages. They were
 out of scope for this port and no tab points at them.
 
-## Seeing it work with nothing connected
-
-```bash
-cd app && npm run dev:demo
-```
-
-A whole invented Fabric estate — two workspaces, four lakehouses, four
-notebooks with real SQL in them, two pipelines, an integrations inventory.
-Every screen works and every interaction completes: browse the tree, read a
-notebook's source, stack it into the sandbox, run it, see column-level
-lineage, turn it into a model. No network, no credentials, no Python, no
-tenant.
-
-It is for proving the application works end to end, and for developing the UI
-against realistic shapes — a table with no lineage, a cross-workspace read, a
-run that disagrees with what really happened — without waiting on a tenant.
-
-Three rules keep it from becoming a liability, and they are worth preserving:
-
-- **It is never a fallback.** Nothing degrades into demo data when a real call
-  fails. A real estate that cannot be read must say it cannot be read, or
-  someone will trust invented lineage for a table their pipeline really writes.
-- **It says so on screen** — a "Demo data" badge in the title bar for as long
-  as it is on, and every staged value is labelled `[demo]` where it is shown.
-- **It never invents an answer it does not have.** Ask it about a notebook it
-  has no fixture for and it says so rather than returning empty lineage, which
-  would read as "this notebook touches nothing".
-
-The estate mirrors `model/fabricSample.ts`, so the demo Fabric side and the
-demo model tell one story. Fixtures live in `app/src/fabric/demoApi.ts`.
-
-If the sandbox engine is also running, demo mode hands it the fixture's cells
-and uses the real analysis instead — and falls back to the staged result, with
-a line in the run log saying so, if the engine cannot be reached.
-
 ## The one seam
 
 Everything the toolkit needs from the outside world is the `FabricApi`
 interface in [`app/src/fabric/api.ts`](../app/src/fabric/api.ts). There is no
-other network boundary, no second config file and no hidden fetch.
+other network boundary and no hidden fetch.
+
+**[`app/src/fabric/wiring.ts`](../app/src/fabric/wiring.ts) is where every
+capability is assembled and the one file to edit when wiring a real one in.**
+It is a comment-annotated list of all ten capabilities and what backs each
+today — read it first; it is kept current on purpose so an agent picking this
+up does not have to reconstruct wiring state from main.tsx or from this doc.
+`main.tsx` just calls `wireFabricApi()` before render.
 
 ```ts
-// app/src/main.tsx, before render
-import { setFabricApi } from './fabric/api'
+// app/src/fabric/wiring.ts
+import { setFabricApi } from './api'
 
-setFabricApi({
-  async status() {
-    return { configured: true }
-  },
-  async workspaces() {
-    const res = await fetch('/api/fabric/workspaces')
-    if (!res.ok) throw new Error(`workspaces: ${res.status}`)
-    return res.json()
-  },
-  // …
-})
+export function wireFabricApi(): void {
+  setFabricApi({
+    async status() {
+      return { configured: true }
+    },
+    async workspaces() {
+      const res = await fetch('/api/fabric/workspaces')
+      if (!res.ok) throw new Error(`workspaces: ${res.status}`)
+      return res.json()
+    },
+    // …
+  })
+}
 ```
+
+**Current state, by default (no flags set):** `workspaces` is fixture data
+from `app/src/auth/mockWorkspaces.ts`, filtered to the signed-in user's
+email (see "Authentication" below). Every other read capability is unwired.
+`runSandbox`/`observedRun` come from the local sandbox engine — see below.
+
+**With `VITE_FABRIC_REAL=1`:** `status`, `workspaces`, `items`, `tables`,
+`notebookSource`, `tableSchema`, `integrations`, and `identity` all call the
+real Fabric REST API / OneLake (`fabric/realApi.ts`) — unverified against a
+live tenant, see that file's header. `pipelineDefinition` is real but
+partial (the activity graph, not Copy lineage). `observedRun` stays unwired
+either way.
 
 **Every method is optional and independent.** Supply `workspaces` alone and the
 tree lists workspaces while opening one still reports itself unwired. The
@@ -125,10 +111,6 @@ reset a token when the answer is "ask for access to that workspace".
 A plain `Error` still works and lands as `unknown`. Nothing breaks; the UI just
 cannot be specific.
 
-Demo mode exercises all three: it pages one row at a time, honours the abort
-signal, and throws typed errors — so an implementation compared against it
-fails locally rather than in a tenant nobody can reproduce.
-
 ### Capabilities
 
 `runSandbox` is the exception to "nothing implements it" — the engine ships in
@@ -136,35 +118,76 @@ this repo. See below.
 
 | Method | Feeds | Prototype endpoint |
 |---|---|---|
-| `status` | Explore's connected/not-connected state | `GET /fabric/status` |
-| `workspaces` | The workspace tree's roots | `GET /fabric/workspaces` |
-| `items` | Folders, notebooks, lakehouses in a workspace | `GET /fabric/workspaces/{id}/items` |
-| `tables` | A lakehouse's Delta tables | `GET …/lakehouses/{lh}/tables` |
-| `notebookSource` | The decoded cells in the detail panel | `GET …/notebooks/{id}/source` |
-| `tableSchema` | A table's columns | `GET …/tables/{name}/schema` |
-| `pipelineDefinition` | Pipeline activities and their order | `GET …/pipelines/{id}/definition` |
+| `status` | Explore's connected/not-connected state | `GET /fabric/status` — **real, opt-in**, see below |
+| `workspaces` | The workspace tree's roots | `GET /fabric/workspaces` — **real, opt-in**; **mocked** otherwise, see `auth/mockWorkspaces.ts` |
+| `items` | Folders, notebooks, lakehouses in a workspace | `GET /fabric/workspaces/{id}/items` — **real, opt-in** |
+| `tables` | A lakehouse's Delta tables | `GET …/lakehouses/{lh}/tables` — **real, opt-in** |
+| `notebookSource` | The decoded cells in the detail panel | `GET …/notebooks/{id}/source` — **real, opt-in** |
+| `tableSchema` | A table's columns | `GET …/tables/{name}/schema` — **real, opt-in**, reads OneLake's Delta log |
+| `pipelineDefinition` | Pipeline activities and their order | `GET …/pipelines/{id}/definition` — **real, opt-in**, nested pipelines followed and flattened in — no Copy lineage yet |
 | `runSandbox` | The sandbox run and all its lineage output | `POST /fabric/sandbox/run` |
-| `observedRun` | "What did this actually do last night" | `GET /fabric/sandbox/observed` |
-| `integrations` | The Integrations list | `GET /integrations` |
-| `identity` | The Integrations identity header | `GET /integrations/identity` |
+| `observedRun` | "What did this actually do last night" | `GET /fabric/sandbox/observed` — not wired |
+| `integrations` | The Integrations list | `GET /integrations` — **real, opt-in** |
+| `identity` | The Integrations identity header | `GET /integrations/identity` — **real, opt-in** |
 
 The response shapes are the exported types in the same file, carried over
 unchanged from the prototype's backend. They are the contract — match them and
 the UI works.
 
-## Authentication is deliberately absent
+**`schemaBaseline.ts` calls `tables` + `tableSchema` in bulk.** "Turn into
+model" (`SequenceCanvas.tsx`'s `ToModelBar`) walks every table in each
+lakehouse the run already resolved a ref for — not just the ones a notebook
+touched — so a table nothing wrote to still gets a node, tagged `Untouched`,
+instead of being absent from the model with no way to tell "doesn't exist"
+from "exists, nothing observed touches it" apart. One `tableSchema` request
+per table, no batching or retry of its own — a lakehouse with real table
+counts means real request counts, and a schema that can't be read is recorded
+rather than blocking the export. See that file's header for the scoping
+rule (only lakehouses the run touched, never a tenant-wide crawl).
 
-The prototype held an Entra ID **service principal** and a token-source hook
-(`setTokenSource` / `fabricFetch`). Both are gone, not stubbed.
+## Authentication
 
-That is a decision, not an omission. A half-present auth layer invites someone
-to put client secrets in a browser bundle, which is where a service principal
-must never live. Whoever implements `FabricApi` owns identity, and should
-almost certainly terminate it server-side: the browser calls your API, your API
-holds the credential.
+Two separate things, easy to conflate:
 
-If you want user-delegated access instead, MSAL in the browser and a token on
-each call fits the same interface — the seam does not care.
+**App sign-in** (`app/src/auth/`) exists. MSAL SSO gates the whole app behind
+an Entra ID login (`AuthProvider.tsx`/`AuthGate.tsx`, popup flow) and an
+app-side domain allowlist (`allowlist.ts`, currently `@cclgroup.com`). This
+answers "who may open Odyssey at all" and has nothing to do with `FabricApi`
+— it does not acquire a Fabric-scoped token or call Fabric.
+
+**Fabric API access** has a real, user-delegated implementation now:
+`fabric/realApi.ts`, behind the `VITE_FABRIC_REAL=1` opt-in flag in
+`fabric/wiring.ts`. `auth/AuthProvider.ts`'s `acquireFabricToken()` gets a
+Fabric-scoped token via MSAL's `acquireTokenSilent` (falling back to a popup
+only on `InteractionRequiredAuthError`), separate from the `User.Read` scope
+used for sign-in — see `fabricLoginRequest` in `auth/config.ts`. Every call in
+`realApi.ts` runs as the signed-in user's own Fabric permissions; there is no
+service principal and no credential in the bundle.
+
+**Caveat: unverified.** `realApi.ts` was written against the publicly
+documented Fabric REST surface with no live tenant available to test
+against — treat exact response shapes (field names, the pagination envelope)
+as a best-effort reading of the docs, not a guarantee. The first real call
+against a tenant is the actual test; expect to adjust field names on contact.
+
+Only capabilities with a simple, single-call REST shape are implemented:
+`status`, `workspaces`, `items`, `tables`, `integrations`, `identity`.
+`notebookSource` and `pipelineDefinition` both need Fabric's "get item
+definition" long-running operation (202 + polling) plus format-specific
+parsing of what comes back (decoded `.ipynb` JSON, or a pipeline's
+activity/lineage graph) — real logic, not plumbing, and guessing at it without
+a live payload to check against would be worse than leaving it unwired.
+`tableSchema` has no simple REST equivalent at all; the prototype's backend
+read it out of OneLake's Delta log directly. `observedRun` needs a notebook's
+last real run id from the Spark History Server proxy, which nothing here
+currently supplies.
+
+The prototype's Entra ID **service principal** and token-source hook
+(`setTokenSource` / `fabricFetch`) are still gone, not resurrected — if
+service-principal identity turns out to be what you want instead of
+user-delegated access, that is a different implementation of the same
+`FabricApi` seam, and should almost certainly terminate server-side: the
+browser calls your API, your API holds the credential.
 
 ## The sandbox engine is in this repository
 

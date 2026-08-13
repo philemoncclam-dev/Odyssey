@@ -476,6 +476,17 @@ export function refLakehouse(ref: string, tables?: Record<string, SandboxTableRe
 }
 
 /**
+ * The inverse of `refParts`: workspace/lakehouse/table -> the canonical ref
+ * string those parts round-trip through. Escapes the same two characters
+ * `refParts` unescapes, so a name that happens to contain `/` or `%` still
+ * parses back to itself.
+ */
+export function buildRef(workspace: string, lakehouse: string, table: string): string {
+  const escape = (s: string) => s.replace(/%/g, '%25').replace(/\//g, '%2F')
+  return [workspace, lakehouse, table].map(escape).join('/')
+}
+
+/**
  * A canonical ref → its parts, mirroring `_refs.parse_ref`/`table_refs`.
  *
  * The backend normally sends this side table with a run, so this exists for
