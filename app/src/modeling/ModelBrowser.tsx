@@ -26,12 +26,13 @@ import {
   type SortKey,
 } from '../model/browser'
 import { download } from '../model/exportTabular'
-import { fabricSampleModel } from '../model/fabricSample'
 import { localStore } from '../model/store'
 import { BarsSpinner } from '../shell/BarsSpinner'
 import { PageHeader } from '../shell/PageHeader'
 import { registerSearchHandler } from '../shell/searchBridge'
 import { ConfirmDialog, DetailsDialog, TagDialog } from './ModelDialogs'
+import { PublishDialog } from '../products/PublishDialog'
+import { localCatalogStore } from '../catalog/store'
 import type { LineageModel, ModelSummary } from '../model/types'
 import './modelBrowser.css'
 
@@ -43,6 +44,7 @@ type Modal =
   | { kind: 'rename'; model: ModelSummary }
   | { kind: 'tags'; models: ModelSummary[] }
   | { kind: 'delete'; models: ModelSummary[] }
+  | { kind: 'publish'; model: ModelSummary }
   | null
 
 // ===== Icons =====
@@ -111,6 +113,7 @@ export default function ModelBrowser() {
   const navigate = useNavigate()
 
   const [models, setModels] = useState<ModelSummary[] | null>(null)
+  const [publishedIds, setPublishedIds] = useState<Set<string>>(new Set())
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
 
@@ -139,9 +142,15 @@ export default function ModelBrowser() {
     }
   }, [])
 
+  const reloadPublished = useCallback(async () => {
+    const entries = await localCatalogStore.list()
+    setPublishedIds(new Set(entries.map((e) => e.modelId)))
+  }, [])
+
   useEffect(() => {
     void reload()
-  }, [reload])
+    void reloadPublished()
+  }, [reload, reloadPublished])
 
   // Claim Cmd+K for the browser's own search box — the shell's catalog palette
   // searches Fabric assets, which is not what you want while looking at models.
@@ -230,21 +239,6 @@ export default function ModelBrowser() {
     download(name, JSON.stringify(toSolBundle(loaded), null, 2), 'application/json')
   }
 
-
-  /**
-   * Seed the worked example and open it.
-   *
-   * A fresh id per press, rather than the constant the sample declares: the
-   * store is keyed by id, so a second press would silently overwrite the first
-   * copy along with any edits made to it.
-   */
-  const addSample = () =>
-    run('Sample model added.', async () => {
-      const sample = { ...fabricSampleModel(), id: crypto.randomUUID() }
-      await localStore.save(sample)
-      void navigate({ to: '/model/$modelId', params: { modelId: sample.id } })
-    })
-
   // ===== Modal submission =====
 
   const closeModal = () => setModal(null)
@@ -300,14 +294,6 @@ export default function ModelBrowser() {
       <PageHeader mode="model" title="Models">
         <button className="mb-btn primary" onClick={() => setModal({ kind: 'create' })}>
           Create
-        </button>
-
-        <button
-          className="mb-btn"
-          title="Add a worked example: sources, pipelines, a medallion workspace and a catalogued product"
-          onClick={() => void addSample()}
-        >
-          Add sample
         </button>
 
         <button
@@ -448,6 +434,7 @@ export default function ModelBrowser() {
                     key={model.id}
                     model={model}
                     layout={layout}
+                    published={publishedIds.has(model.id)}
                     selected={selected.has(model.id)}
                     expanded={expanded === model.id}
                     onToggleSelected={() => toggleSelected(model.id)}
@@ -469,6 +456,7 @@ export default function ModelBrowser() {
                     }
                     onExport={() => void exportSol([model])}
                     onDelete={() => setModal({ kind: 'delete', models: [model] })}
+                    onPublish={() => setModal({ kind: 'publish', model })}
                     onTagClick={toggleTag}
                   />
                 ))}
@@ -510,6 +498,19 @@ export default function ModelBrowser() {
           onClose={closeModal}
         />
       )}
+      {modal?.kind === 'publish' && (
+        <PublishDialog
+          modelId={modal.model.id}
+          name={modal.model.name}
+          initialDescription={modal.model.description}
+          onClose={closeModal}
+          onPublished={() => {
+            closeModal()
+            setNotice('Published to catalog.')
+            void reloadPublished()
+          }}
+        />
+      )}
       {modal?.kind === 'delete' && (
         <ConfirmDialog
           title={modal.models.length === 1 ? 'Delete this model?' : 'Delete these models?'}
@@ -539,6 +540,7 @@ export default function ModelBrowser() {
 interface RowProps {
   model: ModelSummary
   layout: Layout
+  published: boolean
   selected: boolean
   expanded: boolean
   onToggleSelected: () => void
@@ -550,12 +552,14 @@ interface RowProps {
   onDuplicate: () => void
   onExport: () => void
   onDelete: () => void
+  onPublish: () => void
   onTagClick: (tag: string) => void
 }
 
 function ModelRow({
   model,
   layout,
+  published,
   selected,
   expanded,
   onToggleSelected,
@@ -567,6 +571,7 @@ function ModelRow({
   onDuplicate,
   onExport,
   onDelete,
+  onPublish,
   onTagClick,
 }: RowProps) {
   return (
@@ -605,6 +610,7 @@ function ModelRow({
           >
             {model.name}
           </button>
+          {published && <span className="mb-chip small" title="Published to the catalog">Published</span>}
           {model.description && <p className="mb-desc">{model.description}</p>}
           {model.tags.length > 0 && (
             <div className="mb-row-tags">
@@ -660,6 +666,9 @@ function ModelRow({
                 </DropdownMenu.Item>
                 <DropdownMenu.Item className="mb-menu-item" onSelect={onExport}>
                   Export to SOL
+                </DropdownMenu.Item>
+                <DropdownMenu.Item className="mb-menu-item" onSelect={onPublish}>
+                  Publish to catalog…
                 </DropdownMenu.Item>
                 <DropdownMenu.Separator className="mb-menu-sep" />
                 <DropdownMenu.Item className="mb-menu-item danger" onSelect={onDelete}>

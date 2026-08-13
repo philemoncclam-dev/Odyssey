@@ -12,10 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FabricRouteRouteImport } from './routes/fabric/route'
 import { Route as ModelsRouteImport } from './routes/models'
+import { Route as ProductsRouteRouteImport } from './routes/products/route'
 import { Route as FabricIndexRouteImport } from './routes/fabric/index'
 import { Route as FabricExploreRouteImport } from './routes/fabric/explore'
 import { Route as FabricIntegrationsRouteImport } from './routes/fabric/integrations'
 import { Route as ModelModelIdRouteImport } from './routes/model.$modelId'
+import { Route as ProductsIndexRouteImport } from './routes/products/index'
+import { Route as ProductsApplicationsRouteImport } from './routes/products/applications'
+import { Route as ProductsDomainsRouteImport } from './routes/products/domains'
+import { Route as ProductsHistoryRouteImport } from './routes/products/history'
+import { Route as ProductsNewRouteImport } from './routes/products/new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,6 +36,11 @@ const FabricRouteRoute = FabricRouteRouteImport.update({
 const ModelsRoute = ModelsRouteImport.update({
   id: '/models',
   path: '/models',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsRouteRoute = ProductsRouteRouteImport.update({
+  id: '/products',
+  path: '/products',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FabricIndexRoute = FabricIndexRouteImport.update({
@@ -52,15 +63,46 @@ const ModelModelIdRoute = ModelModelIdRouteImport.update({
   path: '/model/$modelId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsIndexRoute = ProductsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProductsRouteRoute,
+} as any)
+const ProductsApplicationsRoute = ProductsApplicationsRouteImport.update({
+  id: '/applications',
+  path: '/applications',
+  getParentRoute: () => ProductsRouteRoute,
+} as any)
+const ProductsDomainsRoute = ProductsDomainsRouteImport.update({
+  id: '/domains',
+  path: '/domains',
+  getParentRoute: () => ProductsRouteRoute,
+} as any)
+const ProductsHistoryRoute = ProductsHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => ProductsRouteRoute,
+} as any)
+const ProductsNewRoute = ProductsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => ProductsRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fabric': typeof FabricRouteRouteWithChildren
+  '/products': typeof ProductsRouteRouteWithChildren
   '/models': typeof ModelsRoute
   '/fabric/explore': typeof FabricExploreRoute
   '/fabric/integrations': typeof FabricIntegrationsRoute
   '/model/$modelId': typeof ModelModelIdRoute
+  '/products/applications': typeof ProductsApplicationsRoute
+  '/products/domains': typeof ProductsDomainsRoute
+  '/products/history': typeof ProductsHistoryRoute
+  '/products/new': typeof ProductsNewRoute
   '/fabric/': typeof FabricIndexRoute
+  '/products/': typeof ProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -68,28 +110,45 @@ export interface FileRoutesByTo {
   '/fabric/explore': typeof FabricExploreRoute
   '/fabric/integrations': typeof FabricIntegrationsRoute
   '/model/$modelId': typeof ModelModelIdRoute
+  '/products/applications': typeof ProductsApplicationsRoute
+  '/products/domains': typeof ProductsDomainsRoute
+  '/products/history': typeof ProductsHistoryRoute
+  '/products/new': typeof ProductsNewRoute
   '/fabric': typeof FabricIndexRoute
+  '/products': typeof ProductsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/fabric': typeof FabricRouteRouteWithChildren
+  '/products': typeof ProductsRouteRouteWithChildren
   '/models': typeof ModelsRoute
   '/fabric/explore': typeof FabricExploreRoute
   '/fabric/integrations': typeof FabricIntegrationsRoute
   '/model/$modelId': typeof ModelModelIdRoute
+  '/products/applications': typeof ProductsApplicationsRoute
+  '/products/domains': typeof ProductsDomainsRoute
+  '/products/history': typeof ProductsHistoryRoute
+  '/products/new': typeof ProductsNewRoute
   '/fabric/': typeof FabricIndexRoute
+  '/products/': typeof ProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/fabric'
+    | '/products'
     | '/models'
     | '/fabric/explore'
     | '/fabric/integrations'
     | '/model/$modelId'
+    | '/products/applications'
+    | '/products/domains'
+    | '/products/history'
+    | '/products/new'
     | '/fabric/'
+    | '/products/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -97,21 +156,33 @@ export interface FileRouteTypes {
     | '/fabric/explore'
     | '/fabric/integrations'
     | '/model/$modelId'
+    | '/products/applications'
+    | '/products/domains'
+    | '/products/history'
+    | '/products/new'
     | '/fabric'
+    | '/products'
   id:
     | '__root__'
     | '/'
     | '/fabric'
+    | '/products'
     | '/models'
     | '/fabric/explore'
     | '/fabric/integrations'
     | '/model/$modelId'
+    | '/products/applications'
+    | '/products/domains'
+    | '/products/history'
+    | '/products/new'
     | '/fabric/'
+    | '/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FabricRouteRoute: typeof FabricRouteRouteWithChildren
+  ProductsRouteRoute: typeof ProductsRouteRouteWithChildren
   ModelsRoute: typeof ModelsRoute
   ModelModelIdRoute: typeof ModelModelIdRoute
 }
@@ -137,6 +208,13 @@ declare module '@tanstack/react-router' {
       path: '/models'
       fullPath: '/models'
       preLoaderRoute: typeof ModelsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products': {
+      id: '/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProductsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fabric/': {
@@ -167,6 +245,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModelModelIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/': {
+      id: '/products/'
+      path: '/'
+      fullPath: '/products/'
+      preLoaderRoute: typeof ProductsIndexRouteImport
+      parentRoute: typeof ProductsRouteRoute
+    }
+    '/products/applications': {
+      id: '/products/applications'
+      path: '/applications'
+      fullPath: '/products/applications'
+      preLoaderRoute: typeof ProductsApplicationsRouteImport
+      parentRoute: typeof ProductsRouteRoute
+    }
+    '/products/domains': {
+      id: '/products/domains'
+      path: '/domains'
+      fullPath: '/products/domains'
+      preLoaderRoute: typeof ProductsDomainsRouteImport
+      parentRoute: typeof ProductsRouteRoute
+    }
+    '/products/history': {
+      id: '/products/history'
+      path: '/history'
+      fullPath: '/products/history'
+      preLoaderRoute: typeof ProductsHistoryRouteImport
+      parentRoute: typeof ProductsRouteRoute
+    }
+    '/products/new': {
+      id: '/products/new'
+      path: '/new'
+      fullPath: '/products/new'
+      preLoaderRoute: typeof ProductsNewRouteImport
+      parentRoute: typeof ProductsRouteRoute
+    }
   }
 }
 
@@ -186,9 +299,30 @@ const FabricRouteRouteWithChildren = FabricRouteRoute._addFileChildren(
   FabricRouteRouteChildren,
 )
 
+interface ProductsRouteRouteChildren {
+  ProductsApplicationsRoute: typeof ProductsApplicationsRoute
+  ProductsDomainsRoute: typeof ProductsDomainsRoute
+  ProductsHistoryRoute: typeof ProductsHistoryRoute
+  ProductsNewRoute: typeof ProductsNewRoute
+  ProductsIndexRoute: typeof ProductsIndexRoute
+}
+
+const ProductsRouteRouteChildren: ProductsRouteRouteChildren = {
+  ProductsApplicationsRoute: ProductsApplicationsRoute,
+  ProductsDomainsRoute: ProductsDomainsRoute,
+  ProductsHistoryRoute: ProductsHistoryRoute,
+  ProductsNewRoute: ProductsNewRoute,
+  ProductsIndexRoute: ProductsIndexRoute,
+}
+
+const ProductsRouteRouteWithChildren = ProductsRouteRoute._addFileChildren(
+  ProductsRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FabricRouteRoute: FabricRouteRouteWithChildren,
+  ProductsRouteRoute: ProductsRouteRouteWithChildren,
   ModelsRoute: ModelsRoute,
   ModelModelIdRoute: ModelModelIdRoute,
 }

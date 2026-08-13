@@ -60,6 +60,10 @@ export const railConfig: Record<ModeKey, RailItem[]> = {
     { key: 'fold', label: 'Collapse & expand', icon: 'fold', action: 'fold' },
     { key: 'tags', label: 'Tags', icon: 'tag', action: 'tags' },
     { key: 'mapping', label: 'Auto-Mapper', icon: 'mapping', action: 'mapping' },
+    // ADR-0004, moved here from Explore: browse Fabric and bind what's
+    // already on the canvas to a real table/column, rather than dragging out
+    // of a different mode's tree.
+    { key: 'bind-asset', label: 'Bind asset', icon: 'explore', action: 'bind-asset' },
     { key: 'import', label: 'Import', icon: 'import', action: 'import' },
     { key: 'export', label: 'Export', icon: 'export', action: 'export' },
     // Snapshot history: about the model as a whole rather than about
@@ -81,6 +85,8 @@ export const railConfig: Record<ModeKey, RailItem[]> = {
   products: [
     { key: 'catalog', label: 'Products', icon: 'products', to: '/products' },
     { key: 'domains', label: 'Domains', icon: 'layers', to: '/products/domains' },
+    { key: 'applications', label: 'Applications', icon: 'definitions', to: '/products/applications' },
+    { key: 'history', label: 'History', icon: 'overview', to: '/products/history' },
     { key: 'new-product', label: 'New product', icon: 'plus', to: '/products/new' },
     { key: 'requests', label: 'Requests', icon: 'inbox', to: '/products/requests' },
   ],

@@ -15,6 +15,7 @@ export type RailActionKey =
   | 'fold'
   | 'explain'
   | 'versions'
+  | 'bind-asset'
 
 type Handler = () => void
 

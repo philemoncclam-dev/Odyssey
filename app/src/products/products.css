@@ -1,0 +1,252 @@
+.pc-page {
+  padding: 24px 32px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.pc-head h1 {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+}
+
+.pc-sub {
+  margin: 0 0 24px;
+  color: var(--text-secondary, #666);
+}
+
+.pc-empty {
+  color: var(--text-secondary, #666);
+  padding: 24px 0;
+}
+
+.pc-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pc-group-title {
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+  white-space: pre;
+}
+
+.pc-group-count {
+  color: var(--text-secondary, #888);
+  font-weight: normal;
+}
+
+.pc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pc-row {
+  border: 1px solid var(--border, #e2e2e2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 4px 12px;
+}
+
+.pc-row-name {
+  grid-column: 1;
+  background: none;
+  border: none;
+  padding: 0;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+}
+
+.pc-history-row {
+  grid-column: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.pc-history-action {
+  flex: none;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #e9edf3;
+  color: #33405a;
+}
+.pc-history-action[data-action='published'] {
+  background: #d3f0e0;
+  color: #114a2b;
+}
+.pc-history-action[data-action='unpublished'] {
+  background: #fbe0de;
+  color: #7a2a24;
+}
+.pc-history-meta {
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  color: var(--text-tertiary, #888);
+  font-size: 0.8rem;
+}
+
+.pc-row-desc {
+  grid-column: 1;
+  margin: 0;
+  color: var(--text-secondary, #666);
+  font-size: 0.9rem;
+}
+
+.pc-row-meta {
+  grid-column: 1;
+  display: flex;
+  gap: 12px;
+  font-size: 0.8rem;
+  color: var(--text-secondary, #888);
+}
+
+.pc-row-actions {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  gap: 6px;
+}
+
+.pc-row-edit,
+.pc-row-unpublish {
+  background: none;
+  border: 1px solid var(--border, #e2e2e2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.pc-search {
+  width: 100%;
+  max-width: 320px;
+  padding: 6px 10px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border, #ccc);
+  border-radius: 6px;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+/* ===== Publish dialog ===== */
+
+.pc-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+}
+
+.pc-dialog {
+  background: var(--surface, #fff);
+  border-radius: 10px;
+  width: 420px;
+  max-width: 90vw;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.pc-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border, #eee);
+}
+
+.pc-dialog-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.pc-x {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.pc-dialog-body {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pc-lede {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.pc-field-label {
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+.pc-optional {
+  color: var(--text-secondary, #888);
+  font-weight: normal;
+}
+
+.pc-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border, #ccc);
+  border-radius: 6px;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.pc-textarea {
+  resize: vertical;
+}
+
+.pc-error {
+  color: var(--danger, #c0392b);
+  font-size: 0.85rem;
+  margin: 8px 0 0;
+}
+
+.pc-dialog-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border, #eee);
+}
+
+.pc-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border, #ccc);
+  background: var(--surface, #fff);
+  cursor: pointer;
+  font: inherit;
+}
+
+.pc-btn.primary {
+  background: var(--accent, #2563eb);
+  color: #fff;
+  border-color: transparent;
+}
+
+.pc-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
