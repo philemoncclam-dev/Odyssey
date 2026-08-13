@@ -30,32 +30,36 @@ export type TaskStepStatus = 'pending' | 'active' | 'done' | 'error'
 
 export interface UseTaskStepsOptions {
   steps: TaskStep[]
-  /** Index of the step in flight. `>= steps.length` means finished. */
-  current: number
-  failed?: boolean
+  /**
+   * Each step's REAL status — not derived from "how far in" the run is.
+   *
+   * Earlier this took `current` (an index) plus one `failed` boolean for the
+   * whole run, on the assumption that a run stops at its first failure. It
+   * doesn't: `sequence.ts`'s `runAll` keeps going after a step errors, so a
+   * step that failed in the middle of a run — with a later step still
+   * completing after it — had no way to report as failed. The index had
+   * already moved past it, and "done" was the only label left to fall into.
+   * A caller with several independent steps (not a strict pipeline) needs
+   * exactly that shape to render honestly, so status now comes from the
+   * caller per step instead of being inferred.
+   */
+  statusOf: (id: string) => TaskStepStatus
 }
 
-export function useTaskSteps({ steps, current, failed = false }: UseTaskStepsOptions) {
-  const complete = !failed && current >= steps.length
+export function useTaskSteps({ steps, statusOf }: UseTaskStepsOptions) {
+  const rows = steps.map((step) => ({ ...step, status: statusOf(step.id) }))
 
-  const rows = steps.map((step, i) => ({
-    ...step,
-    status: (i < current
-      ? 'done'
-      : i === current && failed
-        ? 'error'
-        : i === current && !complete
-          ? 'active'
-          : 'pending') as TaskStepStatus,
-  }))
-
+  const failedRow = rows.find((r) => r.status === 'error')
   const active = rows.find((r) => r.status === 'active')
-  const sentence = failed
-    ? `Failed at ${steps[Math.min(current, steps.length - 1)]?.label ?? 'step'}`
+  const complete = rows.length > 0 && rows.every((r) => r.status === 'done')
+  const failed = Boolean(failedRow)
+
+  const sentence = failedRow
+    ? `Failed at ${failedRow.label}`
     : complete
       ? `All ${steps.length} steps complete`
       : active
-        ? `${active.label}, step ${current + 1} of ${steps.length}`
+        ? `${active.label}, step ${rows.indexOf(active) + 1} of ${steps.length}`
         : ''
 
   return { rows, complete, failed, sentence }
@@ -94,12 +98,11 @@ export interface TaskStepsProps extends UseTaskStepsOptions {
 
 export function TaskSteps({
   steps,
-  current,
-  failed = false,
+  statusOf,
   label = 'Task progress',
   className = '',
 }: TaskStepsProps) {
-  const { rows, complete, sentence } = useTaskSteps({ steps, current, failed })
+  const { rows, complete, failed, sentence } = useTaskSteps({ steps, statusOf })
 
   // The announcement is delayed so a fast sequence does not queue a sentence
   // per step and read them all out after the run has finished.

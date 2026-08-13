@@ -659,6 +659,31 @@ function OpenFabricIcon() {
   )
 }
 
+/** Same stroke weight and viewBox as OpenFabricIcon — one icon set, not two. */
+function CopyLinkIcon({ state }: { state: 'idle' | 'copied' | 'failed' }) {
+  if (state === 'copied') {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+        <path d="M5 12.5 10 17l9-10" />
+      </svg>
+    )
+  }
+  if (state === 'failed') {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+        <path d="M6 6l12 12M18 6 6 18" />
+      </svg>
+    )
+  }
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M9.5 14.5 14.5 9.5" />
+      <path d="M11 7l1.6-1.6a3.2 3.2 0 0 1 4.5 4.5L15.5 11.5" />
+      <path d="M13 17l-1.6 1.6a3.2 3.2 0 0 1-4.5-4.5L8.5 12.5" />
+    </svg>
+  )
+}
+
 /**
  * Copy a link that reopens this exact node.
  *
@@ -687,7 +712,7 @@ function ShareLinkButton({ sel }: { sel: Selected }) {
       title={state === 'failed' ? 'Could not copy — check clipboard permissions' : 'Copy a link to this'}
       aria-label="Copy a link to this"
     >
-      {state === 'idle' ? '🔗' : state === 'copied' ? '✓' : '✕'}
+      <CopyLinkIcon state={state} />
     </button>
   )
 }
@@ -715,19 +740,21 @@ function DetailHeader({
         <h2 className="fx-detail-title">{title}</h2>
         {subtitle && <div className="fx-detail-sub">{subtitle}</div>}
       </div>
-      {share && <ShareLinkButton sel={share} />}
-      {fabricHref && (
-        <a
-          className="fx-open fx-open--detail"
-          href={fabricHref}
-          target="_blank"
-          rel="noreferrer"
-          title={fabricLabel}
-          aria-label={fabricLabel}
-        >
-          <OpenFabricIcon />
-        </a>
-      )}
+      <div className="fx-detail-actions">
+        {share && <ShareLinkButton sel={share} />}
+        {fabricHref && (
+          <a
+            className="fx-open fx-open--detail"
+            href={fabricHref}
+            target="_blank"
+            rel="noreferrer"
+            title={fabricLabel}
+            aria-label={fabricLabel}
+          >
+            <OpenFabricIcon />
+          </a>
+        )}
+      </div>
     </div>
   )
 }
@@ -891,14 +918,9 @@ function TableDetail({ sel }: { sel: Extract<Selected, { kind: 'table' }> }) {
           it run" is the question people arrive with, and the schema is the
           reference they check afterwards. */}
       <TableAnswers table={sel.table.name} lakehouse={sel.lakehouse.name} />
-      {/* ADR-0004: the join between Explore and the models. Below the answers
-          because "what is this" comes before "put it in a model". */}
-      <AssetBinding
-        workspaceId={sel.workspaceId}
-        itemId={sel.lakehouse.id}
-        table={sel.table.name}
-        columns={schema.status === 'ok' ? (schema.data ?? []) : []}
-      />
+      {/* ADR-0004: which models already reference this table. Below the
+          answers because "what is this" comes before "who uses it". */}
+      <AssetBinding workspaceId={sel.workspaceId} itemId={sel.lakehouse.id} table={sel.table.name} />
       {schema.status === 'ok' ? (
         schema.data!.length ? (
           <table className="fx-cols">

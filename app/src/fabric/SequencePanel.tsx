@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { BarsSpinner } from '../shell/BarsSpinner'
 import { parseNotebook } from './notebookFile'
-import { TaskSteps } from './TaskSteps'
+import { TaskSteps, type TaskStepStatus } from './TaskSteps'
 import {
   useSequence,
   removeStep,
@@ -21,8 +21,7 @@ import {
   type StepKind,
   addStep,
   hydrateSequence,
-  type Step,
-  type StepResult,
+  type StepStatus,
 } from './sequence'
 
 export function StepIcon({ kind }: { kind: StepKind }) {
@@ -104,8 +103,7 @@ export function SequencePanel({ title = 'Sandbox sequence' }: { title?: string }
                 ...(result?.ms ? { meta: elapsed(result.ms) } : {}),
               }
             })}
-            current={activeIndex(steps, results)}
-            failed={anyFailed(results)}
+            statusOf={(id) => toTaskStepStatus(results.get(id)?.status)}
             label="Sandbox run progress"
           />
         ) : (
@@ -296,24 +294,24 @@ function AddCode({ onDone }: { onDone: () => void }) {
 }
 
 /**
- * Which step the run is on.
+ * A step's real `StepStatus` (sequence.ts) → what `TaskSteps` draws.
  *
- * The step actually in flight when there is one; otherwise however many have
- * finished, which is what `TaskSteps` reads as "all done". Derived rather than
- * stored because the store already knows — a second counter would be a thing
- * to keep in step with the first.
+ * Per step, not inferred from how far the run has gotten — `runAll` keeps
+ * going after a step errors, so a middle step's failure has to say so on its
+ * own row rather than being overtaken by whatever ran after it. `skipped`
+ * reads as `pending`: nothing happened there to report as done or failed.
  */
-function activeIndex(steps: Step[], results: Map<string, StepResult>): number {
-  const running = steps.findIndex((s) => results.get(s.key)?.status === 'running')
-  if (running >= 0) return running
-  return steps.filter((s) => {
-    const status = results.get(s.key)?.status
-    return status === 'ok' || status === 'error'
-  }).length
-}
-
-function anyFailed(results: Map<string, StepResult>): boolean {
-  return [...results.values()].some((r) => r.status === 'error')
+function toTaskStepStatus(status: StepStatus | undefined): TaskStepStatus {
+  switch (status) {
+    case 'running':
+      return 'active'
+    case 'ok':
+      return 'done'
+    case 'error':
+      return 'error'
+    default:
+      return 'pending'
+  }
 }
 
 /** A duration in the units a reader compares at a glance. */
