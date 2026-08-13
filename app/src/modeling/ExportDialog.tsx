@@ -166,6 +166,8 @@ export default function ExportDialog({ model, onClose }: Props) {
                 {dataRows} row(s) will be written. Transitions whose endpoints are excluded are
                 dropped, since they could not be resolved on reimport.
               </p>
+
+              {rows.length > 1 && <ExportPreview rows={rows} />}
             </>
           )}
         </div>
@@ -180,6 +182,41 @@ export default function ExportDialog({ model, onClose }: Props) {
           </button>
         </footer>
       </div>
+    </div>
+  )
+}
+
+/** First few rows of the export, so you can see the shape before downloading it. */
+function ExportPreview({ rows }: { rows: string[][] }) {
+  const header = rows[0] ?? []
+  const body = rows.slice(1)
+  const shown = body.slice(0, 20)
+  return (
+    <div className="imp-preview">
+      <p className="imp-lede">Preview</p>
+      <div className="imp-preview-scroll">
+        <table className="imp-preview-table">
+          <thead>
+            <tr>
+              {header.map((cell, i) => (
+                <th key={i}>{cell}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {shown.map((row, i) => (
+              <tr key={i}>
+                {header.map((_, j) => (
+                  <td key={j}>{row[j] ?? ''}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {body.length > shown.length && (
+        <p className="imp-hint">…and {body.length - shown.length} more row(s).</p>
+      )}
     </div>
   )
 }
