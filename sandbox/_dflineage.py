@@ -53,6 +53,7 @@ scrubbed environment and must never reach `app`.
 from __future__ import annotations
 
 import ast
+import re
 
 import _refs
 import _sqllineage
@@ -66,6 +67,12 @@ _PASSTHROUGH = {
     "distinct", "dropDuplicates", "drop_duplicates", "repartition", "coalesce",
     "cache", "persist", "unpersist", "checkpoint", "localCheckpoint", "hint",
     "sample", "alias", "as", "observe", "dropna", "fillna", "na", "replace",
+    # Set operations: the result's schema is the LEFT side's, unchanged — rows
+    # are narrowed to what's shared with (or absent from) the other side, but
+    # every surviving column still comes from wherever it always came from.
+    # Same shape as a filter, which is why these belong here rather than
+    # needing their own handler.
+    "exceptAll", "intersect", "intersectAll", "subtract",
 }
 
 #: Reader/writer format verbs — `.parquet(p)` is a read on `spark.read` and a
@@ -98,6 +105,14 @@ _EXPR_PASSTHROUGH = {
     "asc_nulls_last", "asc_nulls_first", "otherwise", "over", "isNotNull",
     "isNull", "between", "substr", "when",
 }
+
+#: `.selectExpr("col")` / `.selectExpr("col AS alias")` / `.selectExpr("col alias")`
+#: — the one shape read without a SQL parser. Anything with an operator, a
+#: function call, or a qualifier this doesn't recognise fails the match and
+#: that column is dropped, same as an unaliased computed column elsewhere here.
+_SELECT_EXPR_RE = re.compile(
+    r"^\s*([A-Za-z_]\w*)\s*(?:(?:\bAS\b|\s)\s*([A-Za-z_]\w*))?\s*$", re.IGNORECASE
+)
 
 
 class Frame:
@@ -463,6 +478,35 @@ class _Reader:
             return None
         return Frame(columns, prov, transforms)
 
+    def _select_expr(self, frame: Frame, args: list[ast.AST]) -> Frame | None:
+        """`.selectExpr(...)` — SQL strings, not column expressions.
+
+        Reading them in general would mean parsing SQL fragments against a
+        frame — `_sqllineage`'s job, on a statement this is not. Only the
+        `"col"` / `"col AS alias"` / `"col alias"` shapes are read, via
+        `_SELECT_EXPR_RE`; anything else drops that one column rather than
+        guessing, matching `_project`'s per-column abstention.
+        """
+        columns: list[str] = []
+        prov: dict[str, set[tuple[str, str]]] = {}
+        for arg in args:
+            raw = _literal_str(arg)
+            if raw is None:
+                return None  # A non-literal expression list isn't knowable here.
+            match = _SELECT_EXPR_RE.match(raw)
+            if not match:
+                continue  # An expression this reader doesn't parse.
+            col, alias = match.group(1), match.group(2)
+            if col not in frame.prov:
+                continue
+            name = alias or col
+            if name not in prov:
+                columns.append(name)
+            prov[name] = set(frame.prov[col])
+        if not columns:
+            return None
+        return Frame(columns, prov)
+
     # ---- frame methods --------------------------------------------------
 
     def _method(self, base: Frame, attr: str, call: ast.Call) -> Frame | Grouped | None:
@@ -471,9 +515,21 @@ class _Reader:
             return base.copy()
         if attr == "select":
             return self._project(base, args)
-        # `selectExpr` takes SQL strings, not column expressions. Reading them
-        # would mean parsing SQL fragments against a frame — `_sqllineage`'s job,
-        # on a statement this is not — so it degrades instead.
+        if attr == "selectExpr":
+            return self._select_expr(base, args)
+        if attr == "withColumns" and args and isinstance(args[0], ast.Dict):
+            out = base.copy()
+            for key_node, value_node in zip(args[0].keys, args[0].values):
+                name = _literal_str(key_node) if key_node is not None else None
+                if not name or value_node is None:
+                    continue
+                sources, transform = self._sources(value_node, base)
+                if name not in out.prov:
+                    out.columns.append(name)
+                out.prov[name] = sources
+                if transform:
+                    out.transforms[name] = transform
+            return out
         if attr == "withColumn" and len(args) >= 2:
             name = _literal_str(args[0])
             if not name:
@@ -504,10 +560,32 @@ class _Reader:
             out.columns = [c for c in out.columns if c not in dropped]
             out.prov = {k: v for k, v in out.prov.items() if k not in dropped}
             return out
-        if attr == "join":
+        if attr in ("join", "crossJoin"):
+            # crossJoin takes no `on`/`how` — just the other frame — but
+            # `_join` only ever reads `call.args[0]` for that, so the same
+            # handler already does the right thing.
             return self._join(base, call)
         if attr in ("union", "unionAll", "unionByName"):
             return self._union(base, call)
+        if attr == "toDF" and args:
+            # Positional rename of every column at once — common right after a
+            # raw read, where the source has no headers worth keeping
+            # (`spark.read.csv(p).toDF("id", "name", "amount")`). Abstains
+            # unless every argument is a literal name and the count matches:
+            # a partial or computed rename has no safe mapping to fall back to.
+            raw_names = [_literal_str(a) for a in args]
+            if len(raw_names) != len(base.columns) or any(n is None for n in raw_names):
+                return None
+            columns: list[str] = []
+            prov: dict[str, set[tuple[str, str]]] = {}
+            transforms: dict[str, str] = {}
+            for old, new in zip(base.columns, raw_names):
+                assert new is not None  # ruled out by the check above
+                columns.append(new)
+                prov[new] = set(base.prov.get(old, set()))
+                if old in base.transforms:
+                    transforms[new] = base.transforms[old]
+            return Frame(columns, prov, transforms)
         if attr == "groupBy" or attr == "groupby":
             keys: list[tuple[str, set[tuple[str, str]]]] = []
             for arg in args:
@@ -574,6 +652,23 @@ class _Reader:
         for name, sources in grouped.keys:
             columns.append(name)
             prov[name] = sources
+        # `agg({"amount": "sum"})` — the dict shorthand names its output
+        # `sum(amount)` (Spark's own, fixed and documented naming convention),
+        # which is trusted here rather than dropped — unlike an unaliased
+        # expression, this name isn't a guess.
+        if len(call.args) == 1 and isinstance(call.args[0], ast.Dict):
+            for key_node, value_node in zip(call.args[0].keys, call.args[0].values):
+                col = _literal_str(key_node) if key_node is not None else None
+                func = _literal_str(value_node) if value_node is not None else None
+                if not col or not func or col not in grouped.frame.prov:
+                    continue
+                name = f"{func}({col})"
+                if name not in prov:
+                    columns.append(name)
+                prov[name] = set(grouped.frame.prov[col])
+            if not columns:
+                return None
+            return Frame(columns, prov, transforms)
         for arg in call.args:
             if isinstance(arg, ast.Starred):
                 return None
@@ -586,9 +681,6 @@ class _Reader:
             prov[name] = sources
             if transform:
                 transforms[name] = transform
-        # `agg({"amount": "sum"})` — the dict form names its output
-        # `sum(amount)`, a generated name, so it is skipped for the same reason
-        # an unaliased expression is.
         if not columns:
             return None
         return Frame(columns, prov, transforms)
