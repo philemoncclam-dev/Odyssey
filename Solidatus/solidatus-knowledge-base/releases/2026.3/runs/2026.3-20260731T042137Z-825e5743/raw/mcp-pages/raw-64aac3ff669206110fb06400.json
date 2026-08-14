@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/query_history/configuration"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-64aac3ff669206110fb06400",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/query_history/configuration",
+  "response_content_hash": "d72b00d124518a3b5ef7a9dae06f80372848ce157f61bfd098659760f1011ba9",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Configuration\n\nThere are a number of configuration options that can be used to filter and narrow the query history ingested in a specific Snowflake instance.\n\n|                              **Parameter**                              |                                                                  **Description**                                                                 |           **Example**          |\n| :---------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------: |\n|   `--solidatus.jdbc.snowflakeEnricher.queryHistory.insertQueryHistory`  |                                            Whether to fetch Snowflake query history to create lineage                                            | true or false default is false |\n|         `--solidatus.jdbc.snowflakeEnricher.queryHistory.users`         |                             List of users to scan query history from (defaults to all users if no user is specified)                             | JOHN\\_SMITH, SERVICE\\_ACCOUNT1 |\n|        `--solidatus.jdbc.snowflakeEnricher.queryHistory.fromDate`       |           ('yyyy-MM-dd HH:flag\\_mm:ss') format to be used for fromDate to be used for dateTime filtering. Must be before toDate value.           |      '2023-01-17 14:35:20'     |\n|         `--solidatus.jdbc.snowflakeEnricher.queryHistory.toDate`        |            ('yyyy-MM-dd HH:flag\\_mm:ss') format to be used for toDate to be used for dateTime filtering. Must be after fromDate value.           |      '2023-01-17 19:00:05'     |\n|        `--solidatus.jdbc.snowflakeEnricher.queryHistory.timespan`       | Number of days in the past to scan query history. Please provide the number of days in the past to scan (up to 60), or -1 to not use this option |               20               |\n| `--solidatus.jdbc.snowflakeEnricher.queryHistory.queryHistoryBatchSize` |                        Number of query history entries to process per batch. Default is 50 and must be between 1 and 200.                        |               50               |\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:00.809Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "b42c6aedd87d5dc55f615ac5b9b45c68c5c6723650c6a7a78bd6e4b69454d4b9",
+  "warnings": []
+}

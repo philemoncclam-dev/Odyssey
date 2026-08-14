@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/analytics-reports/metric-examples"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-2f4de0dd9f4c7e5df9ab5e31",
+  "requested_url": "https://docs.solidatus.com/data-domains/analytics-reports/metric-examples",
+  "response_content_hash": "b0a754bec5fba637db38001f2d678c93e522ab50806998beccc2e4043b841e59",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Metric examples\n\nTo help you use Analytics reports to their fullest extent, this page contains example metrics that demonstrate the fine-grained quantitative insights you can derive from a domain.\n\nGiven that metrics can be defined using the broad scope and flexibility of the [domain query language](/data-domains/explore-data-domains/query-data-domains), there is virtually no limit to the criteria you can create to gather numbers useful to your organisation.\n\n{% hint style=\"success\" %}\nAs these examples show, the way to configure a metric depends on how data is represented in the underlying models published to a domain.\n\nFor example, it is crucial to know\n\n* whether metadata is represented as a property or Reference relationship,\n* whether data assets (e.g., tables) are represented by a particular entity type (e.g., Object or Attribute),\n* whether you want to count entities in all models in a domain or only particular models.\n  {% endhint %}\n\n## Example 1\n\nIn this example, we have a property, `compliant`, that holds a boolean value indicating whether a data element has passed formal reviews for GDPR compliance.\n\nIn our domain, tables in our Customer database are all prefixed with the code `POD`. We want to know how many tables **do not** have columns that have passed a GDPR compliance review.\n\nTo target characteristics of children of an entity, we need to configure our metric using the query language. The `HasChild:` predicate enables us to count entities whose children have specified characteristics (the `ParentOf:` predicate is an alias of `HasChild` and can also be used).\n\n<figure><img src=\"/files/CwHqCoaUV3tDPX3dTcqo\" alt=\"\"><figcaption></figcaption></figure>\n\n## Example 2\n\nIn this example, we are looking for columns that do not have assigned checks for data quality controls. Assigned checks are represented by Reference relationships with the label “is controlled by”, and columns are all Attributes in the models in this domain.\n\nHowever, we want to scope our metric to count only entities in two models in the domain: “Banking Template Lineage Model” and “Template EUC”.\n\n<figure><img src=\"/files/uAnWr9QA8F5gLIpuHVuT\" alt=\"\"><figcaption></figcaption></figure>\n\n{% hint style=\"success\" %}\nIn this query, we used the `HasDirectRelationship:` predicate, but we could have also used the `HasRelationship:` predicate.\n\n`HasDirectRelationship:` matches entities related to a specified term, and `HasRelationship:` matches entities related to a term **or its children**. However, in this query, these predicates are equivalent because we are only interested in whether an entity has **any** relationship with the specified label, and we are not specifying a term of the relationship.\n{% endhint %}\n\n## Example 3\n\nIn this example, we are looking for tables that contain data classified as “Personal Data”. Tables are Objects in the models in this domain, and “Personal Data” is a Reference term related to all columns containing data that falls under GDPR regulations.\n\nSince we are looking for tables containing GDPR protected data, but the tables themselves are not related to the term “Personal Data”, we need a query to count Objects whose children have a relationship to “Personal Data”.\n\n<figure><img src=\"/files/RLbANmpIrGPNbuBBSYJ4\" alt=\"\"><figcaption></figcaption></figure>\n\n{% hint style=\"success\" %}\nIn this query, we used `HasRelationship:` , which matches entities related to the term you specify **or to children of** the term you specify. This means that if the term “Personal Data” contained sub-terms for specific types of personal data (e.g., “Name”, “Address”, etc.), the metric would count tables containing columns related to any of these sub-terms as well.\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:56.146Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "303e34536ff551144054e609aca8d56dea35f02ce57e41bb1eb19f6558d21ebf",
+  "warnings": []
+}

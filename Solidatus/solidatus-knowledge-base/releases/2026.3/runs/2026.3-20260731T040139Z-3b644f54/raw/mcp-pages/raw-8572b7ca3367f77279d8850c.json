@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v4-change-summary/4.0-release-notes"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-8572b7ca3367f77279d8850c",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v4-change-summary/4.0-release-notes",
+  "response_content_hash": "81211eab937165299c8e9f181eb4b27b6a2deb494bebbf33635dd33482a857e2",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus 4.0\n\nAfter many months of development, we are pleased to announce the general availability of Solidatus 4.0.\n\nThis release includes new functionality, interface enhancements and performance improvements.\n\nHighlights include:\n\n* **Reference models** - Define **business glossaries** and **data dictionaries** and create relationships to these from your Solidatus models!\n* **Model Overview** - Browse Solidatus models and their entities\n* **Property maths** - Embed mathematical aggregations in properties and display rules\n* **Lineage explorer** - Selective (filtered) visualisation of a model\n* **Property view** - View a model through the lens of a property\n* **Customisable sidebar** - Multiple sidebars, reorderable, site-wide settings\n\nWe look forward to building on this and enhancing each of the features in the coming months.\n\n### Reference Models\n\nCreate and curate a rich hierarchy of terminology in the form of a reference model. This could be a data glossary, a business glossary or an asset inventory. Quickly associate terms in these with physical entities across Solidatus models and then utilise this in navigation, queries and visualisations.\n\n* Collaboratively define business glossaries and data glossaries with a hierarchy of terms\n* Annotate terms with additional customisable properties\n* Relate Solidatus entities to one or more terms in reference models\n* Browse and search data dictionaries and business glossaries and then look up usage of terms across all Solidatus models\n* Visualise a model in the terminology of its glossary or dictionary, e.g. to see class-level data lineage vs physical-level lineage.\n* Intelligently suggest and assign terms to Solidatus attributes\n\nThe Reference Model Overview for defining, searching and browsing business glossaries and data dictionaries.\n\nFind entities related to terms in data dictionaries and business glossaries.\n\nExtended query language support\n\n### Model Overview\n\n* Enhanced overview for models\n  * Visualise the activity of a model over time\n  * See which people and groups are contributing to a model\n  * Simplified “pending changes” section for pull requests, submitted tasks and updated submodels\n* Dedicated page for each model entity\n  * No need to open the full model to see details or link to an entity\n  * See history for individual entity\n  * See which forks/branches an entity exists on\n\n### Property Maths\n\nCreate properties with numerical aggregations over child entities’ properties.\n\n**Examples:**\n\n* `mean(children.DataQualityScore)` The mean of all direct children’s’ DataQualityScore properties\n* `max([Risk Value])` Equivalent to max(children\\[Risk Value]) Square brackets for property names with spaces and other special characters\n* `sum(descendants.Throughput)` The sum of the Throughput property for all descendants\n* Available aggregations: sum, min, max, avg, median, mode, variance, stdev\n\n### Lineage Explorer\n\n* Search for entities within a model and visualise them and their traces in isolation\n* Allows to selectively drill into individual subsections of models without having to navigate from the full model view\n\n### New Sidebar\n\n* Multiple sidebars to group related functionality (you can still use the classic layout!)\n* Sidebar sections can be hidden if not needed\n* Sidebar sections are reorderable (drag and drop!)\n* Sidebar sections can be dragged out of the sidebar and into a floating window\n* New “Tools” section for power users\n* New “Entity history” section to see a single entity’s changes since the first revision\n* Activate the new layout by clicking the menu button on the right-hand side of the sidebar and selecting “Reset to new layout”.\n\n### Feedback\n\nAs always, we encourage all feedback to be shared with [support@solidatus.com](mailto:support%40solidatus.com).\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:38.061Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "1f3e1a8a911b89a6336dcb723c756b79e72d32187ab091c2cd4ad1e586b8e104",
+  "warnings": []
+}

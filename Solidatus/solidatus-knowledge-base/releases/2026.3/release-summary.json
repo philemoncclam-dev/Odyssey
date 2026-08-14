@@ -1,0 +1,14 @@
+{
+  "authoritative_run_id": "2026.3-20260731T042137Z-825e5743",
+  "chunk_count": 1635,
+  "documentation_snapshot": "2026.3",
+  "page_count": 354,
+  "product_release": "2026.3",
+  "release_label_uncertainty": "Unversioned URLs do not independently prove the product release label.",
+  "run_count": 2,
+  "schema_version": "1.0",
+  "updated_at": "2026-07-31T04:22:44.847Z",
+  "version_evidence": [
+    "User-supplied product release label 2026.3"
+  ]
+}

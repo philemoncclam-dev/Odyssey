@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/explore-data-domains/browse-domain"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-79c4ff88a5d88e27a451035a",
+  "requested_url": "https://docs.solidatus.com/data-domains/explore-data-domains/browse-domain",
+  "response_content_hash": "d2b4631cec1a5077b2a5374980d1763499e5883002c106e11137d669b45aad7e",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Browse a Data Domain\n\nAs a **Domain Explorer**, your aim is likely to find what you are looking for quickly, and to discover related information without losing domain context.\n\nRelease `2026.3` introduces the Domain Spine. This gives you a stable navigation surface as you move through a domain.\n\n## Browse from the Domain Spine\n\nThe Domain Spine keeps the main parts of a Data Domain one click away.\n\nUse it to move between:\n\n* Home\n* AI Assistant\n* Reference Hub\n* Lineage Models\n* saved Data Maps and other domain areas\n\nThis means you can move between model pages, domain tools, and saved views without returning to the landing page first.\n\n{% hint style=\"success\" %}\nUse the Domain Spine when you want to switch between major parts of a domain.\n\nUse search, model pages, and entry pages when you want to move deeper into a specific part of the content.\n{% endhint %}\n\n## Browse models inside a domain\n\nLineage and reference content now have clearer in-domain entry points.\n\n* Open **Lineage Models** to see a list of all connected lineage models in the domain.\n* Open the **Reference Hub** to browse published reference content directly from the same domain.\n* Open a model page to review summary information, then continue into entities or terms from there.\n\nLineage models remain grouped separately from reference content, so it is easier to distinguish physical lineage from semantic or governance content as you browse.\n\n## Navigate from model pages to entries\n\nModel pages link directly to the entries they contain.\n\nOpen a model, then:\n\n* search within the model page to find an entity or term by name\n* open an entity or term page in the domain\n* continue into lineage, related entities, or deeper structure from that entry page\n\nThis flow is usually the fastest way to move from a domain overview to a specific item you want to inspect.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:45.340Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "fbfc86e2d152b5fc0918a5e5e25a43f7ccbfc3bde260980497aa327242d33df3",
+  "warnings": []
+}

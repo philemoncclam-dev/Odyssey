@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-9/features"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-c750a90b1a5e469dc2596cb9",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-9/features",
+  "response_content_hash": "73dd3a7034166b8ca227cc7cd03a643e9861247a183d63786741ec0cce4d490d",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Features\n\n## Temporary tables\n\nIf SQL parsing is enabled, the connector is able to correctly produce lineage if a temporary table is used in a SQL script or procedure.\n\n```tsql\nCREATE TABLE #TempTable ...\n```\n\nLineage related to a temporary table will be displayed as transitions from source to target based on the permanent tables used in the query.\n\n## Temporary Table Representation\n\nIf SQL is parsed, temporary tables can be represented in the model similarly to a normal table. These can be distinguished by their `TABLE_TYPE` property being equal to `TEMP_TABLE`.\n\n<img src=\"/files/tn6f8gdlGNT3K5P79Oh9\" alt=\"Temporary Table entity\" width=\"516\">\n\nIf a procedure creates a temporary table, the temporary table will be found in the same schema that the originating procedure belongs to.\n\nIf a temporary table is marked as a global temporary table such as:\n\n```sqlserver\n  CREATE TABLE ##temp1 \n    (c1 INT);\n```\n\nthen the temporary table will be contained in its own Solidatus layer named `GLOBAL_TEMP_TABLES`.\n\n<img src=\"/files/Gdw4SYVxT5KzhwZSaXVF\" alt=\"Temporary Table entity\" width=\"516\">\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:01.961Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "b5d7b292660bdf7e18a95f3dfcc68179979e6a198da5973ad250b443d61ad7ca",
+  "warnings": []
+}

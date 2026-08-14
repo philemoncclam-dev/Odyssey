@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/java-connector-sdk/getting-started"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-7ebb5e0c22aeb08fb355f50d",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/java-connector-sdk/getting-started",
+  "response_content_hash": "f8ef37aeb7ba9a14f27c172c7ff0061fd2bfc3bfbb84aa17e3d221fb631e9efa",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Getting Started\n\nThe simplest way to get started is to use the Spring Initializr at <https://start.spring.io> to generate a downloadable Maven project for you!\n\nSelect your preferred build tool Maven or Gradle, Spring Boot version and your Java version.\n\nYou can even enter the GAV metadata details for your project.\n\nThen simply click the Generate button to download a zip file of your project setup, unzip and open in your preferred Java IDE.\n\nFor an example Solidatus Java Connector, please see our provided example [project](https://github.com/solidatus/solidatus-java-sdk-example). If you do not have access to this project please ask your Solidatus contact for next steps.\n\n### Maven\n\nAdd the Solidatus Java Connector SDK dependency to your Maven project's `pom.xml`\n\n```xml\n\n<dependency>\n    <groupId>com.solidatus.spring</groupId>\n    <artifactId>solidatus-spring-boot-starter</artifactId>\n    <version>0.1.30</version>\n</dependency>\n```\n\n### Gradle\n\nAdd the Solidatus Java Connector SDK dependency to your Gradle project's `build.gradle`\n\n```\ndependencies {\n\timplementation 'com.solidatus.spring:solidatus-spring-boot-starter:0.1.30'\n}\n```\n\nThe Solidatus Spring Boot Starter includes a dependency for the Solidatus Java Client, this is the client generated from Solidatus Open API specification. The SDK uses the Java client to make API calls to the Solidatus server.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:49.698Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "fb1d9e22ed38eac67742b269c3f2af8918634b74a466f2e38b875d5004771d63",
+  "warnings": []
+}

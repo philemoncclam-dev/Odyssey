@@ -2,7 +2,7 @@
 // Browser's list, then the same PublishDialog used from a model row's menu.
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
-import { localStore } from '../../model/store'
+import { activeStore as localStore } from '../../model/wiring'
 import { localCatalogStore } from '../../catalog/store'
 import { PublishDialog } from '../../products/PublishDialog'
 import type { ModelSummary } from '../../model/types'

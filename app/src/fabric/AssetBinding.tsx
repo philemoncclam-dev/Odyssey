@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 
 import { assetUrn, modelBindsTable, type AssetRef } from '../model/assets'
-import { localStore } from '../model/store'
+import { activeStore as localStore } from '../model/wiring'
 import type { ModelSummary } from '../model/types'
 
 export function AssetBinding({

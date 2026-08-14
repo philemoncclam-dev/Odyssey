@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-11/features"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-9c5b978773ea3f41c21c34d0",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-11/features",
+  "response_content_hash": "0bed6d7c5a66c380c64dde6687d36317eb56c5ecc6db97215edcb5aea5eec08e",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Features\n\n## Temporary tables\n\nIf SQL parsing is enabled, the connector is able to correctly produce lineage if a temporary table is used in a SQL script or procedure.\n\n```tsql\nCREATE TABLE #TempTable...\n```\n\nLineage related to a temporary table will be displayed as transitions from source to target based on the permanent tables used in the query.\n\n## Temporary Table Representation\n\nIf SQL is parsed, temporary tables can be represented in the model similarly to a normal table. These can be distinguished by their `TABLE_TYPE` property being equal to `TEMP_TABLE`.\n\n<img src=\"/files/6f6hADc9lXWi8NqZp7JW\" alt=\"Temporary Table entity\" width=\"516\">\n\nCurrently, creation of temporary tables in tempdb using the syntax below is not supported.\n\n```tsql\n  CREATE TABLE tempdb..temp1 \n    (c1 INT);\n```\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:01.225Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "4c8d348a7ac74abd25b96f8722c91e2b509ba18528b53323e4cbcff025e12604",
+  "warnings": []
+}

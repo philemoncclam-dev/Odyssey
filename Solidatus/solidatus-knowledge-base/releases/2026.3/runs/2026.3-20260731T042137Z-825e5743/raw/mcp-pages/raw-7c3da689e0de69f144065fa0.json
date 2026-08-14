@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v4-change-summary/4.2-release-notes"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-7c3da689e0de69f144065fa0",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v4-change-summary/4.2-release-notes",
+  "response_content_hash": "30d5182be152e59763ded2ce25d34c06198b9a90722e0dc10fcd341ca500518e",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus 4.2\n\nAfter several months of development, we are pleased to announce the general availability of Solidatus 4.2.\n\nSolidatus 4.2 is an important release, focusing on version control and multiple ownership of models, providing a major boost to the ability of Solidatus users to collaborate.\n\nAs always, we encourage all feedback to be shared with us at [support@solidatus.com](mailto:support%40solidatus.com).\n\n***\n\n### Version Control and Model Roles\n\nModel roles can be assigned to multiple users and/or groups\n\ne.g. multiple ownership or group ownership\n\nBefore version 4.2 model Owners could edit a model without creating a Fork - each model had a single Owner. Other users would create a Fork to edit the model, then raise a Pull request to ask the Owner to merge their changes. This does not reflect the way organisations share responsibilities, so we’ve made it possible for a model Owner to assign *Owner* permissions to other users. Now a model can be edited by two (or more) users simultaneously, and users will be prompted to synchronise changes when their working copy becomes out of date.\n\n“Drafts” system has been revamped\n\nUsers can now more easily work with their recovered drafts and can have multiple drafts in progress\n\n***\n\n### Model Overview\n\nThe Model Overview has been given a makeover, splitting the content onto separate tabs\n\n* New revisions tab on the Model Overview makes it easier to find and compare revisions\n* Revisions can be tagged (e.g. to “bookmark” a point in time)\n\n***\n\n### Documentation\n\nEnhanced content has been created\n\n* New pages describing the Model Browser, Model Viewer, and Model Overview\n* New *Collaboration* section with new content\n* Some existing content moved from *Advanced* to *Collaboration*\n\n***\n\n### Query Language\n\nNew property available - `$selection` - will get the current selection as a list\n\nFor more information, see query-language\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:38.078Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "89374acc27c06cd1fe70e0e65bd843365ddb4ec3a1a4d6d31767cf7a1c9c056f",
+  "warnings": []
+}

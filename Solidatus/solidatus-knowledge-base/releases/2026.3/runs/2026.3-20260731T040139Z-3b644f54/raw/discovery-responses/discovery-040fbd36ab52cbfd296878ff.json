@@ -1,0 +1,18 @@
+{
+  "arguments": {
+    "goal": "Reconstruct the current documentation navigation for an auditable release snapshot.",
+    "question": "List the direct child pages and immediate subgroups under the current 'Solidatus Best Practice' documentation section (/solidatus-best-practice/best-practice-main). Return page titles with full docs.solidatus.com URLs."
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "raw_record_id": "discovery-040fbd36ab52cbfd296878ff",
+  "requested_url": null,
+  "response_content_hash": "d26beada1b3c948de2c47730fe47a6f0672318cddd1c1a28edde83ba8d551abd",
+  "returned_textual_content": "## Direct child pages (under **Solidatus Best Practice → Best practice main**)\n\n* **Three-stage model building approach** — <https://docs.solidatus.com/pages/IfXj0ykTTOTYBKFo49an>\n* **Model topology** — <https://docs.solidatus.com/pages/0GpCjhk2kSdKzU12sAdG>\n* **Follow the thread and look left** — <https://docs.solidatus.com/pages/hqdpXQ2KR04uTIdz7uBb>\n\n## Immediate subgroups\n\n* **None** — this section lists only the three child pages above.\n\n# Sources\n\n- [Best practice main](https://docs.solidatus.com/solidatus-best-practice/best-practice-main)",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:10:59.061Z",
+  "tool_name": "askQuestion"
+}

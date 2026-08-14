@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview/features"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-c5c3f36e6942dd257914ba2e",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview/features",
+  "response_content_hash": "cef715846570d48980331688dee67547c075a81d24e9b934c60fccdccec716ee",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Features\n\n## SQL Proxy Objects for External Tables\n\nExternal tables in AzureSQL can be integrated into composite models by enabling proxy mode and applying the new `SOL.UID strategy`.\n\nWhen SQL parsing is enabled and the dialect is set to AzureSQL, external table entities will automatically be converted into proxy objects. This conversion allows these entities to connect to the actual external resources when combining atomic models into a composite model, ensuring accurate representation of cross-database data lineage.\n\nThis feature is useful for ensuring that external resources are properly referenced and integrated within complex models.\n\nTo enable this feature, the following configuration is required:\n\n* `--solidatus.jdbc.driver` is `sqlserver`\n* `--solidatus.jdbc.sql-parsing` is true and `--solidatus.jdbc.dialect` is `azuresql`\n* `--solidatus.jdbc.experimental-features.sol-path-v2` is true\n* `--solidatus.jdbc.create-sql-proxy-objects` is true\n\nIf the configuration differs from the above, the external table entities will remain as standard table entities.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:01.534Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "256f55ca2d7211388f90eb8e1ea110e0fd25484f040244b831cf5c22e7e9cdca",
+  "warnings": []
+}

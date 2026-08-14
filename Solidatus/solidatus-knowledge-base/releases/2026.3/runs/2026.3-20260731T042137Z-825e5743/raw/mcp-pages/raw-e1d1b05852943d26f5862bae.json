@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connectors-overview/available-connectors"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-e1d1b05852943d26f5862bae",
+  "requested_url": "https://docs.solidatus.com/connectors/connectors-overview/available-connectors",
+  "response_content_hash": "6640a436b0d2466790d671f78da745cf7317b2c443820816af570e6edd2b6d15",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# View available connectors\n\n## The Solidatus website\n\nThe Solidatus website has a list of [available integrations and solutions](https://www.solidatus.com/integrations/).\n\nAn **integration** enables Solidatus to connect to a single external technology, so detailed metadata can be extracted, lineage can be captured, and a model can be built to represent the target system. Some integrations also enable you to export from Solidatus to an external technology.\n\nA Solidatus **solution** is a combination of technology and services that enables more complex integrations between Solidatus and external technologies or technology ecosystems. Examples of such systems are those based on Mainframe, Microsoft Purview, and Fabric.\n\n***\n\n## The connectors portal\n\nThe Solidatus **connectors portal** (<https://connectors-portal.solidatus.com/>) is a site from which you can download packages for Solidatus connectors you are licenced to use.\n\nYou can also view a list of available connectors, versions for each connector, and changelogs for each connector.\n\nTo access the connectors portal, you must obtain valid login credentials, which determine the connectors you and your organisation are licensed to download.\n\nWhen new releases of connectors become available, you can download them from the connectors portal.\n\n{% hint style=\"success\" %}\nContact Solidatus support ([support@solidatus.com](mailto:support%40solidatus.com)) for access to the connectors portal or for any questions about available connectors.\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:37.676Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "f2417783b33cd6ac651a77da69b7a7eecd4cb381d592cee1e2d119fef28cd7be",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/build-data-domains"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-e725c37d63a91c7cccf6fb9c",
+  "requested_url": "https://docs.solidatus.com/data-domains/build-data-domains",
+  "response_content_hash": "737fa3477feedea78ac0532f3b7c06ddd10608859e34772e363695571b2535a3",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Build Data Domains\n\nBuilding a Data Domain involves two main steps:\n\n1. **Prepare your models**: Set up Lineage, Reference, and Context models with the right content and relationships\n2. **Create and publish**: Create the domain and publish your selected models to it\n\n## **Recommended preparation**\n\nHowever much planning you do up front, domains are most effective when they include:\n\n* **Business context**: Reference models with meaningful terms and classifications\n* **Clear relationships**: Connections between technical data and business concepts\n* **Consistent metadata**: Well-documented entities with proper descriptions and properties\n* **Cross-model integration**: Data Assets or composite models end-to-end lineage stitching\n\nVisit [Model Architecture for Domains](/data-domains/understand-data-domains/prepare-models-to-publish-to-domains) to understand how model content surfaces in domains.\n\n## **Get started**\n\n*Ready to start building?* See:\n\n* [Create a Data Domain](/data-domains/build-data-domains/create-data-domains)\n* [Edit a Data Domain](/data-domains/build-data-domains/edit-data-domains)\n* [Share a Data Domain](/data-domains/build-data-domains/share-a-data-domain)\n\nThese pages contain step-by-step instructions on creating domains, publishing models, configuring settings, and sharing domains.\n\n*Need to prepare models first?* The guides below cover advice for preparing models based on how model types (lineage, reference, context) function in a domain.\n\n**Model preparation guides**\n\n* [Model Architecture for Domains](/data-domains/understand-data-domains/prepare-models-to-publish-to-domains)\n* [Lineage Model Design](/data-domains/understand-data-domains/domain-lineage-model-requirements)\n* [Reference Model Design](/data-domains/understand-data-domains/domain-reference-model-requirements)\n* [Context Model Design](/data-domains/understand-data-domains/domain-context-model-requirements)\n* [Data Assets in Data Domains](/data-domains/understand-data-domains/data-assets-in-data-domains)\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:50.085Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "f7cf948205c388580deaa1106c91624db44b330b9f0e16d99c32629ece2ef97c",
+  "warnings": []
+}

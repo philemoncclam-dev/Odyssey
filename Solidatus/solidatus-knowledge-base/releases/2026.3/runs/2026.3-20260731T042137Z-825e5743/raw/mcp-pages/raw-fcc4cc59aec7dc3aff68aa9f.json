@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/explore-and-analyse-models/export-model-content/export-to-yaml"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-fcc4cc59aec7dc3aff68aa9f",
+  "requested_url": "https://docs.solidatus.com/models/explore-and-analyse-models/export-model-content/export-to-yaml",
+  "response_content_hash": "1f3afe3079f7930e345c8f0406c12a8d511c2b92cb4d3119b8afc7f88863a7c4",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Export to YAML\n\n* In the toolbar click *Export*, then select *YAML*.\n* Select the items to export and click *Next*.\n\n<figure><img src=\"/files/XzLKciH7cLMkb1ibHxx1\" alt=\"\"><figcaption></figcaption></figure>\n\nChoose which entities to export\n\n* A download will begin with the YAML file\n\nExample Solidatus YAML file\n\n```\nOBJ-9boXf7w6:\n    name: Object2\n    properties: {}\n    children:\n     - ATR-dArMv59Y\n     - ATR-lowuBO3x\n     - ATR-qGfl3G3N\n     - ATR-bp1FdWrI\n     - ATR-oNID8bVe\n ATR-dArMv59Y:\n   name: Attribute1\n   properties: {}\n ATR-lowuBO3x:\n   name: Attribute2\n   properties: {}\n ATR-qGfl3G3N:\n   name: Attribute3\n   properties: {}\n ATR-bp1FdWrI:\n   name: Attribute4\n   properties: {}\n ATR-oNID8bVe:\n   name: Attribute5\n   properties: {}\nlayers:\n - LYR-e8o4d8Br\n - LYR-ZWlkp3m9\n - LYR-KyB3SbOm\ntransitions:\n  TRAN-eGlYbuAb:\n    source: ATR-SgWCZ3HZ\n    target: ATR-JTHviPcR\n  TRAN-itJM5Pa6:\n    source: ATR-3uRBHYnn\n    target: ATR-fRoz7EAa\n```\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:02.375Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "ab2096b817ddc09bc499c4d3ef073138816d85e3077d1b68bfbd87c33b3e25f8",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v6-change-summary"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-47c94d1ea892534727cf7447",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v6-change-summary",
+  "response_content_hash": "6798bdd5e52a254b6d14fa172759506865a8f4f918048359a899e5e9ea9d2b65",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus version 6\n\nThis page includes a summary of changes per release. For more detailed information, click a link in the table below or at the foot of each summary.\n\n| [6.5 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/solidatus-6.5)     | [6.4 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.4-release-notes) |\n| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |\n| [6.3 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.3-release-notes) | [6.2 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.2-release-notes) |\n| [6.1 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.1-release-notes) | [6.0 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.0-release-notes) |\n\n## 6.5 - December 2025\n\nThis release delivers powerful enhancements to existing functions and introduces a game-changing new capability: [**Data Assets**](/models/understand-solidatus-models/data-assets-101).\n\nWith the 6.5 release, we also launched this new Solidatus documentation site – docs.solidatus.com – to improve the self-service support experience on your Solidatus journey.\n\nRead the [6.5 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/solidatus-6.5) to learn about all new features, usability enhancements, bug fixes, and customer-requested fixes in Solidatus 6.5.\n\n## 6.4 - August 2025\n\nSolidatus 6.4 brings several performance and usability enhancements to make your workflows more efficient and your data easier to find.\n\nRead the [6.4 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.4-release-notes) to learn about all usability enhancements, bug fixes, and customer-requested fixes in Solidatus 6.4.\n\n## 6.3 – January 2025\n\nWe’re excited to share what’s new in version 6.3!\n\nThis minor release includes updates to Auto-mapping functionality that improve automated model building and offer greater customization to suit your needs.\n\nRead the [6.3 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.3-release-notes) to learn more about the latest additions and how they can benefit you.\n\n## 6.2 - October 2024\n\nThe updates in version 6.2 focus on Data Domains and Data Maps, advancing both our industry-leading fine-grained lineage and our business-oriented capabilities.\n\nWith new features, customer-driven improvements, and usability enhancements, version 6.2 enhances the flexibility, efficiency, and visual impact of Solidatus, making it easier than ever to explore and manage your data landscape.\n\nRead the full [6.2 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.2-release-notes) for information on all new features, usability enhancements, and bug fixes in this release.\n\n## 6.1 - August 2024\n\nWe’ve added new features that boost your ability to analyse the contents of a Data Domain:\n\n* A Data Domain Query Language and Query Helper\n* Quantitative Analytics Reports for Data Domains\n* An updated information structure for domain entries\n\nAdditionally, we improved Data Map navigation, enhanced Reference relationship analysis capabilities, and added new filters for refining the results of a Data Domain search.\n\n**Special note** : We changed the path structure for importing entities in tabular format from`/Object/Group/Attribute` to `/Layer/Object/Group/Attribute` to make it consistent with the exportformat. You can now export and reimport without altering entity paths, but the previous path format for importing no longer functions.\n\nRead the full [6.1 Release Notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.1-release-notes) for information on all new features, usability enhancements, and bug fixes in this release.\n\n## 6.0 - April 2024\n\nSolidatus 6.0 includes exciting new features and capabilities that make the wealth of information in your models more accessible across your organisation. It also includes new usability enhancements and bug fixes.\n\nClick [here](/release-notes/release-notes-main/solidatus-v6-change-summary/6.0-release-notes) to read the full release notes.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:47.916Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "319c6e3eb04a0d6965a92732e25bad8751696e0f4b4c3a19895cf8c5917334d1",
+  "warnings": []
+}

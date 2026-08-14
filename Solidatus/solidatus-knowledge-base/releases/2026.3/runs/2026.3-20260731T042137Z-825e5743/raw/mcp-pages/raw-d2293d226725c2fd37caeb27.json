@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-webfocus/setup"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-d2293d226725c2fd37caeb27",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-webfocus/setup",
+  "response_content_hash": "68c12195e28d00a9dbc5bf2a1db0b5bcfb6e80206c90d9b6cce5252c4f258827",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Setup\n\nIn order to use the Solidatus WebFOCUS connector, you must first edit your WebFOCUS configuration to generate WebFOCUS trace files (`.trc`).\n\n## Generating WebFOCUS trace files\n\nTo generate WebFOCUS trace files, add code like below to your WebFOCUS user profile:\n\n```\n-* Enable generation of trace files for the Solidatus WebFOCUS connector\nSET TRACEUSER='trace-file.trc';\nSET TRACEOFF=ALL;\nSET TRACEON=CEH /1;\nSET TRACEUSER=ON;\n```\n\nIf multiple trace files are to be provided to the connector, each trace file needs to contain a timestamp.\n\nThe timestamp can be generated using the below snippet.\n\nSet this special variable AFTER the trace file enabling code in the WebFOCUS user profile.\n\n```\n-* Create variable containing the current date-time with millisecond precision in format YYYYMMDDHHMMSSsss\n-SET &NOW = EDIT(DT_FORMAT(DT_CURRENT_DATETIME(MILLISECOND),'HYYMDm'),'9999$99$99$99$99$99$999');\n\n-* Set the connector-required variable to the generated timestamp\nSET SOLIDATUS_EXECUTION_TIMESTAMP = &NOW;\n```\n\nIf you wish to use custom report names, set the WebFOCUS variable `SOLIDATUS_REPORT_NAME` to the desired report name string in the trace file:\n\n```\n-* Include report name to use instead of trace file filename due to filename character limit\nSET SOLIDATUS_REPORT_NAME = 'My Report 1';\n```\n\n## Uploading Source Files\n\nFiles must be available on the connector-accessible file-system. Upload of files is not supported.\n\nFor Java `.jar` file execution, the connector filesystem will be the local filesystem of the machine executing the connector.\n\nFor containerized image execution, the connector filesystem will be the container filesystem. In this case, files can be made available to the connector via volume mounting.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:39.649Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "1e64efec18f211a7b94ba30d2158a66ace4473b333050ac629a1c1857f51976e",
+  "warnings": []
+}

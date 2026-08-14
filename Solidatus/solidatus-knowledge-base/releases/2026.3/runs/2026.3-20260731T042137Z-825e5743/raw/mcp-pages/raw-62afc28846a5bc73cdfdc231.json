@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/data-domains-main"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-62afc28846a5bc73cdfdc231",
+  "requested_url": "https://docs.solidatus.com/data-domains/data-domains-main",
+  "response_content_hash": "1de515380ee698622ab28281c1a407e50018a51381827d21c9c1476c90fa7e3f",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Data Domains main\n\n**Data Domains** transform technical models into business-friendly and business-facing portals for data discovery, data governance, quantitative reports, and end-to-end lineage analysis.\n\nA Data Domain is a portal for searching, browsing, querying, exploring lineage, and quantitatively analysing *across multiple models*. Each domain publishes content and builds cross-model lineage from the set of models you choose to include.\n\nEach Data Domain includes an integrated **Data Map** — a specialised lineage exploration and visualisation tool that automatically aggregates lineage across published models and presents fine-grained, technical data flows in high-level, business-friendly visual summaries.\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/catalog-landing-page.png\" alt=\"../_images/catalog-landing-page.png\"><figcaption></figcaption></figure>\n\n***\n\nKey benefits of Data Domains:\n\n* **Familiar search portal experience across multiple models**: Find and analyse data and infrastructure using an interface as intuitive as web search or file browsing\n* **Business-friendly discovery**: Make technical systems discoverable and understandable through widely recognised and familiar business terms\n* **Cross-model lineage**: Use Data Maps to visualise end-to-end data flows across multiple models with business context\n* **Quantitative insights**: Generate Analytics reports for data-driven analysis of your lineage and governance landscape\n\n***\n\nThis documentation is organised around two primary user roles:\n\n<table data-header-hidden><thead><tr><th width=\"178.22760009765625\"></th><th></th></tr></thead><tbody><tr><td><strong>Domain Builders</strong></td><td>Set up Data Domains as shareable organisational resources. <strong>Domain Builders</strong> need deeper knowledge of Solidatus models and domain configuration. Start with <a href=\"/pages/UncxrIYTcq9ZqsnKWFSw\">Understand Data Domains</a>, <a href=\"/pages/XXRYMVonbXmlln4OTMp0\">Model Architecture for Domains</a>, <a href=\"/pages/3BwKSElXXCvo1cXVOpqA\">Configure a context model</a>, and <a href=\"/pages/zU3DYPnattJw4HjqDKpC\">Create a Data Domain</a>.</td></tr><tr><td><strong>Domain Explorers</strong></td><td>Use domains to explore, find, understand, and analyse data and lineage. See the <a href=\"/pages/yjp4gIeplwlaZUcczLZ2\">Explore Data Domains</a> section and sub-pages for guidance on navigating and using domains. For a better understanding of how Data Domains work, see <a href=\"/pages/UncxrIYTcq9ZqsnKWFSw\">Understand Data Domains</a>.</td></tr></tbody></table>\n\n{% hint style=\"success\" %}\nDomain Builders should also understand how content from models surfaces to Domain Explorers to create better user experiences for their organisation.\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:36.505Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "d8de0b127d38ab5878893b6f04ac8d6bc8da69105e3b3f68620332089d106017",
+  "warnings": []
+}

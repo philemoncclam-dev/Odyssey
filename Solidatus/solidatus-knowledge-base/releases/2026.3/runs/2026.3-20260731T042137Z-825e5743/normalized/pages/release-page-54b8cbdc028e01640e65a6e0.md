@@ -1,0 +1,142 @@
+# Collaboration concepts and scenarios
+
+Effective data management often requires the co-operative efforts of a community of users, collaborating and enriching metadata and models.
+
+Collaboration and ownership are core Solidatus concepts, giving subject matter experts across the organisation power to take ownership of the definition and maintenance of metadata within their respective areas of expertise.
+
+Simple collaboration methods include sharing ownership of models, inviting other users to be authors, and sharing models with Groups.
+
+More advanced collaboration is supported by Solidatus [Activities](/models/share-and-collaborate/activities-and-activity-types/activities).
+
+## **Collaboration concepts and features**
+
+### **Ownership**
+
+A new Solidatus model is initially only visible to the model owner (the user that created the model). The model owner has complete control over the content of the model, as well as complete control over the roles granted to other Solidatus users.
+
+A model owner can grant the `Owner` role to any other Solidatus user or [Groups](/models/share-and-collaborate/groups) of users. Every model owner has the same capabilities as every other model owner.
+
+### **Sharing**
+
+Model Owners can grant permissions to other users by sharing a model via the `Summary` and `Settings` tabs on the [Model Overview](/the-user-interface/models-ui/model-overview). See [Model Roles and Permissions](/models/share-and-collaborate/model-roles-and-permissions) to find out more about the different roles available.
+
+When a model is shared with a user or Group, the default role is `Viewer`; to allow a user or Group to edit the model directly, they need to have the `Owner` or `Author` role.
+
+{% hint style="success" %}
+Model Owners can also give read-only access to other registered Solidatus users by clicking the `Share` button in the Model Viewer toolbar. See [Read-only Sharing](/models/share-and-collaborate/read-only-sharing) for more information.
+{% endhint %}
+
+Owners and Authors can edit and save the model in-situ, without requiring any kind of merging or approval. Take a look below to find out about other ways of sharing the editing workload.
+
+The **Practitioner** licence allows organisations to extend collaboration beyond the usual modelling community, enabling crowdsourcing of content from the wider community. See Practitioners for more information.
+
+{% hint style="success" %}
+Changes to the roles available for users are notified to each affected user via their list of [Notifications](/account-management/account-settings#notification-settings)
+{% endhint %}
+
+### **Collaboration Features**
+
+At Solidatus we recognise the need to provide a number of collaboration features, supporting multiple different scenarios. The collective term for these features is [Activities](/models/share-and-collaborate/activities-and-activity-types/activities).
+
+### **Webhook notifications**
+
+Webhooks allow Solidatus to be a central part of an automated workflow of discrete, connected systems, in which changes to a model call other actions/events downstream.
+
+## Collaboration scenarios
+
+The Solidatus collaboration features support a variety of different scenarios, which are briefly described below. Apart from *Peer review*, all of these scenarios can be tracked and managed via the Activities tab on the Model Overview.
+
+### Peer review
+
+There are two ways to share a model with your peers:
+
+* Give them the `Viewer` role - share the model with users and/or [Groups](/models/share-and-collaborate/groups) of users via the Model Overview, letting the role default to ‘Viewer’
+* Create a public read-only link which can be accessed by anyone with the URL
+
+### Share a read-only link
+
+Model Owners (but not Authors, Approvers, or Viewers) can create and share read-only links to view a Model.
+
+Visit [Read-only Sharing](/models/share-and-collaborate/read-only-sharing) to learn how to create a read-only link for a Model that can be shared with anyone, even if they don’t have access to Solidatus.
+
+{% hint style="warning" %}
+Only users with a Solidatus account can access models using read-only links. However, read-only links can be used by any registered user: they do not have to be given Viewer, Author, or Owner roles on the model to use them.
+{% endhint %}
+
+{% hint style="success" %}
+
+* Read-only links can only be created and shared by Model owners (Authors, Approvers, and Viewers will not see the `Share` button in the toolbar)
+* You may select a [View](/models/explore-and-analyse-models/views) to apply to the Model when it is accessed through the link
+* The link can be shared as a URL and/or a QR code
+* When viewing a Model via the link, the Model Viewer Toolbar includes an `Edit` button - click this to log in to Solidatus to create your own copy of the Model in the same Solidatus host (You must have an Author licence to do this)
+* A list of existing read-only links is shown only to Model owners on the `Summary` tab on the [Model Overview](/the-user-interface/models-ui/model-overview)
+* Model owners can also see a more detailed list of existing links by clicking the `Share` button in the [Model Viewer](/the-user-interface/models-ui/model-viewer) or by clicking on the [Actions](/the-user-interface/models-ui/model-overview#actions-menu) drop-down menu in the [Model Overview](/the-user-interface/models-ui/model-overview) and choosing `Manage Sharing` - these lists allow you to edit, share, follow, copy, or delete the links.
+  {% endhint %}
+
+### Access a model using a read-only link
+
+Access a model using a [read-only link](/models/share-and-collaborate/read-only-sharing) by clicking on the supplied URL or scanning the QR code.
+
+When viewing a Model via a public link, the Model Viewer Toolbar includes an `Edit` button - click this to log in to Solidatus to create your own copy of the Model in the same Solidatus host.
+
+### Share the editing workload
+
+This is an extension of the ‘Peer review’ scenario - by changing the role of a user or group from `Viewer` to `Author` or `Owner`, you will enable them to work on the model independently. See [Shared Authorship](/models/share-and-collaborate/shared-authorship) for more information about how this works. See [Licences, Roles, and Permissions](/account-management/licences-capabilities-and-roles) for more information about the different roles and the capabilities they provide.
+
+Each owner or author can work on their own drafts of the model, merging their changes into the model by [saving the model](/models/build-and-edit-models/save-a-model), thereby creating a new [revision](/models/build-and-edit-models/version-control).
+
+### Share the approval workload
+
+By default, any model changes proposed via [Activities](/models/share-and-collaborate/activities-and-activity-types/activities) must be merged into a model by one of the model Owners or Authors, using the `Just Merge` or [Visual Merge](/models/build-and-edit-models/diff-mode#diff-mode-visualisation-features) feature.
+
+For example, several Owners may examine the proposed changes without actually merging them into the model, then get together to decide if they jointly approve of the changes. Finally, one Owner will merge the changes into the model. There is an implicit approval involved - only changes that the ‘final’ model Owner accepts will be merged.
+
+While this simple process may be sufficient in some scenarios, complex modelling scenarios require a more formal, but streamlined, approach, enabled by the following Solidatus features:
+
+* nominating additional users (who might not already be an `Owner` or `Author`) as an `Approver` for the model
+* enabling the [Approvals workflow](/models/share-and-collaborate/approvals-workflow) for a type of Activity for a model, by setting a minimum number of approvers
+* enabling the automatic merging of changes proposed via a type of Activity, on completion of the Approvals workflow if enabled.
+
+### Contribute to someone else’s model
+
+If you are a `Viewer` of a model, or an `Author` who would like to work on a temporary copy of a model, then the [Forks](/models/build-and-edit-models/forks) feature is for you. It allows you to work on a copy of the model (which you can keep up-to-date with the original model), and submit the proposed changes (as a [Pull Request](/models/build-and-edit-models/forks)) when you’re ready.
+
+You can also detach the Fork from the original model to create a new model that is no longer connected to the original model.
+
+If a model owner has set a minimum number of approvers for Forks, the [Approvals workflow](/models/share-and-collaborate/approvals-workflow) will apply to all submitted Pull Requests.
+
+If a model owner has enabled [Auto-merge](/models/share-and-collaborate/activities-and-activity-types/auto-merge) for forks, the proposed changes will be automatically merged into the model to create a new revision, subject to the [Approvals workflow](/models/share-and-collaborate/approvals-workflow) if enabled.
+
+While you’re working on your Fork, it is essential that your Fork Model is kept up-to-date with changes to the original (parent) model - see [Parent Model Changes](/models/share-and-collaborate/activities-and-activity-types/parent-model-changes). If a model owner has enabled [Auto merge](/models/share-and-collaborate/activities-and-activity-types/auto-merge) for Parent Model changes, the proposed changes will be automatically merged into the Fork Model to create a new revision.
+
+### Ask someone to help
+
+A model `Owner` or `Author` can ask any user(s) or Group(s) to assist them with editing the model by creating a Task and assigning it to them. The scope of the Task can be the whole model or a limited subset of the model. A Task can be assigned to multiple users and/or Groups.
+
+While an assignee is editing the model, they may also ask someone else to help, by raising their own Task, which be a [sub-task](/models/share-and-collaborate/activities-and-activity-types/tasks#sub-tasks) of the original Task – this feature allows a user to delegate all or part of the Task to other users.
+
+If a model owner has set a minimum number of approvers for Tasks, the [Approvals workflow](/models/share-and-collaborate/approvals-workflow) will apply to all submitted Pull Requests.
+
+If a model owner has enabled [Auto-merge](/models/share-and-collaborate/activities-and-activity-types/auto-merge) for Tasks, the proposed changes will be automatically merged into the model to create a new revision, subject to the [Approvals workflow](/models/share-and-collaborate/approvals-workflow) if enabled.
+
+While you’re working on your Task, it is essential that your Task Model is kept up-to-date with changes to the original (parent) model - see [Parent Model Changes](/models/share-and-collaborate/activities-and-activity-types/parent-model-changes). If a model owner has enabled [Auto-merge](/models/share-and-collaborate/activities-and-activity-types/auto-merge) for Parent Model changes, the proposed changes will be automatically merged into the Task Model to create a new revision.
+
+### Create multiple linked models
+
+The content of a Solidatus Lineage Model may represent a very large and complex situation, perhaps the full data lineage for a globally-operating bank or energy company. It is unrealistic to expect a single group of users to take responsibility for all of the content - in reality some of the content will be supplied by automated connectors, while the remainder may be the responsibility of multiple different sets of users. In scenarios like these, it is wise to create multiple models with focused content, linking them together via the model import feature. See [Import and Link to Solidatus Models](/get-started/import-model-content/import-and-link-to-solidatus-models) to find out more about importing models, and [Import Model Updates](/models/share-and-collaborate/activities-and-activity-types/import-model-updates) to find out about the relevant type of Activity.
+
+If a model owner has set a minimum number of approvers for Import updates, the [Approvals workflow](/models/share-and-collaborate/approvals-workflow) will apply to all submitted Pull Requests.
+
+If a model owner has enabled [Auto-merge](/models/share-and-collaborate/activities-and-activity-types/auto-merge) for Import updates, the proposed changes will be automatically merged into the model to create a new revision, subject to the [Approvals workflow](/models/share-and-collaborate/approvals-workflow) if enabled.
+
+### Keep track of model changes with Webhooks
+
+[Webhooks](/api-documentation/webhooks) allow you to send updates of any saved model changes to an external URL. Anyone with access the the URL, even without a Solidatus account, can follow model revisions. These notifications can be used to track modifications in real-time, and they can be configured within [Service Accounts](/connectors/connectors-overview/service-accounts) to monitor the automated activity of connectors.
+
+### Discuss a model
+
+The Activities tab on the Model Overview allows you to create or contribute to a Question, Discussion or a general comment on a model. This is available for any user with at least Viewer access to the model.
+
+### Hand over ownership
+
+It’s very common for responsibilities to change within an organisation, necessitating the handover of a model from one person or group of people to another. Using the Model Overview an owner can remove and add model owners.

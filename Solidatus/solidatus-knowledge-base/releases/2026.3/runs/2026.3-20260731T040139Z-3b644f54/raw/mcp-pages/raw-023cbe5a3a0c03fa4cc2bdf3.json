@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-webfocus"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-023cbe5a3a0c03fa4cc2bdf3",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-webfocus",
+  "response_content_hash": "d5e9eb97c69600f2bf980aff4a3765747ded642be2768a6e966e9a6ca9734a87",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# WebFOCUS\n\nThe Solidatus connector for WebFOCUS generates a Solidatus model by extracting column-level lineage from WebFOCUS report (`.fex`/`.trc`) and metadata (`.mas`, `.acx`) files. The connector enables modelling and exploration of data flows with the powerful Solidatus tools, as well as integration with lineage from other sources once inside Solidatus.\n\nThe WebFOCUS Connector extracts Runtime lineage. This is different from static lineage - lineage is only drawn from what is executed, and may miss areas that were not executed. This relies on the generation of `.trc` files, which are traces generated from a `fex` report, and represent the actual `fex` queries that were run on report generation. Generating `.trc` files is explained [here](/connectors/connector-specific-documentation/solidatus-webfocus/setup#generating-webfocus-trace-files).\n\n## Overview\n\nThe connector processes `.trc`, `.acx` and `.mas` files (generating `.trc` files is explained in detail in the [Setup Page](/connectors/connector-specific-documentation/solidatus-webfocus/setup#generating-webfocus-trace-files)). The `.trc` files contain the runtime `fex` file commands that were executed by WebFOCUS. The connector takes these commands and infers column-level lineage from them, with assistance from the master `.mas` and `.acx` files, which specify the logical and physical data sources respectively.\n\nThe connector is a file-based connector only. It does not connect to WebFOCUS directly. Instead, it relies on input files provided to it.\n\nFiles must be available on the connector-accessible file-system. Upload of files is not supported.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:58.082Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "9039d4435eab7608208dcdd4afe459fd4679668fb30cfd3c3cad6db84b0a81b8",
+  "warnings": []
+}

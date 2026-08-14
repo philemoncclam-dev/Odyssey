@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/data-domains-ui/data-maps-interface"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-ce8059ce026c7a49f9960578",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/data-domains-ui/data-maps-interface",
+  "response_content_hash": "2ea84ce02e2c64585f8ac5fd23a8803e88ebcfc38a444dad5916f2ec289caf4b",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Data Map interface\n\n<figure><img src=\"/files/QzPE3Jx948ekEjpEp4Ie\" alt=\"\"><figcaption></figcaption></figure>\n\n1. Use these tools to change the applied visual context, save a Data Map view, apply a focused trace to a selected entity, or view and apply Display Settings.\n2. Navigate the Data Map using the recenter and zoom buttons.\n3. Apply a focused trace to show only lineage involving the selected entity.\n4. Collapse an expanded visual context grouping.\n5. Click OVERVIEW or SOURCES/TARGETS to view information about the selected entity.\n6. Collapse and expand entities in the Data Map by clicking the chevron.\n7. Click `VIEW MORE` to go to the Entry Page in the domain for the selected entity.\n\n## Data Map views\n\n<figure><img src=\"/files/U68c7O7LrwLsSKayGTtR\" alt=\"\"><figcaption></figcaption></figure>\n\nThe expanded Data Map views tile gives you access to all views that have been created in the Data Domain.\n\n<figure><img src=\"/files/28zHH6qJPSoTi2v8hjzy\" alt=\"\"><figcaption></figcaption></figure>\n\n1. Search for a Data Map view by name.\n2. Click the name of a Data Map view to open it.\n3. You can delete a Data Map view from the three-dots menu.\n\n{% hint style=\"warning\" %}\nOnly Owners of a domain can create and delete Data Map views.\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:40.210Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "826550e32c669b77a4114e97aa17575dad5e424c1515ec445fa01c1888037f93",
+  "warnings": []
+}

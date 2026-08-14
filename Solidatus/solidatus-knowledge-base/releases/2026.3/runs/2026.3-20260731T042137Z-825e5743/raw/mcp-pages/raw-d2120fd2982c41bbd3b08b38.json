@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/build-and-edit-models/create-a-new-model"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-d2120fd2982c41bbd3b08b38",
+  "requested_url": "https://docs.solidatus.com/models/build-and-edit-models/create-a-new-model",
+  "response_content_hash": "b4cae9b6d64a13570c26d11d94dce086060fc9a1386babcd9818a90dd5bdb963",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Create a new model\n\nSolidatus models are collections of entities, and connections between entities, that are part of a data flow (lineage models) or reference framework (reference models).\n\nA common type of model would be a visualisation that enables or enhances comprehension of, and governance over, the interplay of data, within a context framed by the modeller.\n\n{% hint style=\"warning\" %}\nUsers with Practitioner or Read-only [licences](/account-management/licences-capabilities-and-roles) cannot create or own models; however, Practitioners can participate in model development at the request of other users, via [Tasks](/models/share-and-collaborate/activities-and-activity-types/tasks).\n{% endhint %}\n\n## Different ways to create a Model\n\nThere are several ways to create a model in Solidatus, and the approach to take depends on your circumstances.\n\n### **Create a new, empty model**\n\nIf you're starting from scratch, your first step is likely to create a new, empty model from the Model Browser. See the [next section on this page](#create-a-new-empty-model-1) for details.\n\n### **Use a Solidatus connector**\n\nSolidatus connectors create and update models by extracting from an external source technology and generating a Solidatus model from source metadata. They can be used to update model content automatically to reflect changes in the source.\n\n### **Import a SOL file**\n\nSee the separate page on [importing a .SOL file](/get-started/import-model-content/import-a-sol-file).\n\n### **Clone or fork a model**\n\nSee the page on how to [copy an existing model](/models/build-and-edit-models/copy-clone-or-fork-a-model).\n\n### **Create a model from selected entities**\n\nRight-click on a selected entity in the Model Viewer, and choose **Create model from {selection}** . This creates a new model containing the selected entities (and their entire hierarchy — ancestors and descendants) plus transitions that connect them.\n\n### **Extract source to new model**\n\nRight-click on a selected entity in the Model Viewer, and choose **Extract source to new model** . This creates a new model containing the selected entities (and their path) plus transitions that connect them. **It also imports those new entities into the current model to replace the original selection**.\n\nThis is very useful if, for example, you want one of the model layers to form a separate model with a different set of users and permissions.\n\n## Create a new, empty model\n\nAfter logging in, you are presented with the [Model Browser](/the-user-interface/models-ui/model-browser) (which may be empty if you are just starting in Solidatus).\n\n<figure><img src=\"/files/TzSrcUG7w8ESH4T7SDC0\" alt=\"\" width=\"299\"><figcaption></figcaption></figure>\n\nSelect **Create** at the top-right of the Model Browser, then choose **Lineage model** or **Reference model** to open the create model dialogue.\n\nIn the dialogue, enter a name for the model (duplicate names are allowed, but not advised!), provide a description for the model, and add appropriate tags.\n\n{% hint style=\"success\" %}\nAdding a **Description** is a really good idea: it lets your colleagues know why you created the model (you may welcome this reminder later on yourself).\n\nThe model description is also used by the AI assistant to understand the purpose of the model.\n{% endhint %}\n\n**Tags** can be used to help you and your colleagues organise models in a way that makes them easier to find and understand - personal tags (highlighted by a padlock symbol) are only visible to the user that created them ([read more about tagging models](/the-user-interface/models-ui/model-tags)).\n\nWe recommend using tags to keep track of the function of the model within a [model topology](/solidatus-best-practice/model-topology). For example, tag models with **Connector fork**, **Atomic**, **Composite WIP**, and **Published composite** to quickly show what they are used for within the ingestion, augmentation, review, and publication stages of a model building workflow.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:50.421Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "518579cf2e4337cbe72319d2f31cb7e0633cca1446c21d9335b509e1e2d65208",
+  "warnings": []
+}

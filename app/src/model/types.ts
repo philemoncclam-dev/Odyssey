@@ -121,6 +121,33 @@ export interface LineageModel {
    * nothing, and downstream of the fidelity rules so they cannot loosen them.
    */
   assistantInstructions?: string
+
+  /**
+   * Who created this model, stamped from the signed-in user at `store.create`
+   * time (`auth/currentUser`). Undefined for anything made before sign-in
+   * existed, or with `VITE_SKIP_AUTH` set — an unowned model is not an error,
+   * it is a model nobody was signed in to stamp.
+   *
+   * Exists now so a shared backend has an owner to read on day one; nothing
+   * reads or enforces it yet, because there is nowhere for a second person to
+   * see it from. Do not build sharing UI against this alone — it names an
+   * owner, it does not grant or check access.
+   */
+  owner?: string | undefined
+  /**
+   * Who else has been granted access, and at what level — the shape a shared
+   * backend will read. Same "written, not yet read or enforced" state as
+   * `owner`: a local-only store has no second viewer to show this to, so it
+   * is inert today, not wired to any permission check.
+   */
+  sharedWith?: ModelShare[] | undefined
+}
+
+/** One person granted access to a model that isn't its owner. See `LineageModel.sharedWith`. */
+export interface ModelShare {
+  /** An email address today. A group/Entra-object-id member is a later shape — this app has no directory lookup to resolve one to a name. */
+  email: string
+  role: 'viewer' | 'editor'
 }
 
 /** Summary row for the model list, so the browser needn't parse every model. */
@@ -135,6 +162,8 @@ export interface ModelSummary {
   /** Normalized by the store — always present here, unlike on the document. */
   description: string
   tags: string[]
+  /** Same meaning and same "not enforced yet" caveat as `LineageModel.owner`. */
+  owner?: string
   starred: boolean
   lastViewedAt: number
 }

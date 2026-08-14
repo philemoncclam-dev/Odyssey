@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-3899967917ea8bd02b1c078f",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific",
+  "response_content_hash": "c6be1f7d249c690773f9ee8d16769ee0e7a536db026b5bcc3fc687c899fc06a5",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Database specific functionality\n\nFor certain databases, there may exist unique functionality that does not get covered out of the box using JDBC drivers.\n\nWhen a database vendor implements a JDBC driver, they adhere to the interface of methods outlined by JDBC. As such, this connector will be able to extract schema, table and column structure from any connected database that has implemented their JDBC driver to the appropriate standard.\n\nThe below listed databases are database vendors for which the connector implements additional functionality (including lineage via SQL parsing) or that we explicitly package drivers for. These features can necessitate connector configuration options that are specific to a database vendor, as well as adding unique properties to table/column entities to provide more detail.\n\n|                                                    **Database**                                                   |\n| :---------------------------------------------------------------------------------------------------------------: |\n|   [BigQuery](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-1)  |\n|    [Impala](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-4)   |\n|    [Oracle](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-6)   |\n|  [PostgreSQL](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-7) |\n|   [Redshift](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-8)  |\n|  [SQLServer](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-9)  |\n|    [AzureSQL](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview)   |\n|  [Teradata](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-12)  |\n|     [Hive](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-3)    |\n|    [MySQL](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-5)    |\n|     [DB2](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-2)     |\n| [Sybase ASE](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-10) |\n|  [Sybase IQ](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-11) |\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:47.526Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "97f856c0000d7528135bbad004dc99117d7cda71666c171618c8187ae141910e",
+  "warnings": []
+}

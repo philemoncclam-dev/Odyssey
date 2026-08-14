@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/analytics-reports/create-an-analytics-report"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-27bed5711dece4f0ee876de9",
+  "requested_url": "https://docs.solidatus.com/data-domains/analytics-reports/create-an-analytics-report",
+  "response_content_hash": "b7e7b19d53a0fa03f1e504f29e67eb322950d89d83018eb9774f1bb4d13edd11",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Create an Analytics report\n\nCreating a new Analytics Report is as simple as two clicks.\n\n{% hint style=\"warning\" %}\nYou will only be able to create Analytics Reports if you are an Owner of a Data Domain.\n{% endhint %}\n\nFirst, go to your list of Analytics Reports by expanding the tile on your Data Domain landing page.\n\n<figure><img src=\"/files/AZjYTai3dYQyjXTKSW7f\" alt=\"\"><figcaption><p>Go to the list of all of your Analytics Reports</p></figcaption></figure>\n\nThen click `+ CREATE` at the top-right corner of the expanded list of Analytics Reports.\n\n<figure><img src=\"/files/dJXHslMgNdbMVgnuuAVM\" alt=\"\"><figcaption><p>Create a New Analytics Report</p></figcaption></figure>\n\n{% hint style=\"success\" %}\nIf there are no Analytics Reports in a Data Domain, you can create your first one directly from the Data Domain homepage.\n{% endhint %}\n\nWhen you create a new report, you will be taken to the `Tiles` page, which will be empty until you [create metrics](/data-domains/analytics-reports/create-and-edit-metrics) and use them to [create tiles](/data-domains/analytics-reports/create-and-analyse-charts).\n\n<figure><img src=\"/files/0S2keqogJVCOsqpDiG3c\" alt=\"\"><figcaption><p>The homepage of a new Analytics Report</p></figcaption></figure>\n\nAn Analytics Report is made up of three sections:\n\n* **Tiles** - Displays charts and infographics created in the report and enables you to edit them.\n* **Metrics** - Lists metrics you have created in this report and enables you to create and edit them.\n* **Settings** - Contains sections for editing the name and description of the report or deleting it.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:55.810Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "4cab895fccae97650e78ae9f030decdd594c3db5d2cd8915704598f7c8870ad9",
+  "warnings": []
+}

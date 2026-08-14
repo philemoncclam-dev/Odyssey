@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/data-domains-ui"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-41d21fea558379cfa1766090",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/data-domains-ui",
+  "response_content_hash": "4c9f52ece1dbba4d213f719163b6c2419e3bac598e5399e51696da643a2c30ed",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Data Domains interface\n\n<figure><img src=\"/files/hE5RlVv5c8G3ajJdzgqL\" alt=\"\"><figcaption></figcaption></figure>\n\nThe Data Domains interface is a portal for navigating the structure and content of your Data Domains.\n\nThe Data Domains landing page gives you access to individual Data Domains that you created or have been shared with you. Once you open a domain, the Domain Spine keeps the main areas of the domain one click away, including Home, AI Assistant, Reference Hub, Lineage Models, saved Data Maps, and more.\n\nFrom a domain homepage, you can search, open model and entry pages, review Analytics reports, and move into the Data Map without losing domain context.\n\nVisit the pages below to learn more about the various components of the Data Domains interface.\n\n* [Data Domain Landing Page](/the-user-interface/data-domains-ui/domains-landing-page)\n* [Data Domain Homepage](/data-domains/explore-data-domains/data-domain-homepage)\n* [Search and Browse Interface](/the-user-interface/data-domains-ui/search-and-browse-interface)\n* [Domain Entries Interface](/the-user-interface/data-domains-ui/domain-entries-interface)\n* [Data Maps Interface](/the-user-interface/data-domains-ui/data-maps-interface)\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:40.071Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "f5087dac6e4ab7d433e4a9d6e1dcf282285c2ac16ac28ed71ef571e193e67497",
+  "warnings": []
+}

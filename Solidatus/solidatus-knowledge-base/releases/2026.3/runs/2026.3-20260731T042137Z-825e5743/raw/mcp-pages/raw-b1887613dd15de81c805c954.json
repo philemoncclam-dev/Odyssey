@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-webfocus/running"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-b1887613dd15de81c805c954",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-webfocus/running",
+  "response_content_hash": "6f1269799cb18f849578f6c76299bd57f2e01cf0c6fab7daae1e211abef5e189",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Running the connector\n\nThe connector can either be run in standalone mode or agent mode.\n\n**Agent mode** is used to start the connector as an agent service, which registers itself with Solidatus. You can configure a job interactively, run, and monitor the job from the Solidatus connectors dashboard. **Standalone mode** runs a one-off job.\n\nThe connector is run using the same command for either mode:\n\n```bash\njava -jar solidatus-webfocus-X.X.XX.jar\n```\n\nThis will use your `application.yaml` file (see [configuration options](/connectors/connector-specific-documentation/solidatus-webfocus/configuration) for details) that must be located in either:\n\n* The current directory\n* The `config/` subdirectory of the current directory\n* The immediate child directories of the `config/` subdirectory (see [Spring Boot external config](https://docs.spring.io/spring-boot/reference/features/external-config.html) for more details)\n\nTo specify a custom location for `application.yaml`, use:\n\n```bash\njava -jar solidatus-webfocus-X.X.XX.jar \\\n--spring.config.location=[path/to/application.yaml]\n```\n\n### Command Line Arguments (**not** recommended)\n\n```bash\njava -jar solidatus-webfocus-X.X.XX.jar \\\n--spring.profiles.active=connector \\\n--solidatus.agent.name=\"Solidatus WebFOCUS Connector\" \\\n--solidatus.api.token=\"123abc45de789f0\" \\\n--solidatus.api.host=\"https://xyz-group.solidatus.com\"\n```\n\n> The agent name `solidatus.agent.name` should be unique. Otherwise, the agent registration will fail if another agent exists with the same name.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:51.191Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "d02ba148dc8767ef9f04e8af3f421a591b5619b36d10401e3e3925656a67faef",
+  "warnings": []
+}

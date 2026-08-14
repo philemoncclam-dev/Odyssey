@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/configuration/configure-job-using-wizard-in-solidatus"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-fb1ddd422dece1100ed5b1bd",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/configuration/configure-job-using-wizard-in-solidatus",
+  "response_content_hash": "f35feedfaca5c4a2854298bcd2f6c36cc8dc9fa8829f134f7a414c9704fe08e0",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Configure Job Using Wizard in Solidatus\n\nWhen the PowerBI connector agent is active, you can configure a job interactively on Solidatus. The job wizard will guide\\\nyou step-by-step to complete a job configuration.\n\nTo configure a job using wizard, go to `Edit` -> `Edit using wizard` on top right of job configuration page.\n\n#### Step 1\n\nSpecify API token, either model name or ID to be created/updated. Click `NEXT` to proceed.\n\n#### Step 2\n\nProvide a PBIT file either by file path or file upload. Click `NEXT` to proceed.\n\n#### Step 3\n\nOptional step to specify the path for model export in JSON. Click `SAVE CHANGES` to save the job configuration.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:00.145Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "528dcfee0d2cf676d2cbeeebf31e578ff0b94a26ad0f7247372ec3112246b4e4",
+  "warnings": []
+}

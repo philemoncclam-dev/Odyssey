@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/build-and-edit-models"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-c31577bcfb806e58f67ee42c",
+  "requested_url": "https://docs.solidatus.com/models/build-and-edit-models",
+  "response_content_hash": "b94ed55f6dcc79f602997febdfb4fd2d2fee682ad46b6be7b95e4ee6abf84273",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Build and edit models\n\nThe pages in this section provide information you need if your role includes planning, designing, building, or updating models.\n\nBuilding a model involves many distinct functions and actions:\n\n* Creating an empty model\n* Adding entities manually\n* Importing all types of model content from external files (CSV, JSON, XML)\n* Connecting entities within a model using Transitions (manually or using the Auto-mapper)\n* Adding entity properties\n* Connecting entities to terms in reference models via reference relationships\n* Understanding and harnessing version control features (forks and revision history)\n\n{% hint style=\"success\" %}\nThis section does not cover creating, building, and updating models using Connectors or the API. For documentation on those functions, see the [Connectors](https://github.com/solidatus/Solidatus-docs-gitbook/blob/stable/solidatus-core/models/build-and-edit-models/broken-reference/README.md) page and [The Solidatus API](/api-documentation/api-overview) page.\n{% endhint %}\n\nThe information in this section assumes some familiarity with the user interface in general and with basic modelling terminology and concepts.\n\nFor preliminary background and terminology, there are a few pages you can visit:\n\n* [Solidatus Glossary](/additional-resources/solidatus-glossary)\n* [Quick-Start Guide](/get-started/quick-start-guide)\n* [Understand Solidatus Models](/models/understand-solidatus-models)\n\nExplore the table of contents to the left full list of topics and sub-topics in this section.\n\n{% hint style=\"success\" %}\nFor more information or training, please contact your Solidatus representative or email [support@solidatus.com](mailto:support%40solidatus.com).\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:52.388Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "6d9391090f9eadc5fe9d3d1a648f945219e7702fe4011f41143589acde41e303",
+  "warnings": []
+}

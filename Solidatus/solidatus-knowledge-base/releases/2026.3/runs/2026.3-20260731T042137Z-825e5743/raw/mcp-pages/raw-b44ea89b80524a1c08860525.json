@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/understand-data-domains/domain-reference-model-requirements"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-b44ea89b80524a1c08860525",
+  "requested_url": "https://docs.solidatus.com/data-domains/understand-data-domains/domain-reference-model-requirements",
+  "response_content_hash": "793a930b7e6a95d259f6a399d876464c2cf67f4bb614c300eb8df58033c0086e",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Reference model design\n\nReference models are the crucial ingredient for enabling Data Domains to bridge the languages of business and IT in an organisation.\n\nThe multiple ways Reference models function in a Data Domain altogether allow you to apply business, regulatory, semantic, and other reference lenses to technical data lineage flows.\n\nThe functions of Reference models in a Data Domain can be broken down into three things that Reference models supply to a domain:\n\n* Reference metadata content\n* Information architecture\n* Visual context for a Data Map\n\n{% hint style=\"success\" %}\nThe visual context function only applies to Reference models designated to function as *Context* models in a domain. Specific information relevant only to *Context* Reference models is on the [Context Model Design](/data-domains/understand-data-domains/domain-context-model-requirements) page.\n{% endhint %}\n\n## Metadata content\n\nReference models can simply contain metadata entities (referred to as **terms**) relevant to a Data Domain that will be discoverable in the domain they are published to.\n\nTerms in published Reference models surface in the domain in the same way as entities in published Lineage models: an Entry Page in the domain is created for each Layer, Object, Group, and Attribute in a published Reference model.\n\n## Information architecture\n\nReference models can be used to organise data assets and lineage entities in a domain. For example, you can classify entries in a domain according to business processes, semantic terms, or regulations and policies that are supplied in Reference models.\n\nReference models fulfill this information architecture function in two ways:\n\n1. Related terms can be used as search filters or in queries, so only entries related to a chosen term will be displayed in the search results.\n\n{% hint style=\"success\" %}\nSee [Search a Data Domain](/data-domains/explore-data-domains/search-domain) for more information on using Reference terms as search filters.\n{% endhint %}\n\n2. You can see a full list of domain entities related to a Reference term in the `Related Entities` tab on the Entry Page of a term.\n\nBoth of these functions allow Reference relationships to organise the contents of a domain.\n\nLet’s consider an example of how Reference relationships can make critical information easy to find for someone exploring the domain:\n\nReference models are often used to store regulations and policies that apply to data assets represented in Lineage models.\n\nYou can easily find entities related to a specific regulation or policy by visiting the Entry Page for the regulation and viewing the `Related Entities` tab.\n\nYou also query for entities related to a term representing a specific policy in a domain, or you can filter the results of a search by relationship to the term representing a relevant regulation or policy item.\n\n## Visual context for a Data Map\n\nReference models published to a domain can be designated as **context** models in the domain [Data Map settings](/data-domains/build-data-domains/edit-data-domains#data-map-settings).\n\nDesignating a Reference model as a context model makes it available to apply to a Data Map visualisation, in which case lineage entities will be embedded in expandable grouping boxes that represent context model terms to which the entities are related.\n\nThe [Configure a context model](/data-domains/build-data-domains/configure-a-context-model) page explains how to build a Reference model that will be used as a context model to organise the layout of a Data Map.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:51.081Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "0cb181058418bfe091074c6ff87cdb76c5437ac22ff97bd66e97f5968cb52348",
+  "warnings": []
+}

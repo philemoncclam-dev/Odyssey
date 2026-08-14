@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v4-change-summary/4.3-release-notes"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-5dcba33d5248ed6ec6402dd9",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v4-change-summary/4.3-release-notes",
+  "response_content_hash": "682f96c21167a188a5d3ac1d51eeae05158759419c3df7d587e48e2955dff154",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus 4.3\n\nThis is a maintenance update with some minor improvements.\n\n### Feature Improvement\n\n**Improve entity selection interface when importing entities from large models into other models**\n\nFinding entities to import used to involve expanding the model structure looking for entities with the right names - now you can use the search bar to expand the model strutcure to show entities with matching names, filtering as you type.\n\n### Other Improvements\n\n* Prevent large saves from failing in the browser in some environments\n* Various bug fixes and stability improvements\n* Various smaller usability improvements\n\n***\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:40.111Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "72d3082a2d00bb45fb98797a6c88bd751230717b6269825b8d438906573bda08",
+  "warnings": []
+}

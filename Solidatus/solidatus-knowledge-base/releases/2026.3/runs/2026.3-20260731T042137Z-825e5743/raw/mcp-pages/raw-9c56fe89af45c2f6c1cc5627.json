@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/explore-and-analyse-models/export-model-content"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-9c56fe89af45c2f6c1cc5627",
+  "requested_url": "https://docs.solidatus.com/models/explore-and-analyse-models/export-model-content",
+  "response_content_hash": "89eeab6db704c2c2ba5ba65ae837a5bf076d8660c79bba00fabe6ff35e87b29a",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Export model content\n\nModel structure, mappings and metadata can be exported through the export dialog which can be accessed from the toolbar.\n\nYou can export whole models or selected layers, objects, groups, attributes, transitions, and properties. It is possible, for example, to export a full lineage model with all of its metadata, or just export a single object or property.\n\nSolidatus models may be exported in the following formats:\n\n* CSV\n* Control-M XML (Control-M is the BMC Job Monitoring and Control application.)\n* JSON\n* YAML\n* SOL\n\nThe export dialog provides a number of entity export options for CSV, XML, and YAML exports. Hover the mouse over each option to see the tooltips in the user interface.\n\nBy default, the export will include every entity in the Model, but this can be modifies using the options available in the export dialog.\n\n<figure><img src=\"/files/3D7xRMSF1XAYu6z49TWT\" alt=\"\" width=\"563\"><figcaption><p>What do you want to include in the export?</p></figcaption></figure>\n\nIt is often possible to manipulate data in the Excel and the JSON format so that you can update your models outside of the Solidatus Application before re-importing them.\n\nExamples of this can include\n\n> * Adding properties in bulk\n> * Importing transitions from another model\n> * Updating relationships from an old to a new reference model\n\nVisit the following pages for more information on specific export formats:\n\n* [Export to CSV (Spreadsheet)](/models/explore-and-analyse-models/export-model-content/export-to-csv-spreadsheet)\n* [Export to a SOL file](/models/explore-and-analyse-models/export-model-content/export-to-sol-file)\n* [Export to JSON](/models/explore-and-analyse-models/export-model-content/export-to-json)\n* [Export to YAML](/models/explore-and-analyse-models/export-model-content/export-to-yaml)\n\n{% hint style=\"info\" %}\nSee also [Transferring models between Solidatus instances](/additional-resources/advanced-topics/transfer-models-between-instances)\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:58.623Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "d916000d1c69c281e5ec4dcc8a3d2e989ae9985973d64ec23a873809506ae061",
+  "warnings": []
+}

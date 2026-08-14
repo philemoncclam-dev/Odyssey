@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/get-started/import-model-content/import-xml-structures"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-92c4f6fe2a0c2f51ca9d82f2",
+  "requested_url": "https://docs.solidatus.com/get-started/import-model-content/import-xml-structures",
+  "response_content_hash": "8265b0c2cd55404fc8eb9e4ee3f3a1d319239d3afd98c5471ab0fe08781ca759",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Import XML structures\n\nThe XML import takes as input an arbitrary XML file. This is converted into a nested object which describes the structure of the given file.\n\nEach XML element is converted into an attribute. If the element has child elements, then a nested group is created.\n\n## Example XML file import\n\n```xml\n <?xml version=\"1.0\" encoding=\"utf-8\"?>\n <rootElement>\n     <client>\n         <id>abc123</id>\n         <firstName>John</firstName>\n         <lastName>Smith</lastName>\n     </client>\n     <amount>123.0</amount>\n     <timestamp>2019-04-02T14:08:36.441Z</timestamp>\n </rootElement>\n```\n\n<figure><img src=\"/files/TZ2sjLy2bxIdMJTXU2Cq\" alt=\"\" width=\"398\"><figcaption><p>The imported object</p></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:56.967Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "e138a81839b5232e1293702a7a6354ecb301bc4e55f7c7815b1927c169de1c32",
+  "warnings": []
+}

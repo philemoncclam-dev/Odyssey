@@ -1,0 +1,14 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/api-documentation/api-overview"
+  },
+  "purpose": "snapshot-drift-check",
+  "raw_record_id": "drift-3f6f14b3fce65501d886f43a",
+  "response_content_hash": "48cc8de57d2c1c5690f7031a0e8fa9114f0f504bc0d51cfef53998ebdca304a7",
+  "returned_textual_content": "# API overview\n\nSolidatus has an extensive, publicly available API to facilitate the process of creating automated workflows, integrations, and autonomous agents to ingest data from third-party sources.\n\nThe Solidatus public API can be used to create, view, and edit models, as well as retrieve model data, import data, perform administration, manage workflow, and more.\n\n{% hint style=\"info\" %}\nFollow the [API quick-start tutorial](/api-documentation/api-overview/api-quick-start-tutorial) for a brief introduction to creating and updating Solidatus models using the API.\n{% endhint %}\n\nIt’s easy to get started using the API, all you need is a valid authorisation token and an HTTP/REST client.\n\n[This authentication guide](/api-documentation/api-overview/api-authentication) explains how to obtain and use an API token.\n\n{% hint style=\"success\" %}\nA comprehensive developer API reference for all endpoints, methods, endpoint paths, and request schemas can be found through the API documentation link in the help menu of your Solidatus instance.\n\nYou can execute API commands directly from the Swagger interface once you authenticate with a valid token.\n{% endhint %}\n\n<figure><img src=\"/files/mdGDeHgRFzMvQbdcpEHz\" alt=\"\" width=\"178\"><figcaption></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:06.416Z",
+  "tool_name": "getPage"
+}

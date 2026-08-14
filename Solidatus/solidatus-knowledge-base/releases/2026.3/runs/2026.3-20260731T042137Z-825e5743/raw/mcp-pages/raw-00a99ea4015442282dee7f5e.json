@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/build-and-edit-models/save-a-model"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-00a99ea4015442282dee7f5e",
+  "requested_url": "https://docs.solidatus.com/models/build-and-edit-models/save-a-model",
+  "response_content_hash": "1f114c31db91ce4a8be01419f5006edf78f1ef2a50dd406d70d604e971835c05",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Save a model\n\nAfter making changes to a model, click the `Save` button on the Model Viewer Toolbar.\n\nSaving gives you an opportunity to enter a “commit message” that describe the changes made and the reason for them. It’s an optional step, but you really should provide a message for at least the most important revisions.\n\nThe “commit message” appears in the *Summary* and *Revisions* tabs on the [Model Overview](/the-user-interface/models-ui/model-overview), so it will help you locate a particular version of the model should you need to review it or recover any content.\n\nSaving the model creates a new version (what we call a **revision**) of the model.\n\n<figure><img src=\"/files/kSBo1RCt8UfW5TegaTrm\" alt=\"\" width=\"563\"><figcaption><p>Saving the model creates a new revision</p></figcaption></figure>\n\nThe **Revisions** tab on the [Model Overview](/the-user-interface/models-ui/model-overview) provides access to all the revisions for the model.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:46.052Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "1f0f002f914c6e6c57a9f2b2cdf13894f69856c4fb6e70b6449df8212a19e839",
+  "warnings": []
+}

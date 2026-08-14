@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/account-management/service-accounts"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-333ebc529de94d143a4a8732",
+  "requested_url": "https://docs.solidatus.com/account-management/service-accounts",
+  "response_content_hash": "67a6fe998546f426fedb6a46f0f2829528cbed57fc08a189a69ac9baa0513072",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Service accounts\n\nView information about service accounts, including a setup guide, in the connectors section: [Service accounts](/connectors/connectors-overview/service-accounts)\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:43.985Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "ab34a3f6f14613f2b825a823687af6fcccdfa593055a1c4c8546dd619df727fb",
+  "warnings": []
+}

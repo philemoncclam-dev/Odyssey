@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-databricks/running"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-9257fc5486406f1398f54acb",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-databricks/running",
+  "response_content_hash": "e743957a707efc4db41c6478b147a764ebf5b5ea322e0c0d026c6ac4ab84f0ba",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Running the connector\n\nThe connector can be run in `agent` or `standalone` mode.\n\nIn `standalone` mode the connector will execute the processing and then shutdown.\n\nIn `agent` mode the connector runs as a long-lived process, it connects to a Solidatus instance and awaits job events. When a job event is received it will execute the job and await the next job event.\n\nIn the examples below we have used the environment variable `${SOLIDATUS_HOST}` and `${SOLIDATUS_TOKEN}` to represent a Soldiatus host instance URL and Solidatus token.\n\n## Standalone mode\n\nTo execute in `standalone` mode run the following command line supplying the job details as command line properties\n\n```shell\njava -jar solidatus-databricks-1.0-SNAPSHOT.jar --spring.profiles.active=standalone \\\n--solidatus.api.host=${SOLIDATUS_HOST} \\\n--solidatus.api.token=${SOLIDATUS_TOKEN} \\\n--solidatus.api.verify-ssl=true \\\n--solidatus.connector.model-name=\"Solidatus Databricks model\" \\\n```\n\nOr using a Spring Boot `yaml` configuration file\n\n```shell\njava -jar solidatus-databricks-1.0-SNAPSHOT.jar --spring.profiles.active=standalone\n```\n\n#### application.yml\n\n```yaml\nspring:\n  config:\n    activate:\n      on-profile: standalone\nsolidatus:\n  api:\n    host: ${SOLIDATUS_HOST}\n    token: ${SOLIDATUS_TOKEN}\n    verify-ssl: true\n    model-name: \"Databricks\"\n  databricks:\n    databricks-host: ${DATABRICKS_HOST}\n    databricks-token: ${DATABRICKS_TOKEN}\n```\n\n> **Note:** Databricks connectivity requires `solidatus.databricks.databricks-host` and **either** `solidatus.databricks.databricks-token` (PAT) **or** OAuth credentials (`solidatus.databricks.databricks-client-id` and `solidatus.databricks.databricks-client-secret`). See [oauth.md](https://github.com/solidatus/Solidatus-docs-gitbook/tree/stable/solidatus-core/connectors/solidatus-connectors/solidatus-databricks/oauth.md).\n\n## Agent mode\n\nTo execute in `agent` mode run the following command line. We do not supply job details via the command line in agent mode, but we can supply some agent properties.\n\nIn `agent` mode the `solidatus.api.host` and `solidatus.api.token` properties supplied on the command line or via a Spring configuration file are used by the `agent` to connect to a Solidatus host instance. They are not used by a job.\n\n```shell\njava -jar solidatus-databricks-1.0-SNAPSHOT.jar --spring.profiles.active=connector \\\n--solidatus.agent.name=\"java-sdk-example\" \\\n--solidatus.agent.description=\"Example Solidatus Databricks Connector\" \\\n--solidatus.agent.type=\"Databricks\" \\\n--solidatus.api.host=${SOLIDATUS_HOST} \\\n--solidatus.api.token=${SOLIDATUS_TOKEN} \\\n--solidatus.api.verify-ssl=true\n```\n\nOr using a Spring Boot `yaml` configuration file\n\n```shell\njava -jar solidatus-databricks-1.0-SNAPSHOT.jar --spring.profiles.active=connector\n```\n\n#### application.yml\n\n```yaml\nspring:\n  config:\n    activate:\n      on-profile: connector\nsolidatus:\n  agent:\n    name: java-sdk-example\n    description: \"Example Solidatus Databricks Connector\"\n  api:\n    host: ${SOLIDATUS_HOST}\n    token: ${SOLIDATUS_TOKEN}\n    verify-ssl: true\n```\n\n> **Note:** Databricks connectivity requires `solidatus.databricks.databricks-host` and **either** `solidatus.databricks.databricks-token` (PAT) **or** OAuth credentials (`solidatus.databricks.databricks-client-id` and `solidatus.databricks.databricks-client-secret`). See [oauth.md](https://github.com/solidatus/Solidatus-docs-gitbook/tree/stable/solidatus-core/connectors/solidatus-connectors/solidatus-databricks/oauth.md).\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:50.933Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "2d20f0538f998c4f31919113f02bd8fdf3b2e92c1b11e151a1c410dcf8711585",
+  "warnings": []
+}

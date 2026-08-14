@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-version-2026"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-744fa5efb4fc1ba32d043b21",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-version-2026",
+  "response_content_hash": "b398f764892e0448cb7d8002f86a0e4ecca07973b79358cf670796b21bb21e00",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus version 2026\n\nThis page includes a summary of changes per release. For more detailed information, click a link in the table below or at the foot of each summary.\n\n| [Solidatus 2026.3](/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.3) | [Solidatus 2026.2](/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.2) |\n| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |\n| [Solidatus 2026.1](/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.1) |                                                                                               |\n\n## 2026.3 - July 2026\n\nSolidatus 2026.3 expands the AI Assistant with a Prompt Library, persistent conversation history, Chat Rollup, and quick actions, while making Analytics reports easier to manage and export from Data Domains.\n\nClick [here](/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.3) to read the full release notes.\n\n## 2026.2 - May 2026\n\nSolidatus 2026.2 speeds up the Model Viewer for large models, redesigns the model list for improved usability, adds Data Map view persistence and stronger display rules, extends domain queries, and introduces finer control of results in search and metrics.\n\nClick [here](/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.2) to read the full release notes.\n\n## 2026.1 - March 2026\n\nSolidatus 2026.1 makes the Solidatus AI Assistant generally available, while introducing usability improvements to the domain query language and subtle refinements to data-asset visuals in Data Maps.\n\nClick [here](/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.1) to read the full release notes.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:51.824Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "34b8116b6294275ad397d8705eab8d222b0aa4f5016df71e4e330434a1d14060",
+  "warnings": []
+}

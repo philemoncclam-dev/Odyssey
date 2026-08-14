@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/share-and-collaborate/activities-and-activity-types"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-6976a59b61f058fd3672bcd0",
+  "requested_url": "https://docs.solidatus.com/models/share-and-collaborate/activities-and-activity-types",
+  "response_content_hash": "6791e4769082847eb47302d665e07204821e8bacf3c0147611def423e6ca4020",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Activities and activity types\n\nSolidatus provides a single workflow for managing collaboration among users, facilitating effective development of Models. Solidatus also allows any user with visibility of the Model to start a discussion about the Model, ask a question, or just make a comment.\n\nAll of the above are referred to as **Activities**. A single lifecycle applies to all Activities, with variations according to the type of Activity. Depending on the Model settings, changes made by an Activity may be subject to approval. The Model settings may also allow the changes to be [automatically merged](/models/share-and-collaborate/activities-and-activity-types/auto-merge) into the Model, either as soon as they are proposed or once they have been approved.\n\nThe [Activities tab](/the-user-interface/models-ui/model-overview#activities-tab) in the Model Overview allows a user to see at-a-glance all in-progress updates for a Model, and use this to manage workflow for the Model. A user can also manage their personal workflow via [their own list of Activities](/the-user-interface/models-ui/activities-interface#the-my-activities-list).\n\n* [Activities](/models/share-and-collaborate/activities-and-activity-types/activities)\n* [Activities Interface](/the-user-interface/models-ui/activities-interface)\n* [Auto-merge](/models/share-and-collaborate/activities-and-activity-types/auto-merge)\n* [Tasks](/models/share-and-collaborate/activities-and-activity-types/tasks)\n* [Pull Requests](/models/share-and-collaborate/activities-and-activity-types/pull-requests)\n* [Parent Model Changes](/models/share-and-collaborate/activities-and-activity-types/parent-model-changes)\n* [Import Model Updates](/models/share-and-collaborate/activities-and-activity-types/import-model-updates)\n* [Questions, Discussions, etc.](/models/share-and-collaborate/activities-and-activity-types/questions-comments-discussions-etc.)\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:47.436Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "5e5c77a0a434b133b5fe46177050783769fe40eaeb69be331940a3b4d902ab5c",
+  "warnings": []
+}

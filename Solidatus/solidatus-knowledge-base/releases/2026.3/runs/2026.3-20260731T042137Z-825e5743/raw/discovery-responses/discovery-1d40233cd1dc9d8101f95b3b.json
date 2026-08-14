@@ -1,0 +1,18 @@
+{
+  "arguments": {
+    "goal": "Reconstruct the current documentation navigation for an auditable release snapshot.",
+    "question": "List the direct child pages and immediate subgroups under the current 'Connectors' documentation section (/connectors/connectors-overview). Return page titles with full docs.solidatus.com URLs."
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "raw_record_id": "discovery-1d40233cd1dc9d8101f95b3b",
+  "requested_url": null,
+  "response_content_hash": "119c8fcaf4c31748e4509d9fcfee5787defec79661584dd76b3480756c9280a4",
+  "returned_textual_content": "## Direct child pages under **Connectors → Connectors overview** (`/connectors/connectors-overview`)\n\n* [Connector framework](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/BTuUSwV20703bbuAF5vD)\n* [Connectors interface](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/yS889JT7HdsyKnlBpodc)\n* [API tokens for connectors](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/sBTTfGgBV1eshDzoVnBw)\n* [Connector ownership, sharing, and permissions](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/zNlDqSAYPfMdKf2xaThI)\n* [Agents](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/51HJNvgnkdCgjYzBQy3J)\n* [Jobs](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/6Z4tHFOcpAhGfKSuXHw9)\n* [Running a job](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/SWlxUbb8UXneWfLtxvvB)\n* [Connector logging](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/aDlRn53JHEGPvJPChJdi)\n* [Service accounts](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/o288cfNIH0uHMQ9hU0Fc)\n* [Upgrade a connector](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/rgrw9rjFoS76hXjJnvgS)\n* [View available connectors](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/PYj3O3aYPx1b3xMdahFb)\n* [Create connectors with the SDK](https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/c1TMF0SS6wGb7p7hNZSa)\n\n## Immediate subgroups\n\n* None listed directly under **Connectors overview** in the navigation tree.\n\n# Sources\n\n- [Connectors overview](https://docs.solidatus.com/connectors/connectors-overview)\n- [Model Overview](https://docs.solidatus.com/the-user-interface/models-ui/model-overview)\n- [Overview](https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake-multi-database/overview)\n- [Connector framework](https://docs.solidatus.com/connectors/connectors-overview/connectors-framework)\n- [Overview](https://docs.solidatus.com/connectors/connector-specific-documentation/tableau/overview)\n- [Overview](https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/overview)\n- [Overview](https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/overview)\n- [Overview](https://docs.solidatus.com/connectors/connector-specific-documentation/ssis/overview)\n- [Overview](https://docs.solidatus.com/connectors/connector-specific-documentation/purview/overview)\n- [Connectors interface](https://docs.solidatus.com/connectors/connectors-overview/connectors-page)",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:12:55.864Z",
+  "tool_name": "askQuestion"
+}

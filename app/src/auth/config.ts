@@ -41,3 +41,15 @@ export const fabricLoginRequest = { scopes: ['https://api.fabric.microsoft.com/W
 // ADLS-Gen2-compatible scope OneLake documents; unverified for the same
 // reason fabricLoginRequest is.
 export const onelakeLoginRequest = { scopes: ['https://storage.azure.com/user_impersonation'] }
+
+// The model-storage API (server/) is its OWN Entra app registration — a
+// confidential client this time, since it has a server side to hold nothing
+// secret in (Managed Identity to Azure SQL, no client secret). The SPA's
+// registration needs "API permissions" -> that app -> `access_as_user`
+// granted and consented, same shape as any first-party API delegation.
+// `VITE_MODEL_API_SCOPE` is the exposed scope's full URI
+// (`api://<server-app-id>/access_as_user`) — set once the server's app
+// registration exists; see server/README.md.
+export const remoteModelLoginRequest = {
+  scopes: [import.meta.env['VITE_MODEL_API_SCOPE'] || 'api://00000000-0000-0000-0000-000000000000/access_as_user'],
+}

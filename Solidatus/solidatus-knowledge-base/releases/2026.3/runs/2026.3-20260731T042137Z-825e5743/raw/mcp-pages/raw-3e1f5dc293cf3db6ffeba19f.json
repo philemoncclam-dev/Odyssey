@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/ssis/configuration/example-configuration"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-3e1f5dc293cf3db6ffeba19f",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/ssis/configuration/example-configuration",
+  "response_content_hash": "e90c64c8407db5cff56ef321ed9e741711884e99290f00596a38e9513d8fb0d1",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Example Configuration\n\n## YAML Configuration - Agent Mode\n\n```yaml\nlogging:\n  # Recommended logging\n  level: # Alternative log levels = (INFO/DEBUG/TRACE/ERROR)\n    root: INFO\n    com.solidatus.ssis: INFO\n# Agent mode example configuration\nspring:\n  profiles:\n    active: connector\nsolidatus:\n  api:\n    host: \"https://xyz-group.solidatus.com\"\n    token: \"123abc45de789f0\"\n  agent:\n    name: \"My SSIS Connector Agent\"\n    type: \"SSIS\"\n    description: \"SSIS Connector Agent\"\n```\n\n## YAML Configuration - Standalone Mode\n\n```yaml\nlogging:\n  # Recommended logging\n  level: # Alternative log levels = (INFO/DEBUG/TRACE/ERROR)\n    root: INFO\n    com.solidatus.ssis: INFO\n# Standalone mode example configuration\nspring:\n  profiles:\n    active: standalone\nsolidatus:\n  api:\n    host: \"https://xyz-group.solidatus.com\"\n    token: \"123abc45de789f0\"\n    model-name: \"Sample SSIS model\"\n  ssis:\n    dtsx-file-path:\n      - \"/home/sample.dtsx\"\n      - \"/users/sample.dtsx\"\n    connection-manager-providers:\n      - ref-id: \"Package.ConnectionManagers[OLE DB Extract]\"\n        database-provider: \"oracle\"\n      - ref-id: \"Package.ConnectionManagers[OLE DB Load]\"\n        database-provider: \"sqlserver\"\n```\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:57.702Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "107563042ac6b3eb75c08b2f3d74ad997c536237383e64306ae46b96889cee7e",
+  "warnings": []
+}

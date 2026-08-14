@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/get-started/import-model-content/import-solidatus-json"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-be84271aa3c0979e161ccb4d",
+  "requested_url": "https://docs.solidatus.com/get-started/import-model-content/import-solidatus-json",
+  "response_content_hash": "aeaf1820885c2a68f0d05953ae8799144cede611fd7cdac6b175bbdf35d60dde",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Import Solidatus JSON\n\nThe JSON format is useful for importing information directly into recognisable Solidatus entities.\n\nAfter selecting an import file or supplying content, the import dialogue provides a common [customisation page](/get-started/import-model-content/customise-imports) that allows you to customise the results of the import.\n\nA Solidatus JSON file can contain three properties: `entities`, `layers` and `transitions`.\n\n* `entities` – an object mapping IDs to entity definitions.\n\n  There is one entry for each layer, object, group and attribute. Entity definitions can have three properties:\n\n  * `name` – the name of the layer, object, group or attribute\n  * `properties` – an object mapping property keys to property values\n  * `children` – an array of child IDs also defined in the entities array in this file\n* `layers` – an array of IDs of layers defined in the entities object in this file\n* `transitions` – an object mapping transition IDs to transition definitions.\n\n  Transition definitions can have three properties:\n\n  * `source` – an attribute ID also defined in the entities array in this file\n  * `target` – an attribute ID also defined in the entities array in this file\n  * `properties` – an object mapping property keys to property values\n\n## Creating a sample JSON file by exporting an existing model\n\nThe example below was created by exporting a simple model as JSON from Solidatus.\n\nTo export to JSON:\n\n* Click export in the toolbar\n* Click JSON\n* Click next\n\nExample Solidatus JSON file\n\n```json\n{\n  \"entities\": {\n    \"LYR-8MHv6G4I\": {\n      \"name\": \"Source layer\",\n      \"properties\": {},\n      \"children\": [\n        \"OBJ-7sp7Qd5E\"\n      ]\n    },\n    \"OBJ-7sp7Qd5E\": {\n      \"name\": \"Object 1\",\n      \"properties\": {\n        \"Owner\": \"Dan\"\n      },\n      \"children\": [\n        \"ATR-zUHTUzVz\",\n        \"ATR-uXpkEsrE\"\n      ]\n    },\n    \"ATR-zUHTUzVz\": {\n      \"name\": \"FirstName\",\n      \"properties\": {\n        \"DataType\": \"string\"\n      }\n    },\n    \"ATR-uXpkEsrE\": {\n      \"name\": \"LastName\",\n      \"properties\": {\n        \"DataType\": \"string\"\n      }\n    },\n    \"LYR-uP5Qa3Au\": {\n      \"name\": \"Target layer\",\n      \"properties\": {},\n      \"children\": [\n        \"OBJ-jkFDy8MP\"\n      ]\n    },\n    \"OBJ-jkFDy8MP\": {\n      \"name\": \"Object 2\",\n      \"properties\": {\n        \"Owner\": \"Dan\"\n      },\n      \"children\": [\n        \"ATR-geGbKTCp\"\n      ]\n    },\n    \"ATR-geGbKTCp\": {\n      \"name\": \"FullName\",\n      \"properties\": {\n        \"DataType\": \"string\"\n      }\n    }\n  },\n  \"layers\": [\n    \"LYR-8MHv6G4I\",\n    \"LYR-uP5Qa3Au\"\n  ],\n  \"transitions\": {\n    \"TRAN-Eac1tp1B\": {\n      \"source\": \"ATR-zUHTUzVz\",\n      \"target\": \"ATR-geGbKTCp\",\n      \"properties\": {}\n    },\n    \"TRAN-DIU8EzhT\": {\n      \"source\": \"ATR-uXpkEsrE\",\n      \"target\": \"ATR-geGbKTCp\",\n      \"properties\": {}\n    }\n  }\n}\n```\n\n<figure><img src=\"/files/tlU1NX2xDcHAtOxFL9tz\" alt=\"\" width=\"563\"><figcaption><p>The imported model</p></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:56.923Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "2847353dc1b9ca0dadb0dfdcbe4e93a0dcf5471392b3cb7bff560f1857f40a57",
+  "warnings": []
+}

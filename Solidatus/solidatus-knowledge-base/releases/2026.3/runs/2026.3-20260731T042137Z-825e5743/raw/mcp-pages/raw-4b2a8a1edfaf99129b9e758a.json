@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-databricks/capabilities"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-4b2a8a1edfaf99129b9e758a",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-databricks/capabilities",
+  "response_content_hash": "6c97fb5a2fd2aeca6165fef9f72351058aa4b9241454ef3e68316a3e2f10c153",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Capabilities and limitations\n\nThe Solidatus Databricks Connector provides the following capabilities:\n\n## Metadata Extraction\n\n* Extracts catalogs, schemas, and tables from Databricks Unity Catalog.\n* Supports filtering by specific schemas and jobs.\n\n## Data Lineage\n\n* Builds end-to-end lineage models from Databricks sources.\n* Optionally includes Databricks jobs as a lineage layer.\n* Visualizes data flows between tables, schemas, and jobs in Solidatus.\n\n## Job Integration\n\n* Retrieves and maps Databricks jobs, including job names and relationships.\n* Allows filtering by specific jobs to include in the lineage.\n\n## Model Publishing\n\n* Publishes lineage models directly to Solidatus via the Solidatus API.\n* Supports model updates.\n\n## Configuration Flexibility\n\n* Can be run in both agent and standalone modes.\n* Supports configuration via YAML, environment variables, or command-line arguments.\n* Allows granular control over which metadata and jobs are included.\n\n## Security & Compliance\n\n* Connects securely using Databricks personal access tokens or OAuth client credentials (service principal).\n* Supports SSL verification for Solidatus API connections.\n\n## Supported Databricks Features\n\n* Unity Catalog (required for full metadata extraction)\n* Databricks jobs (optional, for job lineage)\n* Databricks Runtime 11.3 LTS or above for streaming lineage (if applicable)\n\n## Limitations\n\n* Only supports Unity Catalog-enabled workspaces.\n* Does not extract notebook code or non-Unity Catalog assets.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:49.224Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "f42f4adfcf6e9e103cb4e3ff18a389e40c62b0ad82ba5a93df2fcd0692ccda81",
+  "warnings": []
+}

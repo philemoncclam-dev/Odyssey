@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/additional-resources/advanced-topics/sharing-with-solidatus-support"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-9091a44d5b10597709bc7ace",
+  "requested_url": "https://docs.solidatus.com/additional-resources/advanced-topics/sharing-with-solidatus-support",
+  "response_content_hash": "6dee5b2ea1d1017ab7a86ae4df6d5ea438ec52258fb6c46736b63ca92f13a2c4",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Share with Solidatus support\n\nSometimes you will need to share your full model, including display rules, with the Solidatus support team to resolve an issue.\n\n1. Follow the instructions at [Transfer Models between Solidatus instances](/additional-resources/advanced-topics/transfer-models-between-instances) to export the model as a Solidatus JSON (or SOL) file.\n2. Send the generated file to [support@solidatus.com](mailto:support%40solidatus.com).\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:39.649Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "6050e938205ae22f01b38315a003ca332bf2c8caf4098635e36d6f2fe4c623b9",
+  "warnings": []
+}

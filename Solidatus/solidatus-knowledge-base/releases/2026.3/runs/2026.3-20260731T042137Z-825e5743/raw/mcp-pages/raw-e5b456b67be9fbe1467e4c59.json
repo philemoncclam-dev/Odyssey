@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/scriptlineage"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-e5b456b67be9fbe1467e4c59",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/scriptlineage",
+  "response_content_hash": "a4813f00bcced6dd0fe3ea37e6a7c6772981f79f897704bfc911ccf0fcbc543e",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Script Lineage\n\nSome dialects supported by the JDBC connector don't pull source code directly from the database instance. Instead, the source code must be provided as SQL files using the `solidatus.jdbc.sql-directory` config option. At the moment under the `solidatus.jdbc.dialect` field, this affects the `sybaseASE`, `sybaseIQ` and `bigquery` dialects. For more information on SQL parsing using this option, please see [Parsing SQL from Files](https://github.com/solidatus/Solidatus-docs-gitbook/tree/stable/solidatus-core/connectors/solidatus-connectors/sqlParsing.md#Parsing-SQL-from-Files).\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:01.812Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "3cb4930e24abb4040cad99e670e6ad716a8be06abc3cf3a84aa6d5c86d1b9848",
+  "warnings": []
+}

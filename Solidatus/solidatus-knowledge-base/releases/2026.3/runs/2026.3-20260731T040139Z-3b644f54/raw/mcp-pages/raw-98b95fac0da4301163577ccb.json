@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/collibra"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-98b95fac0da4301163577ccb",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/collibra",
+  "response_content_hash": "304096651af6b35dac0ec6a1291502955082c03159a9a853e5475de0def1c950",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Collibra\n\nThe Solidatus Connector for Collibra allows importing organisation data from Collibra to Solidatus as well as exporting model data from Solidatus to Collibra. The connector enables modelling and exploration of data flows with the powerful Solidatus tools, as well as integration with lineage from other sources once inside Solidatus.\n\n### Importing (Collibra -> Solidatus) <a href=\"#importing-collibra-greater-than-solidatus\" id=\"importing-collibra-greater-than-solidatus\"></a>\n\n#### **Supported Features Overview** <a href=\"#supported-features-overview\" id=\"supported-features-overview\"></a>\n\n| **Feature**        | **Included** | **Example**                                                                                                   |\n| ------------------ | ------------ | ------------------------------------------------------------------------------------------------------------- |\n| Metadata Structure | ✓            | Collibra Community structure, Collibra Domain structure, Collibra Asset hierarchy based on Collibra Relations |\n| Lineage            | ✓            | Collibra Asset lineage based on Collibra Relations                                                            |\n\n#### **Supported Collibra Features** <a href=\"#supported-collibra-features\" id=\"supported-collibra-features\"></a>\n\nThe following table outlines the key Collibra concepts that the Solidatus connector extracts and represents within the Solidatus model. For comprehensive details on each feature, refer to the linked pages.\n\n| **Collibra concept** | **Solidatus model representation** | **Link to feature page**                                                                                        |\n| -------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------- |\n| Communities          | Entities                           | [​Importing​](/connectors/connector-specific-documentation/collibra/usage/importing-from-collibra-to-solidatus) |\n| Domains              | Entities                           | [​Importing​](/connectors/connector-specific-documentation/collibra/usage/importing-from-collibra-to-solidatus) |\n| Assets               | Entities                           | [​Importing​](/connectors/connector-specific-documentation/collibra/usage/importing-from-collibra-to-solidatus) |\n| Relations            | Transitions                        | [​Importing​](/connectors/connector-specific-documentation/collibra/usage/importing-from-collibra-to-solidatus) |\n| Attributes           | Properties                         | [​Importing​](/connectors/connector-specific-documentation/collibra/usage/importing-from-collibra-to-solidatus) |\n\n### Exporting (Solidatus -> Collibra) <a href=\"#exporting-solidatus-greater-than-collibra\" id=\"exporting-solidatus-greater-than-collibra\"></a>\n\n#### **Supported Features Overview** <a href=\"#supported-features-overview-1\" id=\"supported-features-overview-1\"></a>\n\n| **Feature**        | **Included** | **Example**                                              |\n| ------------------ | ------------ | -------------------------------------------------------- |\n| Metadata Structure | ✓            | Solidatus Entities (Layers, Objects, Groups, Attributes) |\n| Lineage            | ✓            | Solidatus transitions                                    |\n\n#### **Supported Collibra Features** <a href=\"#supported-collibra-features-1\" id=\"supported-collibra-features-1\"></a>\n\nThe following table outlines the key Collibra organizations that the Solidatus connector can generate. For comprehensive details on each feature, refer to the linked pages.\n\n| **Solidatus concept** | **Collibra representation**  | **Link to feature page**                                                                                         |\n| --------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------- |\n| Entities              | Communities, Domains, Assets | [​Exporting​](/connectors/connector-specific-documentation/collibra/usage/exporting-from-solidatus-to-collibra)  |\n| Transitions           | Relations                    | [​Exporting​](/connectors/connector-specific-documentation/collibra/usage/exporting-from-solidatus-to-collibra)​ |\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:54.734Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "9d64db0a91e18d445cd51ae5686c3b6463269aaab755480dd43cc8ba5958b3e7",
+  "warnings": []
+}

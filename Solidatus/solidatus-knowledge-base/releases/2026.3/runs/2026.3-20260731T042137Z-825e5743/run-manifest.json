@@ -1,0 +1,274 @@
+{
+  "chunking_version": "1.0",
+  "corpus_hash_algorithm": "SHA-256",
+  "corpus_hash_ordering": "records/*.jsonl sorted by relative POSIX path; path NUL bytes concatenated with file bytes",
+  "corpus_wide_hash": "7a792f19958442ed3665c66369e19836a31a603dcf8b1c2621b188786f4b5248",
+  "counts": {
+    "backlinks": 1863,
+    "chunks": 1635,
+    "links": 2422,
+    "navigation-occurrences": 354,
+    "pages": 354,
+    "sections": 1635
+  },
+  "coverage_assessment": {
+    "discovery_closed": true,
+    "source_completeness_proven": false
+  },
+  "dependencies": {
+    "external_packages": [],
+    "python": "3.14.5"
+  },
+  "external_link_policy": "classify-only-v1",
+  "extraction_ended_at": "2026-07-31T04:22:44.828Z",
+  "extraction_started_at": "2026-07-31T04:21:37.903Z",
+  "implementation_source_hash": "94a0c7cddd580e5c6cac59c6aa81be8b9f3f689213982b051d29423356934b28",
+  "implementation_version": "solidatus-extractor-1.0.0",
+  "known_limitations": [
+    "MCP exposes no authoritative enumeration mechanism; source completeness is not proven.",
+    "Navigation parent/order evidence is synthesized from MCP answers and page links and may be incomplete.",
+    "External links were classified but never dereferenced."
+  ],
+  "near_duplicate_algorithm": "near-duplicate-v1",
+  "normalization_version": "1.0",
+  "page_status_counts": {
+    "complete": 354
+  },
+  "parser_version": "solidatus-block-markdown-1.0.0",
+  "product_release": "2026.3",
+  "protocol_metadata": {
+    "capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "protocolVersion": "2025-03-26",
+    "serverInfo": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "recovery": {
+    "imported_discovery_responses": 63,
+    "imported_raw_pages": 180,
+    "raw_artifacts_preserved_byte_for_byte": true,
+    "reason": "Reprocess verified raw MCP evidence after malformed-URL parser failure.",
+    "source_run_id": "2026.3-20260731T040139Z-3b644f54"
+  },
+  "removed_image_references": 1108,
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "run_status": "complete",
+  "schema_version": "1.0",
+  "schema_versions": {
+    "all": "1.0"
+  },
+  "scope": "unversioned current guide plus current release-notes navigation",
+  "section_match_algorithm": "section-match-v1",
+  "snapshot_drift": {
+    "checks": {
+      "/": {
+        "changed": false,
+        "final_hash": "31e14b556727a5fe256904e863af523596be1414b86442e70d23a3d55767e125",
+        "initial_hash": "31e14b556727a5fe256904e863af523596be1414b86442e70d23a3d55767e125",
+        "status": "success"
+      },
+      "/api-documentation/api-actions": {
+        "changed": false,
+        "final_hash": "357fba23b1558d57a3dcf55d1b5395988f173e8b3268c19b018e6f478cb81481",
+        "initial_hash": "357fba23b1558d57a3dcf55d1b5395988f173e8b3268c19b018e6f478cb81481",
+        "status": "success"
+      },
+      "/api-documentation/api-overview": {
+        "changed": false,
+        "final_hash": "48cc8de57d2c1c5690f7031a0e8fa9114f0f504bc0d51cfef53998ebdca304a7",
+        "initial_hash": "48cc8de57d2c1c5690f7031a0e8fa9114f0f504bc0d51cfef53998ebdca304a7",
+        "status": "success"
+      },
+      "/connectors/connector-specific-documentation": {
+        "changed": false,
+        "final_hash": "75b5c2b62b76933e1fff1ce2419e3a1467cb1260f52b265fdf7b07d7d7229f20",
+        "initial_hash": "75b5c2b62b76933e1fff1ce2419e3a1467cb1260f52b265fdf7b07d7d7229f20",
+        "status": "success"
+      },
+      "/connectors/connectors-overview": {
+        "changed": false,
+        "final_hash": "1dcab9afa51dbae71428fa90e79ed82bc39438964c65b7fed1fae44bc8c5121c",
+        "initial_hash": "1dcab9afa51dbae71428fa90e79ed82bc39438964c65b7fed1fae44bc8c5121c",
+        "status": "success"
+      },
+      "/data-domains/analytics-reports": {
+        "changed": false,
+        "final_hash": "9c49e4156ce1e54f36860857781b7fbe00d20378842e0684c24b6f2fc0b5ffba",
+        "initial_hash": "9c49e4156ce1e54f36860857781b7fbe00d20378842e0684c24b6f2fc0b5ffba",
+        "status": "success"
+      },
+      "/models/build-and-edit-models": {
+        "changed": false,
+        "final_hash": "b94ed55f6dcc79f602997febdfb4fd2d2fee682ad46b6be7b95e4ee6abf84273",
+        "initial_hash": "b94ed55f6dcc79f602997febdfb4fd2d2fee682ad46b6be7b95e4ee6abf84273",
+        "status": "success"
+      },
+      "/models/models-main": {
+        "changed": false,
+        "final_hash": "4acb1eb408e0692395fc248b3c8439af708c0af9d5e8a50270639303073b02c2",
+        "initial_hash": "4acb1eb408e0692395fc248b3c8439af708c0af9d5e8a50270639303073b02c2",
+        "status": "success"
+      },
+      "tool_schemas": {
+        "changed": false,
+        "final": {
+          "askQuestion": "297b41beda2808c0703e1de67f9740de3986d2c78e2b79f10e337ae107f1e5e7",
+          "getPage": "45fadf931e28fbd37344de9bfc38ad47f08d53f332d407b99cd4198ee5bac531",
+          "searchDocumentation": "c860aa34a2247daac484a3a2548cb745fefb15cf5f30ab0f456ad892a4435a4a",
+          "sendFeedback": "d18a1913da90138d8192ba176a29c74da5d45d0eaa7508e6ff22e8e31bc8a7e2"
+        },
+        "initial": {
+          "askQuestion": "297b41beda2808c0703e1de67f9740de3986d2c78e2b79f10e337ae107f1e5e7",
+          "getPage": "45fadf931e28fbd37344de9bfc38ad47f08d53f332d407b99cd4198ee5bac531",
+          "searchDocumentation": "c860aa34a2247daac484a3a2548cb745fefb15cf5f30ab0f456ad892a4435a4a",
+          "sendFeedback": "d18a1913da90138d8192ba176a29c74da5d45d0eaa7508e6ff22e8e31bc8a7e2"
+        }
+      }
+    },
+    "drift_detected": false,
+    "policy": "Preserve first retrieval as run snapshot; do not mix final recheck content."
+  },
+  "source_endpoint": "https://docs.solidatus.com/~gitbook/mcp",
+  "supersedes_run_id": "2026.3-20260731T040139Z-3b644f54",
+  "tool_schema_hashes": {
+    "askQuestion": "297b41beda2808c0703e1de67f9740de3986d2c78e2b79f10e337ae107f1e5e7",
+    "getPage": "45fadf931e28fbd37344de9bfc38ad47f08d53f332d407b99cd4198ee5bac531",
+    "searchDocumentation": "c860aa34a2247daac484a3a2548cb745fefb15cf5f30ab0f456ad892a4435a4a",
+    "sendFeedback": "d18a1913da90138d8192ba176a29c74da5d45d0eaa7508e6ff22e8e31bc8a7e2"
+  },
+  "tool_schemas": [
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Search documentation"
+      },
+      "description": "Search across the documentation to find relevant information, code examples, API references, and guides. Use this tool when you need to answer questions about Solidatus documentation, find specific documentation, understand how features work, or locate implementation details. The search returns contextual content with titles and direct links to the documentation pages.",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      },
+      "name": "searchDocumentation"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Get page content"
+      },
+      "description": "Fetch the full markdown content of a specific documentation page from Solidatus documentation. Use this when you have a page URL and want to read its content. Accepts full URLs (e.g. https://docs.solidatus.com//getting-started). Since `searchDocumentation` returns partial content, use `getPage` to retrieve the complete page when you need more details. The content includes links you can follow to navigate to related pages.",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "properties": {
+          "url": {
+            "description": "The URL of the page to fetch",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "name": "getPage"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Ask a question"
+      },
+      "description": "Ask a natural-language question about Solidatus documentation and get a synthesized answer, with links to the source pages. Prefer this over `searchDocumentation` when you want a direct answer to a question rather than a list of matching pages; use `searchDocumentation`/`getPage` when you need to browse or read full pages yourself.",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "properties": {
+          "goal": {
+            "description": "The broader end goal you are ultimately trying to accomplish (as/on behalf of the user). Used to tailor the answer to be most useful for your goal. Optional.",
+            "type": "string"
+          },
+          "question": {
+            "description": "The natural-language question to answer about Solidatus documentation.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "type": "object"
+      },
+      "name": "askQuestion"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Send feedback"
+      },
+      "description": "Report an issue in the documentation of Solidatus documentation so the team can fix it. Use it whenever, while helping a user, you come across content that is outdated, contradictory, missing information, or otherwise unhelpful. Also use it when the user themselves reports a problem with the docs, even if you could not verify it yourself. If it's your own observation, do a quick sanity check that the issue is real before reporting — no need to exhaustively re-read the page. Send one call per distinct issue and do not report the same issue twice in a conversation. Do not use this tool to confirm that a page is accurate; it is for reporting problems only.",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "description": "Explain the issue in full, as if writing to a documentation maintainer who never saw this conversation. Describe what is wrong, where on the page it appears (quote the exact sentence or section title when possible), what the user was trying to do, and, when relevant, what the correct or expected information should be. Write a few clear, specific sentences in English. Never include personal or confidential information from the conversation. Up to 2048 characters.",
+            "maxLength": 2048,
+            "minLength": 1,
+            "type": "string"
+          },
+          "goal": {
+            "description": "The broader end goal you were ultimately trying to accomplish (as/on behalf of the user) when you hit this issue. Gives the team the context you were working towards. Optional.",
+            "type": "string"
+          },
+          "pageUrl": {
+            "description": "The full URL of the page the issue is about (e.g. https://docs.solidatus.com//getting-started), so the finding is linked to the exact page.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "content",
+          "pageUrl"
+        ],
+        "type": "object"
+      },
+      "name": "sendFeedback"
+    }
+  ],
+  "validation": {
+    "backlinks_match": true,
+    "deterministic_rebuild": true,
+    "errors": [],
+    "hashes_match": true,
+    "ids_unique": true,
+    "inline_markdown_match": true,
+    "jsonl_valid": true,
+    "passed": true,
+    "provenance_match": true,
+    "references_valid": true,
+    "schemas_valid": true,
+    "utf8_valid": true
+  }
+}

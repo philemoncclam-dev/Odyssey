@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/azure-data-factory"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-b86bf3f6117c5e11297de7f6",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/azure-data-factory",
+  "response_content_hash": "b2b31fd278620df2f2937ed4b6f9573b51d94c573ca20dcd6222e777be5b41f0",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Azure Data Factory\n\nThe Solidatus Azure Data Factory Connector application is a Java based tool to connect to a Microsoft Azure Data Factory, and extract its Linked Services, Datasets, Pipelines and Dataflows. It is capable of creating attributes for supported Linked Services and Datasets, along with transitions to represent the Pipelines and Dataflows that depend on them.\n\n### Terminology\n\nEntities in Solidatus exist as a hierarchy of Layers, Objects and Attributes. Entities in Solidatus can have Properties attached to them as well as Transitions going between entities representing different relationships.\n\nIn Azure Data Factory, there are Datasets which belong to a LinkedService. These Datasets are used in Pipeline activities to do actions such as copying data. Datasets can also be used in DataFlows to do more complex data transformation.\n\nSolidatus represents Azure Data Factory objects in layers. Linked Services, Datasets, Dataflows and Pipelines will each have their own layer, with objects that represent an individual Azure DF object. These objects contain attributes to represent finer details, such as column schema in Datasets. Transitions represent two concepts:\n\n* Parentage of objects i.e. a Linked service can parent Datasets; such a relationship is visualized as a transition.\n* Metadata transformation i.e. a Pipeline activity may copy data from one Dataset to another, in which case there would be a transition to represent this lineage.\n\nThese transitions will have properties that allow them to be filtered.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:54.276Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "44405c684678bd1bc005e7217d70e7d95408883e4e63b3291cd5761cc62c129b",
+  "warnings": []
+}

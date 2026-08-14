@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v5-change-summary/5.4.1-release-notes"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-5f779ef84911f41936af1f16",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v5-change-summary/5.4.1-release-notes",
+  "response_content_hash": "5429fe4bd4dccae311882e0cf027405037204dc55753b1464556b59663332507",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus 5.4.1\n\nSolidatus release 5.4.1 introduces early access to Search and Dashboards functionality. It also includes other minor improvements and bug fixes.\n\n## Search\n\nWe have launched a new search feature which enables you to find data elements, data flows and properties using a store front-style filtering.\n\nYou can fine-tune your search results with dynamic filters. These let you find the models you need to understand and navigate your world.\n\n## Dashboards\n\nDashboards show aggregated statistics as graphs and numbers. You decide what matters to you by defining the metrics you are interested in. There is no limit to the number of metrics you can define. Use them to shine a light on pain points and data mess.\n\nThe new analytics capabilities count metadata items and their properties across your entire Solidatus environment (access controls permitting!) and display them in colourful and meaningful charts.\n\nDiscover how your metadata conforms to internal standards and uncover cross-model statistics:\n\n* how many applications there are in each sector of your business\n* the percentage of applications that have been scanned by connectors and are included in the enterprise view\n* how many objects have been scanned by connectors vs manually\n* how many Critical Data Elements you have\n\n## Other Changes\n\n**CSV export preview**\n\nIf you select a **custom** CSV export, you can now see a preview of the output. See [Export to CSV (Spreadsheet)](/models/explore-and-analyse-models/export-model-content/export-to-csv-spreadsheet).\n\n**Show number of unsync’d changes in model list**\n\nIf there are changes in a Fork that have not yet been submitted as a Pull Request, a number is added to the Fork icon next to the Model name in the Model Browser. The number tells you how many Revisions have been made to the Fork since the most recent Pull request was submitted.\n\n**Minor UI changes in approvals workflow**\n\nPreviously, when an Activity was rejected by an Approver, whether or not the Activity state changed to *Changes requested* would depend on whether the Activity had still received the required minimum number of Approvals. This behaviour has been changed - if **any** approver rejects an Activity, the Activity state will always change to *Changes requested*.\n\n**The old Model Browser has been removed**\n\nThe original Solidatus Model Browser was replaced by a new Browser in release 4.5; you were able to switch between the original and the ‘new’ Browser using icons at the top of the Browser screen.\n\nThe original Browser has now been completely removed.\n\n**Filtering search results**\n\nThe search bar in the Model Viewer allows you to search for content in your Model. Solidatus automatically highlights Entities that match your search condition, but does not automatically filter the Model to make those matches really obvious.\n\nThere are two new query language predicates that you can use to create your own filter. See Filtering search results.\n\n**New type of tag for Display Rules**\n\nA new type of tag is available for Display Rules - the [Property Formula tag](/models/explore-and-analyse-models/filters-and-display-rules#property-formula-tags). This is a useful alternative to creating persistent [Formula properties](/models/understand-solidatus-models/understand-properties/property-types#formula-property-type).\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:48.415Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "5fb1840d57d39a06d446cbad2f76ceca24c9ef6cef89e2263b998d845c85ccbd",
+  "warnings": []
+}

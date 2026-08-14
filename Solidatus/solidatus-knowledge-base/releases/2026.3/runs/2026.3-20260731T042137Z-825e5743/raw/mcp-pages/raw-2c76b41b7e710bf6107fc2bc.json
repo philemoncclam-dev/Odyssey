@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/data-domains-ui/search-and-browse-interface"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-2c76b41b7e710bf6107fc2bc",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/data-domains-ui/search-and-browse-interface",
+  "response_content_hash": "a4bb35da5983bd5b779b1a4ce2691679a293a14e0ef6f6d8fb2f838603a4526f",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Search and browse interface\n\nThe Data Domains interface enables you to search or query for an entry from the homepage of a Data Domain. The Domain Spine keeps the main domain areas available as you move through the domain.\n\n## Search from a Domain Homepage\n\n<figure><img src=\"/files/PMiEKO6eft0hrCDc65wQ\" alt=\"\"><figcaption></figcaption></figure>\n\n1. Choose whether to search for Lineage entities only, Reference terms only, or both.\n2. Enter search terms or a query in the search bar and press `ENTER` on your keyboard to retrieve matches.\n3. Open the Query Helper with examples that you can use to build valid queries.\n4. Open the domain Data Map.\n\n## Search results\n\n<figure><img src=\"/files/tCreRiCAVtvNFbYbJs7R\" alt=\"\"><figcaption></figcaption></figure>\n\n1. Click the name of an entity to go to its page in the Data Domain.\n2. View the path of the entity in its original model.\n3. Use Context and Relationship filters to narrow results according to relationships to Reference terms. Relationship filters are terms in Reference models published to the domain; Context filters are terms in context models published to the domain.\n4. View initials of owners of the original model that contains the entity.\n\n## The Domain Spine\n\n<figure><img src=\"/files/ZwBDr1ce6Rr4PCJTn6du\" alt=\"\"><figcaption></figcaption></figure>\n\n1. Use the Domain Spine to move between Home, AI Assistant, Reference Hub, Lineage Models, saved Data Maps, and other domain areas.\n2. Open the area you need without leaving the current domain context.\n3. Use search results, model pages, and entry pages to move from high-level navigation into specific content.\n\n{% hint style=\"success\" %}\nUse the Domain Spine for domain-level navigation.\n\nUse search results and model pages when you want to jump directly to a specific entry.\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:45.199Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "d89e5cfd6b9569c82e0d2c54e77c23833a3ac2423922e45d75b4120dd3539a71",
+  "warnings": []
+}

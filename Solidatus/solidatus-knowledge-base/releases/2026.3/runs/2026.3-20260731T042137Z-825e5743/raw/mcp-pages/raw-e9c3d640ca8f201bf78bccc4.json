@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v4-change-summary/4.4-release-notes"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-e9c3d640ca8f201bf78bccc4",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v4-change-summary/4.4-release-notes",
+  "response_content_hash": "d5ef629690841f12296d2aa4877b3d7bdc37d48c803828464774c9adbc322adc",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus 4.4\n\nWe are pleased to announce the general availability of Solidatus 4.4.\n\nSolidatus 4.4 is an important release, further boosting our collaboration capabilities with a streamlined workflow for managing collaboration among users, facilitating effective development of models. Solidatus also allows any user with visibility of the model to start a discussion about the model, ask a question, or just make a comment.\n\nThe Model Overview now contains an [Activities](/models/share-and-collaborate/activities-and-activity-types/activities) tab, which provides a single location for managing discussions and up-and-coming model changes, such as changes made to an imported model or the parent model for a Fork, or changes submitted via a Task or a Fork.\n\nWe have also simplified the process for cloning a model and enabled the creation of a model fork or clone containing only selected content.\n\nAs always, we encourage all feedback to be shared with us at [support@solidatus.com](mailto:support%40solidatus.com).\n\n***\n\n### Collaboration\n\nThe Solidatus collaboration features support a variety of different scenarios, which are briefly described in the documentation.\n\n* Peer review\n* Contribute to someone else’s model\n* Discuss a model\n* Sharing the editing workload\n* Asking someone to help\n* Handing over ownership\n\nThe new [Activities tab](/models/share-and-collaborate/activities-and-activity-types/activities) on the Model Overview allows a user to see at-a-glance all in-progress updates for a model, and use this to manage workflow.\n\nThe new tab also allows users to comment on and discuss models, even if they only have *Viewer* access:\n\n***\n\n### Forking a Model\n\nA Fork no longer needs to contain all of a model - you can now create a Fork that only contains a selection of entities.\n\n### Cloning a Model\n\nCreating a copy of an existing model has been simplified, with the introduction of the ability to clone all or part of a model. You can still choose to detach a fork from a model, or export and import a Solidatus model.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:40.546Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "bdf1dc29a43e2a5db344085b0059ae564926ba0e3607dd569cedecdf837d8dc6",
+  "warnings": []
+}

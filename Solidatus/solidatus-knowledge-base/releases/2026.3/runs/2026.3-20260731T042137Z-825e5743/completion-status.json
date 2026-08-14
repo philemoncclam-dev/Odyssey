@@ -1,0 +1,33 @@
+{
+  "completed_at": "2026-07-31T04:22:44.828Z",
+  "product_release": "2026.3",
+  "remaining_blockers": [],
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "complete",
+  "terminal_counts": {
+    "branches": {
+      "ambiguous": 0,
+      "checked": 414,
+      "inaccessible": 3,
+      "truncated": 0
+    },
+    "pages": {
+      "complete": 354
+    }
+  },
+  "validation_results": {
+    "backlinks_match": true,
+    "deterministic_rebuild": true,
+    "errors": [],
+    "hashes_match": true,
+    "ids_unique": true,
+    "inline_markdown_match": true,
+    "jsonl_valid": true,
+    "passed": true,
+    "provenance_match": true,
+    "references_valid": true,
+    "schemas_valid": true,
+    "utf8_valid": true
+  }
+}

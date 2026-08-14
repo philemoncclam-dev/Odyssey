@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/snowflakeenrichment/object-dependencies"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-ab76cd6dc53621e6dcb81e62",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/snowflakeenrichment/object-dependencies",
+  "response_content_hash": "928806232e460ffcd85200a2d724822bab8fff4faa3146c8cbc783c2cb2f2c82",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Object Dependencies\n\n[Snowflake Object Dependencies](https://docs.snowflake.com/en/user-guide/object-dependencies) can be extracted using the configuration option:\n\n`--solidatus.jdbc.snowflake-enricher.insert-object-dependencies`\n\nwhen set to true. The permissions required in the pre-requisites are also required for the user account specified in the configuration.\n\nObject dependencies are pulled from the Snowflake instance and will be represented as transitions between Solidatus Objects. They are categorised as table-level lineage. Object dependency lineage as an example can be between Tables and View objects. If the objects are not in the model the transition will not be created. A log statement will be provided for any object dependencies where the source or target objects are not included in the model.\n\nObject dependency transitions can be easily visualised using the display rule in the Snowflake Data Governance module. This will highlight the object dependency lineage compared to lineage from other means.\n\n<figure><img src=\"/files/1dIUMWkxUll3RjESf7c0\" alt=\"\"><figcaption></figcaption></figure>\n\nEach transition will contain the following properties:\n\n* `REFERENCED_DATABASE`\n* `REFERENCED_SCHEMA`\n* `REFERENCED_OBJECT_NAME`\n* `REFERENCED_OBJECT_ID`\n* `REFERENCED_OBJECT_DOMAIN`\n* `REFERENCING_DATABASE`\n* `REFERENCING_SCHEMA`\n* `REFERENCING_OBJECT_NAME`\n* `REFERENCING_OBJECT_ID`\n* `REFERENCING_OBJECT_DOMAIN`\n* `DEPENDENCY_TYPE`\n\n<figure><img src=\"/files/4BYMY84c63ZfItxmzfrV\" alt=\"\" width=\"563\"><figcaption></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:53.016Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "56e468e915a88d279f70faeb9be8957c71f6f36578cd42361718f1be79de3f16",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake-multi-database"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-cd812d80f34007945d65fe90",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake-multi-database",
+  "response_content_hash": "6fce28830d51aff927951a3eb77116e135bd5493dd2b1cfe2a04d14ffde11122",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Snowflake Multi-Database\n\nThe Solidatus Snowflake Multiple Database Connector is a Java based tool to combine and apply column lineage across multiple Snowflake databases. The connector joins together existing Solidatus Snowflake database models into a single model.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:57.702Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "de9001915d7515a1647c62e5cb080ac4e0b9e5f2e139cd0e82b5017c135e3cca",
+  "warnings": []
+}

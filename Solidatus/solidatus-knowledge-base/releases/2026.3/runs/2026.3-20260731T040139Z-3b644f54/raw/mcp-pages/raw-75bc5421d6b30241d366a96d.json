@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/model-structure"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-75bc5421d6b30241d366a96d",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/model-structure",
+  "response_content_hash": "cde1e992ebe38197dd68b1f62ae614183be0bb2c16ec2c0643c0079f2f653f69",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Model Structure\n\nSolidatus PowerBI connector will process and represent the report into 4 layers:\n\n* Source Database\n* Data Model Tables\n* Data Sources\n* Report Layer\n\n### Source Database\n\nThis layer represents the source system where the data is originally from. If the source system is a database the structure of this layer is:\n\n* System type (Type of database, Excel, Documents)\n* Schema\n* Table\n* Column\n\nThese objects are parsed from PowerBI source expressions. See [PowerQuery M](https://github.com/solidatus/Solidatus-docs-gitbook/blob/stable/solidatus-core/connectors/solidatus-connectors/power-bi/broken-reference/README.md) for more details.\n\n#### Auto Mapping\n\nEach column in the source database layer will contain a `SOL.UID` property which can be used with the automapper to combine different connector output models. As an example a model produced by a database connector can be linked to the source database layer of the PowerBI connector model so that full coverage of where data has come from can be shown.\n\n#### Unsupported Datasources\n\nWhen the connector encounters sources that it does not support (yet), it groups them all into an object called \"Unsupported Datasources\" in the source database layer. It attemtps to categorise the sources on a best-effort basis. The columns may contain the following property fields with additional information:\n\n* sourceExpression: Raw source expression string\n* powerQueryFunctions: PowerQuery functions called in the source expression\n\n### Data Model Tables\n\nThis layer represents all the tables PowerBI uses which are linked to the Data Sources layer.\n\nPowerBI measures could contain error if the source table or field that the expression formula references does not exist.\n\nIn the image below, the measure `SUM_OF_SALES` contains an error where the expression references a table 'Sales' which cannot be found.\n\nA display rule called `Semantic Error` can be enabled in Solidatus model to view measures with such error.\n\nUpon enabling the display rule, the error message will be shown in a yellow tag next to the entity\n\n### Data Sources\n\nThis layer represents the generated data models that are used in report visualisation.\n\n### Report Layer\n\nThe final layer which will be named `{REPORT_NAME}.pbit` which contains all PowerBI visualisations categorised by type and contain lineage back through to the datasource's layer.\n\nEach object in this layer represents a section in the report. Each section can contain a number of different visualisations. A visualisation in PowerBI will contain a nested group relating to the type of visualisation e.g. slicer, chart, card. Along with this an attribute summarising the visualisation input data will have a transition to an entity in the `Data Sources` layer.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:55.249Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "32d91e247ebd6ded1538a76b78e135a3af36a9c43dcb7866183872832e2549fc",
+  "warnings": []
+}

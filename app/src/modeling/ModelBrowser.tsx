@@ -7,9 +7,14 @@
 // and only for the two operations that genuinely need them — SOL export and
 // duplicate — both of which go through the store.
 //
-// What is deliberately NOT here: sharing, groups, owners/viewers, trending, and
-// "recently shared with me". Every one is a multi-user concept, and Lineage
-// Studio has no auth and no server. See the scope note in model/browser.ts.
+// What is deliberately NOT here (yet): a sharing UI, groups, trending, and
+// "recently shared with me". The DATA is ready — LineageModel.owner/sharedWith
+// (model/types.ts) round-trip through whichever store is wired (see
+// model/wiring.ts) — but there is no screen to manage a grant, because doing
+// that against localStorage would be building UI for a permission nobody else
+// can ever see enforced. Once `VITE_MODEL_API_URL` points at a real server/
+// deployment, that UI is real work worth doing; it still isn't here. See the
+// scope note in model/browser.ts.
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
@@ -26,7 +31,7 @@ import {
   type SortKey,
 } from '../model/browser'
 import { download } from '../model/exportTabular'
-import { localStore } from '../model/store'
+import { activeStore as localStore } from '../model/wiring'
 import { BarsSpinner } from '../shell/BarsSpinner'
 import { PageHeader } from '../shell/PageHeader'
 import { registerSearchHandler } from '../shell/searchBridge'

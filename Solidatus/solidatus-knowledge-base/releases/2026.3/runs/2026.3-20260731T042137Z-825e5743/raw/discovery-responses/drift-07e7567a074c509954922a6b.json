@@ -1,0 +1,14 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/api-documentation/api-actions"
+  },
+  "purpose": "snapshot-drift-check",
+  "raw_record_id": "drift-07e7567a074c509954922a6b",
+  "response_content_hash": "357fba23b1558d57a3dcf55d1b5395988f173e8b3268c19b018e6f478cb81481",
+  "returned_textual_content": "# Models API reference\n\nThe API for interacting with models is extensive. It includes several endpoints and methods for retrieving, creating, and updating model content and associated metadata.\n\nNote that a comprehensive reference that lists all API endpoints, methods, and schemas can be found on our Swagger site, which can be accessed via the Help section inside Solidatus (you need to be logged in to access this documentation).\n\n<figure><img src=\"/files/mdGDeHgRFzMvQbdcpEHz\" alt=\"\" width=\"178\"><figcaption></figcaption></figure>\n\n#### **In this section:**\n\n* [Solidatus JSON format](/api-documentation/api-actions/solidatus-json-format)\n* [Retrieve model data](/api-documentation/api-actions/get-model-data-via-the-api)\n* [Edit models using commands](/api-documentation/api-actions/api-use-the-api)\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:08.342Z",
+  "tool_name": "getPage"
+}

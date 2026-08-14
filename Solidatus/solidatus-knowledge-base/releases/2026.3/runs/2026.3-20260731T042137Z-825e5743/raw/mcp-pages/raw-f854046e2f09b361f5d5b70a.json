@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/overview/agent-mode"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-f854046e2f09b361f5d5b70a",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/overview/agent-mode",
+  "response_content_hash": "bbcf5f08d7117ce5ba414e863dedc5e1e5aab6a52536a070d203b89d15719b52",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Agent mode\n\nThis mode is used to start the connector as an agent service, which registers itself with Solidatus. You can configure a job interactively, run and monitor the job from the Solidatus connectors dashboard.\n\nSee [Configuration](/connectors/connector-specific-documentation/power-bi/configuration) for more configuration details.\n\nOnce the connector agent has been successfully registered, you can start to [configure a job on Solidatus](/connectors/connector-specific-documentation/power-bi/configuration/configure-job-using-wizard-in-solidatus).\n\n## Example\n\n```bash\njava -jar solidatus-powerbi-java-X.X.XX.jar \\\n--spring.profiles.active=connector \\\n--solidatus.agent.name=\"My PowerBI Connector Agent\" \\\n--solidatus.agent.type=\"PowerBI\" \\\n--solidatus.api.token=\"123abc45de789f0\" \\\n--solidatus.api.host=\"https://xyz-group.solidatus.com\"\n```\n\n> The agent name `solidatus.agent.name` should be unique. Otherwise, the agent registration will fail if another agent exists with the same name.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:51.340Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "2eae430967c8e7b236507e63ee161d2d1e30881cf23abdbd87a2f7b4e582d330",
+  "warnings": []
+}

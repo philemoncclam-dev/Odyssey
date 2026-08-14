@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/snowflakedatagovernanceusage/policies"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-3695b7bb2ffcb8230587d398",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/snowflakedatagovernanceusage/policies",
+  "response_content_hash": "6012ffcb09a0c0f5a9ff4bc636c6d7e580516c2e63def282e5dbbedb8162bf45",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Snowflake Policies\n\nThere are two types of policies Snowflake currently support; Row-Access Policies and Masking Policies. For the Snowflake Data Governance connector these policies are grouped and represented as Solidatus Objects in the `Policy` layer.\n\nEach policy will contain relevant Snowflake metadata including:\n\n* `POLICY_BODY`: Represents the policy logic\n* `POLICY_OWNER`: Who created the policy\n* `POLICY_SIGNATURE`: Description of the policy arguments and return values\n* And more...\n\nOnce a policy has been created it can be applied to a Snowflake column using an `ALTER TABLE` statement.\n\n## Row-Access Policies\n\n### Example SQL\n\n```sql\ncreate\nor\nreplace\nrow access policy REG_A_DATES_ACCESS as (val date) returns boolean ->\ncase\n    when current_role() in ('ACCOUNTADMIN') THEN true\n    else false\nend;\n```\n\n### Solidatus representation\n\nThe row access policy is represented as an attribute in the `ROW_ACCESS_POLICIES` object.\n\n<figure><img src=\"/files/extwKNnZtMwE3lEQbDjU\" alt=\"\"><figcaption></figcaption></figure>\n\n## Masking Policies\n\n### Example SQL\n\n```sql\ncreate\nor\nreplace\nmasking policy STATE_MASK as (val string) returns string ->\ncase\n    when current_role() in ('ACCOUNTADMIN') THEN val\n    else '***'\nend;\n```\n\n### Solidatus representation\n\nThe row access policy is represented as an attribute in the `MASKING_POLICY` object.\n\n<figure><img src=\"/files/EdamSGs8ImjbLFZiG9Zf\" alt=\"\"><figcaption></figcaption></figure>\n\n## Enriched Lineage Model\n\nOnce the Governance reference model has been built, running the Snowflake connector enriched with the reference model enables you to display policies and tags directly over the Snowflake database structure.\n\nPolicies and tags are represented as Solidatus Relationships which allows easy linking to the original Governance reference model.\n\nAlong with the linked relationships, a number of pre-defined display rules can be enabled for easy visualisation as shown below. For policies this allows for fast identification of affected downstream columns for the respective policy or tag.\n\n### Solidatus representation\n\n<figure><img src=\"/files/Mk86gFBXLh1Whpxeg1iq\" alt=\"\"><figcaption></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:52.608Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "a43b39e7fe7fd70a83416ca1a6f147f1b4a8574126d6ee81193959bd2d923157",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/overview"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-7b53091338055171c33a4196",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/overview",
+  "response_content_hash": "850f1fecfdcb6ed0df29761e9a173bc16904fcfe3fe7d25d88a704c35a4bbff9",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Overview\n\n## **Supported Features Overview**\n\n| **Feature** | **Included** | **Coverage**                                                                                                                                                                                                           |\n| :---------: | :----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n|  Structure  |       ✓      | Database structure                                                                                                                                                                                                     |\n|   Lineage   |       ✓      | SQL Parsing from scripts, stored procedures and data dictionary metadata to visualise the flow of data between database objects at the column level. Implementation and coverage of SQL parsing is database dependent. |\n\n## **Database Features**\n\nThe following table outlines the key database features that the Solidatus connector extracts and represents within the Solidatus model. For comprehensive details on each feature, refer to the linked pages.\n\n|   **Database concept**  | **Solidatus model representation** |                                         **Link to feature page**                                        |\n| :---------------------: | :--------------------------------: | :-----------------------------------------------------------------------------------------------------: |\n|         Schemas         |               Layers               |  [Schema Extraction](/connectors/connector-specific-documentation/snowflake/metadata-extraction#schema) |\n|          Tables         |               Objects              |  [Table Extraction](/connectors/connector-specific-documentation/snowflake/metadata-extraction#tables)  |\n|          Views          |               Objects              |   [View Extraction](/connectors/connector-specific-documentation/snowflake/metadata-extraction#views)   |\n|         Columns         |             Attributes             | [Column Extraction](/connectors/connector-specific-documentation/snowflake/metadata-extraction#columns) |\n|        Data types       |             Properties             | [Column Extraction](/connectors/connector-specific-documentation/snowflake/metadata-extraction#columns) |\n| Primary key constraints |             Properties             | [Column Extraction](/connectors/connector-specific-documentation/snowflake/metadata-extraction#columns) |\n| Foreign key constraints |             Transitions            | [Column Extraction](/connectors/connector-specific-documentation/snowflake/metadata-extraction#columns) |\n\n## **Database Specific Functionality**\n\nThe JDBC Connectors application is able to generically support the above concepts as it leverages the JDBC API through database specific drivers. However, there is more specific functionality for each database that needs to be handled more distinctly. The [linked page](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific) highlights additional supported features for each database if present\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:42.033Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "55089f95b8a93a1039ce3235d9a7382ebc0c150a50ec64ebee7046e9c8a484bf",
+  "warnings": []
+}

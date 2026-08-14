@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-8/features"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-fd215b5274deb6eda25205cd",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-8/features",
+  "response_content_hash": "d64b840b589e421136ceed2029d4aac017d8d01265bc23255fe320242a0240df",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Features\n\n## External tables\n\nOn AWS, a Redshift serverless database is able to connect to an S3 instance via Redshift Spectrum. Files representing rows of data and their structure can be represented in Redshift as an external table. See [here](https://docs.aws.amazon.com/redshift/latest/dg/c-getting-started-using-spectrum.html) for more information.\n\n<img src=\"/files/wZsSPNY18HlhNMrHg9RW\" alt=\"External Table represented in Solidatus\" width=\"516\">\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:01.313Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "3130edd77805aee942bc6096957e4faf0f033f0610cfcbf30fe4b71f31c2e9cd",
+  "warnings": []
+}

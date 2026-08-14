@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/share-and-collaborate/shared-authorship"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-e8ab104aba9eae257c9fa361",
+  "requested_url": "https://docs.solidatus.com/models/share-and-collaborate/shared-authorship",
+  "response_content_hash": "0b4ac30500321561408887733debf7a4c662784a8dc58f7f5f94c7af15f9eed0",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Simultaneous model editing\n\nSimultaneous editing features prevent conflicts when changes are made to a model that is open in multiple browser sessions. This can occur when:\n\n* Multiple users edit the same model simultaneously in separate browser sessions.\n* A single user opens and edits the same model in multiple browser tabs.\n\n## How simultaneous editing works\n\nSimultaneous editing occurs when multiple users have edit permissions on the same model (such as multiple **Owners** or **Authors**), and they work on a model at the same time in separate browser sessions. Simultaneous editing can also occur when a single editor has a model open in several browser tabs.\n\nWhen edits are made to a model that is open in several browser sessions, changes are not visible outside the session until they are saved. If changes are saved in any open session, other sessions **must merge them** before they can save their own changes.\n\n## Merging changes from other open sessions\n\nLet's look at a simple example of simultaneous editing:\n\n* Author A and Author B are both editing a model.\n* Author A saves their changes, creating a new [revision](/models/build-and-edit-models/version-control) of the model.\n* Author B is alerted that there are updates to the model that must be merged.\n* Author B must fetch and merge Author A's changes in Diff mode before they can save their own draft.\n\n## Fetch and merge changes\n\nWhen someone else saves changes while you're editing, a **FETCH MODEL CHANGES** notification appears below the navigation bar.\n\n<figure><img src=\"/files/oModRYakqs5y83xdhwzX\" alt=\"\"><figcaption><p>Someone else has saved changes to this model</p></figcaption></figure>\n\n**To merge changes:**\n\n1. Click **FETCH MODEL CHANGES**\n2. Review the other editor’s changes in Diff mode using the toolbar options provided.\n\n<figure><img src=\"/files/c4OaoWhEXjEe7jo7ubTp\" alt=\"\" width=\"156\"><figcaption></figcaption></figure>\n\n3. Click **Save** to merge the changes into your draft\n\nYou ***must*** merge changes from the latest revision before you can save your draft.\n\nIf you click **Cancel merge** when reviewing changes in Diff mode, you return to your draft in the same state as when you entered Diff mode. The **Save** button stays disabled until you fetch and merge the latest revision.\n\nAfter you’ve merged changes from another session, you can modify what was changed (including reverting the changes, if needed) and save your modifications as a new revision.\n\n> **Note:** If you're working with an old draft and you haven't fetched and merged model changes in a while, you may need to fetch many changes saved days or weeks earlier. You may also need to fetch and merge changes made across several revisions if you've saved multiple drafts consecutively without fetching updates in between.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:46.527Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "83c7143d12e81c8883de3a783765077f0c74d735632563e5e60bb736a6f9c4b1",
+  "warnings": []
+}

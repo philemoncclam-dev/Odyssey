@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/explore-data-domains"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-74d7b4e7fa2ab53b081ba986",
+  "requested_url": "https://docs.solidatus.com/data-domains/explore-data-domains",
+  "response_content_hash": "6656a92bb159375bcf1c017ac95916199dd2e3679d842e0978eed1c341f1c35e",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Explore Data Domains\n\n{% hint style=\"success\" %}\nWelcome Data Domain Explorers!\n{% endhint %}\n\nThe purpose of Data Domains is to make critical information about data in your organisation discoverable and understandable by a broad business audience.\n\nIf you are a Domain Explorer, it is likely that someone in your organisation has built and shared one or several Data Domains with you. These domains contain metadata and data lineage that you can discover and analyse using the capabilities built into Data Domains.\n\nThe pages in this section are meant to introduce these capabilities and to provide an exhaustive reference to help you achieve your analytical goals. They cover all aspects of searching and browsing your Data Domains, examining something in a domain, and exploring and interpreting a Data Map.\n\n<figure><img src=\"/files/6fECwxFYSirGeUrBwJeh\" alt=\"\"><figcaption><p>Search or Browse a Data Domain to find the information you need</p></figcaption></figure>\n\nFor a more general understanding of what Data Maps are and how they work, visit [Data Maps](/data-domains/data-maps).\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:53.466Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "9c476a888004070eb35e42bd5a97f51e7cc4d9cacdf77a568a7a04e6885a51bd",
+  "warnings": []
+}

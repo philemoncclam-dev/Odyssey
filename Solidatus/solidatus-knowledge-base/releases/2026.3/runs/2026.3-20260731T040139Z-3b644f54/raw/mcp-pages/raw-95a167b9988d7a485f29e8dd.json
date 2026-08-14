@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-databricks"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-95a167b9988d7a485f29e8dd",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-databricks",
+  "response_content_hash": "7deb91183d131392b06c8dc86112cbe1b2fa0fdb18e2ee619d82d01e14c02d15",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Databricks\n\nThe Solidatus Databricks Connector enables automated extraction and mapping of metadata, lineage, and job information from Databricks workspaces into Solidatus models. It connects to Databricks using secure API credentials, retrieves catalogs, schemas, tables, and optionally Databricks jobs, and builds a comprehensive lineage model that can be visualized and analyzed in Solidatus.\n\nThis connector is designed to help organizations understand, govern, and visualize their Databricks data landscape within Solidatus, supporting regulatory, operational, and analytical use cases.\n\n## **Supported Features Overview**\n\n| **Feature** | **Included** | **Coverage**                                                                                              |\n| :---------: | :----------: | --------------------------------------------------------------------------------------------------------- |\n|  Structure  |       ✓      | Includes catalogs, schemas, tables, and columns ingested using Databricks Unity Catalog                   |\n|   Lineage   |       ✓      | Data lineage extracted from Databricks Unity Catalog to visualise the flow of data between table columns. |\n\n## **Databricks Features**\n\nThe following table outlines the key Databricks features that the Solidatus connector extracts and represents within the Solidatus model. For comprehensive details on each feature, refer to the linked pages.\n\n| **Databricks concept** | **Solidatus model representation** |                                               **Link to feature page**                                              |\n| :--------------------: | :--------------------------------: | :-----------------------------------------------------------------------------------------------------------------: |\n|   Databricks Catalogs  |               Layers               |   [Catalog Layer](/connectors/connector-specific-documentation/solidatus-databricks/modelstructure#catalog-layer)   |\n|         Schemas        |               Objects              |   [Catalog Layer](/connectors/connector-specific-documentation/solidatus-databricks/modelstructure#catalog-layer)   |\n|         Tables         |               Groups               |   [Catalog Layer](/connectors/connector-specific-documentation/solidatus-databricks/modelstructure#catalog-layer)   |\n|         Columns        |             Attributes             |   [Catalog Layer](/connectors/connector-specific-documentation/solidatus-databricks/modelstructure#catalog-layer)   |\n|     Databricks Jobs    |               Objects              |  [Jobs Layer](/connectors/connector-specific-documentation/solidatus-databricks/modelstructure#jobs-layer-optional) |\n|   Databricks Dataflow  |             Transitions            | [Transitions](/connectors/connector-specific-documentation/solidatus-databricks/modelstructure#transitions-lineage) |\n\n## **Databricks Specific Functionality**\n\nThe Databricks Connector supports additional optional functionality beyond core metadata extraction. The [capabilities page](/connectors/connector-specific-documentation/solidatus-databricks/capabilities) highlights the full range of supported features, including job integration, model publishing, and configuration options.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:55.706Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "faab10c1e2f7731727ee0b06ccd9a6c6250c957a16c97ceaae283fb31bb1f1ce",
+  "warnings": []
+}

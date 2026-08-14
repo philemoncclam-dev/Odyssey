@@ -43,7 +43,7 @@ import {
   type PortOptions,
 } from './toModel'
 import { fetchSchemaBaseline } from './schemaBaseline'
-import { localStore } from '../model/store'
+import { activeStore as localStore } from '../model/wiring'
 
 type FlowKind = 'notebook' | 'pipeline' | 'table'
 /**

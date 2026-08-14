@@ -1,0 +1,59 @@
+{
+  "$comment": "Optional properties may be absent. Nullable properties explicitly include null. All timestamps are ISO-8601 UTC. Hash fields use SHA-256 over UTF-8 bytes unless their hash_input property states otherwise.",
+  "$id": "https://local.solidatus.example/schemas/link.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "kind": {
+      "enum": [
+        "internal-page",
+        "internal-anchor",
+        "external",
+        "image",
+        "mailto",
+        "broken",
+        "unknown"
+      ]
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "scope": {
+      "enum": [
+        "corpus",
+        "solidatus-related",
+        "unrelated",
+        "unknown"
+      ]
+    },
+    "status": {
+      "enum": [
+        "included",
+        "out-of-scope",
+        "candidate-review",
+        "unresolved",
+        "broken",
+        "ignored-image",
+        "not-dereferenced"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "link_id",
+    "source_release_page_id",
+    "kind",
+    "scope",
+    "status"
+  ],
+  "schema_version": "1.0",
+  "title": "link",
+  "type": "object",
+  "x-controlled-vocabularies": "All status, kind, scope, mode, and change properties use schema enums",
+  "x-hash-contract": {
+    "algorithm": "SHA-256",
+    "default_input": "UTF-8 bytes of normalized field content"
+  },
+  "x-null-semantics": "null means source value unknown or inapplicable; absence means optional field not emitted"
+}

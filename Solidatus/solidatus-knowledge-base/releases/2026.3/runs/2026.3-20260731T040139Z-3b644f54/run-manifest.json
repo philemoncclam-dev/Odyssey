@@ -1,0 +1,33 @@
+{
+  "chunking_version": "1.0",
+  "dependencies": {
+    "external_packages": [],
+    "python": "3.14.5"
+  },
+  "external_link_policy": "classify-only-v1",
+  "extraction_ended_at": "2026-07-31T04:20:00.733Z",
+  "extraction_started_at": "2026-07-31T04:01:39.440Z",
+  "failure": "Invalid IPv6 URL",
+  "implementation_source_hash": "15ea3f22c781f780cb1164aee1eeb84199bdad6367628f1cdded96372b271060",
+  "implementation_version": "solidatus-extractor-1.0.0",
+  "known_limitations": [
+    "MCP does not expose an authoritative table of contents"
+  ],
+  "near_duplicate_algorithm": "near-duplicate-v1",
+  "normalization_version": "1.0",
+  "parser_version": "solidatus-block-markdown-1.0.0",
+  "product_release": "2026.3",
+  "resume_history": [
+    {
+      "reason": "command runner terminated after MCP smoke retrieval",
+      "resumed_at": "2026-07-31T04:02:38.596Z",
+      "verified_raw_artifacts": 3
+    }
+  ],
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "run_status": "failed",
+  "schema_version": "1.0",
+  "scope": "unversioned current guide plus current release-notes navigation",
+  "section_match_algorithm": "section-match-v1",
+  "source_endpoint": "https://docs.solidatus.com/~gitbook/mcp"
+}

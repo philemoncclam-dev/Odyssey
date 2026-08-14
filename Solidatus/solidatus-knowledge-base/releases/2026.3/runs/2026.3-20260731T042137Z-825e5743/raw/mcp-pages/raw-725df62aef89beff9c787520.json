@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-webfocus/requirements"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-725df62aef89beff9c787520",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-webfocus/requirements",
+  "response_content_hash": "5aaf3efb061ec7128f3a29507dce12eae56ec9ec3b6dbbd742566723b03237ad",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Requirements\n\n## Input files\n\nThe connector is a file-based connector only. It does not connect to WebFOCUS directly. Instead, it relies on input files provided to it.\n\nFiles must be available on the connector-accessible file-system. Upload of files is not supported. For help on making files available to the connector, please see the [Setup Page](/connectors/connector-specific-documentation/solidatus-webfocus/setup#uploading-source-files).\n\n### WebFOCUS trace files\n\nThe connector requires WebFOCUS trace files (`.trc`) as input to extract lineage. These files are generated during WebFOCUS report (`.fex`) execution, and represent the actual commands executed by WebFOCUS. Generating trace files is explained in detail in the [Setup Page](/connectors/connector-specific-documentation/solidatus-webfocus/setup#generating-webfocus-trace-files).\n\n#### Execution timestamps\n\nIf multiple trace files are provided, the connector must sort them into the order they were executed in, so that it can correctly resolve interdependencies.\n\nIf this is the case, each trace file needs to contain a statement setting a WebFOCUS variable `SOLIDATUS_EXECUTION_TIMESTAMP` to a timestamp with millisecond precision in the format `YYYYMMDDHHMMSSsss`. E.g. `SET SOLIDATUS_EXECUTION_TIMESTAMP = 20251218104510189;`.\n\nIf there are multiple trace files with the same execution timestamp, it is assumed that they were executed in parallel, and there are no dependencies between them. In this case, the connector can process these files in any order.\n\n#### Report names\n\nThe connector also supports extracting report names from the trace files, to include as properties in the generated model. This is not required, but can be helpful for users to explore lineage by report name in Solidatus.\n\nBy default, the connector will use the file name of the trace file as the report name.\n\nAlternatively, if the trace file contains a statement setting a WebFOCUS variable `SOLIDATUS_REPORT_NAME` to a string value, the connector will use that value as the report name instead of the file name. E.g. `SET SOLIDATUS_REPORT_NAME = 'My Report 1';`.\n\n### WebFOCUS metadata files\n\nThe connector also requires all master (`.mas`) and access (`.acx`) files that are relevant to the executed WebFOCUS reports. These files contain metadata about the logical and physical data sources used by WebFOCUS, and are necessary for the connector to correctly infer lineage.\n\n## Solidatus\n\nFor both Agent mode and Standalone mode, a Solidatus instance running Solidatus 5.1 or greater is required.\n\n* For Agent mode, a Solidatus API token is required to register the agent in Solidatus.\n* For Standalone mode, a Solidatus API token is required to create and update models in Solidatus.\n\n## Network\n\nAn HTTP(S) TCP network connectivity is required between the connector and the Solidatus instance server.\n\n## Environment\n\nThe connector is built using Java, and available as a `.jar` file or a containerized image.\n\nWe recommend 2 CPU & 8GB of RAM for the connector, but the requirements will depend on the size of the input files and the size of the generated model. The connector is expected to run on a single machine, and does not require distributed computing.\n\n### Java `.jar` file\n\n*Recommended for Standalone mode, but can be used for Agent mode if desired.*\n\nTo run the connector from the `.jar` file, a Java Runtime Environment (JRE) is required. The connector was built using Java 17, and is expected to be run on Java 17.\n\nKnowledge in running Java applications from the command line is required to run the connector from the `.jar` file.\n\nIf using Agent mode, knowledge in configuring long-running applications/services under the selected operating system is required to run the connector.\n\n### Containerized image\n\n*Recommended for Agent mode, but can be used for Standalone mode if desired.*\n\nThe containerized image comes with Java and all other dependencies pre-installed, so no additional software is required to run the connector from the containerized image.\n\nTo run the connector from the containerized image, a containerization platform is required. The connector was built and tested using Docker, but should be compatible with other containerization platforms that support Docker images.\n\nKnowledge in running containerized applications is required to run the connector from the containerized image.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:49.241Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "d5b1c0c337c3f705e3bf910d5b198b3559c36f0b83bcd14eca9209cda9a9453f",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/mongodb"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-3ad7dfbf33f92845c7613ce5",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/mongodb",
+  "response_content_hash": "de3d5a06c375878eebf861d0eb090290a189c2f1f61d04cdc422aa5e1e75e79f",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# MongoDB\n\nThe Solidatus MongoDB Connector application is a Java based tool that connects to a MongoDB instance to extract collection and database metadata to create a Solidatus model which displays databases as layers, collections as objects and the structure of the JSON document under the collection object.\n\n## Usage\n\nCurrently, the MongoDB connector only runs in Standalone mode. Standalone mode runs a singular instance of the Connector with supplied config and publishes the model.\n\nConfiguration can be set in either a `{}.yml` file as presented in `config-template.yml`. Alternatively the configuration can be passed in as command line parameters to the MongoDB Connector JAR file. If using both methods the command line arguments will overwrite the configuration `.yml` file.\n\n### Standalone Mode\n\n**Description**\n\nRunning the MongoDB Connector in Standalone mode will run one execution of the Connector with the specified configuration options and then stop. The output model will be named and published to the host Solidatus site according to the configuration options provided as command line parameters. Any command line arguments not passed will be set to default arguments (Null or empty).\n\n**Example**\n\nCommand line execution example for MongoDB:\n\n```bash\njava -jar target/solidatus-mongodb-0.0.2-SNAPSHOT.jar \\\n--spring.profiles.active=\"standalone\" \\\n--spring.data.mongodb.uri=mongodb://username:password@hostname:port/dbname[?authSource=admin] \\\n--solidatus.mongodb.databases=local,admin,mydb \\\n--solidatus.api.host={$SOLIDATUS_HOST}\\\n--solidatus.api.token={$SOLIDATUS_TOKEN} \\\n--solidatus.api.model-name=\"MongoDB Model\"\n```\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:56.275Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "a25bd89e4ffe4df5391eed398a4aef096191f9d026cabf16ad63cbc966cd12c6",
+  "warnings": []
+}

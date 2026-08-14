@@ -1,0 +1,15 @@
+{
+  "releases": [
+    {
+      "authoritative_run_id": "2026.3-20260731T042137Z-825e5743",
+      "authoritative_run_path": "releases/2026.3/authoritative-run.json",
+      "available_delta_pairs": [],
+      "product_release": "2026.3",
+      "superseded_run_ids": [
+        "2026.3-20260731T040139Z-3b644f54"
+      ]
+    }
+  ],
+  "schema_version": "1.0",
+  "updated_at": "2026-07-31T04:22:44.847Z"
+}

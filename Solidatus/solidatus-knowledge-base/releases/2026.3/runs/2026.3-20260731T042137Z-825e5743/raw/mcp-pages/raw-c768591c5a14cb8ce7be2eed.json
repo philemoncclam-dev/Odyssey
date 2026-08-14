@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-2"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-c768591c5a14cb8ce7be2eed",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-2",
+  "response_content_hash": "2984f2568637d6d44f7f0eb7e50cbd4ef752beab9a2e5498e6b4b334584ca4af",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# DB2\n\nDB2 is part of a set of database products built by IBM. The JDBC connector can connect to a DB2 database to pull structure metadata. To leverage these capabilities, `solidatus.jdbc.driver` must be set to `db2`.\n\n## **Supported Features Overview**\n\n| **Feature** | **Included** | **Coverage**       |\n| :---------: | :----------: | ------------------ |\n|  Structure  |       ✓      | Database structure |\n\n## **Database Features**\n\nThe following table outlines the key database features that the Solidatus connector extracts and represents within the Solidatus model. For comprehensive details on each feature, refer to the linked pages.\n\n|   **Database concept**  | **Solidatus model representation** |                                                **Link to feature page**                                                |\n| :---------------------: | :--------------------------------: | :--------------------------------------------------------------------------------------------------------------------: |\n|         Schemas         |               Layers               |  [Schema Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#schema) |\n|          Tables         |               Objects              |  [Table Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#tables)  |\n|          Views          |               Objects              |   [View Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#views)   |\n|         Columns         |             Attributes             | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n|        Data types       |             Properties             | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n| Primary key constraints |             Properties             | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n| Foreign key constraints |             Transitions            | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:53.743Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "43c0adadc0a79d50bdda1f7c93ef969dd3a34202b2f18473a3adac4ce495b4cb",
+  "warnings": []
+}

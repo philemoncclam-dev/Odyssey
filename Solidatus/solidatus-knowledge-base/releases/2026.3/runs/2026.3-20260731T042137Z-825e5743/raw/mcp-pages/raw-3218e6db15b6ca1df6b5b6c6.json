@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-3218e6db15b6ca1df6b5b6c6",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi",
+  "response_content_hash": "0e8073bec9b1bd6229fdc374da44413c433c08753256a8d742e26d1fdbe14f6f",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Power BI\n\nSolidatus PowerBI connector extracts information about data sources and report sections that are used in a Microsoft PowerBI PBIT (Power BI Template) file to a Solidatus model.\n\nThe data sources are connected to report items via transitions indicating the application of said data in the report.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:56.422Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "9accbab46fa416b778dee2d7185a1fa784c889a9b33996698096568e949fe09c",
+  "warnings": []
+}

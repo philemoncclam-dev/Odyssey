@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/ssis/overview"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-410dc56d02659f4d4a19ecb8",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/ssis/overview",
+  "response_content_hash": "4fccfdac070e52c783a7cf64ad1478874404daf8ead8f65054a97a678e1097bd",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Overview\n\n## Usage\n\nThere are two ways to run the Solidatus SSIS connector: Agent mode and Standalone mode.\n\nAgent mode sets up a connector agent to connect to a hosted Solidatus instance that enables a user to create, configure and run jobs from Solidatus UI. The connector agent will listen for job events from Solidatus and execute the jobs. See [Agent Mode](https://github.com/solidatus/Solidatus-docs-gitbook/blob/stable/solidatus-core/connectors/solidatus-connectors/ssis/overview/broken-reference/README.md) for more details.\n\nStandalone mode runs single execution of a connector job with a supplied config and publishes the model to Solidatus. The connector will terminate when the job execution is completed. See [Standalone Mode](https://github.com/solidatus/Solidatus-docs-gitbook/blob/stable/solidatus-core/connectors/solidatus-connectors/ssis/overview/broken-reference/README.md) for more details.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:42.033Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "1b9b59dc89dd091d3a0434f7c56a6d52145474b01daa7650348ebceb2ad9c773",
+  "warnings": []
+}

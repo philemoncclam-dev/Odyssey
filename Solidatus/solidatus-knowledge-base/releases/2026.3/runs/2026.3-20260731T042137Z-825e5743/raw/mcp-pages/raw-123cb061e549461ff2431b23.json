@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v5-change-summary/5.1-release-notes"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-123cb061e549461ff2431b23",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v5-change-summary/5.1-release-notes",
+  "response_content_hash": "f58943ad347f7d99b9594f44fe0e2e818eac07f21e223dc23b29f52b53f6b898",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus 5.1\n\nThis is a maintenance update with some minor improvements.\n\n### Feature Improvement\n\n**Visibility of Tasks on the Groups overview**\n\nAllows you to see the [Tasks](/models/share-and-collaborate/activities-and-activity-types/tasks) shared with the group.\n\n**Additional filters for My Activities**\n\nAllows you to focus on [Activities](/models/share-and-collaborate/activities-and-activity-types/activities) within Models that have been shared with you or with Groups you’re a member of, and on Activities in Models that you own.\n\n***\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:47.904Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "ca89b128f75c2ef0ef560fd646404346ca578f73aac36827127320c0e2850a6c",
+  "warnings": []
+}

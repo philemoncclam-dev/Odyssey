@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v5-change-summary/5.3-release-notes"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-d4f77f18c74ea46805886fef",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v5-change-summary/5.3-release-notes",
+  "response_content_hash": "6198c20c978f00c275f0c52d3a0627884ba792f492875102f7afc7c3fb3e9b6d",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus 5.3\n\nThis is a maintenance update with some minor improvements.\n\n## Model Viewer\n\n* New context menu option to select all descendants of an Entity\n\n***\n\n* In the Property Manager, imported properties are shown separately from local properties of the same name\n\n***\n\n* Now two options for saving a view, allowing you to update basic information about the View (such as the name) without changing the View’s configuration settings\n\n***\n\n## Importing and exporting\n\n* CSV export options now have explanatory tooltips\n\n***\n\n* Change to what happens when attempting to import a Model into a restricted area in a Task Model\n\n***\n\n* Model import dialogue now shows Models that have already been imported even if the current user doesn’t have access to them\n\n***\n\n## Model Overview\n\n* New setting to automatically create Pull Requests when saving a Fork\n\n***\n\n## Various other minor enhancements\n\nIncluding:\n\n* An Admin user can access a list of Service Accounts\n* Can no longer save a Model if a property name includes one or more new lines (can happen if the property was imported from an Excel cell that included a new line character)\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:48.355Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "6bc87bed76f5528ba3cdb1b1d00a8b9453e9c2ccb04095af45625e71e457e252",
+  "warnings": []
+}

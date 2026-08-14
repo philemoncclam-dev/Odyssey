@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/share-and-collaborate/activities-and-activity-types/questions-comments-discussions-etc."
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-e4fdef3984e280d5ffe8945b",
+  "requested_url": "https://docs.solidatus.com/models/share-and-collaborate/activities-and-activity-types/questions-comments-discussions-etc.",
+  "response_content_hash": "a56e14b2f0c1e0459e8951f1a894b17dfd5f99b0d852ad37149be06d49659e78",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Questions, comments, discussions, etc.\n\nYou can create a simple discussion thread that has no impact on the model content, tagged as a q*uestion*, d*iscussion*, or i*ssue*.\n\nThese consist of a series of comments from whomever wishes to join in. Only two discussion thread statuses are possible: o*pen* and c*losed*. If a thread is open, anyone can add a comment; if it is closed,\n\nIf you click on the `New discussion` button on the Activities tab, a new thread is created, tagged with d*iscussion*. If you click on the drop-down next to the button, you can create a thread that is tagged as a q*uestion*, d*iscussion*, or i*ssue*. Tags can be changed at any time by any user with at least Viewer access to the model.\n\n<figure><img src=\"/files/YGzLiYYGht305JxXhs8m\" alt=\"\" width=\"470\"><figcaption><p>Choose from three types of basic Activity</p></figcaption></figure>\n\nFor example, here is a simple discussion about a model that could be imported - any user who has access to the Model can contribute. A comment can be edited by the author of the comment.\n\n<figure><img src=\"/files/kIkfs5vpRNfckFQOOD98\" alt=\"\" width=\"563\"><figcaption><p>Activity Comments</p></figcaption></figure>\n\nIn this simple Activity the possible actions are limited to editing tags, adding a comment, and closing the discussion. If required, it could be reopened at a future date if a user has more to say.\n\n## List Discussions, etc.\n\nThe **Activities** tab on the [Model Overview](/the-user-interface/models-ui/model-overview) provides access to a list of activities for a model, select the **Basic** type of activity in the filter dropdown if you want to show only discussions.\n\n## Close a Discussion, etc.\n\nA discussion can be closed at any time, using the Activity page - click on the `Close activity` button at the foot of the screen. The discussion can be reopened at any time by any user with access to the model.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:59.284Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "c68f831a313c8353ce1209e0e015918a9b76ef7c3e3ba871eea0d3dd3c80ea6c",
+  "warnings": []
+}

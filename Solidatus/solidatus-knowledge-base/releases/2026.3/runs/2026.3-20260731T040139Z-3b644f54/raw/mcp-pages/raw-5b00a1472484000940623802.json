@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/models-main"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-5b00a1472484000940623802",
+  "requested_url": "https://docs.solidatus.com/models/models-main",
+  "response_content_hash": "4acb1eb408e0692395fc248b3c8439af708c0af9d5e8a50270639303073b02c2",
+  "retrieval_phase": "smoke-test",
+  "returned_textual_content": "# Models main\n\nThis section contains comprehensive information about Solidatus models, from modeling concepts and terminology to all functionality involved in building and editing models, exploring and analysing models, version control, sharing models, and collaborating with others on model work.\n\n{% hint style=\"success\" %}\nFor more technical information on building models with the help of Connectors or the API, see the [Connectors](/connectors/connectors-overview) page and [The Solidatus API](https://github.com/solidatus/Solidatus-docs-gitbook/blob/stable/solidatus-core/models/broken-reference/README.md) sections.\n{% endhint %}\n\nAt the most basic level, a Solidatus model is an explorable map of connections between hierarchically nested model entities. Models help you visualise and analyse complex data infrastructure, but they also store information and can be used to query, document, and assess the target systems and reference content that a model represents.\n\n{% hint style=\"success\" %}\nWhile Solidatus models can be used to represent nearly anything, they are designed specifically for capturing **data lineage** and for documenting technical lineage in relation to semantic frameworks like governance structures, business glossaries, external regulations, and internal policies.\n{% endhint %}\n\nModels serve as the foundation of the Solidatus platform, powering enterprise-wide Data Maps and Data Domains that enable you to visualise, search, browse, query, and quantitatively analyze across models. All information in Data Domains originates from models published to those domains.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:01:40.386Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "96fb69ce39b8fee7643ba1d3a651ef82fe8e52f4e514657478f85510d87e2057",
+  "warnings": []
+}

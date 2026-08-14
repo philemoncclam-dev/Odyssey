@@ -1,0 +1,71 @@
+# Metadata extraction
+
+By default, the JDBC Connector is able to extract the structure of the required database and represent it in the Solidatus model. Once the JDBC URL, driver, username, and password are provided the Connector is able to retrieve metadata based on the permissions available to that user.
+
+Extracted tables of schema HR
+
+## Schema
+
+In the resulting Solidatus model, schemas are represented as *Solidatus Layers*. Each layer will then contain the contained tables and other objects. Schemas are extracted from the database and can be specified using the **Filtering** options below.
+
+## Tables
+
+Tables and other `TABLE_TYPE` objects are stored in the Schema layer as *Solidatus Objects*. These objects contain the columns of the table as attributes. The `TABLE_TYPE` can be used to filter the objects extracted into the model. For example, if you only want to extract tables and not views, you can specify `TABLE` as the `TABLE_TYPE`.
+
+Other table types (depending on the database source system) can include:
+
+* FOREIGN TABLE
+* TEMPORARY TABLE
+* VIEW
+* MATERIALIZED VIEW
+* etc.
+
+Table objects can be filtered using the **Filtering** options below. Table objects include the following properties:
+
+* `TABLE_TYPE`
+* `TABLE_NAME`
+* `TABLE_SCHEM`
+
+These properties can be used in *Solidatus display rules* or custom filters to highlight tables based on their type.
+
+Properties from JDBC
+
+## Columns
+
+Columns are extracted from the database and stored as *Solidatus Attributes* of the table objects. These attributes contain the column properties as metadata. Extracted column information contains the JDBC metadata properties to provide extra insight into the column. This includes information such as:
+
+* If a column is nullable / `NULLABLE`
+* Size / `COLUMN_SIZE`
+* Data type / `DATA_TYPE`
+* Schema and table name / `TABLE_SCHEM` and `TABLE_NAME`
+* If the column is a primary key / `PRIMARY_KEY`
+* And more exemplified below in the image
+
+Properties from JDBC
+
+## Views
+
+Views are extracted from the database and stored as *Solidatus Objects* in the schema layer. Views are an example of a specific table type. Views are extracted in the same way as tables and can be filtered using the **Filtering** options below. View objects can be relocated into a separate layer using the configuration option `solidatus.jdbc.split-views`can be enabled (set to `true`). This configuration option will move the views into a separate layer named `{SCHEMA}.VIEWS`. This is useful for tracing lineage and understanding the flow of data through a model.
+
+Representation of split views
+
+## Filtering
+
+As a means of filtering, the Connector can be provided a schema and table pattern. This is a way to ensure only the relevant and important metadata is included in the model. This also helps improve runtime and memory usage. If no filter patterns are provided all possible schemas and tables are added to the model. The configuration options to apply this filtering are:
+
+* `--solidatus.jdbc.schema-pattern`: provide a list of schemas
+* `--solidatus.jdbc.table-pattern`: provide a list of tables prefixed by the schema
+
+### Exclusion Filtering
+
+A further option is available to exclude tables and views from the model. This is useful if you want to include all tables and views in a schema except for a few. This is achieved by providing a list of tables and views to exclude from the model. The configuration option to apply this filtering is:
+
+* `--solidatus.jdbc.exclusion-filter.table-pattern`
+* `--solidatus.jdbc.exclusion-filter.procedure-pattern`
+* `--solidatus.jdbc.exclusion-filter.views-pattern`
+
+### Display rules
+
+These properties can be used in conjunction with the included display rules to decorate the model and specifically highlight certain attributes of a column or table. Through enabling of certain display rules, it becomes easy to trace lineage through primary keys, foreign keys and also improve understanding of the flow of specific data types through a model.
+
+List of display rules

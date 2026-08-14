@@ -1,12 +1,14 @@
-// Branching history over the local snapshot store — ADR-0002 decisions 1-3,
-// with no server involved.
+// Branching history over the local snapshot store.
 //
-// The ADR's third decision is the load-bearing one here: **the local store IS
-// an unpublished branch**. So this does not introduce a parallel "local
-// version" of the snapshot model that later has to be reconciled with a real
-// one — it is the real one, running against `localStorage` instead of
-// Postgres. When the server exists, publishing sends these snapshots; it does
-// not translate them.
+// ADR-0002's decision 3 was that the local store IS the unpublished branch,
+// running against `localStorage` "instead of Postgres" — that framing is
+// gone now that a real server exists (see `model/remoteHistoryStore.ts`),
+// but the STORAGE here is unchanged: this file is still exactly what backs
+// `localHistoryStore`, unmodified, so every existing local-only deployment
+// (and every test in `__tests__/history.test.ts`) keeps working byte-for-byte.
+// `HistoryStore` at the bottom is the new part — the same free functions
+// below, wrapped as one object so `model/wiring.ts` can swap them for the
+// remote implementation without either side knowing which one it got.
 //
 // Snapshots reuse the store's existing `lineage-studio:versions:<id>` key
 // rather than a second history alongside it. `ModelVersion` was already a
@@ -191,7 +193,11 @@ export async function deleteBranch(modelId: string, name: string): Promise<void>
  * server-side version of this is a recursive CTE.
  */
 export function commonAncestor(
-  snapshots: readonly (ModelVersion & { parents: string[] })[],
+  // Only `id`/`parents` are read below — loosened from the full snapshot
+  // shape so remoteHistoryStore.ts can call this with the metadata-only rows
+  // `GET /versions` returns, without fetching every version's full model
+  // payload just to walk parent pointers.
+  snapshots: readonly { id: string; parents: string[] }[],
   a: string | null,
   b: string | null,
 ): string | null {
@@ -289,4 +295,36 @@ export async function mergeBranch(
 export async function commitCurrent(model: LineageModel, label: string): Promise<string> {
   await localStore.save(model)
   return commit(model.id, model, label)
+}
+
+/**
+ * The branching surface as one swappable object — see `model/wiring.ts`.
+ *
+ * Every method here is one of the free functions above, unchanged; this is
+ * purely an adapter so callers (`modeling/VersionsPanel.tsx`) can hold "the
+ * active history store" as a value instead of importing free functions from
+ * a module they'd have to know was the local one.
+ */
+export interface HistoryStore {
+  listBranches(modelId: string): Promise<Branch[]>
+  currentBranch(modelId: string): Promise<string>
+  listSnapshots(modelId: string): Promise<SnapshotMeta[]>
+  getSnapshot(modelId: string, snapshotId: string): Promise<LineageModel | null>
+  commit(modelId: string, model: LineageModel, label: string, parents?: string[]): Promise<string>
+  createBranch(modelId: string, name: string): Promise<void>
+  checkout(modelId: string, name: string): Promise<LineageModel | null>
+  deleteBranch(modelId: string, name: string): Promise<void>
+  mergeBranch(modelId: string, source: string, target?: string): Promise<MergeOutcome>
+}
+
+export const localHistoryStore: HistoryStore = {
+  listBranches,
+  currentBranch,
+  listSnapshots,
+  getSnapshot,
+  commit,
+  createBranch,
+  checkout,
+  deleteBranch,
+  mergeBranch,
 }

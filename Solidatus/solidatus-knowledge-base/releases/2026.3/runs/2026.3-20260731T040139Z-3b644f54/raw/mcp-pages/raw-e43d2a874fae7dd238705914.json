@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/the-user-interface"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-e43d2a874fae7dd238705914",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/the-user-interface",
+  "response_content_hash": "98047348157606793a46e9b0f311544be9e1b385681c5d650f5174e69fa1d1ae",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# User interface layout\n\nThe Solidatus user-interface is divided into four main functional areas in which the core capabilities of the platform can be found and used.\n\n<table data-header-hidden><thead><tr><th width=\"298\"></th><th></th></tr></thead><tbody><tr><td><strong>Areas of the User Interface</strong></td><td><strong>Core capabilities and functions</strong></td></tr><tr><td><a href=\"/pages/oLOFXUFzTd6ePONjdFF8\">Models interface</a></td><td>Viewing, building, editing, analysing, and sharing models that represent your data and reference landscapes.</td></tr><tr><td><a href=\"/pages/MyxZsatOLvAdmiw9IGaq\">Data Domains interface</a></td><td>Building, searching, and browsing Data Domains, viewing Data Maps, and using <a href=\"/pages/2mjSOaqPuNcdACPayemR\">Analytics Reports</a>.</td></tr><tr><td><a href=\"/pages/yS889JT7HdsyKnlBpodc\">Connectors interface</a></td><td>Configuring, managing, and executing Connector Agents and Jobs to ingest metadata into Solidatus models.</td></tr><tr><td><a href=\"/pages/pPloP3e2oQVHE0jTg1jj\">Activities interface</a></td><td>Viewing, managing, and configuring model <a href=\"/pages/L580ZsFWX7PX4K6uvqix\">activities</a> and the <a href=\"/pages/voBIBidk8fpzPiAT6XnP\">approvals workflow</a> to collaborate on model building.</td></tr></tbody></table>\n\nAll four functional areas can be accessed in one click through the [top navigation bar](/the-user-interface/the-navigation-bar), which sits at the top of the Solidatus interface throughout all areas of the platform.\n\n<figure><img src=\"/files/I3AmGO3KzIlBAgWyCeTU\" alt=\"\"><figcaption><p>The Navigation Bar</p></figcaption></figure>\n\nThe top navigation bar gets you from one functional area to another, and the right-hand side provides access to notifications, account settings, this help documentation, and other policy and legal documents.\n\nSee [top navigation bar](/the-user-interface/the-navigation-bar) page for more detailed information on functions accessible through the bar.\n\n***\n\nVisit all pages in this section to learn more about the functionality and features availabe across the Solidatus user interface.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:36.504Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "3735fd9187f71b82e2f8d051bac50b9b850eb683b4cd9eab86009f15feb8c6ab",
+  "warnings": []
+}

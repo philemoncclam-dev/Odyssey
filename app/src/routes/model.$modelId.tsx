@@ -9,7 +9,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import ModelViewer from '../modeling/ModelViewer'
 import { useUndoable } from '../modeling/useUndoable'
-import { localStore } from '../model/store'
+import { activeStore as localStore } from '../model/wiring'
 import { BarsSpinner } from '../shell/BarsSpinner'
 import type { LineageModel } from '../model/types'
 

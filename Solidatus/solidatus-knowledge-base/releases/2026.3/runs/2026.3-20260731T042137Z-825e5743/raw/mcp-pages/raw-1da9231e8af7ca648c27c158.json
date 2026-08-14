@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake-multi-database/user-permissions"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-1da9231e8af7ca648c27c158",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake-multi-database/user-permissions",
+  "response_content_hash": "e90b4715faa7a1942c3868b037309e9cda7ef1ea7e05a04a4014a6f7334c5a24",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# User Permissions\n\n### Permissions Requirements\n\nFor running the Snowflake Connector to generate the initial lineage database model please follow the permissions document provided with the Snowflake documentation.\n\nIf a user and role already exist from the Snowflake Connector execution please skip to [Assigning Privileges to the Role](#assigning-privileges-to-the-role).\n\nOur recommendation for user permissions is to create a restricted user with limited access and only to data dictionary information. Please execute the commands provided below.\n\nOnce the new username and password are generated, you can initiate the connector and create a Solidatus model complete with lineage. Metadata is sourced from the data dictionary tables and views in the Snowflake database.\n\nThe management of privileges is facilitated through the execution of GRANT and REVOKE statements, a task necessitating root permissions.\n\nWe advise reaching out to your Snowflake administrator to assist in setting up and creating this user for you.\n\n### Creating a Custom Role\n\nTo begin, you can create a Snowflake custom role as follows. This role will be used to grant privileges against.\n\n**Format**\n\n```snowflake\nCREATE ROLE <role>;\n```\n\n**Example**\n\nThe following example demonstrates the creation of the role `solidatus_role`;\n\n```snowflake\nCREATE OR REPLACE ROLE solidatus_role;\n```\n\n### Creating a User\n\nOnce a role has been created we can create a new user and assign it that role.\n\n**Format**\n\n```snowflake\nCREATE USER <username> password=<password> DEFAULT_ROLE=<role> DEFAULT_WAREHOUSE=<warehouse> DISPLAY_NAME=<display_name>;\n```\n\n**Example**\n\nThe following example demonstrates the creation of a user `solidatus` assigned to `solidatus_role`;\n\n```snowflake\nCREATE USER solidatus password='H8MZRqa8gEe' DEFAULT_ROLE=solidatus_role DEFAULT_WAREHOUSE=COMPUTE_WH DISPLAY_NAME=SolidatusMetadata;\n```\n\n### Assigning Privileges to the Role\n\nFor Snowflake Column Lineage the following view is selected from: `SNOWFLAKE.ACCOUNT_USAGE.ACCESS_HISTORY`\n\nAs these views are stored in the `ACCOUNT_USAGE` schema, the permissions must be set by a Snowflake ACCOUNTADMIN.\n\nTo enable access to ACCOUNT\\_USAGE to extract column lineage, the following permissions are required:\n\n**Format**\n\n```snowflake\nGRANT IMPORTED PRIVILEGES ON DATABASE SNOWFLAKE TO ROLE <role>;\n```\n\n**Example**\n\nThe following example demonstrates the assigning permissions to the role `solidatus_role`;\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:39.493Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "43c69809865730962619e97c18ea35cf4bbc2ec61882279de10cc9db780d0dce",
+  "warnings": []
+}

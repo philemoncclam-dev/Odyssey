@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/derivations"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-be9aecaade3d80727e65a91b",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/derivations",
+  "response_content_hash": "0dccf2ba8b806f51f8b3564c54efa3c99ee6d2f89d03f95b5694660015420490",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# SQL Derivations\n\nEnabling the `solidatus.jdbc.sql-derivations` configuration option will insert SQL derivation logic into the Solidatus model. This feature can be enabled if the selected `JDBC driver` is BigQuery, Oracle, SQLServer or AzureSQL; `simple-procedure-summary` is set to false and `sql-parsing` is enabled.\n\nThe `sql-derivations` configuration adds a SQL derivation property to columns and objects used in Tables, Views, and Procedures.\n\nThis property contains the derived SQL code used in a statement.\n\n## Stored Procedures\n\nFor procedure objects this results in column-level SQL derivation text as an attribute property for each `Target` column model attribute.\n\nFor the following simple script the following derivations are as follows:\n\n```bigquery\nINSERT INTO ` JDBC_test.Orders `\nSELECT *\nFROM (SELECT SAFE_CAST(NULL AS INT64)                                       AS ORDERNUMBER,\n             SAFE_CAST(NULL AS INT64)                                       AS CUSTOMERNUMBER,\n             SAFE_CAST(NULL AS INT64),\n             SAFE_CAST(NULL AS DATE)                                        AS ORDERDATE,\n             SAFE_CAST(CASE WHEN 1 > 2 THEN true ELSE false END AS boolean) AS ORDERCOMPLETE,\n      WHERE FALSE);\n```\n\nwhich is represented in the model as:\n\n<img src=\"/files/kd9Rzm1BKNEMzQiFR1me\" alt=\"Script object\" width=\"375\">\n\n#### Column Level\n\nColumn level derivations are added as a property `SOL.sqlDerivation` on the target column inside a procedure/script object.\n\n<img src=\"/files/HQFf0kgq9uxudoCFQSmU\" alt=\"Column level derivation properties for column &#x60;ORDERCOMPLETE&#x60;\" width=\"375\">\n\n#### Table Level\n\nTable level derivation are added as a property on the INSERT/UPDATE group entity that contains the source and targets. There can be multiple table level derivations for a single script object. They are added to the `SOL.sqlDerivation{X}` property.\n\n<img src=\"/files/1IIf2IfQob2SBiiP6dzi\" alt=\"Table level derivation properties\" width=\"375\">\n\n## Views\n\nFor view objects this results in column-level SQL derivation text as an attribute property for each column model attribute.\n\nBelow is a view derivation example:\n\n![View object](/files/lC8nK1MCQc2op0YUynCS)\n\n#### Table Level\n\nTable level derivations of the FROM clause are not currently supported.\n\n#### Column Level\n\nColumn level derivations are added as a property group named `SOL.sqlDerivation` on the view column object. When a view column value is the result of an expression, each source column referenced in the expression will result in a sql derivation property with a text value representing the expression.\n\nIn the example above, the column `LONG_TERM_RATING` is the result of a `CASE` expression which uses 2 column sources `CR_RAY_MY_PARAMETERS.TARGET_VALUE_1` and `STG_MBB_MY_ISS_CR_RT.LONG_TERM_RATING`; This results in 2 children of `SOL.sqlDerivation` group, each child representing each source. As the column is given an alias in the sql, the alias `\"LONG_TERM_RATING\"` is displayed as a sibling of the derivation expression text.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:01.649Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "8717ec769004d680da887a51b7b941a2cc0feb638412b59b54180ce1a464a5d8",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/IdwjQUHhu5ADjCc7kVhw"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-b330f9beb34b9d856f3cd739",
+  "requested_url": "https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/IdwjQUHhu5ADjCc7kVhw",
+  "response_content_hash": "2bf18a11d1f2f5e4884c7b558ba59cdb7805121590918595bd6e9fab9ceafcdf",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "Page not found: \"https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/IdwjQUHhu5ADjCc7kVhw\"",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:38.695Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "427e828c08be6ff2498c4875ca6b8095a35dfbbf0125842fb77c5998ec934d95",
+  "warnings": []
+}

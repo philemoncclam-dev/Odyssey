@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connectors-overview/connectors-page"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-8ab9f9ef64c5851df8cacec7",
+  "requested_url": "https://docs.solidatus.com/connectors/connectors-overview/connectors-page",
+  "response_content_hash": "7fbb58f9a82a5e71799d68f2a17b9d708f207c3f05e34a0f4740cebeb58857fc",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Connectors interface\n\nThe connectors interface acts as a cockpit for managing, executing, and monitoring connector [agents](/connectors/connectors-overview/agents) and [jobs](/connectors/connectors-overview/jobs). The interface shows only agents and jobs that you own or that have been shared with you.\n\n<figure><img src=\"/files/yjOQ0dtuswr1BzGCIb6W\" alt=\"\"><figcaption></figcaption></figure>\n\nThe connectors interface comprises two main areas:\n\n* [List of agents](#list-of-agents) - allows you to view, access, and manage agents available to you\n* [List of jobs](#list-of-jobs) - allows you to view, access, and manage connector jobs available to you\n\n### Access the connectors interface\n\nClick the **CONNECTORS** in the top navigation bar.\n\nIf there are no connectors available to you (you haven't registered any and there aren't any shared with you), the list of available connectors appears instead of the list of agents.\n\n### List of agents\n\nThe default view contains a list of agents, which you can filter by the type of connector (in this case, the *JDBC* and *Solace-EP* connectors). The most recently-accessed agent is at the top of the list.\n\n<figure><img src=\"/files/Jakeh6rtcYzUB2wkfkbc\" alt=\"\"><figcaption></figcaption></figure>\n\nEach agent represents a connector process that is running outside of Solidatus; the status of each connector is indicated by a red or green icon:\n\n<table data-header-hidden><thead><tr><th width=\"73.1016845703125\"></th><th width=\"100.3038330078125\"></th><th></th></tr></thead><tbody><tr><td><img src=\"https://demo.solidatus.com/help/_images/connector-active.png\" alt=\"status-active\" data-size=\"line\"></td><td><strong>Active</strong></td><td>The connector process is running</td></tr><tr><td><img src=\"https://demo.solidatus.com/help/_images/connector-offline.png\" alt=\"status-offline\" data-size=\"line\"></td><td><strong>Offline</strong></td><td>The connector process is not running, possibly because the agent was <a href=\"/pages/51HJNvgnkdCgjYzBQy3J#deactivate-an-agent\">deactivated</a>.</td></tr></tbody></table>\n\n{% hint style=\"info\" %}\nIf you cannot distinguish the icon colour, hover the mouse over the icon and it will display the current status as text - ‘Active’ or ‘Offline’.\n{% endhint %}\n\nThe connectors status icons also appear on the [Agent Overview](/connectors/connectors-overview/agents#agent-overview) and the [Job Overview](/connectors/connectors-overview/jobs#job-overview).\n\nClick on the triangle to the left of the status icon to expand the agent and view the list of jobs for the agent.\n\nHover over a job to see available actions. All actions are also available on the list of jobs and on the [Job Overview](/connectors/connectors-overview/jobs#job-overview). See the [jobs](/connectors/connectors-overview/jobs) page for more information about these actions.\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/agent-job.png\" alt=\"\" width=\"563\"><figcaption></figcaption></figure>\n\n***\n\nClick the `Run` button to submit and run a job. The video below shows how the status changes as the job runs, from `Submitted`, to `Running`, then to `Success`.\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/job-running.gif\" alt=\"\" width=\"563\"><figcaption></figcaption></figure>\n\n***\n\nClick the job name to open the [Job Overview](/connectors/connectors-overview/jobs#job-overview). From here you can open any job run to examine the results.\n\nIf you run a job from the Job Overview, the sequence of operations a connector has completed and is in the process of performing are shown as a job is running.\n\n### List of jobs\n\nClick the `Jobs` tab to display the list of every job you have access to (the most recently-accessed job is at the top of the list).\n\n<figure><img src=\"/files/liZopNmiy5vxCaHBtjth\" alt=\"\"><figcaption></figcaption></figure>\n\n<table data-header-hidden><thead><tr><th width=\"474.0338134765625\"></th><th></th></tr></thead><tbody><tr><td><p>Hover over a job to see the actions available for that job. These are the same as those on the <a href=\"/pages/51HJNvgnkdCgjYzBQy3J#agent-overview\">Agent Overview</a>: export job, edit job configuration, clone job, and delete job.</p><p>You can also search the list by keyword and filter it by connector type or job status using the FILTERS button at the top right of the list.</p></td><td><img src=\"/files/CcUWHB5Bn8DAJZJ0v6ht\" alt=\"second\" data-size=\"original\"></td></tr></tbody></table>\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:39.494Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "b59c9a52beb129e5566d4245209badf493f5d92e6c01afb5f48a76b38435c14f",
+  "warnings": []
+}

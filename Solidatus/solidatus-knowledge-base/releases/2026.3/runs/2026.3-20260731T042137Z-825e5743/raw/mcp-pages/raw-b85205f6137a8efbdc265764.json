@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/models-ui/activities-interface"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-b85205f6137a8efbdc265764",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/models-ui/activities-interface",
+  "response_content_hash": "410c5911c086b59da775f4b74d81bd4b107f0c81dcdd021d44d8bd579ed1a06e",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Activities interface\n\nThe **My Activities** page is the core interface for managing, viewing, and completing activities.\n\nIt is accessed by clicking **ACTIVITIES** on the [top navigation bar](/the-user-interface/the-navigation-bar).\n\n<figure><img src=\"/files/6HsVof04xkSZQKFNtHld\" alt=\"\" width=\"563\"><figcaption><p>Access all of your Activities through the Navigation Bar</p></figcaption></figure>\n\n## The ‘My Activities’ list\n\nThe Activities interface contains a list of all activities you are involved in. The list includes activities you\n\n* created,\n* were assigned to (tasks),\n* updated (for example by contributing to a revision in the pending change),\n* have been invited to approve,\n* or left a comment in.\n\n<figure><img src=\"/files/FfjzZ03bnK000Q5SN7Di\" alt=\"\" width=\"563\"><figcaption><p>The list of my activities</p></figcaption></figure>\n\nThe list looks the same as the Activities tab list in the [Model Overview](/the-user-interface/models-ui/model-overview), except there are pre-defined categories to organize your activities in the banner at the top. You can click a category to view only the activities that belong to that category.\n\n<figure><img src=\"/files/pVPlSd82qfjwIgF5rRk2\" alt=\"\" width=\"563\"><figcaption><p>View activities in these pre-defined categories</p></figcaption></figure>\n\n<table data-header-hidden><thead><tr><th width=\"243\"></th><th></th></tr></thead><tbody><tr><td><strong>Approval requested</strong></td><td>Your approval has been requested on these activities</td></tr><tr><td><strong>Assigned</strong></td><td>Activities are assigned to you to complete</td></tr><tr><td><strong>Commented</strong></td><td>Activities you have left comments on</td></tr><tr><td><strong>Created</strong></td><td>Activities created by you</td></tr><tr><td><strong>In my models</strong></td><td>Activities for Models that you own personally or via a Group</td></tr><tr><td><strong>Shared with me</strong></td><td>Activities shared with Groups you are a member of</td></tr><tr><td><strong>Contributed</strong></td><td>Activities you have performed an action in</td></tr></tbody></table>\n\n{% hint style=\"success\" %}\nYou cannot edit tags in the **My Activities** page. To edit the tags for an Activity, just click the Activity to open the detail page and edit the tags there.\n{% endhint %}\n\nSee [Filtering and sorting the list of Activities](/the-user-interface/models-ui/model-overview#filtering-and-sorting-the-list-of-activities) to find out how to filter and sort the list of Activities.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:40.280Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "83dfdd88c3ebf255fef79c5e19039a2d08df100169e3409e9e827edc36441a13",
+  "warnings": []
+}

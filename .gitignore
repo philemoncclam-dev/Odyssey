@@ -20,9 +20,11 @@ venv/
 .env
 .env.*
 !.env.example
-# Demo mode's flag file, committed on purpose: it turns on staged fixtures and
-# holds nothing but a boolean. Anything needing a credential is not demo mode.
-!app/.env.demo
+
+# Azure Functions local settings — holds the SQL connection string and, in
+# some local setups, a connection secret. local.settings.json.example is the
+# tracked template, same pattern as .env.example above.
+server/local.settings.json
 
 # Editor / OS
 .DS_Store

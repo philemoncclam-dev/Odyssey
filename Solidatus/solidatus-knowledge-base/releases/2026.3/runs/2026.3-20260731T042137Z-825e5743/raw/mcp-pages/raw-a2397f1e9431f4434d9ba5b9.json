@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-10"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-a2397f1e9431f4434d9ba5b9",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-10",
+  "response_content_hash": "f4a6006596db6f1c76b2e89748f9702eb6ab508355256450ea01954328b76864",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Sybase ASE\n\nSybase ASE (or SAP ASE) is a relational model database server. The JDBC connector can connect to a Sybase ASE server to pull structure and lineage metadata. To leverage these capabilities, `solidatus.jdbc.driver` must be set to `sybaseASE`. For SQL parsing related features `solidatus.jdbc.dialect` must be set to `sybaseASE`.\n\n## **Supported Features Overview**\n\n| **Feature** | **Included** | **Coverage**                                                                                                                     |\n| :---------: | :----------: | -------------------------------------------------------------------------------------------------------------------------------- |\n|  Structure  |       ✓      | Database structure                                                                                                               |\n|   Lineage   |       ✓      | SQL Parsing from scripts and data dictionary metadata to visualise the flow of data between database objects at the column level |\n\n## **Database Features**\n\nThe following table outlines the key database features that the Solidatus connector extracts and represents within the Solidatus model. For comprehensive details on each feature, refer to the linked pages.\n\n|     **Database concept**    | **Solidatus model representation** |                                                              **Link to feature page**                                                             |\n| :-------------------------: | :--------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: |\n|           Schemas           |               Layers               |               [Schema Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#schema)               |\n|            Tables           |               Objects              |                [Table Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#tables)               |\n|       Temporary Tables      |               Objects              | [Temporary Tables](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-10/features#temporary-tables) |\n|            Views            |               Objects              |                 [View Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#views)                |\n|           Columns           |             Attributes             |               [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns)              |\n|          Data types         |             Properties             |               [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns)              |\n|   Primary key constraints   |             Properties             |               [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns)              |\n|   Foreign key constraints   |             Transitions            |               [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns)              |\n|  View column-level lineage  |             Transitions            |                          [SQL Parsing](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/sqlparsing)                         |\n| Script column-level lineage |             Transitions            |                       [Script Lineage](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/scriptlineage)                      |\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:54.206Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "c6414a8153f7417099d08729f7e9251f3e9bf89b1e22e9fef4190cabd41f351a",
+  "warnings": []
+}

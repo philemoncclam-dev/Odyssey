@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/collibra/faq"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-a6c58cdd11e3a42b27e5283c",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/collibra/faq",
+  "response_content_hash": "e55a08022f96b6df07034dfbacef78a6d52c49770e95a62078d473c2509f4f0b",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# FAQ\n\n## Collibra connector setup\n\n* The Collibra connector is erroring with this message on setup: `self signed certificate in certificate chain`\n  * This could be due to a rejection from a proxy or firewall. The Collibra connector is a Node.js-based packaged executable; as such, it requires the user to add to its list of \"well-known\" certificate authorities. If not, `node-fetch` (the library that sends https requests) will not be able to get its requests forwarded through the proxies. Check the README for the environment variables section for help.\n* The Collibra connector is erroring with this message on setup: `connect ETIMEDOUT <ip-address>`\n  * This could be due to the connector not being able to access the Solidatus host provided in the settings file. Please ensure that the proxy provided in the `colProxyURL` or `solProxyURL` is correct (with port).\n* The Collibra connector is erroring with this message on setup: `EPROTO <...:error:...> SSL routines:ssl3_get_record:wrong version number:../deps/openssl/openssl/ssl/record/ssl3_record.c:354:`\n  * This is a protocol error with either the proxy URL or Solidatus URL. Please ensure that the proxy provided in `colProxyURL`, `solProxyURL`, `colHost` and `solHost` have the correct protocol.\n\n## Collibra import connector\n\n* The Collibra import connector's output module query file upload doesn't allow me to upload files.\n  * This is an issue that will occur on versions of Solidatus before 5.6.8. Please talk to your Solidatus contact if this issue needs to be urgently rectified.\n* The Collibra import connector errors out with `Premature close`.\n  * This is an error that occurs against the Collibra API when using Node.js' fetch library. Try using a smaller page size.\n* The Collibra import connector does not generate transitions between assets entities in different Solidatus layers when using Collibra domain IDs to import into Solidatus.\n  * Try to import the encompassing Collibra community if the domains exist in the same community; or try to use output module query importing.\n\n## Collibra export connector\n\n* The Collibra export connector agent jobs always succeed even though the job has not completed in Collibra.\n  * The Collibra export connector submits a job to the Collibra import job scheduler. The success of the connector agent job reflects the success of the submission that job. For the outcome of the job, please reference the Collibra activities page.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:54.884Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "ce6306085152d3604ac7fc2d7b4404cb0316371e0b730aaa2ed0eb9b6f4af272",
+  "warnings": []
+}

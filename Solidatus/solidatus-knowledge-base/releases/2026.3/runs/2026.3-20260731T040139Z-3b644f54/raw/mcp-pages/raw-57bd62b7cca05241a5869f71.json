@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/purview/overview"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-57bd62b7cca05241a5869f71",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/purview/overview",
+  "response_content_hash": "578c64f152fe601a332e0a8b01f025ae52b0fab4fe522aa1b04a36010030d508",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Overview\n\nThe Solidatus Purview connector is a Java based tool to connect to Solidatus and a Purview instance, pull information from models created by other connectors in Solidatus, and create and update assets and relationships within Purview to match what is loaded in Solidatus.\n\n## Usage\n\nThere are two ways to run the Purview connector; Agent mode and Standalone mode. Standalone mode requires all configuration to be provided to the connector, which then runs a single instance of the connector and updates Purview once. Agent mode sets up a Solidatus Agent to connect to the Solidatus site that can receive and run multiple different job configurations, to pull information from multiple Solidatus models into Purview.\n\nConfiguration can be passed through a YAML file, as shown in the example files `fullSample.yml` and `template.yml`. Configuration can also be passed through command line arguments. If an option is provided by both file and command line, the command line version will be used. See [Configuration](https://github.com/solidatus/solidatus-purview/blob/docs/solidatus-purview-docs/core/core/configuration.md) for more details.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:42.033Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "e45986e1ab51a33605a6a116270eed1ba07bc859b13055640d26596e399da16e",
+  "warnings": []
+}

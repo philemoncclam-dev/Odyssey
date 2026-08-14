@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/build-data-domains/share-a-data-domain"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-60f6c471eeaa3213fe393ce3",
+  "requested_url": "https://docs.solidatus.com/data-domains/build-data-domains/share-a-data-domain",
+  "response_content_hash": "40a0b767acc3215a2e5d2a67f429e3c48043d69089b1c63f72b0e7248ae737c5",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Share a Data Domain\n\nWhen you’re ready to share your Data Domain with other registered Solidatus users in your organisation, click `Settings` at the top right of the Data Domain homepage.\n\nThen click the `Permissions` tab.\n\n<figure><img src=\"/files/tjJMBMKIYVDrPhg3FchU\" alt=\"\"><figcaption><p>Invite users and groups to access Data Domain</p></figcaption></figure>\n\n* Click `+ Add user/group` to search for and individual or group to share your Data Domain with.\n* Use `Filter and Sort` to list members of your Data Domain by role or alphabetically.\n* Click `Download (CSV)` to download a list of added users and their permissions.\n* Search for someone you’ve shared your Data Domain with using the `Search Members` box.\n* You can set access permissions by assigning users a **Role**.\n\n## Data Domain roles and permissions\n\nThe Permissions section does not have a SAVE button. When you add a user or group, or change their access Role, the change is automatically saved.\n\n<table data-header-hidden><thead><tr><th width=\"150.28729248046875\"></th><th></th></tr></thead><tbody><tr><td><strong>Data Domain Owners</strong></td><td>Can both view all contents of a Data Domain and edit Data Domain settings, including permissions and sharing.</td></tr><tr><td><strong>Data Domain Members</strong></td><td>Can search and browse all Data Domain contents, including Data Maps, but cannot view or edit Data Domain settings.</td></tr></tbody></table>\n\n{% hint style=\"success\" %}\nBoth Owners and Members automatically gain **Viewer (read-only)** access to all original models published to a Data Domain and can open these models in the Model Viewer in read-only mode through a domain.\n\nHowever, users who only have access to models via a Data Domain Role are not listed as Viewers in the Model Overview of the original models, and the original models are not visible to them in the Model Browser.\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:51.991Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "8e8ace5824317c99f195f2a36fdba2519c13c09886893e70ac26a14aed165013",
+  "warnings": []
+}

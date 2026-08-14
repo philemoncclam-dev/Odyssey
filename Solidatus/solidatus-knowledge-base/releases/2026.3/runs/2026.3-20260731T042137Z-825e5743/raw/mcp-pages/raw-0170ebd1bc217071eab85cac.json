@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/configuration/example-configuration"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-0170ebd1bc217071eab85cac",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/configuration/example-configuration",
+  "response_content_hash": "d6c47faacaaed73f47bc4ea6e9aeb79e0d9e630c34811d07acf1dd2d84b6e016",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Example Configuration\n\n## YAML Configuration - Agent Mode\n\n```yaml\nlogging:\n  # Recommended logging\n  level: # Alternative log levels = (INFO/DEBUG/TRACE/ERROR)\n    root: INFO\n    com.solidatus.powerbi: INFO\n# Agent mode example configuration\nspring:\n  profiles:\n    active: connector\nsolidatus:\n  api:\n    host: \"https://xyz-group.solidatus.com\"\n    token: \"123abc45de789f0\"\n  agent:\n    name: \"My PowerBI Connector Agent\"\n    type: \"PowerBI\"\n    description: \"PowerBI Connector Agent\"\n```\n\n## YAML Configuration - Standalone Mode\n\n```yaml\nlogging:\n  # Recommended logging\n  level: # Alternative log levels = (INFO/DEBUG/TRACE/ERROR)\n    root: INFO\n    com.solidatus.powerbi: INFO\n# Standalone mode example configuration\nspring:\n  profiles:\n    active: standalone\nsolidatus:\n  api:\n    host: \"https://xyz-group.solidatus.com\"\n    token: \"123abc45de789f0\"\n  powerbi:\n    converter:\n      input-file: \"/home/xyzReport.pbit\"\n      target-model-id: \"987654321987654321987\"\n```\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:02.375Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "bab4dba8ca1cc84a44c7c9a566de0f3410485efdbf2622473222cae85b44ca2d",
+  "warnings": []
+}

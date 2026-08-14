@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-6/features"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-a251ffdb1ce2c8e9eef1bd3e",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-6/features",
+  "response_content_hash": "76410c10f31249348626cc1fe17a3fefa94831f7f212fee8e784a819d814a429",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Features\n\n## JDBC driver version\n\nThe packaged JDBC driver in the connector is the 19c release JDBC driver. Please see the [Oracle JDBC FAQ](https://www.oracle.com/uk/database/technologies/faq-jdbc.html) for more information and the supported interoperability between database and JDBC version.\n\n## Packages\n\nProcedures that are stored in packages can be retrieved during SQL parsing processing. Each procedure will inside a package is represented as separate entities in the model layout, however if they come from a package there are 2 primary differences.\n\n<img src=\"/files/OBMdNQTC6WAP0scoxwzn\" alt=\"Procedures returned from a package represented in the .PROCEDURES layer\" width=\"375\">\n\nFirstly a new property on the procedure called `SOL.package` is added which contains as a value the package name. Secondly the `SOL.path` of the attributes inside the procedure entity contain the package name as a prefix on the procedure name. These property updates can be used in display rules and filters to group certain procedures and trace back where they came from.\n\n<img src=\"/files/lRb2kodnG4Pyg1J4VQ5N\" alt=\"Property panel of a procedure &#x60;hire_employee&#x60; coming from package &#x60;emp_admin&#x60;\" width=\"375\">\n\n## Synonyms\n\nIf `TABLE-TYPE` contains `SYNONYM` a synonym reference is added as new objects to the extracted structure model. With sql-parsing synonym lineage can be derived and applied to the model. Transition orientation between synonyms and their underlying objects is determined by the usage of the synonym, i.e., outgoing from the synonym if it is read from, or incoming to the synonym if it is written to. Bidirectional transitions are also possible if the synonym is both read from and written to.\n\n<img src=\"/files/sqLcfvLhArCZPVgFCRD8\" alt=\"Model representation of a synonym VEHICLES created from table CARS\" width=\"563\">\n\nSynonyms contain the property `TABLE_TYPE` with value `SYNONYM`. Synonyms which are not found in lineage will be suppressed and removed from the model. Synonyms also contain 2 unique properties on the table object providing information about the synonym:\n\n* `SOURCE_NAME`\n* `SOURCE_SCHEMA`\n\n<img src=\"/files/IaIbH3G9ZDNnCWmrZzRs\" alt=\"Properties of a synonym object\" width=\"563\">\n\n## Database Links\n\nDatabase links is a schema object in one database that enables you to access objects on another database. Database links are extracted only if sql-parsing is enabled. They are represented in the model in a separate layer \\*\\*DBLINKS\\*\\* representing the local \\* \\*SCHEMA\\*\\* and \\*\\*TABLE\\*\\*. The name of the database link in the model is `[DBLINKS/Schema.Table>@[Database Link]`. Creating a database link also creates a proxy entity representing the foreign schema and table linked to by the database link. These proxy entities are in their own schema layer of name `ServiceName/Schema`.\n\n<img src=\"/files/Zwdq0Y5PCZXG1yVzAs1P\" alt=\"Objects surrounded by a blue border are database links formatted with the @ between Table and Database Link name\" width=\"563\">\n\nThe database link tables also contain a unique property DBLINK which contains as a value the name of the database link. The `SOL.path` and `TABLE\\_NAME` of the database link entity are also formatted in the same way.\n\n<img src=\"/files/0nrLKVDHTOoIOwgMtQqW\" alt=\"Properties of tables retrieved from a database link\" width=\"563\">\n\n### Synonyms Using Database Links\n\nAccess of objects on another database may be hidden behind a synonym that uses a database link. SQL objects and queries can reference this synonym and access database objects on another database, via the database link.\n\n{% hint style=\"warning\" %}\nSynonyms using database links are not supported.\n\nThe database link used in the synonym will not be detected and will be missing; the synonym will appear empty and unused. There will be no lineage between the synonym and anything that may reference it.\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:55.499Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "9e03ea7408115e06f84887ef66946d7ec339eef3ab9fa1e3d534959416318210",
+  "warnings": []
+}

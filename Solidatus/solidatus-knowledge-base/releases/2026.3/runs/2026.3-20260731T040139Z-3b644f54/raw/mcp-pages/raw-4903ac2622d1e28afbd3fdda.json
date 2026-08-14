@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/purview/permissions"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-4903ac2622d1e28afbd3fdda",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/purview/permissions",
+  "response_content_hash": "f2330415573ad15e7b1de98715cc50e89993f97cedd264f52dd3a58a5501255a",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Permissions\n\nOur recommendation when creating users in the systems used by the Purview connector is to provision them with the minimum required permissions in order to perform their jobs.\n\n## Solidatus User Permissions\n\nThe Purview connector will require a Solidatus API token in order to operate. These are the capabilities which the token needs to have in order to perform various functions.\n\n| Capability   | Required | Reason                                                                                          |\n| ------------ | -------- | ----------------------------------------------------------------------------------------------- |\n| View Model   | Yes      | To read data from models in Solidatus in order to generate the data to send to Purview          |\n| Create Model | No       | To write purview information (qualified name, Purview ID) back to the source model in Solidatus |\n\nFurther information on managing Solidatus Tokens can be found in the Solidatus help documentation under the `Connectors | Users and Token section`\n\n## Purview User Permissions\n\nConnecting to Purview requires the creation of an Azure Service Principal and granting that principal access to the appropriate Purview resources. The steps for doing so can be found in the Microsoft documentation here: <https://learn.microsoft.com/en-us/purview/tutorial-using-rest-apis>\n\nThe Azure Service Principle used by the connector requires the `Data Curator` role for read and write access to Domains and Collections in Purview.\n\nThe instructions for granting roles to the Azure Service Principle can be found on the Microsoft documentation here:\n\n* Purview Governance Portal, <https://learn.microsoft.com/en-us/purview/how-to-create-and-manage-domains-collections>\n* Purview (classic), <https://learn.microsoft.com/en-us/purview/how-to-create-and-manage-collections>\n\n### Purview API Authentication\n\nDuring the Azure Service Principle creation process you will create a client id and client secret. Make sure to note what that is, as it is required in the connector configuration. The full list of required Purview configuration items is as follows:\n\n| Field                           | Example                                            | Description                                                                                        |\n| ------------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------- |\n| Azure Purview API endpoint      | https\\://{your-purview-account}.purview\\.azure.com | URL of your Purview instance                                                                       |\n| Azure Purview tenant id         | 12345678-1abc-2def-ba81-99999999999                | Tenant ID of your Purview instance. Can be found in the URL after logging in to the Purview web UI |\n| Azure Purview client id         | 12345678-1abc-2def-ba81-99999999999                | Client ID of the Service Principal you created for access to Purview                               |\n| Azure Purview client secret     | \\*\\*\\*\\*\\*\\*\\*\\*                                   | The secret created during the creation of the Service Principal                                    |\n| Azure Purview API token scope   | `https://purview.azure.net/.default`               | The URI of the resource the token is acquired for, passed as `resource` to the token request       |\n| Azure Purview API collection ID | abcdef                                             | ID of the collection to add/update assets in. If not set will use the default collection           |\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:56.915Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "a8d36a29ddd18858746cb9af6f13fc4b2f6df1a5fc7f179b9af748994e525cdb",
+  "warnings": []
+}

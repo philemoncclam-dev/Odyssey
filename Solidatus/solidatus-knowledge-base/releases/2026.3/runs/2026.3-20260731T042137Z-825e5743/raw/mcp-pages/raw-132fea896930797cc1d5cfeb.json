@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake-multi-database/overview"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-132fea896930797cc1d5cfeb",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake-multi-database/overview",
+  "response_content_hash": "7950139b92dc4307964439b43b164ee20aef8fd910f518f9b555458f3144ffb0",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Overview\n\n## **Supported Features Overview**\n\n*Base features are derived from the Solidatus Snowflake Connector and are represented in the Multiple Database Connector output through imported entities.*\n\n|     **Feature**    | **Included** | **Example**                                                                   |\n| :----------------: | :----------: | ----------------------------------------------------------------------------- |\n| Metadata Structure |       ✓      | Schemas, Tables, Views, Columns, Data Types, Primary/Foreign Key Constraints  |\n|       Lineage      |       ✓      | View column-level, Object dependency table-level, Access History column-level |\n|     Governance     |       ✓      | Tags, Row-Access Policies, Dynamic Masking Policies                           |\n\nThe table below illustrates how key Snowflake concepts are mapped to the Solidatus model through the connector. For comprehensive details on each feature, refer to the linked pages.\n\n|        **Snowflake concept**        | **Solidatus model representation** |                                                       **Link to feature page**                                                       |\n| :---------------------------------: | :--------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: |\n| Access History column-level lineage |             Transitions            | [Column Lineage](/connectors/connector-specific-documentation/snowflake-multi-database/cross-database-access-history-column-lineage) |\n|  Cross-database SQL parsing lineage |             Transitions            |        [SQL Parsing Lineage](/connectors/connector-specific-documentation/snowflake-multi-database/cross-database-sql-parsing)       |\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:42.033Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "bfcb34204fb4c5d89a2202de14ae127a04c77397122cb2460c5c581bda144e6a",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/configuration"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-00ba35baa6ae00d3f443a6b1",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/configuration",
+  "response_content_hash": "efaeab59f5cb375c16b7ef99a58300faa2f8f726abd648f1aa75e0f5b2b7dbc7",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Configuration\n\n## Configuration Options\n\n| Name                                          | Description                                                                                                                          | Example value                     |\n| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- |\n| --spring.profiles.active                      | Required. `connector` for Agent mode, `standalone` for Standalone mode                                                               |                                   |\n| --solidatus.agent.name                        | Required (Agent mode). Unique name of connector agent                                                                                | `My PowerBI Connector Agent`      |\n| --solidatus.agent.type                        | Optional (Agent mode). Connector type                                                                                                | `PowerBI`                         |\n| --solidatus.agent.description                 | Optional (Agent mode). Description of the connector agent                                                                            | `PowerBI Connector Agent`         |\n| --solidatus.api.host                          | Required. Solidatus host                                                                                                             | `https://xyz-group.solidatus.com` |\n| --solidatus.api.token                         | Required. Solidatus API token                                                                                                        | `123abc45de789f0`                 |\n| --solidatus.powerbi.converter.input-file      | Required (Standalone mode). The path of PowerBI report template file (.pbit)                                                         |                                   |\n| --solidatus.powerbi.converter.target-model-id | Optional (Standalone mode), if `solidatus.powerbi.converter.model-name` is provided. The ID of the model to update.                  |                                   |\n| --solidatus.powerbi.converter.model-name      | Optional (Standalone mode), if `solidatus.powerbi.converter.target-model-id` is provided. The name of the model to create or update. |                                   |\n\n## YAML properties file\n\nConfiguration options can be defined either using command-line arguments or through a YAML properties file. Using YAML properties file is recommended as it's easier to manage for complex or multiple job configurations.\n\nYAML properties file path can be specified using the argument `--spring.config.location={YAML_FILE_PATH}`.\n\n```bash\njava -jar solidatus-powerbi-java-X.X.XX.jar \\\n--spring.config.location={YAML_FILE_PATH}\n```\n\nSee examples in [Example Configuration](/connectors/connector-specific-documentation/power-bi/configuration/example-configuration)\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:00.024Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "cb6a00a9870276a600f116ff860ffc643a5d129baffc8d07762e48f36edce9b5",
+  "warnings": []
+}

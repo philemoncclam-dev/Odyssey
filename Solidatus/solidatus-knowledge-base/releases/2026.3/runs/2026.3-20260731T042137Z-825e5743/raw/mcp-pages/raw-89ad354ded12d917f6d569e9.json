@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/java-connector-sdk"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-89ad354ded12d917f6d569e9",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/java-connector-sdk",
+  "response_content_hash": "ba3b6f99c3b2cf2160e73b4708f832f24ce615089fe6a9d3f123b91588a728a7",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Java connector SDK\n\nThe Solidatus API allows metadata and lineage to be read and updated programmatically, without a user having to interact with the web-based interface. Interaction with Solidatus can be programmed through the Solidatus API, for example from a script, micro-service, or application.\n\nThe API allows organisations to fully automate data lineage from various sources, including data governance tools, spreadsheets, data catalogs, databases and ETL tools. Changes made via the API are versioned, audited and can be augmented with manually maintained metadata and lineage.\n\nThe Solidatus API allows organisations to build and streamline their ecosystem of metadata and data governance tooling.\n\nA Java application which uses the Solidatus API, we call a Connector.\n\nUsing the raw Solidatus API can present some challenges so to make things simpler, faster and better we have written a Solidatus Java Connector SDK.\n\nAt Solidatus, we recommend writing your Solidatus Java Connectors using Spring Boot. As such, our Java Connector SDK is written as a Spring Boot Starter and is called `solidatus-spring-boot-starter`\n\nThis document assumes that the reader is already familiar with Spring Boot and Spring's concepts of Dependency Injection, Spring Beans, Property Configuration Management and Spring Configuration classes.\n\nFor more information on Spring Boot, please see the [additional resource links](/connectors/connector-specific-documentation/java-connector-sdk/additional-resources) at the end of this guide.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:46.234Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "4082a6283775ea4e6370032292d762e70e527a6b6aaed1ebe3a2ab528dc46279",
+  "warnings": []
+}

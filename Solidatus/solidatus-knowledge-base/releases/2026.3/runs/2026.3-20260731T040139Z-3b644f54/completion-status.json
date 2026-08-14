@@ -1,0 +1,14 @@
+{
+  "completed_at": "2026-07-31T04:20:00.734Z",
+  "product_release": "2026.3",
+  "remaining_blockers": [
+    "Invalid IPv6 URL"
+  ],
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "failed",
+  "terminal_counts": {},
+  "validation_results": {
+    "passed": false
+  }
+}

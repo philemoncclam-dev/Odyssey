@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/get-started/import-model-content/import-from-database-schemas"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-5e134b8b333aed6c3cdcbe69",
+  "requested_url": "https://docs.solidatus.com/get-started/import-model-content/import-from-database-schemas",
+  "response_content_hash": "710579afcf2b88ef1c9ab643062af713e26b7f4f296ad5cecab146f9bb08dc84",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Import from database schemas\n\nYou can import database schemas using the Solidatus JDBC Connector. Refer to the full documentation available on the [Solidatus JDBC connector documentation site](https://solidatus.gitbook.io/database).\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:56.382Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "b15fcceb5b94bb292e00eeb981bdc960c180399bbcbf4f5e9deba8a268e3638e",
+  "warnings": []
+}

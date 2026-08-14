@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/account-management/account-settings"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-1ddb20d20cfe9e67079e64fc",
+  "requested_url": "https://docs.solidatus.com/account-management/account-settings",
+  "response_content_hash": "2cbbdb4f0a3f9a106717fb26ff791421260d62835352f1c5a8710f532da603f8",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# User account settings\n\nYou can find general account settings and Service Account settings by clicking on your user initials on the right-hand side of the Navigation Bar.\n\n<figure><img src=\"/files/ECxPUCr9lz1hY5rx6HVw\" alt=\"\"><figcaption></figcaption></figure>\n\nOn the <mark style=\"color:red;\">`Account`</mark> page, you can:\n\n* Change your password\n* Set up two-factor authentication\n* Find privacy settings\n* Find viewer settings\n* Manage notification settings\n* Manage API tokens\n* Create and manage webhooks\n\nHere is an example of the <mark style=\"color:red;\">`Account`</mark> page that shows the settings you can modify (select the images to expand them):\n\n<div align=\"left\"><figure><img src=\"/files/TPvvQiRRAlkaemc4BoPf\" alt=\"\" width=\"375\"><figcaption></figcaption></figure> <figure><img src=\"/files/RQS49QqQIztGJeG5KoDs\" alt=\"\" width=\"375\"><figcaption></figcaption></figure> <figure><img src=\"/files/88q2WNvJKzhZwSyMPu2a\" alt=\"\" width=\"375\"><figcaption></figcaption></figure></div>\n\n## Notification settings\n\nYou receive notifications through the **Bell icon** in the top navigation bar and/or by email for a number of different events, such as when a new model has been published in a group you are a member of.\n\nClick on the bell symbol on the navigation bar to access your notifications. A red number next to the bell tells you how many unread notifications you have.\n\nClick a notification to open the affected model or activity.\n\nIn the Account Settings, you can enable notifications via the Bell icon and/or email for the following events:\n\n**General users**\n\n* Group invitation received\n* Model is published to group\n* Model is forked\n* Pull request received\n* Parent model is updated\n* Model imports have updates\n\n**Activities**\n\n* New task received\n* Task has activity\n* Task is published to group\n* Model is shared with you\n* Task is shared with you\n* An activity you’re contributing to has been merged\n\n**Approvals**\n\n* Status of approval to share model to group has changed\n* You have been assigned to review a new activity\n* Your review in an activity has been overridden by a new revision\n* Approval or rejection for an activity has been revoked\n* Activity has been closed or reopened\n* An activity has been approved\n* Changes have been requested on an activity you’re assigned to\n* Automerge has failed\n* Automerge has been skipped\n\n{% hint style=\"success\" %}\nThere are additional notifications available for administrators of a Solidatus environment.\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:36.883Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "750a34c1ec44a10859f2fb9c1f7294bd0d56cc6261c8861cd43b79892adcfe37",
+  "warnings": []
+}

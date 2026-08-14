@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer/model-viewer-sidebar"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-0765d45fe9a7ab2de7f876d4",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer/model-viewer-sidebar",
+  "response_content_hash": "6b3301051b24364dcd419be51d3b548b238b75b8158d4c626799787fdf219afc",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Model Viewer Sidebar\n\nThe sidebar is a set of menus on the right-hand side of the Model Viewer and Lineage Explorer that contains various tools for using, navigating, and editing Solidatus models. A modified version of the sidebar is included in the Graph Explorer.\n\nThe sidebar is made up of four separate tabs with context-sensitive content. Each tab can be opened and closed by clicking the name on the sidebar at the right-hand side of the screen. If a tab is already open, clicking a new tab will replace the currently open one.\n\nFollow the links below to learn more about the actions available in each sidebar tab.\n\n* [The Inspector Tab](/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-inspector-tab)\n* [The Model Tab](/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-model-tab)\n* [The Tools Tab](/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-tools-tab)\n* [The Reference Models Tab](/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-reference-models-tab)\n\n## Customise the sidebar\n\nThe details below apply to the Model Viewer sidebar, but the sidebar in the Lineage Explorer works in the same way and has similar content.\n\nThe sidebar has two alternative layouts: the *classic layout* and the *new layout*. You can switch between the two layouts by clicking on the vertical ellipsis `...` (three dots dropdown) at the bottom of the sidebar.\n\n<figure><img src=\"/files/Wnic4hYmMUpP9wb9Yjeq\" alt=\"\" width=\"329\"><figcaption><p>Switch between classic and new layouts</p></figcaption></figure>\n\n{% hint style=\"warning\" %}\n**The following sections apply to the&#x20;*****new layout***\n{% endhint %}\n\n### Hide or show sidebar panels\n\nAt the top of the sidebar, to the left of the name of the currently open tab, is a three-dot dropdown that allows you to choose which panels are visible in the currently open tab. The list does not include any sections that have been detached from the tab.\n\n<figure><img src=\"/files/NyubtAnl8SO81sK8Lvdz\" alt=\"\" width=\"563\"><figcaption><p>How to change which sections are visible</p></figcaption></figure>\n\n{% hint style=\"success\" %}\nChanges to the order or visibility of sidebar panels will be stored and will carry over to other models automatically, even if you do not save the model you have customised. To revert to the default sidebar settings, see [Reset the Sidebar Panels](#reset-the-sidebar-panels).\n{% endhint %}\n\n### Change the order of sidebar panels\n\nPanels can be collapsed and expanded by clicking the chevron in the panel’s header.\n\nYou can move panels into a different order by clicking panel headers and dragging them to another position.\n\nThere is also a three-dots dropdown menu at the right-hand side of each panel’s header that can be used to move or detach the panel.\n\n<figure><img src=\"/files/hp1PBH8DlSTDg8lE47rL\" alt=\"\"><figcaption><p>How to re-order sections</p></figcaption></figure>\n\n### Detach sidebar panels\n\n{% hint style=\"success\" %}\nDetaching a section allows it to be placed anywhere within the user interface. The section can be returned to the sidebar by pressing the <mark style=\"color:red;\">x</mark> button at the top right-hand corner of the detached section.\n{% endhint %}\n\n### **Drag panels away from the sidebar**\n\nYou can drag sections away from the Sidebar, placing them wherever you would prefer to see them, alongside each other to focus on a task, or perhaps alongside the entities you’re working on in the Model Viewer.\n\nIn the image below, two sections have been dragged from the [The Reference Models Tab](/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-reference-models-tab) so that they are next to the `Properties and Relationships` panel in [The Inspector Tab](/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-inspector-tab).\n\n<figure><img src=\"/files/awBS7ZaMpaARQ3dyt7pg\" alt=\"\" width=\"563\"><figcaption><p><strong>Drag sidebar panels around to form a bespoke workspace</strong></p></figcaption></figure>\n\n***\n\n### Reset the sidebar panels\n\nIf you have detached any of the sidebar panels or rearranged their order, resetting to the new or classic layouts will cause them to be reattached to the sidebar in the default order.\n\n<figure><img src=\"/files/Wnic4hYmMUpP9wb9Yjeq\" alt=\"\" width=\"329\"><figcaption><p>How to reset the state of the sidebar</p></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:44.429Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "15b9ab43cfc380c8736d5fd02c09d0a31cfa8fe69189537e199dfa4d44e283c4",
+  "warnings": []
+}

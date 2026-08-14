@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/column_lineage"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-c886fe6de3a860fc9c73623f",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/column_lineage",
+  "response_content_hash": "4f1bd71d05efbb184d54497a69dd8d3cf6e7270fced214deaeb05ead4b57343a",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Column Lineage\n\nThe Snowflake connector can also extract column-level lineage, based on Snowflake Access History, and apply it between columns in the Solidatus model. Column lineage is a visual representation of how data flows throughout a system shown as transitions between source and target columns. By leveraging access history, Snowflake allows users to track and understand the lineage of columns, providing valuable insights into data origins, transformations, and usage patterns. Access history based column lineage is only available to Snowflake Enterprise Edition (or higher) accounts.\n\n## How Column Lineage works in Snowflake\n\nSnowflake captures column lineage information based on access history, which refers to the historical data access events that occur within the system. When a user queries a table or view in Snowflake, the query is logged as an access event, and Snowflake automatically captures the column lineage information associated with that event. The limitations of this are therefore only when database columns have been modified or actual data is moved then it will show up as column lineage in the model. It then becomes a great indicator of the usage and actual lineage of a specific Snowflake system.\n\nFor more limitations and the specific queries that will show up please see the official Snowflake documentation: <https://docs.snowflake.com/en/user-guide/access-history#label-access-history-column-lineage>\n\n## Pre-requisites\n\nYour user account provided as `--solidatus.jdbc.username` must have access to the `SNOWFLAKE.ACCOUNT_USAGE` schema and its containing views. For full access and parsing, the following **view** permission at a minimum is required:\n\n* `SNOWFLAKE.ACCOUNT_USAGE.ACCESS_HISTORY`\n\n## Configurability\n\nPlease see the [Configuration](/connectors/connector-specific-documentation/snowflake/column_lineage/configuration) section for more details on the specific options and expected values.\n\n### Users\n\nUsing the `solidatus.jdbc.snowflakeEnricher.accessHistory.users` configuration allows restricting column lineage depending on the actions of chosen users. This can be used to ascertain habits and regular workflows of a group of users. The users configuration option takes a list of Snowflake usernames. This will show the access of queries run against the dataset by that user.\n\nIf a list of users is not provided then all users' access history lineage will be fetched.\n\n### DateTime span\n\nUsing the `solidatus.jdbc.snowflakeEnricher.accessHistory.fromDate` and `solidatus.jdbc.snowflakeEnricher.accessHistory.toDate` configuration allows filtering down the access history lineage between provided dateTimes. The dateTimes should be provided in ('`yyyy-MM-dd HH:mm:ss`') format. This can be used to track and compare system usage over specific periods of time.\n\nA limitation of using the Snowflake Access History view is that it can only retrieve access within 1 year (365 days). Therefore, the dateTime span provided must also be within 1 year. If no date span is provided the default scope is 30 days before current date.\n\n### Timespan\n\nThe `solidatus.jdbc.snowflakeEnricher.accessHistory.timespan` configuration is an alternate option for selecting the period of time for access history. The value of this field represents the number of days before today to retrieve access history for. To use this option, do not fill in the [DateTime span options](#datetime-span) highlighted above.\n\n## Display rules\n\nA new display rule provided in the Snowflake Data Governance module called `Highlight Column Lineage` is included which can be used to filter and highlight transitions in the model which specifically represent access history column lineage.\n\n## Example Model\n\nFor the resulting Solidatus model extracted column lineage is represented as transitions between columns where direction shows source to target flow of data.\n\n### Properties\n\nThe properties added for column lineage transitions are:\n\n* SOL.SNOWFLAKE.accessHistory: always true to denote transitions inferred from access history\n* NUM\\_QUERIES: the number of times a specific column lineage source -> target result appears in the access history\n\n![Tag entity properties](/files/Sa0uTedRF3MBC8BHhMGS)\n\n### Transition\n\n![Tag transition properties](/files/lya2Vc3fl7SARVfsptKQ)\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:52.608Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "99ecf842575c81e0d1521b3205196baae66efdaf2eb512db93e604e1de34feef",
+  "warnings": []
+}

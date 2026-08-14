@@ -1,0 +1,18 @@
+{
+  "arguments": {
+    "goal": "Reconstruct the current documentation navigation for an auditable release snapshot.",
+    "question": "List the direct child pages and immediate subgroups under the current 'Data Domains' documentation section (/data-domains/data-domains-main). Return page titles with full docs.solidatus.com URLs."
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "raw_record_id": "discovery-2ac9d9fc61c186b237fcabff",
+  "requested_url": null,
+  "response_content_hash": "8652deaf76261570e5a30829b7370615894b958c2ba0c051ac31b7cf3112b62b",
+  "returned_textual_content": "## Direct child pages (under `/data-domains/data-domains-main`)\n\n* **Data Domains main** — <https://docs.solidatus.com/pages/zGBRdy6KXZ6ggMDnUGFL>\n\n## Immediate subgroups (with nested sub-pages)\n\n* **Understand Data Domains** — <https://docs.solidatus.com/pages/UncxrIYTcq9ZqsnKWFSw>\n* **Build Data Domains** — <https://docs.solidatus.com/pages/ebpv6YOSmelAayOVkHae>\n* **Explore Data Domains** — <https://docs.solidatus.com/pages/yjp4gIeplwlaZUcczLZ2>\n* **Data Maps** — <https://docs.solidatus.com/pages/FOMCJjmG51L2l3wiesLs>\n* **Analytics reports** — <https://docs.solidatus.com/pages/2mjSOaqPuNcdACPayemR>\n\n# Sources\n\n- [Data Domains main](https://docs.solidatus.com/data-domains/data-domains-main)",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:08:53.084Z",
+  "tool_name": "askQuestion"
+}

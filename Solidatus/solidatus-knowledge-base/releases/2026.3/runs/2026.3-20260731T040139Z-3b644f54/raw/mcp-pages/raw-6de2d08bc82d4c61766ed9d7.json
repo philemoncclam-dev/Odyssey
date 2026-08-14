@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/tableau/overview"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-6de2d08bc82d4c61766ed9d7",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/tableau/overview",
+  "response_content_hash": "eee795c77db14a805ffba49810ae1b120b5fdbd9a7609a525c22e31db9a74f0b",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Overview\n\nThe Solidatus Connector for Tableau allows for the importation of data lineage from a Tableau (.twb) file into a Solidatus instance. The connector enables modelling and exploration of data flows with the powerful Solidatus tools, as well as integration with lineage from other sources once inside Solidatus.Within this documentation there will also be reference to direct connectivity to a Tableau instance. This refers to the option to connect directly to a Tableau instance to leverage its API to query and export Tableau workbooks for the connector to ingest.\n\n### **Supported Features Overview** <a href=\"#supported-features-overview\" id=\"supported-features-overview\"></a>\n\n| **Feature**        | **Included** | **Example**                                                                                                          |\n| ------------------ | ------------ | -------------------------------------------------------------------------------------------------------------------- |\n| Metadata Structure | ✓            | Datasource connection metadata, Tableau logical view structure, Worksheet high-level contents and Tableau components |\n| Lineage            | ✓            | Column-level relationships, Workbook-level relationships                                                             |\n\n### **Supported Tableau Features** <a href=\"#supported-tableau-features\" id=\"supported-tableau-features\"></a>\n\nThe following table outlines the key Tableau concepts that the Solidatus connector extracts and represents within the Solidatus model. For comprehensive details on each feature, refer to the linked pages.\n\n| **Tableau concept** | **Solidatus model representation** | **Link to feature page**                                                                                                       |\n| ------------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |\n| Datasources         | Objects                            | ​[Column-level Relationships](broken://spaces/9xK4eD0HYjgN3spTTDHf/pages/NqJc7F57dzy9y3SI0mgK#column-level-relationships)​     |\n| Views               | Objects                            | ​[Column-level Relationships](broken://spaces/9xK4eD0HYjgN3spTTDHf/pages/NqJc7F57dzy9y3SI0mgK#column-level-relationships)​     |\n| Worksheets          | Objects                            | ​[Column-level Relationships](broken://spaces/9xK4eD0HYjgN3spTTDHf/pages/NqJc7F57dzy9y3SI0mgK#column-level-relationships)​     |\n| Workbooks           | Objects                            | ​[Workbook-level Relationships](broken://spaces/9xK4eD0HYjgN3spTTDHf/pages/NqJc7F57dzy9y3SI0mgK#workbook-level-relationships)​ |\n| Dashboards          | Objects                            | ​[Workbook-level Relationships](broken://spaces/9xK4eD0HYjgN3spTTDHf/pages/NqJc7F57dzy9y3SI0mgK#workbook-level-relationships)​ |\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:42.451Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "b32a193cf398e7a367ea92e290602667115e6c1378a79ecd6abd76c8d3fef983",
+  "warnings": []
+}

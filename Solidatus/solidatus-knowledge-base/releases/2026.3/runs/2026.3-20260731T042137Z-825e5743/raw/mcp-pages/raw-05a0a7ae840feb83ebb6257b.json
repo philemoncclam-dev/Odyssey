@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/analytics-reports"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-05a0a7ae840feb83ebb6257b",
+  "requested_url": "https://docs.solidatus.com/data-domains/analytics-reports",
+  "response_content_hash": "9c49e4156ce1e54f36860857781b7fbe00d20378842e0684c24b6f2fc0b5ffba",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Analytics reports\n\nAnalytics Reports give you the ability to gain quantitative insight into the data landscapes captured in your Data Domains. You can gather key figures, build charts and data infographics, and share them across your organisation to improve monitoring, analysis, and decision-making.\n\n<figure><img src=\"/files/uSROVK9wRmTnhX6pA2Ed\" alt=\"\"><figcaption><p>Create Analytics reports for your Data Domains</p></figcaption></figure>\n\nInside an Analytic Report, you define [metrics](/data-domains/analytics-reports/understand-analytics-reports-and-metrics#what-is-a-metric) that calculate the values you are interested in. You can then build different types of charts to visually analyse the metrics you’ve collected.\n\nYou can do a lot with Analytics Reports:\n\n* Provide quantitative evidence of compliance with regulations\n* Keep track of performance and governance targets\n* Monitor quality, risk, or data governance maturity metrics\n* Base your data and metadata management decision-making on numbers\n\nWhat’s more, you can navigate seemlessly between analysis of a chart in an Analytics Report and examination of detailed information on domain entries represented by figures in the chart.\n\n### Contents\n\n* [Understand Analytics reports and metrics](/data-domains/analytics-reports/understand-analytics-reports-and-metrics)\n* [Create an Analytics reports](/data-domains/analytics-reports/create-an-analytics-report)\n* [Create and edit metrics](/data-domains/analytics-reports/create-and-edit-metrics)\n* [Create and analyse charts](/data-domains/analytics-reports/create-and-analyse-charts)\n* [Edit and delete an Analytics reports](/data-domains/analytics-reports/edit-and-delete-an-analytics-report)\n* [Metric examples](/data-domains/analytics-reports/metric-examples)\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:41.794Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "2c52da54c735d2ea766b40b85de018b11bc2128d5b435dc4e9aaacf62da338e1",
+  "warnings": []
+}

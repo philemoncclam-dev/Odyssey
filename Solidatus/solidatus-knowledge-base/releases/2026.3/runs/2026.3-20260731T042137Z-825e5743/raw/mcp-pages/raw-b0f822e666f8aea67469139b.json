@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/legacy-mainframe/overview/agent-mode"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-b0f822e666f8aea67469139b",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/legacy-mainframe/overview/agent-mode",
+  "response_content_hash": "abe4d12784de2a5732506c9be8f07f6441d18d99b90439532cb2604b25b34ee9",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Agent mode\n\nRunning the Legacy Mainframe Connector in Agent mode will set up the Connector to wait and receive jobs sent to it. To submit a job go to the Connectors Dashboard, create a job with a specified configuration and submit. Once the job is completed the final model will appear in the Model List. For a full demonstration of Connector Agent mode see your hosted Solidatus site documentation page `/help/connectors`.\n\nUsing the configuration wizard allows you to validate the file options for the Legacy Mainframe Connector.\n\nRunning the connector in agent mode requires setting the `--spring.profiles.active='agent'`.\n\nAlong with this the only required configuration options are:\n\n`--solidatus.api.host`\n\n`--solidatus.api.token`\n\n`--solidatus.agent.name`\n\nSetting these options will set up the connector in agent mode connected to the Solidatus instance which allows configuring and running jobs through the Solidatus UI.\n\n### Example\n\nTo run the Connector agent a script similar to the following would be run. This agent will continue running while jobs are sent to it.\n\n```bash\njava -jar solidatus-legacy-mainframe-connector.jar \\\n--spring.profiles.active=\"agent\" \\\n--solidatus.api.host={SOLIDATUS_HOST_ADDRESS} \\\n--solidatus.api.token={SOLIDATUS_TOKEN} \\\n--solidatus.agent.name=\"Legacy Mainframe Connector\" \\\n--solidatus.agent.type=\"legacy-mainframe\" \\\n--solidatus.agent.description=\"Solidatus Legacy Mainframe Connector\"\n```\n\n### Screenshot Walkthrough\n\n1.\n\n2\\.\n\n3\\.\n\n4.\n5.\n6.\n7.\n8.\n\nOnce the job has completed, a model will be created (or updated) with the contents of the connector run.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:56.004Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "b0e5894a8524fb95e759f2e8a032f861d043456d93f1ab815045f0b3cb82feef",
+  "warnings": []
+}

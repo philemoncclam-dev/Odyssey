@@ -1,0 +1,154 @@
+{
+  "initialize_response": {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+      "capabilities": {
+        "tools": {
+          "listChanged": true
+        }
+      },
+      "protocolVersion": "2025-03-26",
+      "serverInfo": {
+        "name": "mcp-typescript server on vercel",
+        "version": "0.1.0"
+      }
+    }
+  },
+  "protocol_metadata": {
+    "capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "protocolVersion": "2025-03-26",
+    "serverInfo": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "tool_schema_hashes": {
+    "askQuestion": "297b41beda2808c0703e1de67f9740de3986d2c78e2b79f10e337ae107f1e5e7",
+    "getPage": "45fadf931e28fbd37344de9bfc38ad47f08d53f332d407b99cd4198ee5bac531",
+    "searchDocumentation": "c860aa34a2247daac484a3a2548cb745fefb15cf5f30ab0f456ad892a4435a4a",
+    "sendFeedback": "d18a1913da90138d8192ba176a29c74da5d45d0eaa7508e6ff22e8e31bc8a7e2"
+  },
+  "tools": [
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Search documentation"
+      },
+      "description": "Search across the documentation to find relevant information, code examples, API references, and guides. Use this tool when you need to answer questions about Solidatus documentation, find specific documentation, understand how features work, or locate implementation details. The search returns contextual content with titles and direct links to the documentation pages.",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      },
+      "name": "searchDocumentation"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Get page content"
+      },
+      "description": "Fetch the full markdown content of a specific documentation page from Solidatus documentation. Use this when you have a page URL and want to read its content. Accepts full URLs (e.g. https://docs.solidatus.com//getting-started). Since `searchDocumentation` returns partial content, use `getPage` to retrieve the complete page when you need more details. The content includes links you can follow to navigate to related pages.",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "properties": {
+          "url": {
+            "description": "The URL of the page to fetch",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "name": "getPage"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Ask a question"
+      },
+      "description": "Ask a natural-language question about Solidatus documentation and get a synthesized answer, with links to the source pages. Prefer this over `searchDocumentation` when you want a direct answer to a question rather than a list of matching pages; use `searchDocumentation`/`getPage` when you need to browse or read full pages yourself.",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "properties": {
+          "goal": {
+            "description": "The broader end goal you are ultimately trying to accomplish (as/on behalf of the user). Used to tailor the answer to be most useful for your goal. Optional.",
+            "type": "string"
+          },
+          "question": {
+            "description": "The natural-language question to answer about Solidatus documentation.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "type": "object"
+      },
+      "name": "askQuestion"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Send feedback"
+      },
+      "description": "Report an issue in the documentation of Solidatus documentation so the team can fix it. Use it whenever, while helping a user, you come across content that is outdated, contradictory, missing information, or otherwise unhelpful. Also use it when the user themselves reports a problem with the docs, even if you could not verify it yourself. If it's your own observation, do a quick sanity check that the issue is real before reporting — no need to exhaustively re-read the page. Send one call per distinct issue and do not report the same issue twice in a conversation. Do not use this tool to confirm that a page is accurate; it is for reporting problems only.",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "description": "Explain the issue in full, as if writing to a documentation maintainer who never saw this conversation. Describe what is wrong, where on the page it appears (quote the exact sentence or section title when possible), what the user was trying to do, and, when relevant, what the correct or expected information should be. Write a few clear, specific sentences in English. Never include personal or confidential information from the conversation. Up to 2048 characters.",
+            "maxLength": 2048,
+            "minLength": 1,
+            "type": "string"
+          },
+          "goal": {
+            "description": "The broader end goal you were ultimately trying to accomplish (as/on behalf of the user) when you hit this issue. Gives the team the context you were working towards. Optional.",
+            "type": "string"
+          },
+          "pageUrl": {
+            "description": "The full URL of the page the issue is about (e.g. https://docs.solidatus.com//getting-started), so the finding is linked to the exact page.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "content",
+          "pageUrl"
+        ],
+        "type": "object"
+      },
+      "name": "sendFeedback"
+    }
+  ]
+}

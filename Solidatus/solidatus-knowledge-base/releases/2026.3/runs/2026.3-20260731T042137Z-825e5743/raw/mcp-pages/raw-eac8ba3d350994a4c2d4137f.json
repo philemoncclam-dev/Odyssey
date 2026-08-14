@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/snowflakedatagovernanceusage/tags"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-eac8ba3d350994a4c2d4137f",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/snowflakedatagovernanceusage/tags",
+  "response_content_hash": "f0c2e48794a5fc8f9a0c8bca7eba521d00729b93f4a1265983a181285fd38e6f",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Snowflake Tags\n\nTags are represented as Solidatus Objects in the `TAGS` layer. `Tag Names` are shown as Objects with the `Tag Values` as attributes nested in the `Tag Name`. Each Tag Name will contain relevant Snowflake metadata including:\n\n* `ALLOWED_VALUES`: A list of pre-defined tag values\n* `TAG_OWNER`: Who created the tag\n* `TAG_SCHEMA`: Which schema the tag was defined in\n* And more...\n\nOnce a tag has been created it can be applied to a Snowflake column using an `ALTER TABLE` statement and providing the specifying the tag value.\n\n### Example SQL\n\n```sql\ncreate\ntag ISO_GEOGRAPHY_CODES\n    allowed_values 'COUNTRY_CODE', 'COUNTRY_SUBDIVISION_CODE', 'FORMER_COUNTRY_CODE'\n```\n\n### Solidatus Representation\n\n<figure><img src=\"/files/TdpHsWpjNIFPZlD4eL1r\" alt=\"\"><figcaption></figcaption></figure>\n\n## Enriched Lineage Model\n\nOnce the Governance reference model has been built, running the Snowflake connector enriched with the reference model enables you to display policies and tags directly over the Snowflake database structure.\n\nPolicies and tags are represented as Solidatus Relationships which allows easy linking to the original Governance reference model.\n\nAlong with the linked relationships, a number of pre-defined display rules can be enabled for easy visualisation as shown below. For tags display rules can represent the `Tag Name` and `Tag Value` directly on the `Column` in the model.\n\n### Solidatus representation\n\n<figure><img src=\"/files/ylYGem8Z7Y0WgWgGNqOh\" alt=\"\"><figcaption></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:52.608Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "7d65ab9a03afa774c3ee6a1382094a5b27ba695063bfdc293669798301672092",
+  "warnings": []
+}

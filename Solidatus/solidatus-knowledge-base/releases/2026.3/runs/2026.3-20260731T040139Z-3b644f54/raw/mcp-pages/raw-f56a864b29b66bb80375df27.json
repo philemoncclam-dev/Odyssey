@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/purview"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-f56a864b29b66bb80375df27",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/purview",
+  "response_content_hash": "db2b40f86f2c6431c6d6010febdb4084d4fdba3e81019adcba404c8fe10a6432",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Purview\n\nThe Solidatus Purview Connector is a Java based tool to transfer lineage and asset data between Purview and Solidatus. At present it supports transferring assets and lineage from connector-created Snowflake and Oracle models in Solidatus into Purview.\n\n## Features\n\n* Database objects created in Purview\n  * Database host or server\n  * Tables\n  * Views\n  * Table Columns\n  * View Columns\n  * Stored Procedures\n  * View column lineage\n  * Stored procedure column lineage\n* Database objects matched between Solidatus and Purview\n  * Database host or server\n  * Tables\n  * Views\n  * Table Columns\n  * View Columns\n  * Stored Procedures\n* Purview asset classifications added to Solidatus model\n* Purview glossary terms added to Solidatus model\n* Purview asset properties added to Solidatus model\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:56.776Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "c8d9ab382fae414a26397ec6f1883fffdc16c701c021d8c81f6377f1f2f14d5e",
+  "warnings": []
+}

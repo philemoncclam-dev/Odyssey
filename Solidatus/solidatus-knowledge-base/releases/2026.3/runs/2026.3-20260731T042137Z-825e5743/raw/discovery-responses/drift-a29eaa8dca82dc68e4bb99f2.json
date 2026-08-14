@@ -1,0 +1,14 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/models-main"
+  },
+  "purpose": "snapshot-drift-check",
+  "raw_record_id": "drift-a29eaa8dca82dc68e4bb99f2",
+  "response_content_hash": "4acb1eb408e0692395fc248b3c8439af708c0af9d5e8a50270639303073b02c2",
+  "returned_textual_content": "# Models main\n\nThis section contains comprehensive information about Solidatus models, from modeling concepts and terminology to all functionality involved in building and editing models, exploring and analysing models, version control, sharing models, and collaborating with others on model work.\n\n{% hint style=\"success\" %}\nFor more technical information on building models with the help of Connectors or the API, see the [Connectors](/connectors/connectors-overview) page and [The Solidatus API](https://github.com/solidatus/Solidatus-docs-gitbook/blob/stable/solidatus-core/models/broken-reference/README.md) sections.\n{% endhint %}\n\nAt the most basic level, a Solidatus model is an explorable map of connections between hierarchically nested model entities. Models help you visualise and analyse complex data infrastructure, but they also store information and can be used to query, document, and assess the target systems and reference content that a model represents.\n\n{% hint style=\"success\" %}\nWhile Solidatus models can be used to represent nearly anything, they are designed specifically for capturing **data lineage** and for documenting technical lineage in relation to semantic frameworks like governance structures, business glossaries, external regulations, and internal policies.\n{% endhint %}\n\nModels serve as the foundation of the Solidatus platform, powering enterprise-wide Data Maps and Data Domains that enable you to visualise, search, browse, query, and quantitatively analyze across models. All information in Data Domains originates from models published to those domains.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:05.503Z",
+  "tool_name": "getPage"
+}

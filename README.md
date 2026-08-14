@@ -22,7 +22,7 @@ it gets updated as each piece lands, not before.
 | Data Product catalog (taxonomy, data product, application views) | Done, local only |
 | Fabric Toolkit UI (Explore, sandbox, integrations) | Built; Fabric browsing wired to the real API behind an opt-in flag, unverified against a live tenant — see below |
 | Sandbox engine | Done, runs locally |
-| Server, shared models | Not started |
+| Server, shared models & branching | Built (`server/`) — Cosmos DB + Azure Functions, opt-in, unverified against a live deployment; no sharing UI yet |
 
 ## What this is not
 
@@ -57,6 +57,18 @@ service: `python -m sandbox.service` puts one loopback HTTP endpoint in front
 of it for development, and the app connects only when `VITE_SANDBOX_URL` is
 set. Unset — every default checkout and every build — it is not wired in and
 the app still makes no network calls.
+
+**Model storage is the fourth exception**, and the newest one: `server/` is a
+real backend — Cosmos DB behind Azure Functions — for sharing both models AND
+their branching history between users, instead of each browser holding its
+own `localStorage` copy of both. `app/src/model/wiring.ts` picks it up only
+when `VITE_MODEL_API_URL` is set; unset, everything above still holds and
+nothing ever leaves the browser. Branching's local-only status (ADR-0002) no
+longer holds once this is wired in — `model/remoteHistoryStore.ts` explains
+what specifically changes about "current branch" once a model has more than
+one person looking at it. There is still no sharing UI — see
+[server/README.md](server/README.md) for the full picture, deployment steps,
+and what it deliberately does not do.
 
 ## Deploying for a real organization
 
@@ -93,6 +105,10 @@ VITE_SKIP_AUTH=1 npm run dev
 # real Fabric browsing (workspaces/items/tables), unverified — see the README's
 # "What this is not" section and docs/fabric-toolkit-wiring.md
 VITE_FABRIC_REAL=1 npm run dev
+
+# the model-storage API — see server/README.md for schema, Entra, and
+# deployment setup; local dev needs local.settings.json filled in first
+cd server && npm install && npm run typecheck && npm test
 ```
 
 The engine's Spark suite skips unless PySpark is installed; the stub engine

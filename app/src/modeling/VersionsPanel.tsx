@@ -14,21 +14,8 @@
 // Shares the Views dock's frame (.vw-panel), like the Properties dock does: two
 // panels in the same slot that looked different would read as two places.
 import { useEffect, useState } from 'react'
-import {
-  MAIN,
-  checkout,
-  commit,
-  createBranch,
-  currentBranch,
-  getSnapshot,
-  listBranches,
-  listSnapshots,
-  mergeBranch,
-  type Branch,
-  type MergeOutcome,
-  type SnapshotMeta,
-} from '../model/history'
-import { localStore } from '../model/store'
+import { MAIN, type Branch, type MergeOutcome, type SnapshotMeta } from '../model/history'
+import { activeHistory, activeStore } from '../model/wiring'
 import { diffHeadline, diffVersions, type VersionDiff } from '../model/versionDiff'
 import type { LineageModel } from '../model/types'
 
@@ -73,9 +60,9 @@ export function VersionsPanel({
 
   const refresh = async () => {
     try {
-      setVersions(await listSnapshots(model.id))
-      setBranches(await listBranches(model.id))
-      setBranch(await currentBranch(model.id))
+      setVersions(await activeHistory.listSnapshots(model.id))
+      setBranches(await activeHistory.listBranches(model.id))
+      setBranch(await activeHistory.currentBranch(model.id))
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
     }
@@ -99,8 +86,8 @@ export function VersionsPanel({
     try {
       // Snapshot what is PERSISTED, so the open model has to be saved first or
       // the snapshot silently captures the previous state.
-      await localStore.save(model)
-      await commit(model.id, model, label.trim() || defaultLabel())
+      await activeStore.save(model)
+      await activeHistory.commit(model.id, model, label.trim() || defaultLabel())
       setLabel('')
       await refresh()
     } catch (e) {
@@ -114,7 +101,7 @@ export function VersionsPanel({
     setBusy(true)
     setError(null)
     try {
-      await createBranch(model.id, name)
+      await activeHistory.createBranch(model.id, name)
       setNewBranch(null)
       setMerge(null)
       await refresh()
@@ -132,9 +119,9 @@ export function VersionsPanel({
       // Commit-then-switch, not stash-then-switch: uncommitted work belongs to
       // the branch it was done on, and losing it to a dropdown would be the
       // worst possible surprise in a panel whose whole job is not losing work.
-      await localStore.save(model)
-      await commit(model.id, model, `Work in progress on ${branch}`)
-      const loaded = await checkout(model.id, name)
+      await activeStore.save(model)
+      await activeHistory.commit(model.id, model, `Work in progress on ${branch}`)
+      const loaded = await activeHistory.checkout(model.id, name)
       if (loaded) (onCheckout ?? onRestore)({ ...model, ...graphOf(loaded) })
       setPreview(null)
       onDiffPreview?.(null)
@@ -151,7 +138,7 @@ export function VersionsPanel({
     setBusy(true)
     setError(null)
     try {
-      const outcome = await mergeBranch(model.id, branch, target)
+      const outcome = await activeHistory.mergeBranch(model.id, branch, target)
       setMerge({ ...outcome, source: branch })
       await refresh()
     } catch (e) {
@@ -164,7 +151,7 @@ export function VersionsPanel({
   const examine = async (meta: VersionMeta) => {
     setError(null)
     try {
-      const snapshot = await getSnapshot(model.id, meta.id)
+      const snapshot = await activeHistory.getSnapshot(model.id, meta.id)
       if (!snapshot) {
         setError('That version could no longer be read.')
         return
@@ -182,7 +169,7 @@ export function VersionsPanel({
   const restore = async (meta: VersionMeta) => {
     setBusy(true)
     try {
-      const snapshot = await getSnapshot(model.id, meta.id)
+      const snapshot = await activeHistory.getSnapshot(model.id, meta.id)
       if (!snapshot) {
         setError('That version could no longer be read.')
         return

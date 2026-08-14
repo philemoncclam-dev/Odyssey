@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/mongodb/model-output"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-cb9154330cb73fba12cabf8a",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/mongodb/model-output",
+  "response_content_hash": "146161c232f86be329847ee605c44dd6406b5ea7374ac49de3cd284045794b25",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Model Output\n\nThe MongoDB connector uses MongoDB's API to extract database and collection metadata for the construction of a Solidatus model representative of customers' MongoDB instance.\n\n## Entities\n\n### Layer\n\nA Solidatus layer represents a database on a MongoDB instance.\n\nLayers will have the following properties representing various document metadata. Below is a table of MongoDB metadata properties.\n\n| Property key | Description                                                   | Type    |\n| ------------ | ------------------------------------------------------------- | ------- |\n| `empty`      | Specifies whether the database is empty.                      | Boolean |\n| `name`       | Name of the database.                                         | String  |\n| `sizeOnDisk` | Total size of the database files on disk, expressed in bytes. | Integer |\n\n### Object\n\nA Solidatus object represents a collection of documents housed inside a particular database.\n\nObjects will have the following properties representing various document metadata. Below is a table of MongoDB metadata properties.\n\n| Property key          | Description                                                 | Type     |\n| --------------------- | ----------------------------------------------------------- | -------- |\n| `type`                | Type of data store                                          | String   |\n| `name`                | Name of the collection.                                     | String   |\n| `options`             | Collection options                                          | Document |\n| `info`                | Additional metadata that is currently not explicitly parsed | Document |\n| `Number of documents` | Number of documents in the collection                       | Integer  |\n\n### Attribute\n\nSolidatus attributes all represent fields in a document in that collection. Certain fields will have multiple levels of nesting; these represent nested fields in a MongoDB document.\n\n**NOTE** that the fields modeled in the Solidatus model may vary depending on the value of the `--solidatus.mongodb.first-document-only` configuration field. As MongoDB does not specify a schema for a collection. The connector will either read the structure of the first document in the collection or all documents in the collection. It is also important to note that the latter may result in performance concerns.\n\nAttributes will have the following properties representing various document metadata. Below is a table of MongoDB metadata properties.\n\n| Property key    | Description                              | Type           |\n| --------------- | ---------------------------------------- | -------------- |\n| `type`          | Type of document field                   | String         |\n| `Mongo Indexes` | List of indexes that apply to this field | List of string |\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:56.323Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "c4236de072f91fa69a2656423246878a369daafacacabaf739df27957a8c0bc7",
+  "warnings": []
+}

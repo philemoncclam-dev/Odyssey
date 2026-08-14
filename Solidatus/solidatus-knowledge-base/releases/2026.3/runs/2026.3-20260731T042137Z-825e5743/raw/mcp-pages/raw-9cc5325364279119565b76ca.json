@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/api-documentation/api-actions/api-use-the-api/setmetadata"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-9cc5325364279119565b76ca",
+  "requested_url": "https://docs.solidatus.com/api-documentation/api-actions/api-use-the-api/setmetadata",
+  "response_content_hash": "b91b4d384679f1c520f27f8de874c7a6b84bfab0bc14ebe2f208ff796efcb6ec",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# SetMetadata\n\nThe `SetMetadata` command can update existing metadata for the model specified in the endpoint path.\n\nExisting metadata keys that can be modified include `views` , `gridReports`, and `queries`, which define and modify characteristics the views, Grid reports, and queries stored in a model.\n\nTo retrieve existing model metadata that you may wish to modify, use `GET /api/v1/models/{modelId}/metadata`.\n\n## Endpoint\n\n```\nPOST /api/v1/models/{modelId}/update\n```\n\nThe path parameter `modelId` is the ID of the model you are updating. Model IDs can be found at the end of the URL in your browser when you have the model open in the Model Viewer or Model Overview.\n\nFor example, the URL `demo.solidatus.com/viewer/66e014e145377388ae99ac48` contains the ID of the open model at the end: `66e014e145377388ae99ac48`.\n\nYou will likely need to copy and paste the Model ID of the model you’d like to update from the URL in your browser to the endpoint path in your cURL command or REST client.\n\n## Request Body Example\n\nHere is an example of the body of a request formatted in JSON for the `SetMetadata` command.\n\n{% code overflow=\"wrap\" %}\n\n```\n{\n \"cmds\": [\n     {\n     \"cmd\": \"SetMetadata\",\n     \"key\": \"queries\",\n     \"value\": \"{\\\"version\\\":\\\"3\\\",\\\"moduleColours\\\":{\\\"Uncategorised\\\":\\\"#9013fe\\\"},\\\"queryOrder\\\":[\\\"86374c7a-853f-46a5-a042-70b46955f9a2\\\"]}\"\n     }\n ],\n \"commit\": true,\n \"commitMessage\": \"Remove name key from model metadata\",\n \"preview\": false,\n \"includeChangeset\": true,\n \"expectDraft\": false\n}\n```\n\n{% endcode %}\n\n{% hint style=\"success\" %}\nTo modify metadata for views, queries, and Grid reports, retrieve existing model metadata first, then change specific elements to make sure the new values you are posting are formatted correctly.\n{% endhint %}\n\nYou can retrieve existing model metadata by calling the `GET /api/v1/models/{modelId}/metadata` endpoint, or you can find it in the Model Viewer interface by clicking the `i` icon in the Model Info panel in the Model sidebar tab.\n\n<figure><img src=\"/files/CrdWCx5SGicHFYJabx6G\" alt=\"\" width=\"359\"><figcaption></figcaption></figure>\n\n## Command Schema\n\n<table data-header-hidden><thead><tr><th width=\"102.28460693359375\"></th><th width=\"78.21630859375\"></th><th width=\"99.34356689453125\"></th><th></th></tr></thead><tbody><tr><td><strong>Field</strong></td><td><strong>Type</strong></td><td><strong>Required/Optional</strong></td><td><strong>Description</strong></td></tr><tr><td><code>\"key\"</code></td><td>String</td><td>Required</td><td>The metadata property key for the value you wish to modify.</td></tr><tr><td><code>\"value\"</code></td><td>String</td><td>Required</td><td>The new value to replace the existing metadata property value with.</td></tr></tbody></table>\n\n## Response Schema\n\nResponses are in JSON and contain a standard set of fields.\n\n<table data-header-hidden><thead><tr><th width=\"190.2291259765625\"></th><th></th></tr></thead><tbody><tr><td><strong>Field</strong></td><td><strong>Description</strong></td></tr><tr><td><code>\"changeset\"</code></td><td>Shows model data that was updated by the request.</td></tr><tr><td><code>\"ids\"</code></td><td>If user-defined IDs were provided, this field shows new Solidatus generated IDs of added entities.</td></tr><tr><td><code>\"errors\"</code></td><td>Shows error message if an error was encountered while executing command.</td></tr><tr><td><code>\"revisionId\"</code></td><td>If <code>commit</code> was set to <code>true</code>, this shows the ID of the new model revision that contains the added entity.</td></tr><tr><td><code>\"draftId\"</code></td><td>If <code>commit</code> was set to <code>false</code>, this shows the ID of the draft containing the added entity.</td></tr><tr><td><code>\"draftRevisionId\"</code></td><td>If <code>commit</code> was set to <code>false</code>, this shows the ID of revision on the draft that contains the added entity.</td></tr></tbody></table>\n\n### **Response Codes**\n\n200: Success\n\n### **Error codes**\n\n400: Bad Request\n\n404: Not Found\n\n500: Internal Server Error\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:50.677Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "4fdd9201425d8ccaeeeb5f6125238337b570fde7825e012b44502a877099fe4e",
+  "warnings": []
+}

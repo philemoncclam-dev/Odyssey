@@ -10,7 +10,7 @@
 import { useEffect, useState } from 'react'
 import { Command } from 'cmdk'
 import { useNavigate } from '@tanstack/react-router'
-import { localStore } from '../model/store'
+import { activeStore as localStore } from '../model/wiring'
 import { localCatalogStore } from '../catalog/store'
 import { taxonomyLabel } from '../catalog/taxonomy'
 import type { ModelSummary } from '../model/types'

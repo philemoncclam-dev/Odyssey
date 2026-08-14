@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-9/fabric-data-lakehouse"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-edb9b7a0253de572809a32e4",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-9/fabric-data-lakehouse",
+  "response_content_hash": "519f6bb70cee3ed1d69dbbf876a18c4fec411fc1aab5949549beba49e2e2897b",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Fabric Data Lakehouse\n\nUsing the SQL server driver, the JDBC connector can extract table metadata from a Lakehouse on Microsoft Fabric. Our suggested authentication method to connect to the underlying SQL Server database is via an Azure Active Directory Service Principal. Note that connectivity in this manner will only be able to visualize Lakehouse tables and columns in the produced Solidatus model.\n\n## Service Principal access setup\n\nIn order for a Service Principal to be setup correctly to allow access to a Fabric Lakehouse's underlying database, please adhere to the following recommendations. For more information on Azure Service Principals, please see [here](https://learn.microsoft.com/en-us/entra/identity-platform/howto-create-service-principal-portal).\n\n* Grant PowerBI Service API permissions to the App registration\n  * The application permissions required are: Tenant.Read.All\n* Create a new Entra group for the App registration\n  * Make the App registration an owner and a member\n* In the Fabric Admin Portal, under the `Tenant settings` page, ensure that `Service principals can use Fabric APIs` is enabled.\n* Add the App registration group to any relevant Fabric Workspace.\n\n### Service Principal Example configuration\n\nBelow is an example configuration for a standalone execution of the connector.\n\n```yml\nsolidatus:\n    jdbc:\n        driver: sqlserver\n        url: jdbc:sqlserver://${sql-analytics-endpoint};authentication=ActiveDirectoryServicePrincipal\n        username: ${application-id}\n        password: ${client-secret-value}\n        catalog: ${lakehouse-name}\n        schema-pattern: dbo\n```\n\nThe `application-id` refers to the Application ID on the App registration created as a Service Principal. This is retrievable from the Overview page of the appropriate App registration.\n\nThe `client-secret-value` is the value of a client secret created on the appropriate App registration.\n\nThe `sql-analytics-endpoint` is the SQL connection string used to construct the JDBC connection string that targets the appropriate Fabric Lakehouse. For more information, please see [here](https://learn.microsoft.com/en-us/fabric/data-warehouse/get-started-lakehouse-sql-analytics-endpoint).\n\nThe `lakehouse-name` is the name of the Fabric Lakehouse to connect to.\n\n## Default Azure Identity\n\nAlternatively, if a user is running the connector in an environment that they have access to the Azure CLI (`az`), they can authenticate via credentials that can be provided locally. The user would just need the appropriate access to the lakehouse whether directly or through an Entra group.\n\n### Default Azure Token Example configuration\n\n```yml\nsolidatus:\n    jdbc:\n        driver: sqlserver\n        url: jdbc:sqlserver://${sql-analytics-endpoint};authentication=ActiveDirectoryDefault\n        catalog: ${lakehouse-name}\n        schema-pattern: dbo\n```\n\nThe `sql-analytics-endpoint` is the SQL connection string used to construct the JDBC connection string that targets the appropriate Fabric Lakehouse. For more information, please see [here](https://learn.microsoft.com/en-us/fabric/data-warehouse/get-started-lakehouse-sql-analytics-endpoint).\n\nThe `lakehouse-name` is the name of the Fabric Lakehouse to connect to.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:01.928Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "171264e0c2e8e0f49b9f4b66a60462aef2b70097685282fc309b683d1b70e25e",
+  "warnings": []
+}

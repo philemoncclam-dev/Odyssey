@@ -1,0 +1,18 @@
+{
+  "arguments": {
+    "goal": "Reconstruct the current documentation navigation for an auditable release snapshot.",
+    "question": "List the direct child pages and immediate subgroups under the current 'API Documentation' documentation section (/api-documentation/api-overview). Return page titles with full docs.solidatus.com URLs."
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "raw_record_id": "discovery-81eab2b76c2d55e9a4d0668d",
+  "requested_url": null,
+  "response_content_hash": "20de18e13ff88607a2e4edefb7a0e16e2613a6e9dc92b3d4b138cd6be11e9b2f",
+  "returned_textual_content": "## API Documentation → direct child pages (current: “API overview”)\n\n* **API overview** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/NX1qJjbAQGOZOtAPQpn5>\n* **Models API reference** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/GO9tmWYQlUKhZRC3ehQB>\n* **Query domains and models via the API** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/ldOgLmzlCcswmxLP9MZ1>\n* **Webhooks** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/SEUdDbq4nNZQe3NjlTlm>\n\n## Immediate subgroups under “API overview”\n\n* **API Authentication** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/jnQ2tJ1A1q9JfuPdSWk7>\n* **API Quick-start tutorial** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/loX25o4Wk8OoJKReKtWW>\n* **API Model building tutorial** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/LxrEvau9uvqZgsEZUy8H>\n\n## Immediate subgroups under “Models API reference”\n\n* **Solidatus JSON format** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/97i6FP6RlwZHSGctOdpm>\n* **Retrieve model data** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/0rKGlCTtT3caaaxA8tG0>\n* **Edit models using commands** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/WKMWmlDjV1bjzlZtKzG7>\n\n# Sources\n\n- [API overview](https://docs.solidatus.com/api-documentation/api-overview)\n- [API Quick-start tutorial](https://docs.solidatus.com/api-documentation/api-overview/api-quick-start-tutorial)\n- [Models API reference](https://docs.solidatus.com/api-documentation/api-actions)\n- [API Authentication](https://docs.solidatus.com/api-documentation/api-overview/api-authentication)\n- [API tokens for connectors](https://docs.solidatus.com/connectors/connectors-overview/api-authentication)\n- [API Model building tutorial](https://docs.solidatus.com/api-documentation/api-overview/api-model-building-tutorial)\n- [Connectors overview](https://docs.solidatus.com/connectors/connectors-overview)\n- [Query domains and models via the API](https://docs.solidatus.com/api-documentation/query-models-via-the-api)\n- [Retrieve model data](https://docs.solidatus.com/api-documentation/api-actions/get-model-data-via-the-api)\n- [Java connector SDK](https://docs.solidatus.com/connectors/connector-specific-documentation/java-connector-sdk)",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:14:01.135Z",
+  "tool_name": "askQuestion"
+}

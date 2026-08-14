@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-3275b73cba7c1153d17eaae6",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation",
+  "response_content_hash": "75b5c2b62b76933e1fff1ce2419e3a1467cb1260f52b265fdf7b07d7d7229f20",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Connector-specific documentation\n\nThis section houses connector-specific documentation. Use the links below to find setup, configuration, and troubleshooting guidance for each connector.\n\n## Solidatus connectors\n\n[Java connector SDK](/connectors/connector-specific-documentation/java-connector-sdk)\n\n[Azure Data Factory](/connectors/connector-specific-documentation/azure-data-factory)\n\n[Collibra](/connectors/connector-specific-documentation/collibra)\n\n[Databases](/connectors/connector-specific-documentation/solidatus-jdbc-connectors)\n\n[Databricks](/connectors/connector-specific-documentation/solidatus-databricks)\n\n[Legacy Mainframe](/connectors/connector-specific-documentation/legacy-mainframe)\n\n[MongoDB](/connectors/connector-specific-documentation/mongodb)\n\n[Power BI](/connectors/connector-specific-documentation/power-bi)\n\n[Purview](/connectors/connector-specific-documentation/purview)\n\n[Snowflake](/connectors/connector-specific-documentation/snowflake)\n\n[Snowflake Multi-Database](/connectors/connector-specific-documentation/snowflake-multi-database)\n\n[SSIS - Microsoft SQL Server Integration Services](/connectors/connector-specific-documentation/ssis)\n\n[Tableau](/connectors/connector-specific-documentation/tableau)\n\n[WebFOCUS](/connectors/connector-specific-documentation/solidatus-webfocus)\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:54.276Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "ea204daa7c3ee761218c02cbe7af28d68c05b3ca034dbf29a8f100cae66a710f",
+  "warnings": []
+}

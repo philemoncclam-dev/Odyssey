@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-3"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-5848aa0b1635c8904fd82cd2",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-3",
+  "response_content_hash": "ac47c856241f9863d8619ae412eb28d313e527285655dbf4787e35e360ea52f3",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Hive\n\nApache Hive is a data warehouse project that sits on top of Apache Hadoop. The Apache Hive driver is not bundled with this connector and therefore must be added to the Java execution classpath. See the [Custom Driver config](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/usage#Advanced-use-with-custom-driver-config) section for more details. The JDBC connector supports a number of Hive specific features. To enable these features, `solidatus.jdbc.driver` must be set to `custom`, with `solidatus.jdbc.driver-class` set to the Hive JDBC class. For SQL parsing related features `solidatus.jdbc.dialect` must be set to `hive`.\n\n## **Supported Features Overview**\n\n| **Feature** | **Included** | **Coverage**                                                                                                                     |\n| :---------: | :----------: | -------------------------------------------------------------------------------------------------------------------------------- |\n|  Structure  |       ✓      | Database structure                                                                                                               |\n|   Lineage   |       ✓      | SQL Parsing from scripts and data dictionary metadata to visualise the flow of data between database objects at the column level |\n\n## **Database Features**\n\nThe following table outlines the key database features that the Solidatus connector extracts and represents within the Solidatus model. For comprehensive details on each feature, refer to the linked pages.\n\n|    **Database concept**   | **Solidatus model representation** |                                                **Link to feature page**                                                |\n| :-----------------------: | :--------------------------------: | :--------------------------------------------------------------------------------------------------------------------: |\n|          Schemas          |               Layers               |  [Schema Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#schema) |\n|           Tables          |               Objects              |  [Table Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#tables)  |\n|           Views           |               Objects              |   [View Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#views)   |\n|          Columns          |             Attributes             | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n|         Data types        |             Properties             | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n|  Primary key constraints  |             Properties             | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n|  Foreign key constraints  |             Transitions            | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n| View column-level lineage |             Transitions            |            [SQL Parsing](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/sqlparsing)            |\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:54.886Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "8f57756e2fef379be0b988d313d2acb4ebaad8454b9fe06e1f9436b3a2236c79",
+  "warnings": []
+}

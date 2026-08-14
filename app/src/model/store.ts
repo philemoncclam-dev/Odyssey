@@ -11,8 +11,21 @@
 //   lineage-studio:models          -> ModelSummary[]
 //   lineage-studio:model:<id>      -> LineageModel
 //   lineage-studio:versions:<id>   -> ModelVersion[]
+//
+// SHARING READINESS: `LineageModel.owner`/`sharedWith` (types.ts) are stamped
+// today — `emptyModel` reads the signed-in user via `auth/currentUser` — but
+// nothing reads or enforces them, because a local-only store has no second
+// person to show a model to. A shared backend (OneLake, SharePoint, a real
+// API — see the architecture discussion this was scoped from) is a NEW
+// `ModelStore` implementation, not a rewrite of this one: the interface below
+// is already the seam, and every call site already goes through it by name
+// (`localStore.list()`, not `localStorage.getItem(...)` sprinkled around).
+// Swapping backends is replacing what twelve files import, each a one-line
+// change, plus writing the implementation itself — the part actually worth
+// scoping separately once a backend is chosen.
 
 import { countEntities } from './index'
+import { getCurrentUserEmail } from '../auth/currentUser'
 import type { LineageModel, ModelSummary } from './types'
 
 const INDEX_KEY = 'lineage-studio:models'
@@ -145,6 +158,7 @@ export function summarize(model: LineageModel): ModelSummary {
     tags: full.tags ?? [],
     starred: full.starred ?? false,
     lastViewedAt: full.lastViewedAt ?? full.updatedAt,
+    ...(full.owner ? { owner: full.owner } : {}),
   }
 }
 
@@ -223,6 +237,7 @@ export const localStore: ModelStore = {
     const source = await localStore.get(id)
     if (!source) throw new Error(`No model ${id} to duplicate`)
     const now = Date.now()
+    const owner = getCurrentUserEmail()
     // structuredClone, not a spread: layers/transitions/properties are deeply
     // nested, and a shallow copy would leave the two models sharing entity
     // objects — editing the copy would silently edit the original.
@@ -233,6 +248,11 @@ export const localStore: ModelStore = {
       createdAt: now,
       updatedAt: now,
       lastViewedAt: now,
+      // The copy is a new document with a new owner — whoever duplicated it,
+      // not whoever owned the original. A sharing grant on the source has no
+      // reason to carry over to a copy nobody granted access to.
+      ...(owner ? { owner } : { owner: undefined }),
+      sharedWith: undefined,
     }
     await localStore.save(copy)
     return copy
@@ -287,6 +307,7 @@ export const localStore: ModelStore = {
 
 export function emptyModel(name: string): LineageModel {
   const now = Date.now()
+  const owner = getCurrentUserEmail()
   return {
     id: crypto.randomUUID(),
     name,
@@ -299,5 +320,8 @@ export function emptyModel(name: string): LineageModel {
     tags: [],
     starred: false,
     lastViewedAt: now,
+    // Absent rather than null when nobody is signed in — see the field's
+    // own doc comment in model/types.ts.
+    ...(owner ? { owner } : {}),
   }
 }

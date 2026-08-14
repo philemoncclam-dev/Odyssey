@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-8835d8b721d216159e6849c6",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors",
+  "response_content_hash": "08e801851704ea40e391a00eca33972089e99ab1818dd02dfbd7cc7ec46e3d1e",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Databases\n\nThe Solidatus JDBC Connectors application is a Java based tool to connect to a database, extract the schema and create a Solidatus model which groups tables and views in a schema into a Layer, adds display rules for primary key, foreign key and datatype; and adds table to table transitions for foreign key constraints.\n\n## **Supported Features Overview**\n\n| **Feature** | **Included** | **Coverage**                                                                                                                                                                                                           |\n| :---------: | :----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n|  Structure  |       ✓      | Database structure                                                                                                                                                                                                     |\n|   Lineage   |       ✓      | SQL Parsing from scripts, stored procedures and data dictionary metadata to visualise the flow of data between database objects at the column level. Implementation and coverage of SQL parsing is database dependent. |\n\n## **Database Features**\n\nThe following table outlines the key database features that the Solidatus connector extracts and represents within the Solidatus model. For comprehensive details on each feature, refer to the linked pages.\n\n|   **Database concept**  | **Solidatus model representation** |                                                **Link to feature page**                                                |\n| :---------------------: | :--------------------------------: | :--------------------------------------------------------------------------------------------------------------------: |\n|         Schemas         |               Layers               |  [Schema Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#schema) |\n|          Tables         |               Objects              |  [Table Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#tables)  |\n|          Views          |               Objects              |   [View Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#views)   |\n|         Columns         |             Attributes             | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n|        Data types       |             Properties             | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n| Primary key constraints |             Properties             | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n| Foreign key constraints |             Transitions            | [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns) |\n\n## **Database Specific Functionality**\n\nThe JDBC Connectors application is able to generically support the above concepts as it leverages the JDBC API through database specific drivers. However, there is more specific functionality for each database that needs to be handled more distinctly. The [linked page](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific) highlights additional supported features for each database if present.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:55.292Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "22b81ebffc39c149b38c8a5c361549eaa94fa18eaf55fdf2078a0bc93e4b48da",
+  "warnings": []
+}

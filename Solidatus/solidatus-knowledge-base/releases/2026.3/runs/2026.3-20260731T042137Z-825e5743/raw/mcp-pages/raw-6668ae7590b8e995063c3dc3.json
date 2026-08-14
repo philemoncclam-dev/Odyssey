@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/explore-and-analyse-models"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-6668ae7590b8e995063c3dc3",
+  "requested_url": "https://docs.solidatus.com/models/explore-and-analyse-models",
+  "response_content_hash": "274ed5de76f4dd636e19ec0a1db8177a823043cc4c76bfce96f9e8f317fa8c36",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Explore and analyse models\n\nMany people using Solidatus will spend their time browsing, exploring, and analysing models that have already been created and updated by others.\n\nModels are analytical tools that help you understand the data landscapes they represent. These pages are meant to cover model functionality intended to help you get the information you need from an existing model.\n\nAnalysing a model can take several forms:\n\n* Navigating a model and finding content\n* Querying a model to find things that meet specific criteria\n* Creating Filters and Display Rules to highlight information\n* Creating Views to draw attention to specific content that answers questions\n* Exporting model data and metadata to reuse in external tools\n* Viewing a model as a text document, a graph, or through the lineage explorer\n\nScan the table of contents below for a comprehensive list of topics and sub-topics covered in this section.\n\n{% hint style=\"success\" %}\nFor more information or training, please contact your Solidatus representative or email [support@solidatus.com](mailto:support%40solidatus.com).\n{% endhint %}\n\nYou may also be interested in [FAQs](/additional-resources/q-and-a) from users or [advanced topics](/additional-resources/advanced-topics) — browse our Additional Resources section.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:52.001Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "d40b9cbcb2b8e90d5d2814fa332baa5af62cbe596032bcd6ddc6ce44f322059a",
+  "warnings": []
+}

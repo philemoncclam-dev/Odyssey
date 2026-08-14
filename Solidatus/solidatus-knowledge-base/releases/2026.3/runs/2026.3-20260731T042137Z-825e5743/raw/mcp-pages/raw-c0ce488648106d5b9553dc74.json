@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/api-documentation/api-actions"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-c0ce488648106d5b9553dc74",
+  "requested_url": "https://docs.solidatus.com/api-documentation/api-actions",
+  "response_content_hash": "357fba23b1558d57a3dcf55d1b5395988f173e8b3268c19b018e6f478cb81481",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Models API reference\n\nThe API for interacting with models is extensive. It includes several endpoints and methods for retrieving, creating, and updating model content and associated metadata.\n\nNote that a comprehensive reference that lists all API endpoints, methods, and schemas can be found on our Swagger site, which can be accessed via the Help section inside Solidatus (you need to be logged in to access this documentation).\n\n<figure><img src=\"/files/mdGDeHgRFzMvQbdcpEHz\" alt=\"\" width=\"178\"><figcaption></figcaption></figure>\n\n#### **In this section:**\n\n* [Solidatus JSON format](/api-documentation/api-actions/solidatus-json-format)\n* [Retrieve model data](/api-documentation/api-actions/get-model-data-via-the-api)\n* [Edit models using commands](/api-documentation/api-actions/api-use-the-api)\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:45.605Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "0d17c4d80b891b02fd3f55c5474c68dec74ffef673993c27858af9def265806a",
+  "warnings": []
+}

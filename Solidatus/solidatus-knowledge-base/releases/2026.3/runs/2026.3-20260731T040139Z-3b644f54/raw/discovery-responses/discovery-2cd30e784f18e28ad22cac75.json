@@ -1,0 +1,18 @@
+{
+  "arguments": {
+    "goal": "Reconstruct the current documentation navigation for an auditable release snapshot.",
+    "question": "List the direct child pages and immediate subgroups under the current 'Additional Resources' documentation section (/additional-resources/solidatus-glossary). Return page titles with full docs.solidatus.com URLs."
+  },
+  "error": "TimeoutError: The read operation timed out",
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "raw_record_id": "discovery-2cd30e784f18e28ad22cac75",
+  "requested_url": null,
+  "response_content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "returned_textual_content": "",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "error",
+  "timestamp": "2026-07-31T04:16:10.382Z",
+  "tool_name": "askQuestion"
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-model-tab"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-6eb7f78fa790f4ea8779730b",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-model-tab",
+  "response_content_hash": "c5ad751cac9720dc219fd1d2f43668a68694559c59553c6600a5409bdc486b3d",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Model tab\n\nThis tab gives information about the Model and the changes you have made since opening the Model.\n\nThere are 4 panels in the Model tab. Click the links below for further information on each panel.\n\n| [The Model Info Panel](#the-model-info-panel) |\n| --------------------------------------------- |\n| [The Drafts Panel](#the-drafts-panel)         |\n| [The Notes Panel](#the-notes-panel)           |\n| [The History Panel](#the-history-panel)       |\n\n## The Model Info panel\n\nThis panel shows general infomation about the model. It allows you to view the model description and edit the model name, and it also tells you how many revisions there are.\n\nClick on the clock icon to the right of the number of revisions to open the [Revisions tab](/the-user-interface/models-ui/model-overview) on the Model Overview. You can view the history of model changes and revisit previous versions from there.\n\n<figure><img src=\"/files/LCGRVb4mNOFt97lwYkYh\" alt=\"\" width=\"563\"><figcaption></figcaption></figure>\n\n{% hint style=\"success\" %}\nModel metadata is not editable, and it is simply intended to store information about model settings (such as queries, display rules, etc) not including entities and transitions.\n{% endhint %}\n\n## The Drafts panel\n\nThe Drafts panel lists all currently-available [Drafts](/models/build-and-edit-models/version-control) of the model. You can delete any or all drafts, open a previous draft, and `stash` the current draft (preserves the current draft then reloads the model without any of the changes from the draft - you are now working on a new draft, starting with the latest revision of the model).\n\n<figure><img src=\"/files/kOED3KyIGHaKifzX656V\" alt=\"\" width=\"499\"><figcaption></figcaption></figure>\n\n## The Notes panel\n\nUse this panel to keep any notes for any reason. This would generally contain extra information about the model to support and extend the Model description. You can format notes, and they will be saved when you save the model.\n\n<figure><img src=\"/files/ztOceGDBrI1qsz04HJWI\" alt=\"\" width=\"563\"><figcaption></figcaption></figure>\n\n## The History panel\n\nThe History panel lists all and only changes you have made **in the current session** since opening the Model.\n\n{% hint style=\"success\" %}\nClicking on a change will roll the model back to the point that change was made, undoing all later changes as well.\n{% endhint %}\n\nWhen you exit a model or refresh your browser, all entries other than “Original State” are removed and the record of the model’s history starts over.\n\n<figure><img src=\"/files/WBhgvVQtXBJmVyxcZ5YI\" alt=\"\" width=\"563\"><figcaption></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:59.284Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "099859bb8befab148ad33dab9c7a990576921c8d538635cdf4497226b6efd05a",
+  "warnings": []
+}

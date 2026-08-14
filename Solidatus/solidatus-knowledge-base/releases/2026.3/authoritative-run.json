@@ -1,0 +1,10 @@
+{
+  "completion_status_path": "runs/2026.3-20260731T042137Z-825e5743/completion-status.json",
+  "corpus_wide_hash": "7a792f19958442ed3665c66369e19836a31a603dcf8b1c2621b188786f4b5248",
+  "product_release": "2026.3",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "run_manifest_path": "runs/2026.3-20260731T042137Z-825e5743/run-manifest.json",
+  "schema_version": "1.0",
+  "selected_at": "2026-07-31T04:22:44.847Z",
+  "selection_reason": "Initial run passed schema, hash, reference, UTF-8, rebuild, backlink, and discovery-closure validation."
+}

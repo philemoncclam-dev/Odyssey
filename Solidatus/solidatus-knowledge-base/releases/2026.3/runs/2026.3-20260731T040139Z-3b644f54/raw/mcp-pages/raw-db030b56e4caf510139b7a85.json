@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/configuration/jdbc-url-formatting"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-db030b56e4caf510139b7a85",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/configuration/jdbc-url-formatting",
+  "response_content_hash": "c0112196c2c8695291b5442a2696555ebbb9e1373f0226566398d20d38c8d553",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# JDBC URL Formatting\n\nTo connect to the specified database with JDBC connector a JDBC URL has to be provided. A typical JDBC URL looks like `jdbc:<dbVendor>://<instance>/<props>`. Individual JDBC drivers can require different connection strings, and therefore it is always best to check with the specific driver chosen. The following are some example connection strings for different databases, be aware that extra connection parameters can be unique to each driver.\n\n### Oracle\n\nTypical connection string structure:\n\n`jdbc:oracle:thin:[<user>/<password>]@<host>[:<port>]:<SID>`\n\nPlease see for more information: <https://docs.oracle.com/database/121/JJDBC/urls.htm#JJDBC08200>\n\n### Postgres\n\nTypical connection string structure:\n\n`jdbc:postgresql://<host>:<port>/<database>?<properties>`\n\nPlease see for more information: <https://jdbc.postgresql.org/documentation/use/>\n\n### Snowflake\n\nTypical connection string structure:\n\n`jdbc:snowflake://<account_identifier>.snowflakecomputing.com/?<connection_parameters>`\n\nPlease see for more information: <https://docs.snowflake.com/developer-guide/jdbc/jdbc-configure> & <https://docs.snowflake.com/en/developer-guide/jdbc/jdbc-parameters>\n\n### Configurable Connection Parameters (Optional)\n\nYou have the option to include additional connection parameters by separating them with `&` and adding them at the end of the URL.\n\ni.e. `jdbc:snowflake://<account_identifier>.snowflakecomputing.com/?<param_key1>=<param_value1>&param_key2>=<param_value2>`\n\nIf you omit the `warehouse=X` parameter, then Snowflake will automatically use the user's default warehouse.\n\nSimilarly, if the `role=X` parameter is not provided, then Snowflake will utilize the user's default role.\n\nPlease verify that the user, as well as the warehouse and role chosen, possess the necessary permissions to access the database information.\n\n### SQLServer\n\nTypical connection string structure:\n\n`jdbc:sqlserver://[serverName[:portNumber]][;property=value[;property=value]]`\n\nNote: If a SQL Server instance name needs to be specified, please use `;instanceName=INSTANCE_NAME` instead of`\\INSTANCE_NAME`. The `\\` character is not permitted by JDBC URI syntax.\n\nPlease see for more\\\ninformation: <https://learn.microsoft.com/en-us/sql/connect/jdbc/building-the-connection-url?view=sql-server-ver16>\n\n### BigQuery\n\nTypical connection string structure:\n\n`jdbc:bigquery://https://www.googleapis.com/bigquery/v2:443;ProjectId={PROJECT_ID}`\n\nExample using service account authentication:\n\n`jdbc:bigquery://https://www.googleapis.com/bigquery/v2:443;ProjectId={PROJECT_ID};OAuthType=0;OAuthServiceAcctEmail={SERVICE_ACCOUNT_EMAIL};OAuthPvtKeyPath={KEY_PATH}`\n\nPlease see for more information: <https://cloud.google.com/bigquery/docs/reference/odbc-jdbc-drivers>\n\n### Redshift\n\nTypical connection string structure:\n\n`jdbc:redshift://<account_identifier>.redshift-serverless.amazonaws.com:<port>/<database>`\n\nPlease see for more information: <https://docs.aws.amazon.com/redshift/latest/mgmt/jdbc20-build-connection-url.html>\n\n### Teradata\n\nTypical connection string structure:\n\n`jdbc:teradata://DatabaseServerName/ParameterName=Value,ParameterName=Value`\n\nPlease see for more\\\ninformation: <https://teradata-docs.s3.amazonaws.com/doc/connectivity/jdbc/reference/current/jdbcug_chapter_2.html>\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:57.251Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "037236cf9a56e788e288ffe15c3606f097fd7f2294f8db005ed92bf6f0875561",
+  "warnings": []
+}

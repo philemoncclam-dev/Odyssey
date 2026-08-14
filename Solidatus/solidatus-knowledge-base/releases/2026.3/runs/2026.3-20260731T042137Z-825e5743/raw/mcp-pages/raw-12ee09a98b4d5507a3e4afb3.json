@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/account-management/licences-capabilities-and-roles"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-12ee09a98b4d5507a3e4afb3",
+  "requested_url": "https://docs.solidatus.com/account-management/licences-capabilities-and-roles",
+  "response_content_hash": "5a28c93ce02f1c33b464313eaccaa2bd306e63a6283945e1805d24e7fbe3fff1",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Licences, roles, and permissions\n\nThere are four main Solidatus licence types: Author, Practitioner, Consumer (also called Read-only), and Admin.\n\nUsers are assigned one of these licence types when they are registered as a Solidatus user by an administrator of a Solidatus environment.\n\nEach licence type gives users a standard set of capabilities summarised in the table below, although licences and capabilities can also be subject to individual agreements between customers and Solidatus.\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/licences-capabilities.png\" alt=\"Standard Capabilities for each Licence Type\"><figcaption><p>Standard capabilities for each licence type</p></figcaption></figure>\n\nNote that [Service Accounts](/account-management/service-accounts) used to manage Connectors require and take up an Author licence.\n\n{% hint style=\"success\" %}\nThe licence types and capabilities assigned to each licence are subject to agreement between a customer and Solidatus, and may be different from those listed above. A definitive list of available licences and their capabilities for a given Solidatus instance is available in the [Licence tab in the Admin page](/account-management/admin#licence).\n{% endhint %}\n\n### Licence Capabilities vs. Role Permissions\n\nThere are two features that control what a Solidatus user can do inside the application: **Licence capabilities** and **Role permissions**.\n\n<table data-header-hidden><thead><tr><th width=\"193.5263671875\"></th><th></th></tr></thead><tbody><tr><td><strong>Licence capabilities</strong></td><td>A licence controls the general <strong>capabilities</strong> a user registered with that licence has inside Solidatus.</td></tr><tr><td><strong>Role permissions</strong></td><td>A role gives a user <strong>permission</strong> to act on licenced capabilities (or a subset of them) in the specific context of a Model, Group, Data Domain, <a href=\"/pages/zNlDqSAYPfMdKf2xaThI#agent-roles\">Agent</a>, or <a href=\"/pages/zNlDqSAYPfMdKf2xaThI#job-roles\">Job</a>.</td></tr></tbody></table>\n\nLicences are assigned to each registered user in the `Admin` page by an administrator of a Solidatus environment.\n\nRole permissions are set in local areas of the application in which access and capabilities to local features can be controlled: models, groups, dashboards, Data Domains, connector Agents, and connector Jobs.\n\nLicenses and local role permissions interact to determine what actions a user can perform in specific situations.\n\nThe table below demonstrates this interaction through the example of licence types and roles assigned on a particular model.\n\n{% hint style=\"success\" %}\nThe possible roles that can be assigned on a model are **Owner**, **Author**, **Viewer**, and **Approver**.\n{% endhint %}\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/licence-role-combos.png\" alt=\"Users must have licence capabilities to perform actions permitted by Model Roles\"><figcaption><p>Users must have licence capabilities to perform actions permitted by a model role</p></figcaption></figure>\n\n{% hint style=\"success\" %}\nThe key point\n\nA local role cannot give users capabilities that are not granted by their licence, while licensed capabilities cannot be exercised in particular scenarios if a role does not permit them.\n{% endhint %}\n\nFor example:\n\n* If someone is licensed as a Read-only user, assigning them the Author or Owner role on a Model will not allow them to own, edit, or Fork the Model.\n* If a user is licensed as an Author, they still must have either Author or Owner role permissions on a particular Model to edit it.\n\n{% hint style=\"success\" %}\nFor information on the Owner, Author, Viewer, and Approver **model roles** and what capabilities are permitted by each role, see [model roles and permissions.](/models/share-and-collaborate/model-roles-and-permissions)\n{% endhint %}\n\n### The Site Admin Role\n\nIf you are an administrator for your Solidatus instance, you may have come across the Site Admin role on the [Admin interface](/account-management/admin).\n\nThe Site Admin role is not a licenced role in Solidatus; it is a purely administrative role. Site Admins have administrative capabilities that allow them to manage users and configurations for the Solidatus environment on the `Admin` page, but it does not grant capabilities inside the application.\n\nTo read more about the Site Admin role, how to assign it, and what capabilities it gives, see our [Solidatus administration](/account-management/admin) documentation.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:42.223Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "7cd708bfceb32c76e3f3d86495b48ca00925750bfc1129bdad818bf879acf9dc",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/data-domains-ui/data-domain-homepage"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-46cd2371b7fded4ca334a0ed",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/data-domains-ui/data-domain-homepage",
+  "response_content_hash": "1fef3550ba06b8987d70b9610a26ebf5d1a47d753c81e62e4b4c3b93d9b206c9",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Data Domain homepage\n\nWhen you click on a Data Domain tile on the main `Domains` landing page, you are taken to the homepage of an individual domain, where you can access all domain functionality.\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/domain-home-page.png\" alt=\"The homepage of a Data Domain\"><figcaption><p>The homepage of a Data Domain</p></figcaption></figure>\n\n1. Click to open the [Browse Tree](/data-domains/explore-data-domains/browse-domain) to find an entry in the domain.\n2. Breadcrumbs with clickable links to navigate to domain areas.\n3. Click the three-dots icon to open the domain and Data Map [Settings](/data-domains/build-data-domains/edit-data-domains).\n4. Click to open the domain [Data Map](/data-domains/data-maps).\n5. Enter search terms or a query in the search bar and press `Enter` to view the results.\n6. Click to open the [The Query Helper](/data-domains/explore-data-domains/query-data-domains#the-query-helper) with examples of valid predicate syntax that you can fill in with your own terms.\n7. Click to open the [Data Assets](/models/understand-solidatus-models/data-assets-101) section, which lists all Data Assets in the domain.\n8. View, open, and create [Analytics reports](/data-domains/analytics-reports).\n9. View, open, and create [Data Map views](/data-domains/explore-data-domains/save-and-share-data-map-views).\n10. Explore Reference models published to the domain. Click a Reference model to view its contents.\n\n{% hint style=\"success\" %}\nThe options visible here reflect what an Owner of a Data Domain would see on the homepage.\n{% endhint %}\n\nIf you are a Member of the domain with read-only access, you will not see the three-dots to access domain `Settings`.\n\nTo help find the Analytics Reports or Data Map views you need, you can open an expanded list.\n\nClick the arrow at the top-right corner of the Analytics reports or Data Map views tiles.\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/reports-view-more.png\" alt=\"../_images/reports-view-more.png\"><figcaption></figcaption></figure>\n\n{% hint style=\"success\" %}\nFor more information about how to explore a Data Map, and about the integration of Data Maps in Data Domains, visit the [Data Maps](/data-domains/data-maps) section.\n{% endhint %}\n\n### Analytics Reports\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/analytics-reports-expanded.png\" alt=\"../_images/analytics-reports-expanded.png\"><figcaption></figcaption></figure>\n\n1. Click the name of an Analytics Report to open it.\n2. Click the three-dots menu to delete an Analytics Report (!Be careful: once deleted, it can’t be recovered!).\n\n### Data Map Views\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/map-views-expanded.png\" alt=\"../_images/map-views-expanded.png\"><figcaption></figcaption></figure>\n\n1. Search for Data Map views by name.\n2. Click the name of a view to open it.\n3. Click the three-dots menu to delete a Data Map view (!Be careful: once deleted, it can’t be recovered!).\n\n{% hint style=\"success\" %}\nOnly Owners of a Data Domain are able to delete Data Map views and Analytics Reports. The three-dots menu will not appear in the expanded dialog if you are not an Owner of the domain.\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:54.276Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "f2a961499c3ac449343f08457ea2b00ad5e403c9c043a689659b71c36efaaae0",
+  "warnings": []
+}

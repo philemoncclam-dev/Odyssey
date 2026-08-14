@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/models/explore-and-analyse-models/export-model-content/export-to-json"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-503069a1f54e4d364abd8a5b",
+  "requested_url": "https://docs.solidatus.com/models/explore-and-analyse-models/export-model-content/export-to-json",
+  "response_content_hash": "338ff6461b1833487cf4dfc1b30b17e5660a33ee8a1c33ac42de004bac7848c1",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Export to JSON\n\n* In the toolbar click *Export*, then select *JSON*.\n* Select the items to export and click *Next*.\n\n<figure><img src=\"/files/XzLKciH7cLMkb1ibHxx1\" alt=\"\" width=\"563\"><figcaption><p>Choose which entities to export</p></figcaption></figure>\n\n* A download will begin with the JSON file\n\n## Example Solidatus JSON file\n\n```\n{\n  \"entities\": {\n    \"LYR-8MHv6G4I\": {\n      \"name\": \"Source layer\",\n      \"properties\": {},\n      \"children\": [\n        \"OBJ-7sp7Qd5E\"\n      ]\n    },\n    \"OBJ-7sp7Qd5E\": {\n      \"name\": \"Object 1\",\n      \"properties\": {\n        \"Owner\": \"Dan\"\n      },\n      \"children\": [\n        \"ATR-zUHTUzVz\",\n        \"ATR-uXpkEsrE\"\n      ]\n    },\n    \"ATR-zUHTUzVz\": {\n      \"name\": \"FirstName\",\n      \"properties\": {\n        \"DataType\": \"string\"\n      }\n    },\n    \"ATR-uXpkEsrE\": {\n      \"name\": \"LastName\",\n      \"properties\": {\n        \"DataType\": \"string\"\n      }\n    },\n    \"LYR-uP5Qa3Au\": {\n      \"name\": \"Target layer\",\n      \"properties\": {},\n      \"children\": [\n        \"OBJ-jkFDy8MP\"\n      ]\n    },\n    \"OBJ-jkFDy8MP\": {\n      \"name\": \"Object 2\",\n      \"properties\": {\n        \"Owner\": \"Dan\"\n      },\n      \"children\": [\n        \"ATR-geGbKTCp\"\n      ]\n    },\n    \"ATR-geGbKTCp\": {\n      \"name\": \"FullName\",\n      \"properties\": {\n        \"DataType\": \"string\"\n      }\n    }\n  },\n  \"layers\": [\n    \"LYR-8MHv6G4I\",\n    \"LYR-uP5Qa3Au\"\n  ],\n  \"transitions\": {\n    \"TRAN-Eac1tp1B\": {\n      \"source\": \"ATR-zUHTUzVz\",\n      \"target\": \"ATR-geGbKTCp\",\n      \"properties\": {}\n    },\n    \"TRAN-DIU8EzhT\": {\n      \"source\": \"ATR-uXpkEsrE\",\n      \"target\": \"ATR-geGbKTCp\",\n      \"properties\": {}\n    }\n  }\n}\n```\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:02.374Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "9857dadf85f2e0d1e9929e8ff3596920f2a4322b766f11425dc7be7ca6836dd5",
+  "warnings": []
+}

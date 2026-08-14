@@ -1,0 +1,27 @@
+{
+  "$comment": "Optional properties may be absent. Nullable properties explicitly include null. All timestamps are ISO-8601 UTC. Hash fields use SHA-256 over UTF-8 bytes unless their hash_input property states otherwise.",
+  "$id": "https://local.solidatus.example/schemas/chunk.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "release_page_id",
+    "chunk_id",
+    "structural_locator"
+  ],
+  "schema_version": "1.0",
+  "title": "chunk",
+  "type": "object",
+  "x-controlled-vocabularies": "All status, kind, scope, mode, and change properties use schema enums",
+  "x-hash-contract": {
+    "algorithm": "SHA-256",
+    "default_input": "UTF-8 bytes of normalized field content"
+  },
+  "x-null-semantics": "null means source value unknown or inapplicable; absence means optional field not emitted"
+}

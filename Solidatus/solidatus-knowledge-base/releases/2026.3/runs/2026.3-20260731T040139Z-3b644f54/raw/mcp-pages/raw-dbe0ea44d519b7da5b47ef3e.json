@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/overview"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-dbe0ea44d519b7da5b47ef3e",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/overview",
+  "response_content_hash": "61f5f412bbd66be5dbb7458a42a8aebd3a57fa82fcbd1b2407b111d1812ec321",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Overview\n\nThe connector takes as input a PowerBI `*.pbit` file. This is a PowerBI report template file, obtained by saving a PowerBI dashboard as a Template.\n\nThis connector retrieves the Layout internal file from the PBIT and uses it to derive data source equivalents of tables and columns used to populate sections of the output report. It retrieves the model schema information, which is interpreted to discover the data sources (files and relational database tables) for the report sections.\n\n## Usage\n\nThere are two ways to run the PowerBI connector: Agent mode and Standalone mode.\n\nAgent mode sets up a connector agent to connect to a hosted Solidatus instance that enables a user to create, configure and run jobs from Solidatus UI. The connector agent will listen for job events from Solidatus and execute the jobs. See [Agent Mode](/connectors/connector-specific-documentation/power-bi/overview/agent-mode) for more details.\n\nStandalone mode runs single execution of a connector job with a supplied config and publishes the model to Solidatus. The connector will terminate when the job execution is completed. See [Standalone Mode](/connectors/connector-specific-documentation/power-bi/overview/standalone-mode) for more details.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:41.539Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "b2e1b57967a637b0d3ffe74a1db241fb6995c02f9e46b39985c8e6ec6f845b3c",
+  "warnings": []
+}

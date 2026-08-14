@@ -1,0 +1,18 @@
+{
+  "arguments": {
+    "goal": "Reconstruct the current documentation navigation for an auditable release snapshot.",
+    "question": "List the direct child pages and immediate subgroups under the current 'Welcome to Solidatus' documentation section (/). Return page titles with full docs.solidatus.com URLs."
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "raw_record_id": "discovery-bf6b22137f6c2dc1bff8b784",
+  "requested_url": null,
+  "response_content_hash": "4d2f3855ae1f98bad0ff3a4175265f6dee2ddc98f471835b819a69b2d95b375f",
+  "returned_textual_content": "## Direct child pages under `/`\n\n* *(None — “Welcome to Solidatus” is the landing page at `/`.)*\n\n## Immediate subgroups under `/` (from the “Explore Solidatus” section)\n\n* **Get Started** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/b0tnOH3FKDBvnv7rjt9I>\n* **The User Interface** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/b2s45O5ikeCDjjaesSa9>\n* **Models** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/npJDiFsTrIikLLw10rmk>\n* **Data Domains** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/WBPXTyoX15GbWzWDYZ9a>\n* **Solidatus Best Practice** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/IdwjQUHhu5ADjCc7kVhw>\n* **Connectors** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/EwFK6O9iUtkmKn1reN2x>\n* **Account Management** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/q8GxoGBNwV1kA4qBICMm>\n* **API Documentation** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/np3HdAYTiC7s3NfOX0Ye>\n* **Additional Resources** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/4YBGC4bxRJJijGZJNgPm>\n* **Release Notes** — <https://docs.solidatus.com/spaces/s8hvgUNeUkcjJZDdEGQV/pages/QAcXvMiHih8ByAprXQLL>\n\n# Sources\n\n- [Welcome to Solidatus](https://docs.solidatus.com/readme)\n- [Solidatus 5.5](https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v5-change-summary/5.5-release-notes)\n- [View available connectors](https://docs.solidatus.com/connectors/connectors-overview/available-connectors)\n- [About Solidatus](https://docs.solidatus.com/get-started/about-solidatus)\n- [Solidatus 4.2](https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v4-change-summary/4.2-release-notes)\n- [Solidatus 4.0](https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v4-change-summary/4.0-release-notes)\n- [Configuration](https://docs.solidatus.com/connectors/connector-specific-documentation/tableau/configuration)\n- [Solidatus-Collibra Integration Setup Guide](https://docs.solidatus.com/connectors/connector-specific-documentation/collibra/solidatus-collibra-integration-setup-guide)\n- [API overview](https://docs.solidatus.com/api-documentation/api-overview)\n- [Solidatus basics for domain explorers](https://docs.solidatus.com/data-domains/explore-data-domains/solidatus-basics-for-domain-explorers)",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:03:26.192Z",
+  "tool_name": "askQuestion"
+}

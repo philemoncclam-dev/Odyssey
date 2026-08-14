@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/models-ui"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-2e63aad228760f64fab67bda",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/models-ui",
+  "response_content_hash": "0f8ab1d079185406756b4d50b67efe5f55e1912ad8d2c0c3f5eb13eef3fdaf70",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Models interface\n\n<figure><img src=\"/files/u3ab6Aip9vrXWFQYMIHb\" alt=\"\"><figcaption></figcaption></figure>\n\nThere are three areas of the Solidatus platform for working with models: the Model Browser, the Model Viewer, and the Model Overview. Use the links in the table to explore the functionality in each model-related area.\n\n<table data-header-hidden><thead><tr><th width=\"192.32843017578125\"></th><th></th></tr></thead><tbody><tr><td><a href=\"/pages/AAYHmWfCa2yVwuybhJo3\">Model Browser</a></td><td>This is where you can find and open all models you can access or create a new model. You can also perform several useful actions including exporting and importing.</td></tr><tr><td><a href=\"/pages/bwf66p0eYCiZRRQX1vJ1\">Model Viewer</a></td><td>This is the canvas for building, exploring, and analysing models.</td></tr><tr><td><a href=\"/pages/3L8FHSUBYE4OR2NEojD2\">Model Overview</a></td><td>This is where you can view model information and work with version control features involving revision history and pull requests for forks. You can also access activities, settings, and permissions.</td></tr></tbody></table>\n\nWhile the Model Viewer is the main canvas for building and exploring a model, lineage and model content can be explored in other areas that have unique analytical and visual capabilities.\n\n<table data-header-hidden><thead><tr><th width=\"197.48709106445312\"></th><th></th></tr></thead><tbody><tr><td><strong>Area</strong></td><td><strong>Description</strong></td></tr><tr><td><a href=\"/pages/3L8FHSUBYE4OR2NEojD2\">Model Overview</a></td><td>This provides useful information about a model, including a directory of model entities, version history, settings, and links to the other areas.</td></tr><tr><td><a href=\"/pages/oODQ0GZnNWqNazX6EWpX\">Lineage Explorer</a></td><td>This feature allows the user to extract a subset of entities out of a complex model, so you can analyse lineage in isolation from the clutter of other parts of a model.</td></tr><tr><td><a href=\"/pages/f7FfXW3IbkMeGZGPu76A\">Graph Explorer</a></td><td>The Graph Explorer gives you a visualisation of a model as an animated graph. It displays entities as <strong>nodes</strong> and transitions, parent-child links, and reference relationships as <strong>edges</strong>.</td></tr></tbody></table>\n\n***\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:40.224Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "d92906f52c391804181e0540c0349a7f44d825ecb39b00f6476e8912ebd58cf2",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/column_lineage/configuration"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-9ce42e0d5c63e0d0e75c11d8",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/column_lineage/configuration",
+  "response_content_hash": "554eaf9c04320d8cbf6bd3e4c2f0eacad7078d12cc031b548f6fc1e45038d0a0",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Configuration\n\nThere are a number of configuration options that can be used to filter and narrow the ingested column lineage in a specific Snowflake instance.\n\n|                                **Parameter**                               |                                                                   **Description**                                                                  |           **Example**          |\n| :------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------: |\n|      `--solidatus.jdbc.snowflake-enricher.insert-object-dependencies`      |                                            Whether to add transitions representing object-level lineage                                            | true or false default is false |\n| `--solidatus.jdbc.snowflake-enricher.access-history.insert-column-lineage` |                                                 Whether to add access history based column lineage                                                 | true or false default is false |\n|          `--solidatus.jdbc.snowflakeEnricher.accessHistory.users`          |                              List of users to scan access history from (defaults to all users if no user is specified)                             | JOHN\\_SMITH, SERVICE\\_ACCOUNT1 |\n|         `--solidatus.jdbc.snowflakeEnricher.accessHistory.fromDate`        |            ('yyyy-MM-dd HH:flag\\_mm:ss') format to be used for fromDate to be used for dateTime filtering. Must be before toDate value.            |      '2023-01-17 14:35:20'     |\n|          `--solidatus.jdbc.snowflakeEnricher.accessHistory.toDate`         |             ('yyyy-MM-dd HH:flag\\_mm:ss') format to be used for toDate to be used for dateTime filtering. Must be after fromDate value.            |      '2023-01-17 19:00:05'     |\n|         `--solidatus.jdbc.snowflakeEnricher.accessHistory.timespan`        | Number of days in the past to scan column lineage. Please provide the number of days in the past to scan (up to 365), or -1 to not use this option |               20               |\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:00.447Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "51ab0eaa861791d0a1998fa72a53d9fa52afacad08319099c93f2667570e7b99",
+  "warnings": []
+}

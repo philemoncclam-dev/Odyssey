@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.2"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-e62f1f349758492abf087f7f",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.2",
+  "response_content_hash": "6268c00b91aca4116c26c332c7f8b309d04033dba2fb42fb314ea9f6fb95d16c",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus 2026.2\n\nSolidatus 2026.2 introduces a set of performance improvements and usability enhancements designed to make working with large models faster, smoother, and more intuitive.\n\n* Work more efficiently in the Model Viewer\n* Improved Model Browser experience\n* Return to Data Map views exactly as you left them\n* Create and manage more powerful display rules\n* Query domains with greater precision\n* Reduce noise in search and metrics with duplicate control\n\nSolidatus 2026.2 continues to improve everyday workflows while maintaining clarity, control, and governance across your models.\n\nRead on to find out what else is in Solidatus 2026.2.\n\n### New features\n\n**Enhanced Data Map views**\n\nData Map views now retain more of your working state, allowing you to return to a view exactly as you left it. This includes:\n\n* Active tags\n* Expanded and collapsed entities\n* Applied context\n* Trace settings\n\nA new “Save as” option allows you to create a new view from an existing one, making it easier to reuse and build on previous analysis.\n\n**New Data Map display rules**\n\nDisplay rules have been expanded to provide more precise control over how entities are highlighted in a Data Map. You can now:\n\n* Tag entities based on property values\n* Use relationship labels as conditions\n* Match against related reference terms, including names and properties\n\nMenus are pre-populated with values already present in the domain, making rule creation faster and more intuitive.\n\n**Modules for Data Map display rules**\n\nDisplay rules can now be grouped into modules, making it easier to manage complex rule sets. Modules allow you to:\n\n* Organise rules at scale\n* Enable or disable groups of rules in a single action\n* Filter to show only active rules\n\nThis improves visibility and control when working with multiple layers of display logic.\n\n**New domain query predicates**\n\nNew predicates extend the domain query language, giving you more flexibility and precision. You can now:\n\n* Match strings using:\n  * “Starts with”\n  * “Ends with”\n  * Regular expressions\n* Query date and time properties:\n  * Within a range\n  * Relative to a defined interval\n\nThese enhancements support more advanced search, metrics, and display rule use cases.\n\n**Exclude duplicates from domain search and metrics**\n\nA new toggle allows you to control whether duplicate entities are included in domain search results and metrics. This is particularly useful when:\n\n* Multiple models contain the same Entity ID (e.g. through model imports)\n* You want a cleaner, de-duplicated view for analysis\n\nThis improves accuracy and clarity when working across shared data.\n\n### Usability enhancements\n\n**Model Viewer performance improvements**\n\nPerformance improvements have been made across the Model Viewer, particularly for large models. You should notice:\n\n* Faster importing\n* Smoother reference relationship editing\n* Improved responsiveness when navigating complex models\n\nThese changes help reduce friction when working at scale.\n\n**Refreshed model list**\n\nThe model list has been redesigned with a cleaner, more modern layout. Updates include:\n\n* All models displayed by default\n* Filters for lineage and reference models\n* Customisable columns\n* Ability to save preferred layouts\n\nThis makes it easier to navigate and tailor the interface to your workflow.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:51.882Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "3f447858ec9ea656820ae6ddde374045166c6c657af86953217ef3fbbcb312cf",
+  "warnings": []
+}

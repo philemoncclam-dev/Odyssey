@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-8"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-276d21c6066ebe5e961d27e0",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-8",
+  "response_content_hash": "ad8a20ccf620efbba48f6546f6d46a2e0f578745dc412d78a54e7ddcf88d6471",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Redshift\n\nRedshift is a cloud data warehouse managed by AWS. The JDBC connector can connect to a Redshift database to pull structure and lineage metadata. To leverage these capabilities, `solidatus.jdbc.driver` must be set to `redshift`. For SQL parsing related features `solidatus.jdbc.dialect` must be set to `redshift`.\n\n## **Supported Features Overview**\n\n| **Feature** | **Included** | **Coverage**                                                                                                                                        |\n| :---------: | :----------: | --------------------------------------------------------------------------------------------------------------------------------------------------- |\n|  Structure  |       ✓      | Database structure                                                                                                                                  |\n|   Lineage   |       ✓      | SQL Parsing from scripts, stored procedures and data dictionary metadata to visualise the flow of data between database objects at the column level |\n\n## **Database Features**\n\nThe following table outlines the key database features that the Solidatus connector extracts and represents within the Solidatus model. For comprehensive details on each feature, refer to the linked pages.\n\n|      **Database concept**      | **Solidatus model representation** |                                                            **Link to feature page**                                                            |\n| :----------------------------: | :--------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: |\n|             Schemas            |               Layers               |              [Schema Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#schema)             |\n|             Tables             |               Objects              |              [Table Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#tables)              |\n|              Views             |               Objects              |               [View Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#views)               |\n|         External tables        |               Objects              | [External Tables](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/databasespecific/overview-8/features#external-tables) |\n|             Columns            |             Attributes             |             [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns)             |\n|           Data types           |             Properties             |             [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns)             |\n|     Primary key constraints    |             Properties             |             [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns)             |\n|     Foreign key constraints    |             Transitions            |             [Column Extraction](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/metadataextraction#columns)             |\n|    View column-level lineage   |             Transitions            |                        [SQL Parsing](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/sqlparsing)                        |\n| Procedure column-level lineage |             Transitions            |                        [SQL Parsing](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/sqlparsing)                        |\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:54.685Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "2c7735effbd60fbc35e17d48435d7b755a0422049b222e3bef4a60f63c45512a",
+  "warnings": []
+}

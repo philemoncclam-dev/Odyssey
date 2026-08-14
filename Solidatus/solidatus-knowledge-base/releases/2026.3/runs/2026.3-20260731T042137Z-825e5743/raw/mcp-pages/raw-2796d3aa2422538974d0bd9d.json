@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/data-domains-ui/domains-landing-page"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-2796d3aa2422538974d0bd9d",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/data-domains-ui/domains-landing-page",
+  "response_content_hash": "1681c02fb4d1f8f6dce9c9434648cf1dac1981310acfeb7a60d53bef8337bf7a",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Data Domains landing page\n\nThe Data Domains landing page is comprised of tiles that represent all Data Domains a user has access to.\n\n<figure><img src=\"/files/HAiPxbsds8zO9QWXlyC7\" alt=\"\"><figcaption></figcaption></figure>\n\n1. Click to open and close the Browse Tree. Click a listed domain to open it.\n2. Click a tile to go to the homepage of that Data Domain.\n3. Click + CREATE to create a new Data Domain.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:45.019Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "03d16d8b7987efe657b3032b017429171fe43667d8b8a47de00a723dd0945c9e",
+  "warnings": []
+}

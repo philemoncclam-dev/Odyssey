@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/data-assets-tab"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-1de0a7add4fa9a49a562b682",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/data-assets-tab",
+  "response_content_hash": "b87547bb3cf43a0bbd35fa2e27f86cb374f42c51a96d3d6ff3008cef04f1a5ae",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Data Assets tab\n\nThe Data Assets tab is useful for viewing Data Assets that exist in the open model and quickly locating them.\n\nThe tab contains one panel — the Data Assets panel — that displays all assets in the model in a list. Additionally, you can view asset properties and search for assets using a pop-out menu that appears when you select an asset in the list.\n\nThe Data Assets tab is located at the bottom of the sidebar in the Model Viewer, below the Reference Models tab.\n\n## The Data Assets panel\n\nWhen an Asset ID is given to an entity, it becomes a Data Asset and is then listed in the Data Assets panel.\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/data-asset-tab.png\" alt=\"Data Assets tab\"><figcaption><p>Data Assets tab</p></figcaption></figure>\n\nData Assets are listed in the panel as expandable *Asset hierarchies*, so you can view each asset in relation to parent and child assets.\n\n{% hint style=\"success\" %}\nThe Data Assets tab only lists top-level assets initially, but you can expand the top-level assets to view sub-assets.\n{% endhint %}\n\nWhen you hover over an asset in the Data Assets tab, the asset and its ancestor assets are highlighted orange in the Model Viewer canvas. This allows you to see where the asset is in the model.\n\n{% hint style=\"success\" %}\nUsing the Data Assets tab to find data assets in your model is especially useful when Asset IDs are different from entity names.\n{% endhint %}\n\nWhen you select an asset in the Data Assets tab, the properties of that asset are displayed in a popout menu. You can’t edit the properties from here, but you can locate the asset in the model, then select it and edit its properties in the `Properties and Relationships` panel in the Inspector tab.\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/data-asset-tab-popout.png\" alt=\"Data Assets popout menu\"><figcaption><p>Data Assets popout menu</p></figcaption></figure>\n\nThe popout menu contains a useful search function, which enters a query in the search bar that matches all entities in the model that are the asset (i.e., they have the same FQN).\n\n{% hint style=\"success\" %}\nIf you want to create a display rule or filter for a specific asset, use the search function to build the underlying query, then copy the query or create a display rule or filter directly from the search bar.\n{% endhint %}\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/data-asset-display-rule.png\" alt=\"Create a display rule from the Data Assets popout menu\"><figcaption><p>Create a display rule from the Data Assets popout menu</p></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:22:00.381Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "2798492a765651fab8d6f41887aa98db961a127def588e4f0888161624746885",
+  "warnings": []
+}

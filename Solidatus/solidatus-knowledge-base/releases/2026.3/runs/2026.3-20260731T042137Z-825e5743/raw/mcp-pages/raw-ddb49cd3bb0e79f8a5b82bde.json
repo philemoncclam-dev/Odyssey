@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-ddb49cd3bb0e79f8a5b82bde",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main",
+  "response_content_hash": "3bcef8417c4dd0439d7d5d865ff417e2a6888aa1f9f34324413d17494ba4f6fb",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus release notes\n\n[Solidatus v2026 - Change summary](/release-notes/release-notes-main/solidatus-version-2026)\n\n| [2026.3 Release notes](/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.3) | [2026.2 Release notes](/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.2) |\n| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |\n| [2026.1 Release notes](/release-notes/release-notes-main/solidatus-version-2026/solidatus-2026.1) |                                                                                                   |\n\n[Solidatus v6 - Change summary](/release-notes/release-notes-main/solidatus-v6-change-summary)\n\n| [6.4 Release notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.4-release-notes) | [6.5 Release notes](/release-notes/release-notes-main/solidatus-v6-change-summary/solidatus-6.5)     |\n| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |\n| [6.2 Release notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.2-release-notes) | [6.3 Release notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.3-release-notes) |\n| [6.0 Release notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.0-release-notes) | [6.1 Release notes](/release-notes/release-notes-main/solidatus-v6-change-summary/6.1-release-notes) |\n\n[Solidatus v5 - Change summary](/release-notes/release-notes-main/solidatus-v5-change-summary)\n\n| [5.6 Release notes](/release-notes/release-notes-main/solidatus-v5-change-summary/5.6-release-notes)     | [5.6.8 Release notes](/release-notes/release-notes-main/solidatus-v5-change-summary/5.6.8-release-notes) |\n| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |\n| [5.4.1 Release notes](/release-notes/release-notes-main/solidatus-v5-change-summary/5.4.1-release-notes) | [5.5 Release notes](/release-notes/release-notes-main/solidatus-v5-change-summary/5.5-release-notes)     |\n| [5.2 Release notes](/release-notes/release-notes-main/solidatus-v5-change-summary/5.2-release-notes)     | [5.3 Release notes](/release-notes/release-notes-main/solidatus-v5-change-summary/5.3-release-notes)     |\n| [5.1 Release notes](/release-notes/release-notes-main/solidatus-v5-change-summary/5.1-release-notes)     | [5.1.1 Release notes](/release-notes/release-notes-main/solidatus-v5-change-summary/5.1.1-release-notes) |\n\n[Solidatus v4 - Change summary](/release-notes/release-notes-main/solidatus-v4-change-summary)\n\n| [4.4 Release notes](/release-notes/release-notes-main/solidatus-v4-change-summary/4.4-release-notes) | [4.5 Release notes](/release-notes/release-notes-main/solidatus-v4-change-summary/4.5-release-notes) |\n| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |\n| [4.2 Release notes](/release-notes/release-notes-main/solidatus-v4-change-summary/4.2-release-notes) | [4.3 Release notes](/release-notes/release-notes-main/solidatus-v4-change-summary/4.3-release-notes) |\n| [4.0 Release notes](/release-notes/release-notes-main/solidatus-v4-change-summary/4.0-release-notes) | [4.1 Release notes](/release-notes/release-notes-main/solidatus-v4-change-summary/4.1-release-notes) |\n\nFor more information about releases prior to 4.0, use the **Release summary** links below. On these pages, you can find summaries of all changes between major releases.\n\n## **Release summaries**\n\n* Solidatus v2026 - Change summary\n* [Solidatus v6 - Change summary](/release-notes/release-notes-main/solidatus-v6-change-summary)\n* [Solidatus v5 - Change summary](/release-notes/release-notes-main/solidatus-v5-change-summary)\n* [Solidatus v4 - Change summary](/release-notes/release-notes-main/solidatus-v4-change-summary)\n* [Solidatus v3 - Change summary](/release-notes/release-notes-main/solidatus-v3-change-summary)\n* [Solidatus v2 - Change summary](/release-notes/release-notes-main/solidatus-v2-change-summary)\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:37.093Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "99f0a3d49dc108dacc0cd0851b061f1af4ac840340c96bffeaf3bf165f439311",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/overview/standalone-mode"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-67f4a2bf256ad128821bc73a",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/power-bi/overview/standalone-mode",
+  "response_content_hash": "ab3a9072d90f0a1ff2dd8b6a1290d17d0c792a47276ea02e9921a39607b4acbb",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Standalone mode\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:51.341Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "982f810ecb39e6ae6b59a2932223b8227185c984bf3c74714bd153b217443f8c",
+  "warnings": []
+}

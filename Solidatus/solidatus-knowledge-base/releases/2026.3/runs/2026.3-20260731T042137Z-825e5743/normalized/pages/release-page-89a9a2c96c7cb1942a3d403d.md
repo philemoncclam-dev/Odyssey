@@ -1,0 +1,366 @@
+# Model query language reference
+
+This page serves as a reference for working with the Model Query Language (MQL).
+
+It provides a comprehensive description of predicates, syntax, and components, along with examples to help you construct effective queries.
+
+Solidatus has two query languages: the Models query language explained here and the Domain query language explained in the [DQL reference](/data-domains/explore-data-domains/query-data-domains).
+
+<table data-header-hidden><thead><tr><th width="231.292236328125"></th><th></th></tr></thead><tbody><tr><td>Models query language</td><td>For querying inside the Model Viewer, for <a href="/pages/yKDHaiXJUujXgXNBtzHu">grid reports</a>, and for filters and display rules in the Model Viewer.</td></tr><tr><td><a href="/pages/8TPcuB1I1cP0GCFgAnbw">Domain query language</a></td><td>For queries in Data Domains, Data Map display rules, Analytics reports, and <a href="/pages/ldOgLmzlCcswmxLP9MZ1">querying domains or models via the API</a>.</td></tr></tbody></table>
+
+Note that you can query individual models via the API, but only using the Domain query language.
+
+**Table of Contents**
+
+1. [Introduction](#introduction-to-the-models-query-language-mql)
+2. [Operators](#operators)
+3. [Predicates](#predicates)
+4. [Syntax](#syntax)
+5. [Examples](#examples)
+
+{% hint style="success" %}
+If you need any help writing specialised queries, contact our Expert Services team at [expert.services@solidatus.com](mailto:expert.services%40solidatus.com).
+{% endhint %}
+
+## Introduction to the Models Query Language (MQL)
+
+The Model Query Language (MQL) is an essential tool for analysing a Solidatus model and dissecting its complexity. A query is required for every filter and display rule to define the entities a filter or rule applies to (see [Filters and display rules](/models/explore-and-analyse-models/filters-and-display-rules)).
+
+Queries match and return entities in a model based on basic traits, like names and properties, or advanced, fine-grained traits, such as traits of ancestors or of upstream sources in an entity’s lineage.
+
+#### **Key features of the MQL**
+
+> **Precise matching:** Identify entities based on names, properties, property values, relationships, lineage, or hierarchical traits (e.g., ancestors, descendants, parents, or children).
+>
+> **Rich syntax:** Use logical operators (`AND` , `OR` , `NOT`), quantifiers (`Any`, `All`), and comparators (`=` , `<` , `>`), and nest predicates to construct complex, fine-grained conditions.
+>
+> **Integrated tools:** Enter queries directly into the search bar in the Model Viewer or when creating a Filter or Display Rule, and use the Query Builder for assistance.
+
+### How Queries Work
+
+A query is a logical expression written in a structured syntax. Queries express a logical statement that is tested against all entities in a model, and only those entities are returned of which the statement is true.
+
+For example, the query `isAttribute()` returns only entities that are Attributes, while `$name = 'Customer'` returns entities named “Customer”.
+
+When you enter a valid query into the search bar in the Model Viewer, entities that match the query are highlighted **green** and the search bar allows you to cycle through matches in a step-wise fashion.
+
+When you create a filter or display rule, you must enter a query to define the entities the filter or display rule applies to.
+
+{% hint style="success" %}
+You can quickly create a Filter or Display Rule that applies to the entities matched by a query you’ve entered into the search bar using the search bar’s `three-dots` menu.
+{% endhint %}
+
+### Why Use MQL?
+
+Besides being a necessary ingredient in Filters and Display Rules, queries enable you to retrieve answers to complex questions about your models.
+
+By learning its components and syntax, you unlock endless possibilities for analysing and dissecting a complex lineage landscape to gain valuable, detailed information and insight into your data.
+
+## Operators
+
+The MQL includes comparison, logical, and quantifier operators for constructing logical query statements.
+
+### **Comparison Operators**
+
+Comparison operators are needed with queries to create a comparison condition on the specified value.
+
+| `=`  | Equal to                 |
+| ---- | ------------------------ |
+| `!=` | Not equal to             |
+| `>`  | Greater than             |
+| `<`  | Less than                |
+| `>=` | Greater than or equal to |
+| `<=` | Less than or equal to    |
+
+Predicates that return numbers can use all comparison operators, while predicates that return strings can only use the `=` and `!=` operators.
+
+{% hint style="success" %}
+**Example**
+
+`$incoming.count > 2` matches all entities with 2 or more incoming Transitions.
+{% endhint %}
+
+### **Logical Operators (Boolean)**
+
+Logical operators are used to combine or negate predicates to create more complex logical conditions.
+
+<table data-header-hidden><thead><tr><th width="85.756103515625"></th><th></th></tr></thead><tbody><tr><td><code>And</code></td><td>Combines predicate conditions where all must be true</td></tr><tr><td><code>Or</code></td><td>Combines predicate conditions where at least one must be true</td></tr><tr><td><code>Not</code></td><td>Negates a predicate condition</td></tr></tbody></table>
+
+{% hint style="success" %}
+**Example**
+
+`Not isEmpty([Business Name])` matches all entities that have an assigned value for the property *Business Name*.
+{% endhint %}
+
+### **Quantifiers**
+
+Quantifiers are used to specify a logical condition for the list of items accessed by a special property (special properties access lists of items to test against query conditions. They are indicated by the `$` sign).
+
+<table data-header-hidden><thead><tr><th width="78.276611328125"></th><th></th></tr></thead><tbody><tr><td><code>All</code></td><td>Universal quantifier for use in special property predicate syntax. Requires that every item in a special property list (e.g., <code>$properties</code>) satisfy the specified condition.</td></tr><tr><td><code>Any</code></td><td>Existential quantifier for use in special property predicate syntax. Requires that at least one item in a special property list (e.g., <code>$properties</code>) satisfy the specified condition.</td></tr></tbody></table>
+
+{% hint style="success" %}
+**Example**
+
+`any X in $relationships (X.$label = 'relates to')` matches all entities that have any relationship with the label *relates to*.
+
+`all X in $relationships (X.$label = 'relates to')` matches entities that only have relationships with the label *relates to*.
+{% endhint %}
+
+### Mathematical operations
+
+<table data-header-hidden><thead><tr><th width="40"></th><th></th><th></th><th data-hidden></th></tr></thead><tbody><tr><td><strong>+</strong></td><td>Addition. Can be used to add integers and numerical property values</td><td><code>[property1] + [property2] &#x3C; [property3]</code></td><td></td></tr><tr><td><strong>-</strong></td><td>Subtraction. Can be used to subtract integers and numerical property values.</td><td><code>[property1 -100] != [property2]</code></td><td></td></tr><tr><td><strong>*</strong></td><td>Multiplication. Can be used to multiply integers and numerical property values</td><td><code>[property1] * 2 > [property2]</code></td><td></td></tr><tr><td><strong>/</strong></td><td>Division. Can be used to divide integers and numerical property values</td><td><code>[property1]/2 &#x3C; 50</code></td><td></td></tr></tbody></table>
+
+{% hint style="warning" %}
+Mathematical operations can be used with:
+
+* Whole numbers or fractions (as represented by one whole number divided by another)
+* Number property types
+* Text property types that contain only number characters (i.e., characters such as commas or periods in a text property invalidate a query involving mathematical operations).
+* [Date and time interval units](#duration-math)
+  {% endhint %}
+
+## Predicates
+
+MQL predicates are the building blocks of queries. They are grouped into three categories: **standard predicates, special property predicates,** and **date and time predicates**
+
+<table data-header-hidden><thead><tr><th width="172.251708984375"></th><th></th></tr></thead><tbody><tr><td><a href="#standard-predicates"><strong>Standard predicates</strong></a></td><td>Standard predicates do not use comparators or quantifiers. Some can contain further arguments inside the parentheses (as indicated in the table) to specify a further condition in the query.</td></tr><tr><td><a href="#special-property-predicates"><strong>Special Property predicates</strong></a></td><td>Special property predicates are indicated by the <code>$</code> sign, and they use comparators or quantifiers. Special properties access a list of characteristics of entities against which query conditions are tested. For example, <code>$properties</code> accesses a list of the properties of each entity in the model.</td></tr><tr><td><a href="#time-and-date-predicates"><strong>Date and time predicates</strong></a></td><td>Date and time predicates enable you to query date and time properties within or exceeding specified durations.</td></tr></tbody></table>
+
+{% hint style="warning" %}
+All predicates are case-sensitive, but query strings and values are not.
+{% endhint %}
+
+### Standard predicates
+
+<table data-header-hidden><thead><tr><th width="304.73828125"></th><th></th></tr></thead><tbody><tr><td><code>isLayer()</code></td><td>Matches Layers</td></tr><tr><td><code>isObject()</code></td><td>Matches Objects</td></tr><tr><td><code>isGroup()</code></td><td>Matches Group Attributes (Attributes that contain nested Attributes)</td></tr><tr><td><code>isAttribute()</code></td><td>Matches lowest level Attributes (i.e., does not match Groups)</td></tr><tr><td><code>isTransition()</code></td><td>Matches Transitions</td></tr><tr><td><code>isSelected()</code></td><td>Matches entities currently selected in the model</td></tr><tr><td><code>isBefore($source,$target)</code></td><td>Matches Transitions flowing from left to right in the model. Use <code>isBefore($target,$source)</code> for Transitions flowing from right to left.</td></tr><tr><td><code>hasProperty('prop')</code></td><td>Matches entities that have the property specified inside the parentheses</td></tr><tr><td><code>hasInvalidProperty('prop')</code></td><td>Matches entities that have an invalid value given the property type of the property specified in the brackets</td></tr><tr><td><code>isValidProperty('prop')</code></td><td>Matches entities that have a valid value given the property type of the property specified in the brackets</td></tr><tr><td><code>isEmpty('prop')</code> or <code>isEmpty([Prop])</code></td><td>Matches entities that do not have a specified property or do not have an assigned value for a property</td></tr><tr><td><code>isTrue('prop')</code></td><td>Matches entities that do not have values <code>false</code> , <code>undefined</code> , <code>null</code> , <code>no</code> , <code>0</code> , <code>f</code> for the property specified in the brackets</td></tr><tr><td><code>isFalse('prop')</code></td><td>Matches entities with values <code>false</code> , <code>undefined</code> , <code>null</code> , <code>no</code> , <code>0</code> , <code>f</code> for the property specified in the brackets</td></tr><tr><td><code>contains($name, 'string')</code> or <code>contains([Prop], 'string')</code></td><td>Matches entities whose name or property value contains the provided string</td></tr><tr><td><code>csContains($name, 'string')</code> or <code>contains([Prop], 'string')</code></td><td>Case-sensitive version of the <code>contains</code> predicate. Matches entities whose name or property value contains the provided string, with case sensitivity</td></tr><tr><td><code>regex(prop, expression)</code></td><td>Matches entities with the property ‘prop’ whose value matches the regular expression provided. For example: <code>regex(Color, '[A-Z]lue')</code> matches entities with the property <code>Color</code> whose value starts with a capital letter followed by <code>lue</code>. Can also be used with <code>$name</code> to match entity names, e.g., <code>regex($name, '[1-9]')</code> matches entities whose name contains a digit between 1 and 9</td></tr><tr><td><code>csRegex(prop, expression)</code></td><td>Matches entities with the property ‘prop’ whose value matches the regular expression provided, case-sensitive. For example: <code>csRegex(Color, '[A-Z]lue')</code> matches entities with the property <code>Color</code> whose value starts with a capital letter followed by <code>lue</code>. Can also be used with <code>$name</code> to match entity names, e.g., <code>csRegex($name, '[A-Z]')</code> matches entities whose name starts with an uppercase letter</td></tr><tr><td><code>csEquals()</code></td><td>Case-sensitive string matching. For example, <code>csEquals($name, 'Customer')</code> matches entities whose name is exactly <em>Customer</em>, with case sensitivity (<code>$name</code> alone is not case-sensitive)</td></tr><tr><td><code>beginsWith($name, 'string')</code></td><td>Matches entities whose name begins with the provided string</td></tr><tr><td><code>endsWith($name, 'string')</code></td><td>Matches entities whose name ends with the provided string</td></tr><tr><td><code>isTraceActive()</code></td><td>Matches all entities in the model if a highlighted or focused trace is active. If no trace is active, it matches no entities</td></tr><tr><td><code>inHighlightedTrace()</code></td><td>Matches entities in the highlighted trace currently applied to the model</td></tr><tr><td><code>inFocusedTrace()</code></td><td>Matches entities in the focused trace currently applied to the model</td></tr><tr><td><code>inCurrentTrace()</code></td><td>Alias of <code>inHighlightedTrace()</code>. Matches entities in the highlighted trace currently applied to the model</td></tr><tr><td><code>isImported()</code></td><td>Matches entities that have been imported from another model</td></tr></tbody></table>
+
+***
+
+### Special property predicates
+
+<table data-header-hidden><thead><tr><th width="304.9307861328125"></th><th></th></tr></thead><tbody><tr><td><code>count</code></td><td>References the number of items in a list (e.g., <code>$incoming.count =</code> references number of incoming Transitions). Append to special properties using dot notation, and use a comparator</td></tr><tr><td><code>length</code></td><td>References the length of strings in a list (e.g., <code>$name.length &#x3C; 4</code> references the character length of names. Append to special properties using dot notation, and use a comparator</td></tr><tr><td><code>$name</code></td><td>Accesses a list of entity names in the model. Use a comparator to specify a name condition (e.g., <code>$name = 'Customer'</code>)</td></tr><tr><td><code>$type</code></td><td>Matches entities that are the provided entity type (<code>$type = 'Object'</code>, which is equivalent to <code>isObject()</code>). Mainly used to specify a type condition on other special properties using dot notation (e.g., <code>any x in $incomingTrace (x.$type = 'Object')</code>)</td></tr><tr><td><code>$id</code></td><td>Accesses a list of entity ID(s) in the model. Use a comparator to specify an ID condition (e.g., <code>$id = 'ed865ddd-1b52-4a7d-c53a-186458232869'</code>)</td></tr><tr><td><code>$incomingTrace</code></td><td>Accesses a list of entities and transitions upstream in an entity’s trace</td></tr><tr><td><code>$outgoingTrace</code></td><td>Accesses a list of entities and transitions downstream in an entity’s trace</td></tr><tr><td><code>$trace</code></td><td>Accesses a list of entities and transitions upstream and downstream from an entity, including the entity itself. Use <code>$trace.incoming</code> or <code>$trace.outgoing</code> to specify upstream or downstream including an entity itself</td></tr><tr><td><code>$trace.deep</code></td><td>Includes ancestors and descendants of entities in <code>$trace</code> list. Use <code>$trace.deep.incoming</code> and <code>$trace.deep.outgoing</code> to specify upstream or downstream including ancestors and descendants</td></tr><tr><td><code>$source</code></td><td>Accesses the source entity of transitions in a model</td></tr><tr><td><code>$target</code></td><td>Accesses the target entity of transitions in a model</td></tr><tr><td><code>$incoming</code></td><td>Accesses a list of incoming transitions for each entity in the model</td></tr><tr><td><code>$outgoing</code></td><td>Accesses a list of outgoing transitions for each entity in the model</td></tr><tr><td><code>$numIncoming</code></td><td>Accesses the number of incoming transitions for each entity in a model. Use with comparators (<code>=</code> , <code>></code> , <code>&#x3C;</code>). Equivalent to <code>$incoming.count</code></td></tr><tr><td><code>$numOutgoing</code></td><td>Accesses the number of outgoing Transitions for each entity in a model. Use with comparators (<code>=</code> , <code>></code> , <code>&#x3C;</code>). Equivalent to <code>$outgoing.count</code></td></tr><tr><td><code>$transitions</code></td><td>Accesses a list of transitions for each entity in a model. Use <code>$transitions.incoming</code> and <code>$transitions.outgoing</code> to specify only incoming or outgoing transitions for each entity.</td></tr><tr><td><code>$transitions.deep</code></td><td>Accesses list of Transitions for each entity and its descendants (i.e., children, children’s children, etc.). Use <code>$transitions.deep.incoming</code> and <code>$transitions.deep.outgoing</code> to specify only incoming or outgoing transitions for each entity, including those of descendants.</td></tr><tr><td><code>$objects</code></td><td>Accesses a list of child Objects of each Layer in a model</td></tr><tr><td><code>$attributes</code></td><td>Accesses a list of child Attributes of each Object and Group in a model</td></tr><tr><td><code>$numAttributes</code></td><td>Accesses the number of child Attributes (includes all levels) of each entity in a model</td></tr><tr><td><code>$numObjects</code></td><td>Accesses the number of child Objects of each Layer in a model</td></tr><tr><td><code>$numChildren</code></td><td>Accesses the number of child entities (one level down) of each entity in a model</td></tr><tr><td><code>$descendants</code></td><td>Accesses list of descendants of each entity in a model</td></tr><tr><td><code>$children</code></td><td>Accesses a list of children (one level down) of each entity in a model</td></tr><tr><td><code>$parents</code></td><td>Accesses a list of ancestors (i.e., parent, parent’s parent, etc.) of each entity in a model (Alias <code>$path</code>)</td></tr><tr><td><code>$parent</code></td><td>Accesses the parent of an entity</td></tr><tr><td><code>$layer</code></td><td>Accesses the Layer an entity is contained in</td></tr><tr><td><code>$object</code></td><td>Accesses the Object an Attribute or Group is contained in</td></tr><tr><td><code>$selection</code></td><td>Accesses a list of entities currently selected in the model</td></tr><tr><td><code>$properties</code></td><td>Accesses a list of properties of each entity in a model</td></tr><tr><td><code>$relationships</code></td><td>Accesses a list of relationships of each entity in a model</td></tr><tr><td><code>$key</code></td><td>Accesses a property keys in <code>$properties</code> list (e.g., <code>$properties.$key</code>)</td></tr><tr><td><code>$value</code></td><td>Accesses values of properties in <code>$properties</code> list (e.g., <code>$properties.$value</code>), or a related term in <code>$relationships</code> list e.g., <code>$relationships.$value.$id</code> or <code>$relationships.$value.$name</code>)</td></tr><tr><td><code>$label</code></td><td>Accesses relationship labels in <code>$relationships</code> list e.g., <code>$relationships.$label</code>)</td></tr><tr><td><code>$originatingModelId</code></td><td>Accesses list of original model IDs for all imported entities</td></tr></tbody></table>
+
+***
+
+### Date and time predicates
+
+<table data-header-hidden><thead><tr><th width="301.8125"></th><th></th></tr></thead><tbody><tr><td><code>$now</code></td><td>References the current time</td></tr><tr><td><code>$today</code></td><td>References the current date at 0:00am local time</td></tr><tr><td><code>$todayUTC</code></td><td>References the current date at 0:00am UTC</td></tr><tr><td><code>${x}{unit}</code></td><td><p>Specifies an interval by number of temporal units. For example: <code>$1hour.</code> Available units are years, months, weeks, days, hours, minutes, or seconds.</p><p>Use singular for one unit: <code>$1hour</code> or <code>$1day</code>.</p><p>Units can be chained to create intervals: <code>$2days.$4hours.$30minutes</code>.</p></td></tr><tr><td><code>$ago</code></td><td>Can be chained to the end of an interval to produce a past date and time relative to the current date and time. For example: <code>$2weeks.$ago</code></td></tr><tr><td><code>$fromNow</code></td><td>Can be chained to the end of an interval to produce a future date and time relative to the current date and time. For example: <code>$2weeks.$fromNow</code></td></tr></tbody></table>
+
+{% hint style="warning" %}
+Queries using the predicates `$now`, `$today,` or `$todayUTC`, `$ago`, and `$fromNow` are set to recompute automatically if and when the set of matched entities would change given changes in the current date and time.
+
+Keep in mind that display rules or filters based on date and time queries can (and likely will) apply to different sets of entities as the current date and time changes.
+{% endhint %}
+
+## Syntax
+
+Standard, special property, and date/time predicates require unique syntax formats.
+
+### Standard predicate syntax
+
+Most standard predicates can be used as is, without modification. For example, the entity type predicates `isLayer()`, `isObject()`, `isGroup()`, and `isAttribute()` can be entered into the search bar, and in combination with logical operators, to match entities by type: `isObject() OR isAttribute()`.
+
+Some, such as `isEmpty()` and `hasProperty()`, require a property name to be specified as an argument inside the parentheses.
+
+### Special property predicate syntax
+
+The syntax for special property predicates is more complicated and depends on the type of special property being accessed.
+
+* **Strings** : special properties that access a list of strings (e.g., `$name`) can used alone with a comparison operator to specify a condition on the string value. For example, `$name = 'Customer'` matches all entities with the name *Customer*.
+* **Numbers** : special properties that access numbers (e.g., `$numIncoming`) can used alone with comparison operators to specify a condition on the number value. For example, `$numIncoming > 2` matches all entities with more than 2 incoming Transitions.
+* **Lists** : special properties that access a list of items (e.g., `$relationships`) are used with quantifiers (`any` or `all`) to specify a condition on the items in the list. For example, `any rel in $relationships (rel.$value.$name = 'CDE')` matches all entities that have at least one relationship to the term named *CDE*.
+
+Here is a breakdown of the syntax used in special property lists:
+
+<figure>Syntax for Relationship queries<figcaption><p>Syntax for a special property query</p></figcaption></figure>
+
+* `any` = existential quantifier (at least one must match)
+* `rel` = iterator variable representing each individual relationship
+* `$relationships` = special property that accesses the list of all relationships for each entity
+* `rel.$label` = accesses the label of the current relationship being examined
+* `= 'Relates to'` = comparison condition
+
+{% hint style="success" %}
+The text used for the variable is arbitrary and can be anything you like, but it is recommended to use a short, descriptive name that indicates the type of item being iterated over (e.g., `rel` for relationships, `prop` for properties).
+{% endhint %}
+
+#### **Chain predicates using dot notation**
+
+Dot notation is used in variety of situations in the MQL:
+
+* **Use with** `count` **and** `length` to place a numeric condition on strings or lists: `$incoming.count > 2` or `$name.length < 4`
+* **Access properties**: Appending a property key to a special predicate accesses the property of entities in the list `$object.ObjectType = 'Database'`
+* **Chain special property predicates** to access nested lists. For example, `$relationships.$value.$name` accesses the name of a related term, while `$properties.$key` accesses the keys of properties.
+
+{% hint style="success" %}
+`$value` or `$key` can only be used when chained to a special property that accesses a list (e.g., `$relationships` or `$properties`).
+{% endhint %}
+
+#### **Use standard predicates within a special property query**
+
+You can use standard predicates inside a special property query to place a condition on items in the list. For example, `any inc in $incomingTrace (isAttribute(inc))` matches all entities that have at least one Attribute upstream in their lineage.
+
+Notice that when used inside a special property query, the standard predicate requires the variable as the argument inside the parentheses: `isAttribute(inc)`.
+
+#### Use parentheses in compound queries
+
+Compound queries combine multiple predicates.
+
+Multiple predicates must be combined using logical operators `And` or `Or` and **should** use parentheses to group predicates for clarity and interpretability.
+
+For example, the query `not isLayer() or isObject() and isEmpty([Business Name]) and isImported()` will be interpreted as:
+
+`(not isLayer()) or (isObject() and isEmpty([Business Name]) and isImported())`
+
+`isLayer()` is false OR `(isObject() and isEmpty([Business Name]) and isImported())` are **all** true.
+
+We need to use parentheses to ensure the `not` applies to both `isLayer()` and `isObject()` and the `isEmpty([Business Name]) and isImported()` predicates: `(not (isLayer() or isObject())) and (isEmpty([Business Name]) and isImported())`
+
+### Date and time predicate syntax
+
+Date and time predicates enable you to match the value of date properties within, at, or exceeding specified dates or date-time intervals.
+
+[**Date properties**](/models/understand-solidatus-models/understand-properties/property-types#date-property-type) can be set to a specific calendar date or to a specific date and time combination.
+
+You can construct queries against date properties to find values within, at or exceeding specific dates. For example, `[Start date] > '2025-08-25' and [Start date] < '2025-09-12'` matches entities with a *Start date* property between 25 August 2025 and 12 September 2025.
+
+{% hint style="warning" %}
+Queries involving specific dates require that dates are in the form *year*-*month*-*day* with either `-` or `/` separating units: `'XXXX-XX-XX'` or `'XXXX/XX/XX'`. For date-time combinations, use `‘YYYY-MM-DDTHH:mm’`, `‘YYYY-MM-DD HH:mm’`, `‘YYYY-MM-DDTHH:mm:ss’`, or `‘YYYY-MM-DD HH:mm:ss’`
+{% endhint %}
+
+You can also use date and time predicates to query against time intervals relative to the current date and time. Note that as the current date and time changes, the query conditions can (and likely will) match a different set of entities (see [automatic updating](#automatic-updating) for more information).
+
+To construct a valid query against date properties:
+
+* **Reference the date property** by its property name (you must use `" "` or `[ ]` around property names that contain special characters or spaces)
+* **Enter a comparison operator** (you can use any available comparison operator)
+* **Enter the date,** **interval unit**, or **date-time predicate**
+
+For example, let's say you have a date property named "Expiration date".
+
+You can query for entities that have an "Expiration date" before a specific date: `[Expiration date] < '2025-09-25'` .
+
+You can also query against this date property to retrieve all entities with an "Expiration date" set to within one month: `[Expiration date] <= $1month.$fromNow`
+
+Numerical durations must be specified in the format `${x}{unit}`, where `x` is a number and `unit` is one of the available interval units: **years**, **months**, **weeks**, **days,** **hours**, **minutes,** and **seconds**.
+
+If x is set equal to one, use the singular form of the interval unit: `$1year`, `$1month`, `$1week`, etc.
+
+To query within a date or time range, use the `And` operator to join a `<` and `>` condition:
+
+* `[Start date] > '2025-08-25' and [Start date] < '2025-09-12'`
+* `[Start date] >= $1month.$ago and [Start date] <= $2months.$fromNow`
+
+#### Chaining durations
+
+Intervals can be chained using dot notation to specify more precise intervals.
+
+For example, you can specify an interval using all available interval units: `$1year.$3months.$5weeks.$3days.$5hours.$35minutes.$30seconds`
+
+Chain `$ago` or `$fromNow` to the end of an interval unit to query a past or future duration relative to the current date and time: `[Expiration date] <= $1month.$fromNow`
+
+For example, you can find all entities whose Last updated date is over 6 months from the current date: `[Last updated] > $6months.$ago`
+
+#### Duration math
+
+You can use the four basic mathematical operations (+, - , \* , / ) on numerical intervals to produce further intervals.
+
+Here are the basic rules for using mathematical operators:
+
+* Intervals can be added or subtracted to produce an interval: or `$1day + $6hours` or `$6months - $2weeks`
+* Intervals can be multiplied or divided by numbers to produce intervals: `$3months * 2` or `$60minutes/3`
+* Date-times can be added to and subtracted from intervals to produce another date/time: `[Expiration date] + $2months` or `$now + $3months` or `[Expiration date] < $now + $3months`
+
+#### Automatic updating
+
+Queries with `$now,` `$today,` `$todayUTC`, `$ago`, and `$fromNow` are set to recompute automatically if and when the set of matched entities would change given changes in the current date and time.
+
+For example, let's say you created a display rule to tag entities with outdated data quality checks based on the query `[DQ score date] > $6months.$ago`. As the current date changes, the entities whose DQ score is more than 6 months from the current date will change, and the tag will automatically appear on a different set of entities from when it was first created.
+
+## Property value math
+
+Basic mathematical operations (`+`, `-`, `*`, `/`) can be used in queries involving property values that are numbers. The results of mathematical operations can be compared against numbers or other number property values.
+
+{% hint style="warning" %}
+Mathematical operations work with:
+
+* [Number property types](/models/understand-solidatus-models/understand-properties/property-types#number-property-type)
+* [Text property types](/models/understand-solidatus-models/understand-properties/property-types#text-property-type) that contain only numeric characters (commas, periods, or other non-numeric characters will invalidate the query)
+  {% endhint %}
+
+**Property math examples:**
+
+* `([Property 1] + [Property 2])/2 < [Property 3]` - compares the average of two properties against a third property
+* `([Property 1]/[Property 2]) > 1/2` - compares a ratio of two properties against a fraction
+* `[Revenue] - [Costs] > 1000` - finds entities where profit exceeds 1000
+* `[Score A] * [Weight A] + [Score B] * [Weight B] > [Threshold]` - weighted scoring comparison
+
+## Examples
+
+One of the best ways to learn how to write queries is to look at examples. Below are some common query patterns that can be used as models for building your own.
+
+{% hint style="success" %}
+We can provide a model with extensive examples of queries for all types of scenarios: the Solidatus Query Glossary model. To gain access to this resource, contact our Support team at [support@solidatus.com](mailto:support%40solidatus.com).
+{% endhint %}
+
+**Queries can be combined using ‘and’ and ‘or’:**
+
+> * `isAttribute() or isObject()` will match all attributes and all objects
+> * `isAttribute() and isObject()` will never match anything because an entity cannot be both an attribute and an object at the same time
+
+**The validity of property values can be assessed:**
+
+> * `hasInvalidProperty()` will match all entities that have at least one invalid property
+> * `not (isEmpty([Average Population %])) and not (isValidProperty('Average Population %'))` will match all entities that have invalid values for the `Average Population %` property
+
+{% hint style="info" %}
+Enclosing a property name in *square brackets* refers to the property **value**, whereas enclosing the property name in *quotes* refers to the property **name**.
+
+Eagle-eyed readers will notice that the property name (`Average Population %`) is enclosed in square brackets (**\[name]**) in the `isEmpty` predicate and enclosed in single quotes (**‘name’**) in the `isValidProperty` predicate.
+
+The `isEmpty` predicate checks the property value to see if it is empty; the `isValidProperty` predicate checks the validation status of a named property - this is why we need to make sure we supply the name and not the property value.
+
+Using square brackets in `isValidProperty` (for example `isValidProperty([another property name])`) will allow you to check the validation status of a property name that is stored as the value of `another property name`. The `hasProperty` predicate also refers to a property name.
+{% endhint %}
+
+**Properties can be compared in various ways:**
+
+> * `Owner = 'Dan'` will match anything where the `Owner` property is equal to `Dan`
+> * `[Secondary Owner] = 'Dan'` will match anything where the `Secondary Owner` property is equal to `Dan` (square brackets are required around a property containing spaces)
+> * `isAttribute() and Owner = 'Dan'` will match attributes where the `Owner` property is equal to `Dan`
+> * `contains(Owner, 'Dan')` will match anything where the `Owner` property contains `Dan`
+> * `beginsWith(Owner, 'D')` will match anything where the `Owner` property starts with the letter `D`
+
+**Numeric properties can be compared too:**
+
+> * `isAttribute() and Risk > 50` will match all attributes where the `Risk` property is greater than 50
+> * `isTransition() and Confidence < 10` will match all transitions where the `Confidence` property is less than 10
+> * `isAttribute() and RiskScore < RiskThreshold` will match all attributes which have a `RiskScore` property which is less than its `RiskThreshold` property
+
+**Queries can also traverse the model across transitions or up or down the parent hierarchy:**
+
+> * `isAttribute() and $layer.$name = 'Source layer'` will match all attributes in a layer called `Source layer`
+> * `isAttribute() and $object.ObjectType = 'Database'` will match all attributes in objects which have an `ObjectType` property equal to `Database`
+> * `isTransition() and not ($source.DataType = $target.DataType)` will match all transitions where the source attribute and target attribute have different `DataType` properties
+
+**The ‘any’ and ‘all’ queries can be used to check the children of an entity or its incoming or outgoing transitions**
+
+> * `isAttribute() and any transition in $outgoing (transition.$target.$object.ObjectType = 'Spreadsheet')` will match all attributes which have any immediate transition whose target is in an object with property `ObjectType` of `Spreadsheet`
+> * `isObject() and all child in $children (child.RiskScore < 10)` will match all objects where all of its attributes have a `RiskScore` less than 10.
+> * `isAttribute() and any x in $incomingTrace (isAttribute(x) and x.$numIncoming = 0 and not isTrue(x.GoldenSource))` will match all attributes which do not ultimately flow back to only `GoldenSource` attributes.
+
+**Reference relationship labels and values can be queried using the ‘any’ and ‘all’ syntax**
+
+> * `isAttribute() and any relationship in $relationships (relationship.$label = 'is a')` will match all attributes that have a reference relationship with the label *is a*.
+> * `isAttribute() and any relationship in $relationships (relationship.$value.$name = 'Currency')` will match all attributes that have a reference relationship to a term called *Currency*.
+> * `isAttribute() and any relationship in $relationships (relationship.$value.$id = 'ed865ddd-1b52-4a7d-c53a-186458232869')` will match all attributes that have a reference relationship to a term with the id *ed865ddd-1b52-4a7d-c53a-186458232869*
+> * `isAttribute() and any relationship in $relationships (any parent in relationship.$value.$parents (parent.$name = 'Trade'))` will match all attributes that have a reference relationship to a term with an ancestor with the name *Trade*
+
+**Queries can take into account the current selection:**
+
+> * `isAttribute() and isSelected()` will match attributes which are currently selected.
+> * `isObject() and isSelected()` will match objects which are currently selected.
+
+**Create flexible queries that compare entities with the current selection:**
+
+> * `$selection` will get the current selection as a list
+> * `isAttribute() and hasProperty("DQScore") and any sel in $selection (sel.DQScore <= DQScore)` will match attributes where the value of `DQScore` is greater than or equal to the value of DQScore for any currently selected object

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/get-started/video-library"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-81b52001ba6bdaf618888df5",
+  "requested_url": "https://docs.solidatus.com/get-started/video-library",
+  "response_content_hash": "2f0cf34136e63e64af21340257d2655780cd5527cd8f00333951b67ee2523039",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Video library\n\nThe following videos introduce Solidatus and many of its key capabilities.\n\n<table data-header-hidden data-full-width=\"false\"><thead><tr><th></th></tr></thead><tbody><tr><td><em><strong>Concepts and use case examples</strong></em></td></tr><tr><td><a href=\"https://vimeo.com/795185282/35a7737eee\">1. What is Solidatus? (6:13)</a></td></tr><tr><td><a href=\"https://vimeo.com/795185162/5d028fcc6b\">2. Solidatus and Data Quality (2:07)</a></td></tr><tr><td><a href=\"https://vimeo.com/795185082/cae74f805b\">3. Background to Solidatus and Regulations (3:48)</a></td></tr><tr><td><a href=\"https://vimeo.com/795185185/d8ed19e769\">4. Solidatus Rules Engine (3:51)</a></td></tr><tr><td><a href=\"https://vimeo.com/795185121/8428dcc8b9\">5. Impact of Replacing Systems (1:11)</a></td></tr><tr><td><a href=\"https://vimeo.com/795185137/006f4a9ea1\">6. Reference Models and Critical Data Elements (2:47)</a></td></tr><tr><td><a href=\"https://vimeo.com/795185214/fd813d9c0e\">7. Solidatus Use with Active Directory to Determine Toxic Combinations (4:47)</a></td></tr><tr><td><a href=\"https://vimeo.com/795185103/8e9ca25026\">8. Data Flow, Systems, and Regulations (3:28)</a></td></tr><tr><td><a href=\"https://vimeo.com/795185242/dacb2c8fd8\">9. Utility Management, Alignment, Reporting Data (5:31)</a></td></tr><tr><td><a href=\"https://vimeo.com/796298389/824dc2e61b\">10. Reference Models (4:27)</a></td></tr><tr><td><a href=\"https://vimeo.com/796275618/dd280fc6ca\">11. Multiple Uses and Industry Verticals (1:20)</a></td></tr><tr><td><a href=\"https://vimeo.com/796273115/14f049940a\">12. Using a Lineage First Approach (2:20)</a></td></tr><tr><td><a href=\"https://vimeo.com/796274757/8bc67b43de\">13. Unique Visualizations (4:02)</a></td></tr></tbody></table>\n\n| ***Model building and exploration how-tos***                                                         |\n| ---------------------------------------------------------------------------------------------------- |\n| [1. General Navigation and Finding Models (3:47)](https://vimeo.com/795186143/ec9d136f15)            |\n| [2. Opening Models and Changing What You See (2:20)](https://vimeo.com/795186205/2eff8d9595)         |\n| [3. Creating a Model (5:25)](https://vimeo.com/795185455/2b5f55c65a)                                 |\n| [4. Entity Information (3:28)](https://vimeo.com/795186110/3db85f539a)                               |\n| [5. Cut, Copy, Paste, Move, Undo, and Redo (5:01)](https://vimeo.com/795185480/a581629860)           |\n| [6. Properties (4:25)](https://vimeo.com/795185577/2b2dfb81e5)                                       |\n| [7. Property Management (3:37)](https://vimeo.com/795185606/c5e640fc46)                              |\n| [8. Tracing (1:49)](https://vimeo.com/795186225/aac8076494)                                          |\n| [9. Auto mapper (3:48)](https://vimeo.com/795185430/61fa2c5707)                                      |\n| [10. Display Rules and Filtering (5:18)](https://vimeo.com/797354603/2bb018eff0)                     |\n| [11. Views (2:33)](https://vimeo.com/796576383/9965229cfd)                                           |\n| [12. Import (10:57)](https://vimeo.com/795185551/9b2653bfe0)                                         |\n| [13. Export and Import (3:06)](https://vimeo.com/795185531/a85856b494)                               |\n| [14. Exporting to CSV (6:02)](https://downloads.solidatus.com/videos/8.%20Exporting%20to%20CSV.mp4)  |\n| [15. Drafts and Version Control (6:07)](https://vimeo.com/795185511/ba69d65994)                      |\n| [16. Search and Query (4:01)](https://vimeo.com/795185649/d73a2a7964)                                |\n| [17. Building Reference Models (4:05)](https://vimeo.com/795185625/8b67a42eec)                       |\n| [18. Groups (3:17)](https://downloads.solidatus.com/videos/5.%20User%20Groups.mp4)                   |\n| [19. Read-only Sharing (1:25)](https://downloads.solidatus.com/videos/10.%20Read-only%20Sharing.mp4) |\n| [20. Global Search (6:35)](https://vimeo.com/796297236/7bf1483b9b)                                   |\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:39.649Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "ae309e752094f6b7ccd9ed67cc339d25c46e5d3737ab914027ec8a748a0e6169",
+  "warnings": []
+}

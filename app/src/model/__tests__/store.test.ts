@@ -1,5 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { emptyModel, localStore, normalize, normalizeTags, summarize } from '../store'
+import { setCurrentUserEmail } from '../../auth/currentUser'
 import type { LineageModel } from '../types'
 
 const INDEX_KEY = 'lineage-studio:models'
@@ -52,6 +53,45 @@ describe('summarize', () => {
     const model = { ...emptyModel('Mortgage'), tags: ['Demo'], starred: true }
     const s = summarize(model)
     expect(s).toMatchObject({ name: 'Mortgage', tags: ['Demo'], starred: true, layerCount: 0 })
+  })
+
+  it('carries owner onto the summary row when the model has one', () => {
+    expect(summarize({ ...emptyModel('x'), owner: 'a@b.com' }).owner).toBe('a@b.com')
+  })
+
+  it('leaves owner off the summary row when the model has none', () => {
+    expect(summarize(emptyModel('x')).owner).toBeUndefined()
+  })
+})
+
+describe('ownership', () => {
+  afterEach(() => setCurrentUserEmail(null))
+
+  it('stamps the signed-in user as owner on a new model', () => {
+    setCurrentUserEmail('a@b.com')
+    expect(emptyModel('Mortgage').owner).toBe('a@b.com')
+  })
+
+  it('leaves owner unset when nobody is signed in', () => {
+    setCurrentUserEmail(null)
+    expect(emptyModel('Mortgage').owner).toBeUndefined()
+  })
+
+  it('duplicating stamps the CURRENT user, not the original owner, and drops any sharing grants', async () => {
+    setCurrentUserEmail('owner@b.com')
+    const original = await localStore.create('Mortgage')
+    await localStore.patchMeta(original.id, {})
+    // Simulate the original having sharing set — duplicate must not carry it.
+    const withShare: LineageModel = {
+      ...(await localStore.get(original.id))!,
+      sharedWith: [{ email: 'viewer@b.com', role: 'viewer' }],
+    }
+    await localStore.save(withShare)
+
+    setCurrentUserEmail('duplicator@b.com')
+    const copy = await localStore.duplicate(original.id)
+    expect(copy.owner).toBe('duplicator@b.com')
+    expect(copy.sharedWith).toBeUndefined()
   })
 })
 

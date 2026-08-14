@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/api-documentation/api-overview"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-49de0e5c0571cadd188a5733",
+  "requested_url": "https://docs.solidatus.com/api-documentation/api-overview",
+  "response_content_hash": "48cc8de57d2c1c5690f7031a0e8fa9114f0f504bc0d51cfef53998ebdca304a7",
+  "retrieval_phase": "smoke-test",
+  "returned_textual_content": "# API overview\n\nSolidatus has an extensive, publicly available API to facilitate the process of creating automated workflows, integrations, and autonomous agents to ingest data from third-party sources.\n\nThe Solidatus public API can be used to create, view, and edit models, as well as retrieve model data, import data, perform administration, manage workflow, and more.\n\n{% hint style=\"info\" %}\nFollow the [API quick-start tutorial](/api-documentation/api-overview/api-quick-start-tutorial) for a brief introduction to creating and updating Solidatus models using the API.\n{% endhint %}\n\nIt’s easy to get started using the API, all you need is a valid authorisation token and an HTTP/REST client.\n\n[This authentication guide](/api-documentation/api-overview/api-authentication) explains how to obtain and use an API token.\n\n{% hint style=\"success\" %}\nA comprehensive developer API reference for all endpoints, methods, endpoint paths, and request schemas can be found through the API documentation link in the help menu of your Solidatus instance.\n\nYou can execute API commands directly from the Swagger interface once you authenticate with a valid token.\n{% endhint %}\n\n<figure><img src=\"/files/mdGDeHgRFzMvQbdcpEHz\" alt=\"\" width=\"178\"><figcaption></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:01:40.386Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "ae5bd70141e266459cb4c67422b45bf15fdcb6d74669cd618a67e7348b8b7af0",
+  "warnings": []
+}

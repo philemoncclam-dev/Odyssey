@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/usage"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-75848b72a8a4d13015d9f8d2",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-jdbc-connectors/usage",
+  "response_content_hash": "92275ff685264a59213c5aa2e0947c98176ee4aa55f73fd996d09d9a6433e90e",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Usage\n\n### Usage\n\nThere are two ways to run the JDBC connector, Agent mode and Standalone mode. Standalone mode runs a singular instance of the Connector with supplied config and publishes the model. Agent mode sets up a Solidatus Agent to connect to the hosted Solidatus site that can receive and run JDBC jobs with unique configurations.\n\nConfiguration can also be set using a `{}.yml` file as presented in `fullSample.yml` and `template.yml`. Alternatively the configuration can be passed in as command line parameters to the JDBC Connector JAR file. If using both methods the command line arguments will overwrite the configuration `.yml` file. See the [Configuration Options](/connectors/connector-specific-documentation/solidatus-jdbc-connectors/configuration) section for more detail.\n\n### Running the connector with docker\n\nThe connector can be run via `docker-compose` where an example of a `docker-compose.yml` can be found. Then execute `docker-compose up -d`.\n\nTo run the container using docker, run the command to execute would be `docker run -d -v data:/data --name <name_of_container> <tag_name_of_image> [flags]`.\n\n### Bundled JDBC supported drivers\n\n| driver       | description                                   |\n| ------------ | --------------------------------------------- |\n| `mysql`      | JDBC driver for MySql                         |\n| `oracle12`   | JDBC driver for Oracle                        |\n| `sqlserver`  | JDBC driver for Microsoft SQL Server          |\n| `cassandra`  | JDBC driver for Cassandra                     |\n| `sybaseASE`  | JDBC driver for Sybase ASE                    |\n| `sybaseIQ`   | JDBC driver for Sybase IQ                     |\n| `snowflake`  | JDBC driver for Snowflake                     |\n| `redshift`   | JDBC driver for Redshift                      |\n| `postgresql` | JDBC driver for PostgreSQL                    |\n| `custom`     | A user supplied JDBC driver via the classpath |\n\n### Advanced use with custom driver config\n\nIt is possible to use the tool with any JDBC driver that supports an implementation of the `java.sql.DatabaseMetaData` interface.\n\nTo do so we need to change the command line a little to take advantage of some Spring Boot features.\n\n```bash\njava -cp ./solidatus-jdbc-connectors.jar:PATH_TO_JDBC_DRIVER/DRIVER.jar \\\n-Dloader.main=com.solidatus.app.Main org.springframework.boot.loader.launch.PropertiesLauncher \\\n--spring.profiles.active=\"standalone\" \\\n--solidatus.jdbc.driver=custom \\\n--solidatus.jdbc.driver-class=com.microsoft.sqlserver.jdbc.SQLServerDriver \\\n--solidatus.jdbc.url=\"jdbc:sqlserver://localhost:1433;database=AdventureWorks\" \\\n--solidatus.jdbc.username=JDBC_CONNECTION_USERNAME \\\n--solidatus.jdbc.password=JDBC_CONNECTION_PASSWORD \\\n--solidatus.jdbc.schema-pattern=COMMA_SEPARATED_SCHEMA_NAMES \\\n--solidatus.api.host=$SOLIDATUS_HOST \\\n--solidatus.api.token=$SOLIDATUS_TOKEN \\\n--solidatus.api.model-name=\"Solidatus Model Name\"\n```\n\nThe above command adds a custom JDBC driver class `DRIVER.jar` to the classpath.\n\n| property                                                                     | description                                                  |\n| ---------------------------------------------------------------------------- | ------------------------------------------------------------ |\n| `--solidatus.jdbc.driver=custom`                                             | tells the application to use the custom driver configuration |\n| `--solidatus.jdbc.driver-class=com.microsoft.sqlserver.jdbc.SQLServerDriver` | the JDBC driver class to use                                 |\n\nPlease contact Solidatus to see if you are licensed to use this feature.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:53.642Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "b380587f51f3687bc58dd0582255c18b440f302a6f5a1a39dee86f7f42ca7814",
+  "warnings": []
+}

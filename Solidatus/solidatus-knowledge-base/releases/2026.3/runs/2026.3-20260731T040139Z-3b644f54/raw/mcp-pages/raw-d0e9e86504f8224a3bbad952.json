@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-databricks/configuration"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-d0e9e86504f8224a3bbad952",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/solidatus-databricks/configuration",
+  "response_content_hash": "6824c0c525c323ed37742cb68a7411ea0fc3690b19dd16ffd35389d62b00b694",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Configuration\n\nTo configure the Solidatus Databricks connector, create an `application.yml` configuration file with the following configuration options, or use [Command Line Arguments](/connectors/connector-specific-documentation/solidatus-databricks/running).\n\nThe following example `application.yml` shows all the configuration options and values.\n\n## Configuration Example\n\n`application.yml`:\n\n```yaml\n---\nlogging:\n  level:\n    root: [ TRACE|DEBUG|INFO|WARN|ERROR ]\n    com.solidatus: [ TRACE|DEBUG|INFO|WARN|ERROR ]\n    com.solidatus.databricks: [ TRACE|DEBUG|INFO|WARN|ERROR ]\nspring:\n  profiles:\n    active: [ connector|standalone ]\nsolidatus:\n  api:\n    host: [ Solidatus Host ]\n    token: [ Solidatus Token ]\n    verify-ssl: [ true|false ]\n    model-name: [ Model Name ]\n  agent:\n    name: Databricks Connector\n    description: A Databricks connector\n  databricks:\n    databricks-host: [ Databricks Host ]\n    databricks-token: [ Databricks PAT ]\n    databricks-client-id: [ OAuth Client ID ]\n    databricks-client-secret: [ OAuth Client Secret ]\n    schemas-to-include:\n      - [ schema1 ]\n      - [ schema2 ]\n    jobs-to-include:\n      - [ job1 ]\n      - [ job2 ]\n    include-jobs-layer: [ true|false ]\n    create-data-assets: [ true|false ]\n```\n\n## Configuration Options\n\n### Agent or Standalone\n\n* `spring.profiles.active`: `connector` for agent mode or `standalone` for standalone mode\n\n### Logging\n\n* `logging.level.root`: Logging level, either `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`. Default is `INFO`\n* `logging.level.com.solidatus`: Solidatus logging level, either `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`. Default is `INFO`\n* `logging.level.com.solidatus.databricks`: Databricks connector logging level, either `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`\n\n### Solidatus Options\n\n#### API\n\n* `solidatus.api.host`: Solidatus host\n* `solidatus.api.token`: Solidatus API token\n* `solidatus.api.verify-ssl`: Whether to verify SSL\n* `solidatus.api.model-name`: Name of the model to update\n\n### Agent Mode\n\n* `solidatus.agent.name`: Unique name of connector agent. Default is `Databricks Connector`\n* `solidatus.agent.description`: Description of connector agent. Default is `A Databricks connector`\n\n### Databricks Options\n\n* `solidatus.databricks.databricks-host`: Databricks workspace host URL (required)\n* `solidatus.databricks.databricks-token`: Databricks personal access token (required if OAuth is not used)\n* `solidatus.databricks.databricks-client-id`: Service principal OAuth client ID (required with client secret if PAT is not used)\n* `solidatus.databricks.databricks-client-secret`: Service principal OAuth secret (required with client ID if PAT is not used)\n\nConfigure **either** a PAT **or** OAuth client credentials, not both. See [oauth.md](https://github.com/solidatus/Solidatus-docs-gitbook/tree/stable/solidatus-core/connectors/solidatus-connectors/solidatus-databricks/oauth.md).\n\n* `solidatus.databricks.schemas-to-include`: List of schemas to extract metadata for (optional)\n* `solidatus.databricks.jobs-to-include`: List of Databricks jobs to include (optional)\n* `solidatus.databricks.include-jobs-layer`: Whether to include a jobs layer (optional, default is false)\n* `solidatus.databricks.create-data-assets`: Whether to create Data Assets in the Solidatus model (optional, default is true)\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:55.722Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "3e9a292a335672ddb6c77bb44ee794ce133ae0781f194bd10eb02885c77df2f5",
+  "warnings": []
+}

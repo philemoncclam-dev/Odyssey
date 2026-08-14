@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/java-connector-sdk/additional-resources"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-5d8580a94d081193965e61ae",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/java-connector-sdk/additional-resources",
+  "response_content_hash": "32ae519091b4af08c911f8a51a1189a2a6f645e4a5cf59a07d9646385cc223d1",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Additional Resources\n\n[Java Connector Example](https://github.com/solidatus/solidatus-java-sdk-example) - if you do not have access to this project please ask your Solidatus contact for next steps.\n\n[Spring Boot documentation](https://spring.io/projects/spring-boot)\n\n[Baeldung on Spring Boot Starters](https://www.baeldung.com/spring-boot-starters)\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:51.756Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "ba682ff3dc04d9947fe5106c252aac920441da0106aa8b0c87f565d896b1bf6e",
+  "warnings": []
+}

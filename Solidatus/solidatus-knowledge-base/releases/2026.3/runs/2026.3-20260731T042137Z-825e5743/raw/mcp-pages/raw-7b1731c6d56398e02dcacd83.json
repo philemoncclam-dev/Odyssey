@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v5-change-summary/5.1.1-release-notes"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-7b1731c6d56398e02dcacd83",
+  "requested_url": "https://docs.solidatus.com/release-notes/release-notes-main/solidatus-v5-change-summary/5.1.1-release-notes",
+  "response_content_hash": "d70149980197a439c9975faf128012c124fc22c3318accc45de327e3862986d3",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Solidatus 5.1.1\n\nThis is a minor feature update.\n\n### Feature Improvements\n\n**Can now provide Approval / Rejection messages via Model Overview**\n\nWhen you approve or reject an Activity via the [Model Overview](/the-user-interface/models-ui/model-overview), you can now provide information to explain why you made that decision, without having to add a separate comment afterwards.\n\n**Additional API commands**\n\n<table data-header-hidden><thead><tr><th width=\"224\"></th><th></th></tr></thead><tbody><tr><td><code>UpdateBy</code></td><td>Allows you to update entities in a Model with a given set of commands (currently, only <code>SetProperty</code> and <code>SetProperties</code> are supported). These entities are identified either by a property key they possess or a property key and value they possess.</td></tr><tr><td><code>SetProperties</code></td><td>As the name suggests, this command allows you to set multiple Properties in one command, avoiding the necessity for running <code>SetProperty</code> multiple times.</td></tr></tbody></table>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:47.980Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "198af9b3c103222f34465109a9c08108e4f7696df06d076c7a815bf0f109d3e5",
+  "warnings": []
+}

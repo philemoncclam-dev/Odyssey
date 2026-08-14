@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer/model-viewer-toolbar"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-370facddd655f96fedb67a27",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer/model-viewer-toolbar",
+  "response_content_hash": "320c89f18a6fea4c36b96db1c82c5eaa778e2c80ec98c9c08c8f88f7bc22d569",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Model Viewer Toolbar\n\nThe Model Viewer Toolbar provides access to a variety of great features.\n\n<figure><img src=\"/files/pYh3G8FNueDm6TW6Y76y\" alt=\"\" width=\"407\"><figcaption><p>The Model Viewer Toolbar</p></figcaption></figure>\n\nIf your Model Viewer has fewer options than you can see here, that’s because you only have read-only access to the model. You also might be in [Diff Mode](/models/build-and-edit-models/diff-mode), in which case the toolbar options are different and depend on the diff scenario.\n\n## Minimising and maximising the Model Viewer Toolbar\n\nThe Toolbar can be minimised to make more screen space available for your model.\n\n<figure><img src=\"/files/mS0U2GRzb16Xb6eReNF7\" alt=\"\" width=\"39\"><figcaption><p>The Model Viewer Toolbar, minimised</p></figcaption></figure>\n\nTo minimise the toolbar, select the chevron at the top of the toolbar.\n\n<figure><img src=\"/files/kZ2jFUohNjSS2XTN6KLQ\" alt=\"\"><figcaption><p>Minimising the Model Viewer Toolbar</p></figcaption></figure>\n\nTo maximise the toolbar again, select the chevron at the top of the minimised toolbar.\n\n<figure><img src=\"/files/x1SM1tjtSFUvDgFP36Uc\" alt=\"\"><figcaption><p>Maximising the Model Viewer Toolbar</p></figcaption></figure>\n\n## Sidebar\n\nThe [Sidebar](/the-user-interface/models-ui/model-viewer/model-viewer-sidebar) on the right of the screen provides access to information about selected entities (including their properties, transitions, relationships), including access to reference models and various tools to help you analyse the model. See the Tools panel for some very useful features for controlling how the visualisation changes as you select and/or trace entities.\n\n## Working with model content\n\nLineage Models represent “flow” (of data, responsibility, control) and are likely to consist of multiple Layers, with possibly hundreds of thousands (or more) child entities, plus a multitude of transitions connecting them. Reference models generally have a hierarchical structure, e.g. a *data dictionary* or regulatory terms, and generally consist of a single layer. The Model Viewer for both Lineage and Reference Models is the same with the exception of the background colour (Reference Models are pale green).\n\nSolidatus provides a variety fo features to help you to understand, navigate, and make use of your models. See [Navigate a Model](/models/explore-and-analyse-models/navigate-a-model) to find out more.\n\nAdding and editing content in a Solidatus model is very simple and intuitive, and you can read more at [Add and Edit Model Entities](/models/build-and-edit-models/add-and-edit-entities).\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:40.496Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "3dbc319a6e9a6ebe9f38ecb64a095ea4715ca754527c3fa51f66869eba499a4c",
+  "warnings": []
+}

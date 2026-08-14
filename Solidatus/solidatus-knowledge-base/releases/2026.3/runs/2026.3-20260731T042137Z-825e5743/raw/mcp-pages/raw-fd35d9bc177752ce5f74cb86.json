@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-reference-models-tab"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-fd35d9bc177752ce5f74cb86",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-reference-models-tab",
+  "response_content_hash": "dc6e604dce5691bc594e102a1c40b475a52150375ea58e60d86054adc1dc329e",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Reference Models tab\n\nThis tab allows you to add and modify relationships to Reference Models, and to view information on Reference Models, Labels, and Terms that are linked to the open Model. It also contains a panel that suggests new relationships for a selected entity.\n\n| [The Reference Model Panel](#the-reference-model-panel)                   |\n| ------------------------------------------------------------------------- |\n| [The Relationship Suggestions Panel](#the-relationship-suggestions-panel) |\n\n## The Reference Model panel\n\nThe Reference Model Panel is a control panel for creating, modifying, and viewing Reference Relationships. It lists all currently loaded Reference Models and allows the user to load more in order to link Reference Terms to entities in the open Model.\n\nNote that Reference Models are not automatically fully loaded into the Reference Model panel when you add them to the list. Instead, the contents of a Reference Model are loaded into your Model as and when you expand its Terms and sub-Terms.\n\nTo load the full contents of a Reference Model, click the ![load-contents-icon](/files/TeVb7NqBZ3QsF6bzPMfz) icon next to its name.\n\nThis panel is the primary way to assign relationships within the user interface, but you can also do so in the [Properties and Relationships](/the-user-interface/models-ui/model-viewer/model-viewer-sidebar/the-inspector-tab#the-properties-and-relationships-panel) panel.\n\n{% hint style=\"success\" %}\nSee [Add and Edit Reference Relationships](/models/build-and-edit-models/add-and-edit-reference-relationships) for comprehensive information on using this panel to [create](/models/build-and-edit-models/add-and-edit-reference-relationships#creating-reference-relationships) and [edit](/models/build-and-edit-models/add-and-edit-reference-relationships#in-the-reference-models-tab-1) reference relationships.\n{% endhint %}\n\n<figure><img src=\"/files/wem2YAZdhrqPck39UxbV\" alt=\"\"><figcaption></figcaption></figure>\n\n<figure><img src=\"/files/7sTisEeReQC155Yxy0a3\" alt=\"\"><figcaption></figcaption></figure>\n\nClick on Reference Terms in the Reference Model Panel to open a set of further options in a window on the left. Here, you can view a list of the term’s properties and a list of all entities in the open Model that have a relationship to the Term.\n\nClick `Show Usage` to filter the Model to show only entities with a relationship to the Term. Click `Search` to enter a query in the search bar that will match all entities with a relationship to the selected Term.\n\n<figure><img src=\"/files/glRjbqWYMMfYmWL2lfVa\" alt=\"\"><figcaption></figcaption></figure>\n\n## The Relationship Suggestions panel\n\nThis panel suggests new relationships for a single selected entity in the open Model.\n\nNext to each suggestion, there is a button to add the suggestion individually and to edit the suggested relationship label.\n\n<figure><img src=\"/files/pleKkEIgaQiBUnLtflFf\" alt=\"\"><figcaption></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:59.612Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "7d6c6ad3965eee8171feb64fce808d2fc09f7a292a07f33f09c58a14c802be3c",
+  "warnings": []
+}

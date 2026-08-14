@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/data-domains-ui/domain-entries-interface"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-f92363ea04ac868cc951d8ae",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/data-domains-ui/domain-entries-interface",
+  "response_content_hash": "7edccde9fb10467421d2fa4595140034f12610b22aa6aa4f67dc406bdea77f20",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Domain page interface\n\n<figure><img src=\"/files/Vzmd3UKEyVkyqkJxVlrO\" alt=\"\"><figcaption></figcaption></figure>\n\n1. Breadcrumbs showing the path of the entry in the structure of the domain. Click an item to open it in the main window.\n2. The name of the entry and the intials of owners of the original model in which it resides.\n3. Breadcrumbs showing the path of the entry in its original model. Click an item to go to its Entry Page in the Data Domain.\n4. Navigate the tabs on an Entry Page to analyse a domain entry.\n5. Click to view the entry in the original model with a focused trace applied to highlight its lineage.\n\n{% hint style=\"success\" %}\nThe four tabs on an Entry Page are different for lineage entities and reference terms.\n{% endhint %}\n\nFor lineage entities, you will find the `Overview`, `Sub-entities`, `Lineage`, and `History` tabs.\n\n<figure><img src=\"/files/gcPGwOUktBmVm5VJ4rK0\" alt=\"\"><figcaption></figcaption></figure>\n\nFor Reference terms, you will find the `Overview`, `Sub-terms`, `Related Entities`, and `History` tabs.\n\n<figure><img src=\"/files/oIJhs1iei97J97uhgxuO\" alt=\"\"><figcaption></figcaption></figure>\n\nFor details of information contained on a Entry Page and tips on how to examine one, visit [Examine a Domain Entry](/data-domains/explore-data-domains/examine-an-entry-page).\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:44.929Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "3ef797fbe1e33422e7fb86a66361aa928372ed998257065dcddf48a15c3b7824",
+  "warnings": []
+}

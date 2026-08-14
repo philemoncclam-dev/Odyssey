@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/ssis"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-4c294bccd3b5603d94871882",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/ssis",
+  "response_content_hash": "df813f0d3ce2f4eb72230df9f13f1cf57cceb19e8cab1272c1bbd5f147280f02",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# SSIS\n\nSolidatus SSIS Connector extracts sources, transformations and destination data flow components from Microsoft SQL Server Integration Services (SSIS) package and generates lineage between data flow components.\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:57.702Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "a34c7e5afcf318780e49f44b69647e38890f60e890839962a290eb1dfa0555f6",
+  "warnings": []
+}

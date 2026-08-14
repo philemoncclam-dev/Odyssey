@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/query_history"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-d9805443d8bed2382a406eba",
+  "requested_url": "https://docs.solidatus.com/connectors/connector-specific-documentation/snowflake/query_history",
+  "response_content_hash": "6a9d3bdf9e91a4b69125aaac777fccb152cd3b7f1c2f6a6ac0d415fbf4886df0",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Query History\n\n## How Query History parsing works with the Snowflake connector\n\nWhen query history parsing is enabled, the connector fetches SQL statements from Snowflake's query history for SQL parsing. The queries retrieved can be filtered by the configured users and time range.\n\nThe retrieved statements are processed in batches against the already extracted database metadata. Each batch is parsed using SQL parsing, and the resulting lineage relationships are added to the Solidatus model.\n\n## Pre-requisites\n\nYour user account provided as `--solidatus.jdbc.username` must have access to the `SNOWFLAKE.ACCOUNT_USAGE` schema and its containing views. The following **view** permission at a minimum is required:\n\n* `SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY`\n\n## Configurability\n\nPlease see the [Configuration](/connectors/connector-specific-documentation/snowflake/query_history/configuration) section for more details on the specific options and expected values.\n\n### Users\n\nAn optional list of Snowflake usernames to filter query history by. If not provided, query history for all users is retrieved.\n\n### DateTime span\n\nAn explicit date range can be provided using `jdbcConfig.snowflakeEnricher.queryHistory.fromDate` and `jdbcConfig.snowflakeEnricher.queryHistory.toDate` (format: `yyyy-MM-dd HH:mm:ss`). The following constraints apply:\n\n* Both `fromDate` and `toDate` must be provided together.\n* The range cannot exceed 60 days.\n* `toDate` cannot be in the future and cannot be earlier than `fromDate`.\n* Neither date can be more than 1 year in the past.\n\nEither a date range or a [timespan](#timespan) must be configured — not both.\n\n### Timespan\n\n`jdbcConfig.snowflakeEnricher.queryHistory.timespan` accepts a number of days in the past to scan (e.g. `7` for the last 7 days, up to a maximum of 60). Set to `-1` (the default) to disable this option and use a [date range](#datetime-span) instead. A value of `0` or any other negative number is not permitted.\n\n## Example Model\n\nBelow is an example for how a `Source` schema and `Target` schema in Snowflake may be associated via dataflow instigated by SQL retrieved by parsing the Snowflake query history logs. The name of an object is the query's hash.\n\n![Query History Example Model](/files/HBoBtgzalbA3US5CxNxk)\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:52.608Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "e54d4f0de6843a35846d1e27bf62d10ef1ec26f5e1722c65178090e9c54aae07",
+  "warnings": []
+}

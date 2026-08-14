@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, type PropsWithChildren } from 'react'
 import { InteractionRequiredAuthError, PublicClientApplication, type AccountInfo } from '@azure/msal-browser'
 import { MsalProvider, useMsal } from '@azure/msal-react'
-import { msalConfig, loginRequest, fabricLoginRequest, onelakeLoginRequest } from './config'
+import { msalConfig, loginRequest, fabricLoginRequest, onelakeLoginRequest, remoteModelLoginRequest } from './config'
 import { isAllowed } from './allowlist'
 import { setCurrentUserEmail } from './currentUser'
 
@@ -45,6 +45,11 @@ export function acquireFabricToken(): Promise<string> {
 /** A token scoped to OneLake (ADLS Gen2 surface) — a different audience from the Fabric REST API. */
 export function acquireOneLakeToken(): Promise<string> {
   return acquireToken(onelakeLoginRequest)
+}
+
+/** A token for the model-storage API (server/) — for model/remoteStore.ts. */
+export function acquireModelApiToken(): Promise<string> {
+  return acquireToken(remoteModelLoginRequest)
 }
 
 interface AuthState {

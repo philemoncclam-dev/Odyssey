@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/data-maps/save-and-share-data-map-views"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-e23dc4da4cb709d265bc3fa3",
+  "requested_url": "https://docs.solidatus.com/data-domains/data-maps/save-and-share-data-map-views",
+  "response_content_hash": "c4d025299757875f94de7082acac48746e2f83fd1224825a1a75b64e1f7601f0",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Save and share Data Map views\n\nIn the course of investigating a Data Map, or a focused Data Map through the Lineage tab of an entry, you can save a Data Map view.\n\nA Data Map **view** is a snapshot that preserves the current state of a Data Map at the point the view is saved.\n\n{% hint style=\"success\" %}\nThe **current state** of a Data Map includes applied context groupings, focused-lineage trace, and active display rules.\n{% endhint %}\n\nA **view** is more than just a screenshot or frozen image – the initial state of the Data Map preserved in a view can be modified in the course of exploring it.\n\n## Save a Data Map view\n\nTo save a Data Map in its current state, click the ![save-data-map-icon](/files/TQGvryUuGIYm7RJjW7XM) icon next to the context dropdown menu.\n\n<figure><img src=\"/files/v8XepEDMUx8MN4UfX1pN\" alt=\"\"><figcaption><p>Save and share a Data Map view</p></figcaption></figure>\n\nGive your view a name and description that will appear in the Data Map views tile on the domain homepage, then click the **Save** button.\n\nSaving a view now completes without reloading the page. A confirmation message appears after the save succeeds.\n\nA link to the view will appear on the `Data map views` tile on the homepage of the Data Domain.\n\n<figure><img src=\"/files/Cpl3cK0C27al5EN3SOkU\" alt=\"\"><figcaption><p>Save and share a Data Map view</p></figcaption></figure>\n\nThe Data map views tile displays when the view was saved and the account name of who saved it.\n\nWhen you open a view, icons to the left of the view’s name indicate whether the Data Map is in an open or focused-lineage state.\n\n<table data-header-hidden><thead><tr><th width=\"47.208587646484375\"></th><th></th></tr></thead><tbody><tr><td><img src=\"/files/rI8eCQTFlXs5qE5O0trN\" alt=\"focused-saved-datamap\" data-size=\"original\"></td><td>The Data Map is focused on the lineage of a target entity. Entities that do not belong to the lineage of the focal entity are hidden.</td></tr><tr><td><img src=\"/files/waTv2EYjSQOnFWBUk2dr\" alt=\"open-saved-datamap\" data-size=\"original\"></td><td>The Data Map is not focused on a target entity and it includes all entities from Lineage models published to the domain. All lineage in the domain can be viewed and explored in an “open-world” fashion.</td></tr></tbody></table>\n\n{% hint style=\"success\" %}\nSaved views now preserve display rules. Focused-lineage context and other saved view state are also retained when the view is reopened.\n{% endhint %}\n\n## Share a Data Map view\n\n{% hint style=\"warning\" %}\nOnly Owners of a Data Domain can save Data map views, but saved views can be opened by anyone with access to the domain.\n{% endhint %}\n\nWhen you save a Data map view, it is automatically shared with everyone who can access the Data Domain via a link on the `Data map views` tile on the domain homepage.\n\nIt is not possible to share a view with Solidatus users who do not have access to a domain or to restrict access to the view to only a subset of domain Owners and Members.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:41.301Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "4e95f0f00e9c290050ccefbf6be8cde76658e6b637679738ad31cdb0d471d1e6",
+  "warnings": []
+}

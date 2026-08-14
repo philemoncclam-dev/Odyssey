@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-26c51fa92bd148f6532d23cd",
+  "requested_url": "https://docs.solidatus.com/the-user-interface/models-ui/model-viewer",
+  "response_content_hash": "5ae5321de60a0d3db244bee7cc77fcc47aec62101e47dd8803365eea9dc17675",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Model Viewer\n\nThe Model Viewer is the heart of Solidatus. This is your canvas for creating, editing, visualising, and analysing a model.\n\n<figure><img src=\"/files/Irf9QBLdBJZmBX6DzvXY\" alt=\"\"><figcaption><p>The Solidatus Model Viewer</p></figcaption></figure>\n\n## **The Model Viewer toolbar**\n\nThe Model Viewer Toolbar provides access to a variety of great features.\n\n<figure><img src=\"/files/pYh3G8FNueDm6TW6Y76y\" alt=\"\" width=\"272\"><figcaption><p>The Model Viewer Toolbar</p></figcaption></figure>\n\nIf your Model Viewer has fewer options than you can see here, that’s because you only have read-only access to the model, perhaps because you don’t have the required permissions to edit the model.\n\nVisit [Model Viewer Toolbar](#model-viewer-toolbar) for more info.\n\n## **The Model Viewer sidebar**\n\nThe [Sidebar](/the-user-interface/models-ui/model-viewer/model-viewer-sidebar) on the right of the screen provides access to information tools, including:\n\n* Information about selected entities (including their properties, transitions, relationships)\n* Related reference models\n* The Document Viewer\n* Lineage trace tools\n\n## **Working with model content**\n\nLineage Models represent “flow” (of data, responsibility, control) and are likely to consist of multiple Layers, with possibly hundreds of thousands (or more) decendant entities, plus a multitude of Transitions connecting them.\n\nReference models generally have a hierarchical structure, e.g. a *data dictionary* or regulatory principles and procedures, and generally consist of a single layer.\n\nThe Model Viewer is the same for both Lineage and Reference models, with the exception of the background colour (reference models are pale green).\n\nSolidatus provides a variety of features to help you to navigate and analyse your model content to derive insights about a data landscape. See [Navigate a model](/models/explore-and-analyse-models/navigate-a-model) to find out more.\n\nAdding and editing content manually in a Solidatus model is a very simple and intuitive process, which is explained at [Add and Edit entities](/models/build-and-edit-models/add-and-edit-entities).\n\n#### **Transitions in the Model Viewer**\n\nIt is possible to create multiple transitions between the same source and target entities via the API, but not via the Model Viewer interface.\n\nThis can be intentional if, for example, you want two different transitions each with its own properties representing transformation logic. But it can also be unintentional, in which case you should remove the redundant transitions.\n\nIf a model contains multiple transitions between the same source and target, a pop-up appears when you open the model.\n\n<figure><img src=\"/files/Uv2umqcC6pGcKDsQdgo3\" alt=\"\" width=\"375\"><figcaption></figcaption></figure>\n\nIf the multiple transitions are intentional, you can leave them. If they are unintentional, you should remove redundant transitions.\n\nTo remove transitions, simply delete the visible transition in the Model Viewer by selecting it, right-clicking, and selecting **Delete** from the context menu.\n\nWhen you delete the visible transition via the Model Viewer, another previously hidden transition becomes visible when the model is refreshed or reopened. You can continue to delete additional transitions in this way until only one remains.\n\n## **How to access the Model Viewer**\n\n* Click a model's name in the list of models in the Model Browser (if the model is a Reference model, clicking its name takes you to the Model Overview rather than the Model Browser)\n* Hover your mouse over the row of a model in the Model Browser list and select **Open viewer** from the three dots button that appears.\n* Click the **OPEN** button at the top right of the [Model Overview](/the-user-interface/models-ui/model-overview)\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:44.150Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "677b9c49ed751a6103648bd7ef328f18c16cf750c8e5c57db90e416cd4e653a3",
+  "warnings": []
+}

@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/data-maps"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-9c32d58801ce1b897b20cca1",
+  "requested_url": "https://docs.solidatus.com/data-domains/data-maps",
+  "response_content_hash": "9ad7b6894f3b6263b183cba23f4d7b9f6b614f74d060e5359c94de6015a92f9d",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Data Maps\n\n{% hint style=\"info\" %}\nData Maps require WebGL2. This may require hardware acceleration to be supported by your hardware and enabled in your Operating System and browser. To check if WebGL2 is supported, please visit <https://get.webgl.org/webgl2> from your usual browser.\n{% endhint %}\n\nData Maps are interactive visualizations that show how data flows across the landscape captured in a Data Domain. They combine lineage from multiple models into a single, explorable map that can be organized and summarised by high-level, business-friendly categories.\n\n<figure><img src=\"https://demo.solidatus.com/help/_images/data-map-context-model.png\" alt=\"A Data Map showing technical lineage in the context of Products\"><figcaption><p>A Data Map showing technical lineage in the context of Products</p></figcaption></figure>\n\nData Maps provide two key capabilities:\n\n**Cross-model lineage**: Automatically stitch together lineage from multiple models to show complete, end-to-end data flows across your organization.\n\n**Business context**: Organize technical lineage into meaningful categories like business functions (Finance), products (Credit Cards), or logical domains (Data Warehouse).\n\n{% hint style=\"success\" %}\nA Data Map is automatically generated when a Data Domain is created and models are published to it.\n{% endhint %}\n\nYou can explore Data Maps in three ways:\n\n* **Full domain view**: See all lineage in your Data Domain in one comprehensive map\n* **Saved views**: Access specific, saved perspectives from the domain homepage\n* **Focused traces**: View lineage for individual data elements from their domain pages\n\nFor more information on the integration of Data Maps in Data Domains, see [Understand Data Maps](/data-domains/data-maps/understand-data-maps) and [Understand Data Domains](/data-domains/understand-data-domains).\n\nExplore all of the pages in this section for more information about Data Maps and how to get the most out of them.\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:41.858Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "a6373cb59d1f1aed675dbfecf6a4b83f37f01243799f5d52ab9548f942f73b92",
+  "warnings": []
+}

@@ -1,0 +1,56 @@
+{
+  "authoritative_run_id": "2026.3-20260731T042137Z-825e5743",
+  "checked_at": "2026-07-31T04:24:56.655Z",
+  "checks": {
+    "all_branches_terminal": true,
+    "all_pages_terminal": true,
+    "all_roots_present": true,
+    "authority": true,
+    "backlinks_exact": true,
+    "branch_statuses": {
+      "checked": 414,
+      "inaccessible": 3
+    },
+    "corpus_hash_matches": true,
+    "corpus_hash_recomputed": "7a792f19958442ed3665c66369e19836a31a603dcf8b1c2621b188786f4b5248",
+    "downloaded_image_files": [],
+    "identity_registry_exact": true,
+    "jsonl_objects": 9069,
+    "manifest_counts_match": true,
+    "mcp_called_tools": {
+      "getPage": 185,
+      "initialize": 1,
+      "notifications/initialized": 1,
+      "tools/list": 2
+    },
+    "normalized_hash_matches": 354,
+    "page_identity_matches": 354,
+    "raw_hash_matches": 354,
+    "raw_provenance_run_counts": {
+      "2026.3-20260731T040139Z-3b644f54": 180,
+      "2026.3-20260731T042137Z-825e5743": 174
+    },
+    "record_counts": {
+      "backlinks": 1863,
+      "chunks": 1635,
+      "links": 2422,
+      "navigation-occurrences": 354,
+      "pages": 354,
+      "sections": 1635
+    },
+    "schema_count": 29,
+    "schema_required_fields": true,
+    "snapshot_drift_detected": false,
+    "unique_ids": true,
+    "utf8_files": 1086
+  },
+  "errors": [],
+  "hash_algorithm": "SHA-256",
+  "integrity_check_id": "integrity-20260731T042456Z-f85fe06f",
+  "schema_version": "1.0",
+  "scope": "independent schema-contract, encoding, identity, hash, provenance, reference, backlink, navigation, MCP-policy, image-policy, count, and corpus-hash audit",
+  "status": "passed",
+  "warnings": [
+    "Verified raw evidence from the superseded parser-failed run is intentionally retained byte-for-byte"
+  ]
+}

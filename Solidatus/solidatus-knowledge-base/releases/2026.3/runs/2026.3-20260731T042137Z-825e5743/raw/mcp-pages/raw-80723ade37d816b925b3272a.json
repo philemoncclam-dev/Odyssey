@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/data-domains/analytics-reports/edit-and-delete-an-analytics-report"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-80723ade37d816b925b3272a",
+  "requested_url": "https://docs.solidatus.com/data-domains/analytics-reports/edit-and-delete-an-analytics-report",
+  "response_content_hash": "1ccea4e5c0a88c5e4d20c330fd285ae3ff92392029ac5ed783ecc6a40e2a0b7c",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Edit and delete an Analytics report\n\nYou can edit all aspects of an Analytic Report you have created, including renaming a report, editing metric and tile configurations, and deleting a report. You can also edit and delete reports directly from the Analytics Reports list on the Data Domain homepage, without needing to open the report.\n\n{% hint style=\"success\" %}\nOnly Owners of a Data Domain can create and edit Analytics Reports. The `Settings` tab and the three-dots menus will not appear to Members of the domain.\n{% endhint %}\n\n## Rename an Analytics report\n\nTo rename an Analytics report, use the three dots menu in the list of analytic reports.\n\n<figure><img src=\"/files/22lkXlaAwdyPS2WhenMi\" alt=\"\"><figcaption></figcaption></figure>\n\nOptionally, go to the `Settings` page (Don’t forget to click `SAVE` after you’ve edited a name or description).\n\n<figure><img src=\"/files/SLLjrADw0gFPKTDinb0A\" alt=\"\" width=\"563\"><figcaption><p>Rename your report in the Setting tab</p></figcaption></figure>\n\n## Edit metrics\n\nTo edit metrics, click the three dots menu on the right hand side of the row containing each metric.\n\n<figure><img src=\"/files/L7XdbAJ9qfDPW0ryfaav\" alt=\"\"><figcaption></figcaption></figure>\n\nThe dialog for editing a metric only has two tabs: Name and Match criteria. You can edit match criteria using either Basic or Advanced mode; just remember to click SAVE at the bottom right of the dialog.\n\n<figure><img src=\"/files/AsSwtuWJEun1M55HmqPf\" alt=\"\"><figcaption></figcaption></figure>\n\nYou will see the number of tiles that contain the metric you are editing next to the SAVE button.\n\n## Edit and reposition Tiles\n\nYou can change the name and description of Tiles, change the tile type and metrics displayed in them, and resize and reposition them on the page.\n\nTo edit a Tile, hover your mouse over it and click the pencil icon. You delete the Tile using the bin.\n\n<figure><img src=\"/files/Jwf5hEAzPjGAJKLS4sQI\" alt=\"\"><figcaption></figcaption></figure>\n\nThe dialog for editing a Tile contains tabs for modifying the name and description, included metrics, and chart type.\n\n<figure><img src=\"/files/CPjFIkVUQ5OFzUcioYZs\" alt=\"\"><figcaption></figcaption></figure>\n\nYou can move Tiles around the page by clicking the two-lines at the top-left and dragging. You can resize Tiles by clicking and dragging the arrows along the edges that appear when you hover your mouse over the tile.\n\n<figure><img src=\"/files/316yMFuOpGsdTPNoNBgZ\" alt=\"\"><figcaption></figcaption></figure>\n\n## Delete an Analytics report\n\nFrom the Analytics Reports list on the Data Domain homepage: Click the three-dots menu on the right-hand side of the report row and select Delete. This allows you to delete a report without opening it. From within the report: Navigate to the Settings tab and click Delete in the Advanced section.\n\nNote that only Owners of a Data Domain can delete Analytics Reports; Members of a domain will not see the three-dots menu on the right-hand side of the row of a report.\n\n<figure><img src=\"/files/2qc7D1TsxTjjE8sSyH8A\" alt=\"\"><figcaption><p>Delete a report from the list of reports in a Domain</p></figcaption></figure>\n",
+  "run_id": "2026.3-20260731T040139Z-3b644f54",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:19:53.862Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "b915b8cea4fe1c6284b228008307d7f825facdd1d28e0e31e7c5741b56f09172",
+  "warnings": []
+}

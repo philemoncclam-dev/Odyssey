@@ -1,0 +1,10 @@
+.git*
+.vscode
+src/__tests__
+infra
+local.settings.json
+local.settings.json.example
+*.test.ts
+tsconfig.json
+vitest.config.*
+README.md

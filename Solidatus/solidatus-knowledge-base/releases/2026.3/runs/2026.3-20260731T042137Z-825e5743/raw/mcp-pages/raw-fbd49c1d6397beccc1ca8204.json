@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "url": "https://docs.solidatus.com/additional-resources/advanced-topics"
+  },
+  "error": null,
+  "hash_algorithm": "SHA-256",
+  "hash_input": "UTF-8 bytes of returned_textual_content",
+  "mcp_tool_name": "getPage",
+  "protocol_metadata": {
+    "protocol_version": "2025-03-26",
+    "server_info": {
+      "name": "mcp-typescript server on vercel",
+      "version": "0.1.0"
+    }
+  },
+  "raw_record_id": "raw-fbd49c1d6397beccc1ca8204",
+  "requested_url": "https://docs.solidatus.com/additional-resources/advanced-topics",
+  "response_content_hash": "3c4e8aa5e8d187c111487aee39c53b1a8a353e4d4e5dc610102550bd653a37bc",
+  "retrieval_phase": "discovery",
+  "returned_textual_content": "# Advanced topics\n\nIf you’re working with Solidatus, you may have questions that go beyond everyday tasks. These pages are meant to address those questions.\n\n<table><thead><tr><th width=\"446.67236328125\">Contents</th></tr></thead><tbody><tr><td><a href=\"/pages/K4JTuZc3jTcJktkbPJHw\">Aggregate Attributes by Property or Relationship Label</a></td></tr><tr><td><a href=\"/pages/p5SuzsatE5nXvxrAju9X\">Transfer Models between Instances</a></td></tr><tr><td><a href=\"/pages/A4mHeXtl9v1pq8E9AUP1\">Convert Lineage to Reference Models and Vice Versa</a></td></tr><tr><td><a href=\"/pages/Ob01DlIc8cATXc4CCvLG\">Store and Display both Logical and Physical Names</a></td></tr><tr><td><a href=\"/pages/oXFgDMiMPrlPx2O1lbKp\">Two-factor Authentication</a></td></tr><tr><td><a href=\"/pages/hNNy7Fxy4PCvoFLNeXta\">Share with Solidatus Support</a></td></tr></tbody></table>\n\nVisit our [Solidatus FAQs](/additional-resources/q-and-a) page for answers to questions raised by users.\n\n{% hint style=\"success\" %}\nIf you'd like to add a question to our Q\\&A section, or if you'd like more information on a particular topic, please email [support@solidatus.com](mailto:support%40solidatus.com).\n{% endhint %}\n",
+  "run_id": "2026.3-20260731T042137Z-825e5743",
+  "schema_version": "1.0",
+  "status": "success",
+  "timestamp": "2026-07-31T04:21:47.034Z",
+  "tool_name": "getPage",
+  "transport_response_hash": "b766beeed27afdd3496d0c4a86b1be4f70dc04cb4afcbf473ffe517dd71492d8",
+  "warnings": []
+}
