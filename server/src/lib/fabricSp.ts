@@ -138,6 +138,102 @@ export async function fetchNotebookCellsAsSp(workspaceId: string, itemId: string
 }
 
 // ============================================================================
+// pipelineDefinition — same shape as app/src/fabric/realApi.ts's
+// resolvePipelineActivities (that file's header explains why: Copy lineage
+// stays unresolved from documentation alone). Kept separate for the same
+// reason getItemDefinition above is: different fetch/token primitives, same
+// logic. If the two ever drift, this one is the one actually exercised —
+// pipelineDefinition moved here because the delegated path it used to run
+// on hit an unresolved tenant-specific auth block; see wiring.ts's header.
+// ============================================================================
+
+export interface FabricPipelineActivityOut {
+  name: string
+  type: string
+  depends_on: string[]
+  notebook_id: string | null
+  pipeline_id: string | null
+  workspace_id: string | null
+  reads: string[]
+  writes: string[]
+  column_lineage: never[]
+}
+
+type RawActivity = {
+  name: string
+  type: string
+  dependsOn?: { activity: string }[]
+  typeProperties?: Record<string, unknown>
+}
+
+async function fetchPipelineActivities(workspaceId: string, itemId: string): Promise<RawActivity[]> {
+  const parts = await getItemDefinition(workspaceId, itemId)
+  const part = parts.find((p) => p.path === 'pipeline-content.json')
+  if (!part) {
+    throw new Error(
+      `pipelineDefinition: no pipeline-content.json part in the definition (got: ${parts.map((p) => p.path).join(', ') || 'none'}).`,
+    )
+  }
+  const raw = JSON.parse(decodeBase64Utf8(part.payload)) as { properties?: { activities?: RawActivity[] } }
+  return raw.properties?.activities ?? []
+}
+
+/** Guards a pipeline that invokes itself, directly or through others, from recursing forever. */
+const MAX_PIPELINE_DEPTH = 8
+
+async function resolvePipelineActivitiesAsSp(
+  workspaceId: string,
+  itemId: string,
+  depth = 0,
+): Promise<FabricPipelineActivityOut[]> {
+  const raw = await fetchPipelineActivities(workspaceId, itemId)
+  const out: FabricPipelineActivityOut[] = []
+
+  for (const activity of raw) {
+    const notebookId = activity.typeProperties?.['notebookId']
+    const pipelineRef = activity.typeProperties?.['pipeline'] as { referenceName?: string } | undefined
+    const childId = activity.type === 'ExecutePipeline' ? pipelineRef?.referenceName : undefined
+
+    out.push({
+      name: activity.name,
+      type: activity.type,
+      depends_on: (activity.dependsOn ?? []).map((d) => d.activity),
+      notebook_id: typeof notebookId === 'string' ? notebookId : null,
+      pipeline_id: typeof childId === 'string' ? childId : null,
+      workspace_id: workspaceId,
+      reads: [],
+      writes: [],
+      column_lineage: [],
+    })
+
+    if (typeof childId !== 'string' || depth >= MAX_PIPELINE_DEPTH) continue
+
+    let children: FabricPipelineActivityOut[]
+    try {
+      children = await resolvePipelineActivitiesAsSp(workspaceId, childId, depth + 1)
+    } catch {
+      continue
+    }
+    for (const child of children) {
+      out.push({
+        ...child,
+        name: `${activity.name} / ${child.name}`,
+        depends_on: child.depends_on.map((d) => `${activity.name} / ${d}`),
+      })
+    }
+  }
+  return out
+}
+
+/** A pipeline's activity graph, including nested master-pipeline expansion — fetched as the MI rather than the caller. */
+export async function fetchPipelineDefinitionAsSp(
+  workspaceId: string,
+  itemId: string,
+): Promise<FabricPipelineActivityOut[]> {
+  return resolvePipelineActivitiesAsSp(workspaceId, itemId)
+}
+
+// ============================================================================
 // tableSchema — OneLake has no REST endpoint for a table's columns; this
 // reads the FIRST Delta log segment directly, same approach and same gap as
 // app/src/fabric/realApi.ts's tableSchema (a table altered since creation

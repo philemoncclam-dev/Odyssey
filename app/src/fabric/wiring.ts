@@ -4,25 +4,29 @@
 // not listed here reports itself "not wired" rather than failing silently.
 //
 //   status, workspaces, items, tables,
-//   notebookSource, tableSchema — fabric/spProxyApi.ts (server/'s Fabric
-//                          proxy, run as the server's Managed Identity) when
+//   notebookSource, tableSchema,
+//   pipelineDefinition     — fabric/spProxyApi.ts (server/'s Fabric proxy,
+//                          run as the server's Managed Identity) when
 //                          VITE_FABRIC_PROXY_URL is set, TAKING PRIORITY over
-//                          VITE_FABRIC_REAL for these six — see
+//                          VITE_FABRIC_REAL for these seven — see
 //                          spProxyApi.ts's header for why browsing (AND
 //                          status — easy to miss: leaving status() on the
 //                          delegated path means Explore shows "not
-//                          connected" and the other five never even run,
+//                          connected" and the other six never even run,
 //                          regardless of whether they work) moved off the
 //                          user-delegated path too, not just
 //                          notebookSource/tableSchema as originally scoped.
+//                          pipelineDefinition followed the same road for the
+//                          same reason: the delegated path it ran on hit the
+//                          same unresolved tenant-specific auth block. Unlike
+//                          realApi.ts's version it is PARTIAL the same way:
+//                          the activity graph is real, Copy lineage
+//                          (reads/writes/column_lineage) is not — see
+//                          lib/fabricSp.ts's comment on this.
 //                          Else fabric/realApi.ts when VITE_FABRIC_REAL is
 //                          set (user-delegated); else auth/mockFabricApi.ts
 //                          fixture data for workspaces specifically
 //                          (auth/mockWorkspaces.ts), everything else not wired.
-//   pipelineDefinition     — fabric/realApi.ts when VITE_FABRIC_REAL is set,
-//                          but PARTIAL: the activity graph is real, Copy
-//                          lineage (reads/writes/column_lineage) is not —
-//                          see that function's comment.
 //   runSandbox, observedRun — fabric/localEngine.ts, when VITE_SANDBOX_URL
 //                          points at a running `python -m sandbox.service`.
 //   integrations, identity — fabric/realApi.ts when VITE_FABRIC_REAL is set,

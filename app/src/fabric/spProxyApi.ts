@@ -43,6 +43,7 @@ import type {
   FabricColumn,
   FabricNotebookSource,
   FabricPage,
+  FabricPipelineActivity,
   FabricTable,
   FabricWorkspace,
   FabricWorkspaceItems,
@@ -70,7 +71,7 @@ async function callProxy<T>(path: string, options?: FabricCallOptions): Promise<
 
 export function spFabricApi(): Pick<
   FabricApi,
-  'status' | 'workspaces' | 'items' | 'tables' | 'notebookSource' | 'tableSchema'
+  'status' | 'workspaces' | 'items' | 'tables' | 'notebookSource' | 'tableSchema' | 'pipelineDefinition'
 > {
   return {
     // Explore's connected/not-connected gate. realApi.ts's status() proves
@@ -121,6 +122,13 @@ export function spFabricApi(): Pick<
     async tableSchema(workspaceId, lakehouseId, tableName, options): Promise<FabricColumn[]> {
       return callProxy<FabricColumn[]>(
         `/fabric/workspaces/${workspaceId}/lakehouses/${lakehouseId}/tables/${encodeURIComponent(tableName)}/schema`,
+        options,
+      )
+    },
+
+    async pipelineDefinition(workspaceId, itemId, options): Promise<FabricPipelineActivity[]> {
+      return callProxy<FabricPipelineActivity[]>(
+        `/fabric/workspaces/${workspaceId}/pipelines/${itemId}/definition`,
         options,
       )
     },
