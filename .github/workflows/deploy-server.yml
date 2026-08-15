@@ -64,10 +64,17 @@ jobs:
       - run: npm run typecheck
       - run: npm run test:run
       - run: npm run build
+      # Flex Consumption has no remote-build support (SCM_DO_BUILD_DURING_DEPLOYMENT
+      # is outright rejected as an unsupported app setting on this SKU) — the
+      # zip has to carry its own node_modules. Reinstall production-only
+      # after tests run against the full (dev+prod) install above.
+      - run: rm -rf node_modules && npm ci --omit=dev
       - uses: actions/upload-artifact@v4
         with:
           name: function-app
-          path: server/dist
+          path: |
+            server/dist
+            server/node_modules
           retention-days: 7
 
   deploy-infra:
@@ -109,10 +116,12 @@ jobs:
       # without this, the zip functions-action builds has no host.json at
       # its root and Azure rejects it outright.
       - uses: actions/checkout@v4
+      # Artifact holds server/dist AND server/node_modules (see build-and-test) —
+      # download to server/ so both land at their correct relative paths.
       - uses: actions/download-artifact@v4
         with:
           name: function-app
-          path: server/dist
+          path: server
       - uses: azure/login@v2
         with:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
