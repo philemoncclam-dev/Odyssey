@@ -75,10 +75,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: production # gate this in GitHub's Environments settings for a manual approval step
     outputs:
-      # arm-deploy exposes every Bicep output as ONE JSON blob
-      # (`deploymentOutputs`), not as individual step outputs — this pulls
-      # the one value the next job needs out of it.
-      functionAppName: ${{ fromJson(steps.deploy.outputs.deploymentOutputs).functionAppName.value }}
+      # arm-deploy sets each Bicep output as its OWN step output (one per
+      # ARM output name, e.g. `functionAppName`, `cosmosEndpoint`) — not a
+      # combined JSON blob. No `deploymentOutputs` output exists to parse.
+      functionAppName: ${{ steps.deploy.outputs.functionAppName }}
     steps:
       - uses: actions/checkout@v4
       - uses: azure/login@v2
