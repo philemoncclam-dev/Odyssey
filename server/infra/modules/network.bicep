@@ -1,6 +1,9 @@
 // The VNet everything else attaches to. Three subnets, three jobs:
 //   snet-functions        — VNet integration for the Function App's OUTBOUND
-//                            calls (to Cosmos), delegated to Microsoft.Web.
+//                            calls (to Cosmos), delegated to Microsoft.App —
+//                            Flex Consumption's VNet integration reuses the
+//                            Container Apps environment delegation, not the
+//                            classic App Service one (Microsoft.Web/serverFarms).
 //   snet-privateendpoints — where Cosmos's Private Endpoint gets its NIC.
 //   snet-apim             — APIM injected here (External mode: its gateway
 //                            keeps a public IP, but it reaches the Function
@@ -33,7 +36,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
           delegations: [
             {
               name: 'functions-delegation'
-              properties: { serviceName: 'Microsoft.Web/serverFarms' }
+              properties: { serviceName: 'Microsoft.App/environments' }
             }
           ]
         }
