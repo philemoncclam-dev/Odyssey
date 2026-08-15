@@ -8,7 +8,6 @@ import RailBottomCluster from './RailBottomCluster'
 import { isChromeless, isFullBleedPath, modeFromPathname, railConfig } from './railConfig'
 import { requestSearch } from './searchBridge'
 import { GlobalSearch } from './GlobalSearch'
-import { OnboardingTour, hasSeenOnboarding, markOnboardingSeen } from './OnboardingTour'
 import '../styles/components.css'
 import '../styles/shell.css'
 
@@ -16,14 +15,6 @@ export default function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
   const mode = modeFromPathname(pathname)
 
-  // Shown once, ever, wherever someone happens to land first — not gated to
-  // /models, since Odyssey's other entry points (a shared model link, a
-  // catalog link) are just as plausible a first page.
-  const [onboardingOpen, setOnboardingOpen] = useState(() => !hasSeenOnboarding())
-  const closeOnboarding = () => {
-    markOnboardingSeen()
-    setOnboardingOpen(false)
-  }
   // Search belongs to whichever page is on screen first — the Model Browser
   // searches saved models, the Model Viewer searches the open one, and both
   // claim the trigger through searchBridge. GlobalSearch is the fallback for
@@ -62,7 +53,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
                 and that mark is the mode switch. A second one here would be
                 two doors to the same room, sitting a few pixels apart. */}
             <Rail items={railConfig[mode]} />
-            <RailBottomCluster onOpenSearch={openSearch} onOpenHelp={() => setOnboardingOpen(true)} />
+            <RailBottomCluster onOpenSearch={openSearch} />
           </div>
         )}
         <div className="shell-canvas">
@@ -70,7 +61,6 @@ export default function AppShell({ children }: { children: ReactNode }) {
         </div>
       </div>
       <GlobalSearch open={globalSearchOpen} onClose={() => setGlobalSearchOpen(false)} />
-      <OnboardingTour open={onboardingOpen} onClose={closeOnboarding} />
     </Tooltip.Provider>
   )
 }

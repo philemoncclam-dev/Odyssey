@@ -5,8 +5,11 @@
     "FUNCTIONS_WORKER_RUNTIME": "node",
 
     "ENTRA_TENANT_ID": "00000000-0000-0000-0000-000000000000",
-    "ENTRA_API_AUDIENCE": "api://00000000-0000-0000-0000-000000000000",
+    "ENTRA_API_AUDIENCE": "00000000-0000-0000-0000-000000000000",
 
-    "COSMOS_ENDPOINT": "https://your-cosmos-account.documents.azure.com:443/"
+    "COSMOS_ENDPOINT": "https://your-cosmos-account.documents.azure.com:443/",
+
+    "FABRIC_SP_PRINCIPAL_ID": "00000000-0000-0000-0000-000000000000",
+    "FABRIC_SYNC_SCHEDULE": "0 0 3 * * *"
   }
 }

@@ -94,12 +94,23 @@ permissions most deployment identities don't carry:
 1. **The SPA's registration already exists** (`app/src/auth/config.ts`) —
    nothing about it changes.
 2. **Create a second app registration for this API** — a confidential
-   client. Under "Expose an API", add a scope named `access_as_user`. The
+   client. Under "Expose an API", add a scope named `access_as_user`; the
    full URI (`api://<this-app-id>/access_as_user`) is what
-   `VITE_MODEL_API_SCOPE` on the frontend and `entraApiAudience` in the
-   Bicep deployment both need to agree on. Back on the **SPA's**
-   registration, add an "API permission" pointing at this scope and grant
-   admin consent.
+   `VITE_MODEL_API_SCOPE` on the frontend requests. **`entraApiAudience` is
+   different: the bare Application (client) ID GUID, not the URI.** A v2.0
+   access token for a custom API's own scope carries `aud` as the client ID
+   — the App ID URI only shows up in the token's `scp` claim — so setting
+   `entraApiAudience` to the URI form makes every real request fail
+   token verification with "Invalid or expired token" even though the
+   token itself is fine. Confirmed against a real issued token; see
+   `docs/azure-student-setup.md`'s log. Also explicitly set this
+   registration's **`api.requestedAccessTokenVersion` to `2`** (Entra
+   portal doesn't expose this field directly — use Graph:
+   `az rest --method PATCH --url https://graph.microsoft.com/v1.0/applications/<object-id> --body '{"api":{"requestedAccessTokenVersion":2}}'`)
+   — left unset, Entra can still issue a v1-shaped token that fails
+   verification regardless of the audience value. Back on the **SPA's**
+   registration, add an "API permission" pointing at the `access_as_user`
+   scope and grant admin consent.
 
 ## Deploying
 
@@ -126,7 +137,7 @@ az deployment group create \
   --resource-group odyssey-rg \
   --template-file infra/main.bicep \
   --parameters entraTenantId=<tenant-id> \
-               entraApiAudience=api://<api-app-id>/access_as_user \
+               entraApiAudience=<api-app-id> \
                alertEmail=<team-email> \
                corsAllowedOrigins='["https://<spa-hostname>"]'
 

@@ -3,18 +3,22 @@
 // independent (see api.ts), so they can be filled in one at a time; anything
 // not listed here reports itself "not wired" rather than failing silently.
 //
-//   status                 — fabric/realApi.ts when VITE_FABRIC_REAL is set,
-//                          else not wired.
-//   workspaces             — fabric/realApi.ts when VITE_FABRIC_REAL is set
-//                          (real, user-delegated); auth/mockFabricApi.ts
-//                          otherwise, fixture data keyed by the signed-in
-//                          user's email (auth/mockWorkspaces.ts).
-//   items, tables           — fabric/realApi.ts when VITE_FABRIC_REAL is set,
-//                          else not wired.
-//   notebookSource, tableSchema — fabric/realApi.ts when VITE_FABRIC_REAL is
-//                          set, else not wired. tableSchema reads OneLake's
-//                          Delta log directly (a separate token scope — see
-//                          auth/config.ts's onelakeLoginRequest).
+//   status, workspaces, items, tables,
+//   notebookSource, tableSchema — fabric/spProxyApi.ts (server/'s Fabric
+//                          proxy, run as the server's Managed Identity) when
+//                          VITE_FABRIC_PROXY_URL is set, TAKING PRIORITY over
+//                          VITE_FABRIC_REAL for these six — see
+//                          spProxyApi.ts's header for why browsing (AND
+//                          status — easy to miss: leaving status() on the
+//                          delegated path means Explore shows "not
+//                          connected" and the other five never even run,
+//                          regardless of whether they work) moved off the
+//                          user-delegated path too, not just
+//                          notebookSource/tableSchema as originally scoped.
+//                          Else fabric/realApi.ts when VITE_FABRIC_REAL is
+//                          set (user-delegated); else auth/mockFabricApi.ts
+//                          fixture data for workspaces specifically
+//                          (auth/mockWorkspaces.ts), everything else not wired.
 //   pipelineDefinition     — fabric/realApi.ts when VITE_FABRIC_REAL is set,
 //                          but PARTIAL: the activity graph is real, Copy
 //                          lineage (reads/writes/column_lineage) is not —
@@ -29,8 +33,15 @@ import { setFabricApi } from './api'
 import { localSandboxApi } from './localEngine'
 import { mockFabricWorkspaceApi } from '../auth/mockFabricApi'
 import { realFabricApi } from './realApi'
+import { spFabricApi } from './spProxyApi'
 
 export function wireFabricApi(): void {
+  // notebookSource and tableSchema specifically run through the server's
+  // Managed Identity rather than the signed-in user's own token — see
+  // spProxyApi.ts's header. Independent of VITE_FABRIC_REAL: browsing can be
+  // real or mock while these are wired, or vice versa, since they are two
+  // capabilities, not a mode.
+  const spOverrides = import.meta.env['VITE_FABRIC_PROXY_URL'] ? spFabricApi() : undefined
   // Opt-in through an env var rather than always-on, because "Odyssey makes
   // no network calls" is a promise the README makes and this is the one
   // thing that would quietly break it. Unset — every default checkout,
@@ -48,12 +59,12 @@ export function wireFabricApi(): void {
   //
   //     VITE_FABRIC_REAL=1 npm run dev
   if (import.meta.env['VITE_FABRIC_REAL']) {
-    setFabricApi({ ...engine, ...realFabricApi() })
+    setFabricApi({ ...engine, ...realFabricApi(), ...spOverrides })
     return
   }
 
   // Workspace browsing comes from the signed-in user's fixture role
   // assignments until real Fabric access is wired; the sandbox engine, when
   // running, still owns runSandbox/observedRun.
-  setFabricApi({ ...engine, ...mockFabricWorkspaceApi() })
+  setFabricApi({ ...engine, ...mockFabricWorkspaceApi(), ...spOverrides })
 }

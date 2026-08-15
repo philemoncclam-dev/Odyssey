@@ -38,7 +38,7 @@ export const MSAL_REDIRECT_URI = import.meta.env['VITE_MSAL_REDIRECT_URI'] || wi
 // Email domains allowed past the sign-in gate, once MSAL confirms who
 // someone is. Deny-by-default: an empty list locks everyone out rather than
 // silently opening the app to the whole tenant. See app/src/auth/allowlist.ts.
-export const ALLOWED_EMAIL_DOMAINS: string[] = ['cclgroup.com']
+export const ALLOWED_EMAIL_DOMAINS: string[] = ['cclgroup.com', 'philemoncclamgmail.onmicrosoft.com', 'gmail.com']
 
 // ============================================================================
 // 3. Domain taxonomy

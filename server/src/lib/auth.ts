@@ -3,12 +3,18 @@
 // own app registration (`api://<app-id>/access_as_user`), acquired by the
 // client via `auth/remoteApiLoginRequest` (see app/src/auth/config.ts).
 //
-// UNVERIFIED, same caveat as app/src/fabric/realApi.ts: written against
-// Entra's publicly documented v2.0 token shape with no live tenant to test
-// against. The claim names below (`preferred_username` for identity) are the
-// commonly documented default; expect to adjust on first contact with a real
-// token if your app registration's optional claims are configured
-// differently.
+// `ENTRA_API_AUDIENCE` is the app registration's Application (client) ID —
+// the bare GUID, NOT the `api://<id>` App ID URI. A v2.0 access token for a
+// custom API's own scope carries `aud` as the client ID; the App ID URI
+// only shows up in `scp` (e.g. `access_as_user`). Confirmed against a real
+// issued token — see docs/azure-student-setup.md's log for the "Invalid or
+// expired token" chase this came out of. Also confirm the app registration's
+// `api.requestedAccessTokenVersion` is explicitly `2` (Graph:
+// `PATCH /applications/{id}` `{"api":{"requestedAccessTokenVersion":2}}`) —
+// left `null` (common for an app registration created before "Expose an
+// API" existed, or one whose manifest was never touched), Entra can still
+// hand out a v1-shaped token that fails verification here regardless of the
+// audience value.
 import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from 'jose'
 
 export interface AuthenticatedUser {

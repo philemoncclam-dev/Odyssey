@@ -1,13 +1,8 @@
-// Rail-bottom cluster: the Cmd+K search trigger. It opens the same palette the
-// global Cmd+K listener (owned by AppShell) opens.
-//
-// This used to also carry a connection-status dot and an identity chip. Both
-// reported on a backend and a signed-in account, neither of which exists —
-// Odyssey runs entirely in the browser. A status light that is always off
-// teaches users to ignore status lights, so it is gone rather than stubbed.
+// Rail-bottom cluster: the Cmd+K search trigger, and sign-in/sign-out.
 import { type ReactNode } from 'react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
+import { useAuth } from '../auth/AuthProvider'
 
 function SearchIcon() {
   return (
@@ -15,12 +10,11 @@ function SearchIcon() {
   )
 }
 
-function HelpIcon() {
+function AccountIcon() {
   return (
     <svg viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7v.3" strokeLinecap="round" />
-      <circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7" strokeLinecap="round" />
     </svg>
   )
 }
@@ -44,20 +38,15 @@ function RailBottomButton({ label, onClick, children }: { label: string; onClick
   )
 }
 
-export default function RailBottomCluster({
-  onOpenSearch,
-  onOpenHelp,
-}: {
-  onOpenSearch: () => void
-  onOpenHelp: () => void
-}) {
+export default function RailBottomCluster({ onOpenSearch }: { onOpenSearch: () => void }) {
+  const { account, signIn, signOut } = useAuth()
   return (
     <div className="rail-bottom">
       <RailBottomButton label="Search (⌘K)" onClick={onOpenSearch}>
         <SearchIcon />
       </RailBottomButton>
-      <RailBottomButton label="What is this?" onClick={onOpenHelp}>
-        <HelpIcon />
+      <RailBottomButton label={account ? `Sign out (${account.username})` : 'Sign in'} onClick={account ? signOut : signIn}>
+        <AccountIcon />
       </RailBottomButton>
     </div>
   )

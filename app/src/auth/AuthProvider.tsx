@@ -5,11 +5,17 @@ import { msalConfig, loginRequest, fabricLoginRequest, onelakeLoginRequest, remo
 import { isAllowed } from './allowlist'
 import { setCurrentUserEmail } from './currentUser'
 
-// Popup rather than redirect: no `handleRedirectPromise` dance to get right,
-// and this app has no server to bounce back to. Worth revisiting if a popup
-// blocker turns out to be a real problem for real users.
+// Redirect rather than popup: this @azure/msal-browser version's popup flow
+// waits on a "bridge" handshake (waitForBridgeResponse in PopupClient) that
+// never completes in a plain browser tab — the popup gets the auth code
+// (visible in its URL) but times out instead of closing itself. Redirect
+// sidesteps that path entirely: full navigation away and back, handled by
+// handleRedirectPromise() below.
 const msalInstance = new PublicClientApplication(msalConfig)
-void msalInstance.initialize()
+const msalReady = msalInstance.initialize().then(() => msalInstance.handleRedirectPromise())
+msalReady.then((result) => {
+  if (result) msalInstance.setActiveAccount(result.account)
+})
 
 /**
  * A token for the signed-in user, in a given scope — for fabric/realApi.ts.
@@ -18,10 +24,8 @@ void msalInstance.initialize()
  * plain module (fabric/wiring.ts wires it once at boot), not a component, so
  * it cannot use the `useAuth` hook below.
  *
- * Silent first, popup only on `InteractionRequiredAuthError` — consent not
- * yet granted, or the token genuinely expired mid-session — because a
- * background browse of the workspace tree popping a window on every call
- * would be unusable.
+ * Silent first, a full redirect only on `InteractionRequiredAuthError` —
+ * consent not yet granted, or the token genuinely expired mid-session.
  */
 async function acquireToken(request: { scopes: string[] }): Promise<string> {
   const account = msalInstance.getActiveAccount() ?? msalInstance.getAllAccounts()[0]
@@ -31,8 +35,12 @@ async function acquireToken(request: { scopes: string[] }): Promise<string> {
     return result.accessToken
   } catch (err) {
     if (err instanceof InteractionRequiredAuthError) {
-      const result = await msalInstance.acquireTokenPopup(request)
-      return result.accessToken
+      // Full navigation away, same reason signIn below uses loginRedirect:
+      // this msal-browser version's popup bridge never resolves. The caller
+      // (a Fabric call mid-browse) simply doesn't get its answer this tick —
+      // the page comes back signed in and the user retries the action.
+      await msalInstance.acquireTokenRedirect(request)
+      throw err
     }
     throw err
   }
@@ -74,12 +82,8 @@ function AuthBridge({ children }: PropsWithChildren) {
     () => ({
       account,
       allowed: isAllowed(email),
-      signIn: () => {
-        void instance.loginPopup(loginRequest).then((result) => {
-          instance.setActiveAccount(result.account)
-        })
-      },
-      signOut: () => void instance.logoutPopup(),
+      signIn: () => void instance.loginRedirect(loginRequest),
+      signOut: () => void instance.logoutRedirect(),
     }),
     [account, email, instance],
   )

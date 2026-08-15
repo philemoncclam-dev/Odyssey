@@ -1411,8 +1411,8 @@ function ExploreRoute() {
       <div className="fx-page">
         <div className="fx-explorer fx-explorer--single">
           <div className="fx-empty">
-            Fabric isn’t connected. Set the Purview service-principal credentials in the backend
-            <code> .env</code> to browse live workspaces.
+            Fabric isn’t connected. Set <code>VITE_FABRIC_REAL=1</code> (and sign in) to browse
+            live workspaces with your own Fabric permissions.
           </div>
         </div>
       </div>
