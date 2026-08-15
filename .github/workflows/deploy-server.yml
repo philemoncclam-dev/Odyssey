@@ -135,3 +135,11 @@ jobs:
           # deployment credential) — consistent with the rest of this
           # project's "no secrets" rule.
           respect-funcignore: true
+          sku: flexconsumption
+          # Default 'false' still WRITES SCM_DO_BUILD_DURING_DEPLOYMENT=false
+          # as a temporary app setting for the deploy — Flex Consumption
+          # rejects that setting outright, at any value ("InvalidAppSettingsException:
+          # ... not supported with this SKU"). Empty string is the action's own
+          # documented way to never touch it — our package already ships its
+          # own node_modules, so there's nothing to build remotely anyway.
+          scm-do-build-during-deployment: ''
