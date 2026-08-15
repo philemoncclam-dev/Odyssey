@@ -35,6 +35,9 @@ param namePrefix string = 'odyssey-${uniqueString(resourceGroup().id)}'
 @description('Region for every resource.')
 param location string = resourceGroup().location
 
+@description('Region for the Cosmos account specifically — override when the main region has no Cosmos capacity. The Private Endpoint still lives in `location`\'s VNet; PaaS resources don\'t need to share their target\'s region.')
+param cosmosLocation string = location
+
 @description('Email alerts (Function errors, Cosmos throttling, gateway errors) go to. Required.')
 param alertEmail string
 
@@ -75,13 +78,13 @@ module monitoring 'modules/monitoring.bicep' = {
 
 resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
   name: '${namePrefix}-cosmos'
-  location: location
+  location: cosmosLocation
   tags: tags
   kind: 'GlobalDocumentDB'
   properties: {
     databaseAccountOfferType: 'Standard'
     capabilities: [{ name: 'EnableServerless' }]
-    locations: [{ locationName: location, failoverPriority: 0, isZoneRedundant: false }]
+    locations: [{ locationName: cosmosLocation, failoverPriority: 0, isZoneRedundant: false }]
     disableLocalAuth: true
     publicNetworkAccess: 'Disabled'
   }
