@@ -22,6 +22,137 @@ param namePrefix string
 @description('Tags applied to every resource this module creates.')
 param tags object
 
+// APIM's internal load balancer rejects all inbound traffic by default —
+// an NSG explicitly allowing it is a hard prerequisite for VNet injection,
+// not optional hardening. Minimum rule set per Microsoft's External mode
+// docs (learn.microsoft.com/azure/api-management/api-management-using-with-vnet).
+resource apimNsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
+  name: '${namePrefix}-apim-nsg'
+  location: location
+  tags: tags
+  properties: {
+    securityRules: [
+      {
+        name: 'Allow-Client-Communication'
+        properties: {
+          direction: 'Inbound'
+          access: 'Allow'
+          priority: 100
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'Internet'
+          sourcePortRange: '*'
+          destinationAddressPrefix: 'VirtualNetwork'
+          destinationPortRanges: ['80', '443']
+        }
+      }
+      {
+        name: 'Allow-Management-Endpoint'
+        properties: {
+          direction: 'Inbound'
+          access: 'Allow'
+          priority: 110
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'ApiManagement'
+          sourcePortRange: '*'
+          destinationAddressPrefix: 'VirtualNetwork'
+          destinationPortRange: '3443'
+        }
+      }
+      {
+        name: 'Allow-Load-Balancer'
+        properties: {
+          direction: 'Inbound'
+          access: 'Allow'
+          priority: 120
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'AzureLoadBalancer'
+          sourcePortRange: '*'
+          destinationAddressPrefix: 'VirtualNetwork'
+          destinationPortRange: '6390'
+        }
+      }
+      {
+        name: 'Allow-Traffic-Manager'
+        properties: {
+          direction: 'Inbound'
+          access: 'Allow'
+          priority: 130
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'AzureTrafficManager'
+          sourcePortRange: '*'
+          destinationAddressPrefix: 'VirtualNetwork'
+          destinationPortRange: '443'
+        }
+      }
+      {
+        name: 'Allow-Certificate-Validation-Out'
+        properties: {
+          direction: 'Outbound'
+          access: 'Allow'
+          priority: 100
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'VirtualNetwork'
+          sourcePortRange: '*'
+          destinationAddressPrefix: 'Internet'
+          destinationPortRange: '80'
+        }
+      }
+      {
+        name: 'Allow-Storage-Out'
+        properties: {
+          direction: 'Outbound'
+          access: 'Allow'
+          priority: 110
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'VirtualNetwork'
+          sourcePortRange: '*'
+          destinationAddressPrefix: 'Storage'
+          destinationPortRange: '443'
+        }
+      }
+      {
+        name: 'Allow-Sql-Out'
+        properties: {
+          direction: 'Outbound'
+          access: 'Allow'
+          priority: 120
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'VirtualNetwork'
+          sourcePortRange: '*'
+          destinationAddressPrefix: 'SQL'
+          destinationPortRange: '1433'
+        }
+      }
+      {
+        name: 'Allow-KeyVault-Out'
+        properties: {
+          direction: 'Outbound'
+          access: 'Allow'
+          priority: 130
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'VirtualNetwork'
+          sourcePortRange: '*'
+          destinationAddressPrefix: 'AzureKeyVault'
+          destinationPortRange: '443'
+        }
+      }
+      {
+        name: 'Allow-Monitor-Out'
+        properties: {
+          direction: 'Outbound'
+          access: 'Allow'
+          priority: 140
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'VirtualNetwork'
+          sourcePortRange: '*'
+          destinationAddressPrefix: 'AzureMonitor'
+          destinationPortRanges: ['1886', '443']
+        }
+      }
+    ]
+  }
+}
+
 resource vnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
   name: '${namePrefix}-vnet'
   location: location
@@ -52,6 +183,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
         name: 'snet-apim'
         properties: {
           addressPrefix: '10.20.3.0/24'
+          networkSecurityGroup: { id: apimNsg.id }
         }
       }
     ]
