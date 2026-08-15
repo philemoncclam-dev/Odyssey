@@ -105,6 +105,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+      # host.json/package.json live at server/'s root, not inside dist/ —
+      # without this, the zip functions-action builds has no host.json at
+      # its root and Azure rejects it outright.
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: function-app

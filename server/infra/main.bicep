@@ -201,6 +201,10 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
     }
     siteConfig: {
       appSettings: [
+        // The deployed zip has no node_modules (only host.json/package.json/
+        // dist — see deploy-server.yml) — this tells Kudu to run `npm install`
+        // remotely after unpacking, same as classic zip-deploy's remote build.
+        { name: 'SCM_DO_BUILD_DURING_DEPLOYMENT', value: 'true' }
         { name: 'AzureWebJobsStorage__accountName', value: storage.name }
         { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: appInsights.properties.ConnectionString }
         { name: 'ENTRA_TENANT_ID', value: entraTenantId }
