@@ -81,7 +81,7 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
   properties: {
     databaseAccountOfferType: 'Standard'
     capabilities: [{ name: 'EnableServerless' }]
-    locations: [{ locationName: location, failoverPriority: 0 }]
+    locations: [{ locationName: location, failoverPriority: 0, isZoneRedundant: false }]
     disableLocalAuth: true
     publicNetworkAccess: 'Disabled'
   }
