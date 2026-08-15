@@ -163,6 +163,13 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   properties: { allowSharedKeyAccess: false }
 }
 
+// The deployment package's landing zone — functionApp's functionAppConfig
+// below points at this by URL, but nothing creates the container itself
+// unless this resource exists. Without it, ZIP Deploy 404s.
+resource appPackageContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
+  name: '${storage.name}/default/app-package'
+}
+
 resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: '${namePrefix}-plan'
   location: location
