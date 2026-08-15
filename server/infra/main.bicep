@@ -305,6 +305,9 @@ resource storageQueueRole 'Microsoft.Authorization/roleAssignments@2022-04-01' =
 
 // --- Alert rules -------------------------------------------------------
 
+// Flex Consumption doesn't expose the classic App Service Http5xx metric
+// (confirmed empty on a live plan) — scoped to App Insights' requests/failed
+// instead, which this Function App already reports into.
 resource functionErrorAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
   name: '${namePrefix}-func-errors'
   location: 'global'
@@ -312,7 +315,7 @@ resource functionErrorAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
   properties: {
     severity: 2
     enabled: true
-    scopes: [functionApp.id]
+    scopes: [appInsights.id]
     evaluationFrequency: 'PT5M'
     windowSize: 'PT15M'
     criteria: {
@@ -320,8 +323,8 @@ resource functionErrorAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           criterionType: 'StaticThresholdCriterion'
-          name: 'Http5xx'
-          metricName: 'Http5xx'
+          name: 'FailedRequests'
+          metricName: 'requests/failed'
           operator: 'GreaterThan'
           threshold: 5
           timeAggregation: 'Total'
