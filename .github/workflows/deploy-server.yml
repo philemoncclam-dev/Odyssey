@@ -97,6 +97,7 @@ jobs:
             entraApiAudience=${{ vars.ENTRA_API_AUDIENCE }}
             alertEmail=${{ vars.ALERT_EMAIL }}
             corsAllowedOrigins=${{ vars.CORS_ALLOWED_ORIGINS_JSON }}
+            location=${{ vars.AZURE_LOCATION }}
           deploymentMode: Incremental
 
   deploy-code:
