@@ -12,7 +12,9 @@ import {
   type SandboxColumn,
   type SandboxTableRef,
   fetchFabricPipelineDefinition,
+  fetchFabricNotebookSource,
   type SandboxRunResult,
+  type SandboxRunRequest,
   type FabricPipelineActivity,
 } from './api'
 
@@ -304,32 +306,40 @@ export async function runAll() {
     set({ results: new Map(next) })
     try {
       if (step.kind === 'notebook') {
-        const result = await runSandbox(
-          step.cells
-            ? {
-                // Supplied here: the cells ARE the step. There is no notebook
-                // to fetch, and no observed run to compare against — nothing
-                // in Fabric ever ran this, so asking would be a guaranteed
-                // empty answer dressed up as a finding.
-                name: step.name,
-                cells: step.cells,
-                workspace: step.ws,
-                lakehouse: step.lakehouse ?? '',
-                carried_schemas: carried,
-                // Nothing upstream has described the tables this reads, so
-                // Spark has no views to resolve against and would report a
-                // table-level answer for code the stub can read in full. Once
-                // an earlier step HAS described them, the better engine wins.
-                ...(Object.keys(carried).length === 0 ? { engine: 'stub' as const } : {}),
-              }
-            : {
-                name: step.name,
-                workspace_id: step.ws,
-                item_id: step.itemId,
-                carried_schemas: carried,
-                include_observed: compareWithReal,
-              },
-        )
+        let request: SandboxRunRequest
+        if (step.cells) {
+          // Supplied here: the cells ARE the step. There is no notebook
+          // to fetch, and no observed run to compare against — nothing
+          // in Fabric ever ran this, so asking would be a guaranteed
+          // empty answer dressed up as a finding.
+          request = {
+            name: step.name,
+            cells: step.cells,
+            workspace: step.ws,
+            lakehouse: step.lakehouse ?? '',
+            carried_schemas: carried,
+            // Nothing upstream has described the tables this reads, so
+            // Spark has no views to resolve against and would report a
+            // table-level answer for code the stub can read in full. Once
+            // an earlier step HAS described them, the better engine wins.
+            ...(Object.keys(carried).length === 0 ? { engine: 'stub' as const } : {}),
+          }
+        } else {
+          // A Fabric-sourced step names a notebook, not its code — the
+          // engine holds no Fabric credential (see localEngine.ts's header),
+          // so its cells have to be fetched here, through the wired
+          // notebookSource capability, before the engine ever sees this run.
+          const source = await fetchFabricNotebookSource(step.ws, step.itemId, step.name)
+          request = {
+            name: step.name,
+            cells: source.cells,
+            workspace: step.ws,
+            lakehouse: source.lakehouse_default ?? '',
+            carried_schemas: carried,
+            include_observed: compareWithReal,
+          }
+        }
+        const result = await runSandbox(request)
         carry(result)
         next.set(step.key, {
           startedAt,
@@ -368,10 +378,16 @@ export async function runAll() {
             continue
           }
           try {
+            const activityWs = a.workspace_id ?? step.ws
+            // Same reason as the plain-notebook branch above: the engine has
+            // no Fabric credential of its own, so this activity's notebook_id
+            // has to become cells before runSandbox ever sees it.
+            const source = await fetchFabricNotebookSource(activityWs, a.notebook_id, a.name)
             const result = await runSandbox({
               name: a.name,
-              workspace_id: a.workspace_id ?? step.ws,
-              item_id: a.notebook_id,
+              cells: source.cells,
+              workspace: activityWs,
+              lakehouse: source.lakehouse_default ?? '',
               carried_schemas: carried,
               include_observed: compareWithReal,
             })
